@@ -5,9 +5,9 @@ import { SidebarTrigger } from "../ui/sidebar";
 
 function Header() {
   return (
-    <div className="flex">
+    <div className="flex border h-18 items-center ">
       <SidebarTrigger />
-      <p></p>
+      <p>Test</p>
     </div>
   );
 }

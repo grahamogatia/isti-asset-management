@@ -23,27 +23,27 @@ import { cn } from "@/lib/utils";
 const items = [
   {
     title: "Dashboard",
-    url: "#",
+    url: "/",
     icon: LayoutDashboard,
   },
   {
     title: "Assets",
-    url: "#",
+    url: "assets",
     icon: Boxes,
   },
   {
     title: "Repair",
-    url: "#",
+    url: "repair",
     icon: Wrench,
   },
   {
     title: "Borrow",
-    url: "#",
+    url: "borrow",
     icon: CalendarSync,
   },
   {
     title: "Issuance",
-    url: "#",
+    url: "issuance",
     icon: MonitorUp,
   },
 ];
@@ -56,7 +56,7 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarContent className={cn(state==="collapsed"? "": "p-2")}>
         <SidebarHeader>
-          <div className={cn(state === "collapsed" ? "pt-2": "px-2.5", "flex items-center gap-3 transition-all")}>
+          <div className={cn(state === "collapsed" ? "pt-4.5": "px-2.5", "flex items-center gap-3 transition-all")}>
             <img src={un_logo} className={cn(state === "collapsed" ? "w-8" : "w-14", "h-auto transition-all")}/>
             <h1 className={cn(state==="collapsed" ? "hidden" : "text-left font-semibold", "leading-tight")}>
               Asset
