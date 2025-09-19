@@ -66,7 +66,7 @@ function Assets() {
         })}
       </Tabs>
       {/*<DataTable columns={asset_columns} data={sampleAssets}/>*/}
-    </div>
+    </div >
   );
 }
 
