@@ -30,15 +30,18 @@ import {
 } from "@/components/ui/table";
 import { Button } from "./button";
 import { Input } from "./input";
+import AssetTypeDropdown from "../pages/assets/AssetTypeDropdown";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  children ?: React.ReactNode
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  children
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -79,6 +82,7 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
+        {children}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">

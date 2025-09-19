@@ -16,6 +16,10 @@ export const asset_columns: ColumnDef<Asset>[] = [
     header: "Sub Category",
   },
   {
+    accessorKey: "type_id", 
+    header: "Type"
+  },
+  {
     accessorKey: "file",
     header: "File",
   },
