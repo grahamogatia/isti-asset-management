@@ -58,7 +58,7 @@ export function AppSidebar() {
           <div className={cn(state === "collapsed" ? "pt-4.5": "px-2.5", "flex items-center gap-3 transition-all")}>
             <img src={un_logo} className={cn(state === "collapsed" ? "w-8" : "w-14", "h-auto transition-all")}/>
             <h1 className={cn(state==="collapsed" ? "hidden" : "text-left font-semibold", "leading-tight")}>
-              Asset
+              ISTI Asset
               <br />
               Management
             </h1>

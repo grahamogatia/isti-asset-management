@@ -72,33 +72,38 @@ function AssetSubCategoryTab({ category }: { category: Asset_Category }) {
 
   const displayedAssets = useMemo(() => {
     if (selectedType === "All") return filteredAsset;
-    return filteredAsset.filter(
-      (asset) => {
-        return String(asset.type_id) === selectedType
-      }
-    );
+    return filteredAsset.filter((asset) => {
+      return String(asset.type_id) === selectedType;
+    });
   }, [filteredAsset, selectedType]);
 
   return (
-    <Tabs value={subCategory} onValueChange={setSubCategory}>
-      <TabsList>
+    <Tabs value={subCategory} onValueChange={setSubCategory} className="gap-0">
+      
+      <div className="border rounded-2xl py-3.5 p-5">
+        <TabsList>
         {subCats.map((sub) => (
-          <TabsTrigger key={sub.sub_category_id} value={sub.sub_category_name}>
+          <TabsTrigger
+            key={sub.sub_category_id}
+            value={sub.sub_category_name}
+            className="whitespace-nowrap flex-shrink-0 data-[state=active]:font-bold"
+          >
             {sub.sub_category_name}
           </TabsTrigger>
         ))}
       </TabsList>
-      {subCats.map((sub) => (
-        <TabsContent key={sub.sub_category_id} value={sub.sub_category_name}>
-          <DataTable columns={asset_columns} data={displayedAssets}>
-            <AssetTypeDropdown
-              assetTypes={filteredAssetTypes}
-              selectedType={selectedType}
-              setSelectedType={setSelectedType}
-            />
-          </DataTable>
-        </TabsContent>
-      ))}
+        {subCats.map((sub) => (
+          <TabsContent key={sub.sub_category_id} value={sub.sub_category_name}>
+            <DataTable columns={asset_columns} data={displayedAssets}>
+              <AssetTypeDropdown
+                assetTypes={filteredAssetTypes}
+                selectedType={selectedType}
+                setSelectedType={setSelectedType}
+              />
+            </DataTable>
+          </TabsContent>
+        ))}
+      </div>
     </Tabs>
   );
 }

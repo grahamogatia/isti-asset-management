@@ -11,7 +11,7 @@ export const asset_categories: Asset_Category[] = [
     category_id: 2,
     category_name: "External",
   },
-  // { category_id: 3, category_name: "Events" as any }, // Uncomment if you extend the type
+  { category_id: 3, category_name: "Events" as any }, // Uncomment if you extend the type
 ];
 
 const subCatNames = [
