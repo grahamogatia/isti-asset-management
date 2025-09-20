@@ -5,13 +5,10 @@ import {
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
+  DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
 import type { Asset_Type } from "@/data/types";
-import React from "react";
 
-// ...existing code...
 interface AssetTypeDropdownProps {
   assetTypes: Asset_Type[];
   selectedType: string;
@@ -39,20 +36,21 @@ function AssetTypeDropdown({
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>Select Asset Type</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuRadioGroup
-          value={selectedType}
-          onValueChange={setSelectedType}
+        <DropdownMenuCheckboxItem
+          checked={selectedType === "All"}
+          onCheckedChange={() => setSelectedType("All")}
         >
-          <DropdownMenuRadioItem value="All">All</DropdownMenuRadioItem>
-          {assetTypes.map((assetType) => (
-            <DropdownMenuRadioItem
-              key={assetType.type_id}
-              value={String(assetType.type_id)}
-            >
-              {assetType.type_name}
-            </DropdownMenuRadioItem>
-          ))}
-        </DropdownMenuRadioGroup>
+          All
+        </DropdownMenuCheckboxItem>
+        {assetTypes.map((assetType) => (
+          <DropdownMenuCheckboxItem
+            key={assetType.type_id}
+            checked={selectedType === String(assetType.type_id)}
+            onCheckedChange={() => setSelectedType(String(assetType.type_id))}
+          >
+            {assetType.type_name}
+          </DropdownMenuCheckboxItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );
