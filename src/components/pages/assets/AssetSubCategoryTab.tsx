@@ -1,5 +1,5 @@
 import { DataTable } from "@/components/ui/data-table";
-import { asset_columns } from "@/data/asset_columns";
+import { asset_columns, def_asset_columns } from "@/data/asset_columns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { Asset_Category } from "@/data/types";
 import {
@@ -94,7 +94,7 @@ function AssetSubCategoryTab({ category }: { category: Asset_Category }) {
       </TabsList>
         {subCats.map((sub) => (
           <TabsContent key={sub.sub_category_id} value={sub.sub_category_name}>
-            <DataTable columns={asset_columns} data={displayedAssets}>
+            <DataTable columns={asset_columns} data={displayedAssets} defaultVisibleColumns={def_asset_columns}>
               <AssetTypeDropdown
                 assetTypes={filteredAssetTypes}
                 selectedType={selectedType}

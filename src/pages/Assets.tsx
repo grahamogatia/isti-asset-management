@@ -2,7 +2,6 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { asset_categories } from "@/testcases/assets";
 import { useState } from "react";
 import AssetSubCategoryTab from "../components/pages/assets/AssetSubCategoryTab";
-import { Separator } from "@/components/ui/separator";
 
 function Assets() {
   const [category, setCategory] = useState<string>(

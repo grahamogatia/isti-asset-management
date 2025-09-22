@@ -30,25 +30,42 @@ import {
 } from "@/components/ui/table";
 import { Button } from "./button";
 import { Input } from "./input";
-import AssetTypeDropdown from "../pages/assets/AssetTypeDropdown";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  children ?: React.ReactNode
+  children?: React.ReactNode;
+  defaultVisibleColumns?: string[];
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  children
+  children,
+  defaultVisibleColumns
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
+  
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+    React.useState<VisibilityState>(() => {
+      if (!defaultVisibleColumns) {
+        return {}; 
+      }
+      
+      const initialVisibility: VisibilityState = {};
+      columns.forEach((column: any) => {
+        const columnKey = column.accessorKey || column.id;
+        if (columnKey) {
+          initialVisibility[columnKey] = defaultVisibleColumns.includes(columnKey);
+        }
+      });
+      
+      return initialVisibility;
+    });
+  
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
@@ -76,9 +93,9 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center py-4 gap-1">
         <Input
           placeholder="Search asset..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("asset_name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("asset_name")?.setFilterValue(event.target.value)
           }
           className="max-w-60"
         />
@@ -94,16 +111,19 @@ export function DataTable<TData, TValue>({
               .getAllColumns()
               .filter((column) => column.getCanHide())
               .map((column) => {
+                const displayName = column.id
+                  .replace(/_/g, ' ')
+                  .replace(/\b\w/g, (char) => char.toUpperCase());
+                
                 return (
                   <DropdownMenuCheckboxItem
                     key={column.id}
-                    className="capitalize"
                     checked={column.getIsVisible()}
                     onCheckedChange={(value) =>
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {column.id}
+                    {displayName}
                   </DropdownMenuCheckboxItem>
                 );
               })}
