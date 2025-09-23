@@ -12,7 +12,7 @@ export const issuance_columns: ColumnDef<Issuance>[] = [
   },
   {
     accessorKey: "user_id",
-    header: "User",
+    header: "Employee",
   },
   {
     accessorKey: "department_id",

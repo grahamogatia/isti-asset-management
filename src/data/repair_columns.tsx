@@ -22,7 +22,7 @@ export const repair_columns: ColumnDef<Repair>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Asset Id
+          Asset ID
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -34,7 +34,7 @@ export const repair_columns: ColumnDef<Repair>[] = [
   },
   {
     accessorKey: "user_id",
-    header: "User",
+    header: "Employee",
   },
   {
     accessorKey: "department_id",

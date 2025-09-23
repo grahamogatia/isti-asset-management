@@ -12,7 +12,7 @@ export const borrow_columns: ColumnDef<Borrow>[] = [
   },
   {
     accessorKey: "user_id",
-    header: "User",
+    header: "Employee",
   },
   {
     accessorKey: "department_id",
@@ -24,11 +24,11 @@ export const borrow_columns: ColumnDef<Borrow>[] = [
   },
   {
     accessorKey: "asset_condition_id",
-    header: "Asset Condition",
+    header: "Condition",
   },
   {
     accessorKey: "borrow_transaction_id",
-    header: "Transaction ID",
+    header: "Borrow Transaction ID",
   },
   {
     accessorKey: "company_id",
