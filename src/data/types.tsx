@@ -1,6 +1,6 @@
 export type Asset_Category = {
   category_id: number;
-  category_name: "Internal" | "External";
+  category_name: "Internal" | "External" | "Events";
 };
 
 export interface Asset_Sub_Category extends Asset_Category {

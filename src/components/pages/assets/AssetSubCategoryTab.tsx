@@ -2,14 +2,14 @@ import { DataTable } from "@/components/ui/data-table";
 import { asset_columns } from "@/data/asset_columns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { Asset_Category } from "@/data/types";
-import {
-  asset_categories,
-  asset_sub_categories,
-  asset_testcases,
-} from "@/testcases/assets";
+   
 import { useMemo, useState } from "react";
 import type { Asset_Type } from "@/data/types";
 import AssetTypeDropdown from "./AssetTypeDropdown";
+import { asset_categories, asset_sub_categories } from "@/testcases/foreignkeys";
+import { asset_testcases } from "@/testcases/assets";
+
+const ASSET_TESTCASES = asset_testcases;
 
 function AssetSubCategoryTab({ category }: { category: Asset_Category }) {
   const getFirstSubCategory = (catName: string) => {
@@ -42,7 +42,7 @@ function AssetSubCategoryTab({ category }: { category: Asset_Category }) {
 
     if (!result1 || !result2) return [];
 
-    return asset_testcases.filter(
+    return ASSET_TESTCASES.filter(
       (assetTest) =>
         assetTest.category_id === result1.category_id &&
         assetTest.sub_category_id === result2.sub_category_id
@@ -96,7 +96,7 @@ function AssetSubCategoryTab({ category }: { category: Asset_Category }) {
   return (
     <Tabs value={subCategory} onValueChange={setSubCategory} className="gap-0">
       <div className="border rounded-2xl py-3.5 p-5">
-        <TabsList>
+        <TabsList className="max-w-full gap-2 overflow-x-auto">
           {subCats.map((sub) => (
             <TabsTrigger
               key={sub.sub_category_id}
