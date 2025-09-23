@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "./button";
 import { Input } from "./input";
+import { useState } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -42,31 +43,33 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   children,
-  defaultVisibleColumns
+  defaultVisibleColumns,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
-  
+
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>(() => {
       if (!defaultVisibleColumns) {
-        return {}; 
+        return {};
       }
-      
+
       const initialVisibility: VisibilityState = {};
       columns.forEach((column: any) => {
         const columnKey = column.accessorKey || column.id;
         if (columnKey) {
-          initialVisibility[columnKey] = defaultVisibleColumns.includes(columnKey);
+          initialVisibility[columnKey] =
+            defaultVisibleColumns.includes(columnKey);
         }
       });
-      
+
       return initialVisibility;
     });
-  
-  const [rowSelection, setRowSelection] = React.useState({});
+
+  const [rowSelection, setRowSelection] = useState({});
+  const [globalFilter, setGlobalFilter] = useState("");
 
   const table = useReactTable({
     data,
@@ -79,12 +82,14 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    onGlobalFilterChange: setGlobalFilter,
 
     state: {
       sorting,
       columnFilters,
       columnVisibility,
       rowSelection,
+      globalFilter,
     },
   });
 
@@ -93,10 +98,8 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center py-4 gap-1">
         <Input
           placeholder="Search asset..."
-          value={(table.getColumn("asset_name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("asset_name")?.setFilterValue(event.target.value)
-          }
+          value={globalFilter}
+          onChange={(event) => setGlobalFilter(event.target.value)}
           className="max-w-60"
         />
         {children}
@@ -112,9 +115,9 @@ export function DataTable<TData, TValue>({
               .filter((column) => column.getCanHide())
               .map((column) => {
                 const displayName = column.id
-                  .replace(/_/g, ' ')
+                  .replace(/_/g, " ")
                   .replace(/\b\w/g, (char) => char.toUpperCase());
-                
+
                 return (
                   <DropdownMenuCheckboxItem
                     key={column.id}
