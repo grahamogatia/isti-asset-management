@@ -71,3 +71,18 @@ export type Borrow = {
   duration: number;
   remarks: string;
 };
+
+export type Issuance = {
+  asset_id: number;
+  category_id: number;
+  user_id: number;
+  department_id: number;
+  issuance_date: number;
+  pullout_date: number;
+  status_id: number;
+  remarks: number;
+  issuance_id: number;
+  sub_category_id: number;
+  type_id: number;
+  company_id: number;
+};
