@@ -1,8 +1,16 @@
 import { type ColumnDef } from "@tanstack/react-table";
-
+import { differenceInMonths, format } from "date-fns";
 import type { Asset } from "./types";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import {
+  getCategoryName,
+  getSubCategoryName,
+  getTypeName,
+  getConditionName,
+  getStatusName,
+  getInsuranceName,
+} from "@/lib/lookups";
 
 import {
   DropdownMenu,
@@ -14,7 +22,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export const asset_columns: ColumnDef<Asset>[] = [
-    {
+  {
     accessorKey: "asset_id",
     header: "Asset ID",
   },
@@ -35,14 +43,26 @@ export const asset_columns: ColumnDef<Asset>[] = [
   {
     accessorKey: "category_id",
     header: "Category",
+    cell: ({ row }) => {
+      const categoryId = row.original.category_id;
+      return getCategoryName(categoryId);
+    },
   },
   {
     accessorKey: "sub_category_id",
     header: "Sub Category",
+    cell: ({ row }) => {
+      const subCategoryId = row.original.sub_category_id;
+      return getSubCategoryName(subCategoryId);
+    },
   },
   {
     accessorKey: "type_id",
     header: "Type",
+    cell: ({ row }) => {
+      const typeId = row.original.type_id;
+      return typeId ? getTypeName(typeId) : "-";
+    },
   },
   {
     accessorKey: "file",
@@ -58,11 +78,25 @@ export const asset_columns: ColumnDef<Asset>[] = [
   },
   {
     accessorKey: "asset_condition_id",
-    header: "Condition ID",
+    accessorFn: (row) => {
+      return getConditionName(row.asset_condition_id);
+    },
+    header: "Condition",
+    cell: ({ row }) => {
+      const conditionId = row.original.asset_condition_id;
+      return getConditionName(conditionId);
+    },
   },
   {
     accessorKey: "status_id",
-    header: "Status ID",
+    accessorFn: (row) => {
+      return getStatusName(row.status_id);
+    },
+    header: "Status",
+    cell: ({ row }) => {
+      const statusId = row.original.status_id;
+      return getStatusName(statusId);
+    },
   },
   {
     accessorKey: "specifications",
@@ -71,31 +105,69 @@ export const asset_columns: ColumnDef<Asset>[] = [
   {
     accessorKey: "asset_amount",
     header: "Amount",
+    cell: ({ row }) => {
+      const value = row.original.asset_amount;
+      return new Intl.NumberFormat("en-PH", {
+        style: "currency",
+        currency: "PHP",
+      }).format(value);
+    },
   },
   {
     accessorKey: "warranty_duration",
-    header: "Warranty Duration",
+    header: "Warranty Remaining",
+    cell: ({ row }) => {
+      const result = differenceInMonths(
+        row.original.warranty_due_date,
+        new Date()
+      );
+      return result <= 0 ? "Warranty Void" : result + " months";
+    },
   },
   {
     accessorKey: "warranty_due_date",
     header: "Warranty Due Date",
+    cell: ({ row }) => {
+      return format(new Date(row.original.warranty_due_date), "PP");
+    },
   },
   {
     accessorKey: "purchase_date",
     header: "Purchase Date",
+    cell: ({ row }) => {
+      return format(new Date(row.original.purchase_date), "PP");
+    },
   },
   {
     id: "aging",
-    header: "Aging (days)",
+    header: "Age",
     cell: ({ row }) => {
       const purchaseDate = row.original.purchase_date;
       if (!purchaseDate) return "-";
       const purchase = new Date(purchaseDate);
-      const now = new Date();
-      const diff = Math.floor(
-        (now.getTime() - purchase.getTime()) / (1000 * 60 * 60 * 24)
-      );
-      return diff >= 0 ? diff : "-";
+      return differenceInMonths(new Date(), purchase) + " months";
+    },
+  },
+  {
+    id: "asset_value",
+    header: "Asset Value",
+    cell: ({ row }) => {
+      const LAPTOP_SAMPLE_DEPRECIATION = 60; //60 months === depriciated
+      const purchaseDate = row.original.purchase_date;
+      const amt = row.original.asset_amount;
+
+      if (!purchaseDate) return "-";
+      const purchase = new Date(purchaseDate);
+      const age = differenceInMonths(new Date(), purchase);
+
+      const value =
+        age > LAPTOP_SAMPLE_DEPRECIATION
+          ? 0
+          : amt - (amt / LAPTOP_SAMPLE_DEPRECIATION) * age;
+      return new Intl.NumberFormat("en-PH", {
+        style: "currency",
+        currency: "PHP",
+      }).format(value);
     },
   },
   {
@@ -104,7 +176,15 @@ export const asset_columns: ColumnDef<Asset>[] = [
   },
   {
     accessorKey: "insurance_id",
-    header: "Insurance ID",
+    accessorFn: (row) => { 
+      if (!row.insurance_id) return;
+      return getInsuranceName(row.insurance_id)
+    },
+    header: "Insurance",
+    cell: ({ row }) => {
+      if (!row.original.insurance_id) return;
+      return getInsuranceName(row.original.insurance_id);
+    },
   },
   {
     accessorKey: "location",

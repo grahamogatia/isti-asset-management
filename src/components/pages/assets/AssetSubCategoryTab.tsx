@@ -3,10 +3,10 @@ import { asset_columns } from "@/data/asset_columns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { Asset_Category } from "@/data/types";
    
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import type { Asset_Type } from "@/data/types";
 import AssetTypeDropdown from "./AssetTypeDropdown";
-import { asset_categories, asset_sub_categories } from "@/testcases/foreignkeys";
+import { asset_categories, asset_sub_categories, asset_types } from "@/testcases/foreignkeys";
 import { asset_testcases } from "@/testcases/assets";
 
 const ASSET_TESTCASES = asset_testcases;
@@ -25,6 +25,11 @@ function AssetSubCategoryTab({ category }: { category: Asset_Category }) {
     getFirstSubCategory(category.category_name)
   );
   const [selectedType, setSelectedType] = useState<string>("All");
+
+  // Reset selectedType to "All" whenever subCategory changes
+  useEffect(() => {
+    setSelectedType("All");
+  }, [subCategory]);
 
   const subCats = asset_sub_categories.filter(
     (sub) => sub.category_id === category.category_id
@@ -56,16 +61,24 @@ function AssetSubCategoryTab({ category }: { category: Asset_Category }) {
     return uniqueTypeIds
       .filter((id): id is number => typeof id === "number")
       .map((type_id) => {
+        // Get the type information from the foreign keys data
+        const assetType = asset_types.find((type) => type.type_id === type_id);
+        if (assetType) {
+          return assetType;
+        }
+        
+        // Fallback if type not found in foreign keys
         const asset = filteredAsset.find((a) => a.type_id === type_id);
+        const subCat = asset_sub_categories.find((sc) => sc.sub_category_id === asset?.sub_category_id);
         return {
           type_id,
-          type_name: (asset as any)?.type_name || `Type ${type_id}`,
-          type_code: (asset as any)?.type_code || undefined,
+          type_name: `Type ${type_id}`,
+          type_code: undefined,
           sub_category_id: asset?.sub_category_id || 0,
-          sub_category_name: (asset as any)?.sub_category_name || "",
-          code: (asset as any)?.code || "",
+          sub_category_name: subCat?.sub_category_name || "",
+          code: subCat?.code || "",
           category_id: asset?.category_id || 0,
-          category_name: (asset as any)?.category_name || "",
+          category_name: (subCat?.category_name || "Internal") as "Internal" | "External" | "Events",
         };
       });
   }, [category, subCategory, filteredAsset]);

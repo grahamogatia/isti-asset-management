@@ -1,19 +1,23 @@
-import type { Asset_Category, Asset_Sub_Category, Asset_Type } from "@/data/types";
+import type {
+  Asset_Category,
+  Asset_Sub_Category,
+  Asset_Type,
+} from "@/data/types";
 
 export const asset_categories: Asset_Category[] = [
-    {
-        category_id: 1,
-        category_name: "Internal"
-    },
-    {
-        category_id: 2,
-        category_name: "External"
-    },
-    {
-        category_id: 3,
-        category_name: "Events"
-    },
-]
+  {
+    category_id: 1,
+    category_name: "Internal",
+  },
+  {
+    category_id: 2,
+    category_name: "External",
+  },
+  {
+    category_id: 3,
+    category_name: "Events",
+  },
+];
 
 export const asset_sub_categories: Asset_Sub_Category[] = [
   {
@@ -21,128 +25,127 @@ export const asset_sub_categories: Asset_Sub_Category[] = [
     sub_category_name: "Laptop",
     category_id: 1, // Internal
     category_name: "Internal",
-    code: "LAP"
+    code: "LAP",
   },
   {
     sub_category_id: 2,
     sub_category_name: "Desktop",
     category_id: 1, // Internal
     category_name: "Internal",
-    code: "DSK"
+    code: "DSK",
   },
   {
     sub_category_id: 3,
     sub_category_name: "Tablet",
     category_id: 1, // Internal
     category_name: "Internal",
-    code: "TAB"
+    code: "TAB",
   },
   {
     sub_category_id: 4,
     sub_category_name: "Mobile Phone",
     category_id: 1, // Internal
     category_name: "Internal",
-    code: "MOB"
+    code: "MOB",
   },
   {
     sub_category_id: 5,
     sub_category_name: "Monitor",
     category_id: 1, // Internal
     category_name: "Internal",
-    code: "MON"
+    code: "MON",
   },
   {
     sub_category_id: 6,
     sub_category_name: "Printer",
     category_id: 1, // Internal
     category_name: "Internal",
-    code: "PRT"
+    code: "PRT",
   },
   {
     sub_category_id: 7,
     sub_category_name: "Scanner",
     category_id: 1, // Internal
     category_name: "Internal",
-    code: "SCN"
+    code: "SCN",
   },
   {
     sub_category_id: 8,
     sub_category_name: "Projector",
     category_id: 1, // Internal
     category_name: "Internal",
-    code: "PRJ"
+    code: "PRJ",
   },
   {
     sub_category_id: 9,
     sub_category_name: "Network Equipment",
     category_id: 1, // Internal
     category_name: "Internal",
-    code: "NET"
+    code: "NET",
   },
   {
     sub_category_id: 10,
     sub_category_name: "Server",
     category_id: 1, // Internal
     category_name: "Internal",
-    code: "SRV"
+    code: "SRV",
   },
   {
     sub_category_id: 11,
     sub_category_name: "Security Camera",
     category_id: 2, // External
     category_name: "External",
-    code: "CAM"
+    code: "CAM",
   },
   {
     sub_category_id: 12,
     sub_category_name: "Access Control",
     category_id: 2, // External
     category_name: "External",
-    code: "ACC"
+    code: "ACC",
   },
   {
     sub_category_id: 13,
     sub_category_name: "Furniture",
     category_id: 2, // External
     category_name: "External",
-    code: "FUR"
+    code: "FUR",
   },
   {
     sub_category_id: 14,
     sub_category_name: "Vehicle",
     category_id: 2, // External
     category_name: "External",
-    code: "VEH"
+    code: "VEH",
   },
   {
     sub_category_id: 15,
     sub_category_name: "Tools & Equipment",
     category_id: 2, // External
     category_name: "External",
-    code: "TLE"
+    code: "TLE",
   },
   {
     sub_category_id: 16,
     sub_category_name: "Event Equipment",
     category_id: 3, // Events
     category_name: "Events",
-    code: "EVT"
+    code: "EVT",
   },
   {
     sub_category_id: 17,
     sub_category_name: "Audio Visual",
     category_id: 3, // Events
     category_name: "Events",
-    code: "AV"
+    code: "AV",
   },
   {
     sub_category_id: 18,
     sub_category_name: "Lighting",
     category_id: 3, // Events
     category_name: "Events",
-    code: "LGT"
+    code: "LGT",
   },
-  
 ];
 
 export const asset_types: Asset_Type[] = [
@@ -155,7 +158,7 @@ export const asset_types: Asset_Type[] = [
     code: "LAP",
     type_id: 1,
     type_name: "Business Laptop",
-    type_code: 101
+    type_code: 101,
   },
   {
     category_id: 1,
@@ -165,7 +168,7 @@ export const asset_types: Asset_Type[] = [
     code: "LAP",
     type_id: 2,
     type_name: "Gaming Laptop",
-    type_code: 102
+    type_code: 102,
   },
   {
     category_id: 1,
@@ -175,7 +178,7 @@ export const asset_types: Asset_Type[] = [
     code: "LAP",
     type_id: 3,
     type_name: "Ultrabook",
-    type_code: 103
+    type_code: 103,
   },
   // Desktop Types
   {
@@ -186,7 +189,7 @@ export const asset_types: Asset_Type[] = [
     code: "DSK",
     type_id: 4,
     type_name: "Workstation",
-    type_code: 201
+    type_code: 201,
   },
   {
     category_id: 1,
@@ -196,7 +199,7 @@ export const asset_types: Asset_Type[] = [
     code: "DSK",
     type_id: 5,
     type_name: "Mini PC",
-    type_code: 202
+    type_code: 202,
   },
   {
     category_id: 1,
@@ -206,7 +209,7 @@ export const asset_types: Asset_Type[] = [
     code: "DSK",
     type_id: 6,
     type_name: "All-in-One PC",
-    type_code: 203
+    type_code: 203,
   },
   // Tablet Types
   {
@@ -217,7 +220,7 @@ export const asset_types: Asset_Type[] = [
     code: "TAB",
     type_id: 7,
     type_name: "iPad",
-    type_code: 301
+    type_code: 301,
   },
   {
     category_id: 1,
@@ -227,7 +230,7 @@ export const asset_types: Asset_Type[] = [
     code: "TAB",
     type_id: 8,
     type_name: "Android Tablet",
-    type_code: 302
+    type_code: 302,
   },
   {
     category_id: 1,
@@ -237,7 +240,7 @@ export const asset_types: Asset_Type[] = [
     code: "TAB",
     type_id: 9,
     type_name: "Surface Tablet",
-    type_code: 303
+    type_code: 303,
   },
   // Mobile Phone Types
   {
@@ -248,7 +251,7 @@ export const asset_types: Asset_Type[] = [
     code: "MOB",
     type_id: 10,
     type_name: "iPhone",
-    type_code: 401
+    type_code: 401,
   },
   {
     category_id: 1,
@@ -258,7 +261,7 @@ export const asset_types: Asset_Type[] = [
     code: "MOB",
     type_id: 11,
     type_name: "Android Phone",
-    type_code: 402
+    type_code: 402,
   },
   {
     category_id: 1,
@@ -268,7 +271,7 @@ export const asset_types: Asset_Type[] = [
     code: "MOB",
     type_id: 12,
     type_name: "Feature Phone",
-    type_code: 403
+    type_code: 403,
   },
   // Monitor Types
   {
@@ -279,7 +282,7 @@ export const asset_types: Asset_Type[] = [
     code: "MON",
     type_id: 13,
     type_name: "LED Monitor",
-    type_code: 501
+    type_code: 501,
   },
   {
     category_id: 1,
@@ -289,7 +292,7 @@ export const asset_types: Asset_Type[] = [
     code: "MON",
     type_id: 14,
     type_name: "OLED Monitor",
-    type_code: 502
+    type_code: 502,
   },
   {
     category_id: 1,
@@ -299,7 +302,7 @@ export const asset_types: Asset_Type[] = [
     code: "MON",
     type_id: 15,
     type_name: "4K Monitor",
-    type_code: 503
+    type_code: 503,
   },
   // Printer Types
   {
@@ -310,7 +313,7 @@ export const asset_types: Asset_Type[] = [
     code: "PRT",
     type_id: 16,
     type_name: "Laser Printer",
-    type_code: 601
+    type_code: 601,
   },
   {
     category_id: 1,
@@ -320,7 +323,7 @@ export const asset_types: Asset_Type[] = [
     code: "PRT",
     type_id: 17,
     type_name: "Inkjet Printer",
-    type_code: 602
+    type_code: 602,
   },
   {
     category_id: 1,
@@ -330,7 +333,7 @@ export const asset_types: Asset_Type[] = [
     code: "PRT",
     type_id: 18,
     type_name: "3D Printer",
-    type_code: 603
+    type_code: 603,
   },
   // Network Equipment Types
   {
@@ -341,7 +344,7 @@ export const asset_types: Asset_Type[] = [
     code: "NET",
     type_id: 19,
     type_name: "Router",
-    type_code: 901
+    type_code: 901,
   },
   {
     category_id: 1,
@@ -351,7 +354,7 @@ export const asset_types: Asset_Type[] = [
     code: "NET",
     type_id: 20,
     type_name: "Switch",
-    type_code: 902
+    type_code: 902,
   },
   {
     category_id: 1,
@@ -361,7 +364,7 @@ export const asset_types: Asset_Type[] = [
     code: "NET",
     type_id: 21,
     type_name: "Access Point",
-    type_code: 903
+    type_code: 903,
   },
   // Server Types
   {
@@ -372,7 +375,7 @@ export const asset_types: Asset_Type[] = [
     code: "SRV",
     type_id: 22,
     type_name: "Rack Server",
-    type_code: 1001
+    type_code: 1001,
   },
   {
     category_id: 1,
@@ -382,7 +385,7 @@ export const asset_types: Asset_Type[] = [
     code: "SRV",
     type_id: 23,
     type_name: "Blade Server",
-    type_code: 1002
+    type_code: 1002,
   },
   {
     category_id: 1,
@@ -392,7 +395,7 @@ export const asset_types: Asset_Type[] = [
     code: "SRV",
     type_id: 24,
     type_name: "Tower Server",
-    type_code: 1003
+    type_code: 1003,
   },
   // Security Camera Types
   {
@@ -403,7 +406,7 @@ export const asset_types: Asset_Type[] = [
     code: "CAM",
     type_id: 25,
     type_name: "IP Camera",
-    type_code: 1101
+    type_code: 1101,
   },
   {
     category_id: 2,
@@ -413,7 +416,7 @@ export const asset_types: Asset_Type[] = [
     code: "CAM",
     type_id: 26,
     type_name: "PTZ Camera",
-    type_code: 1102
+    type_code: 1102,
   },
   {
     category_id: 2,
@@ -423,7 +426,7 @@ export const asset_types: Asset_Type[] = [
     code: "CAM",
     type_id: 27,
     type_name: "Dome Camera",
-    type_code: 1103
+    type_code: 1103,
   },
   // Vehicle Types
   {
@@ -434,7 +437,7 @@ export const asset_types: Asset_Type[] = [
     code: "VEH",
     type_id: 28,
     type_name: "Company Car",
-    type_code: 1401
+    type_code: 1401,
   },
   {
     category_id: 2,
@@ -444,7 +447,7 @@ export const asset_types: Asset_Type[] = [
     code: "VEH",
     type_id: 29,
     type_name: "Van",
-    type_code: 1402
+    type_code: 1402,
   },
   {
     category_id: 2,
@@ -454,8 +457,71 @@ export const asset_types: Asset_Type[] = [
     code: "VEH",
     type_id: 30,
     type_name: "Motorcycle",
-    type_code: 1403
-  }
+    type_code: 1403,
+  },
+  // Event Equipment Types
+  {
+    category_id: 3,
+    category_name: "Events",
+    sub_category_id: 16,
+    sub_category_name: "Event Equipment",
+    code: "EVT",
+    type_id: 31,
+    type_name: "Stage Platform",
+    type_code: 1601,
+  },
+  {
+    category_id: 3,
+    category_name: "Events",
+    sub_category_id: 16,
+    sub_category_name: "Event Equipment",
+    code: "EVT",
+    type_id: 32,
+    type_name: "Tent",
+    type_code: 1602,
+  },
+  // Audio Visual Types
+  {
+    category_id: 3,
+    category_name: "Events",
+    sub_category_id: 17,
+    sub_category_name: "Audio Visual",
+    code: "AV",
+    type_id: 33,
+    type_name: "Projector",
+    type_code: 1701,
+  },
+  {
+    category_id: 3,
+    category_name: "Events",
+    sub_category_id: 17,
+    sub_category_name: "Audio Visual",
+    code: "AV",
+    type_id: 34,
+    type_name: "PA System",
+    type_code: 1702,
+  },
+  // Lighting Types
+  {
+    category_id: 3,
+    category_name: "Events",
+    sub_category_id: 18,
+    sub_category_name: "Lighting",
+    code: "LGT",
+    type_id: 35,
+    type_name: "LED Lighting Rig",
+    type_code: 1801,
+  },
+  {
+    category_id: 3,
+    category_name: "Events",
+    sub_category_id: 18,
+    sub_category_name: "Lighting",
+    code: "LGT",
+    type_id: 36,
+    type_name: "Spotlight",
+    type_code: 1802,
+  },
 ];
 
 export const asset_conditions = [
@@ -576,5 +642,3 @@ export const status = [
     status_name: "Retired",
   },
 ];
-
-

@@ -27,7 +27,7 @@ function AssetTypeDropdown({
           variant="outline"
           className="min-w-[120px] flex items-center justify-between"
         >
-          {selectedType === "All" ? "All Types" : selectedType}
+          {selectedType === "All" ? "All Types" : assetTypes.find((assetType) => selectedType === String(assetType.type_id))?.type_name}
           <svg className="ml-2 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
             <path d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.06l3.71-3.83a.75.75 0 1 1 1.08 1.04l-4.25 4.39a.75.75 0 0 1-1.08 0L5.21 8.27a.75.75 0 0 1 .02-1.06z" />
           </svg>
