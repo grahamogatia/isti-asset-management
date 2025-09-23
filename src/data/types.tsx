@@ -1,18 +1,18 @@
 export type Asset_Category = {
-    category_id: number,
-    category_name: "Internal" | "External";
-}
+  category_id: number;
+  category_name: "Internal" | "External";
+};
 
 export interface Asset_Sub_Category extends Asset_Category {
-    sub_category_id: number,
-    sub_category_name: string,
-    code: string
+  sub_category_id: number;
+  sub_category_name: string;
+  code: string;
 }
 
 export interface Asset_Type extends Asset_Sub_Category {
-    type_id?: number,
-    type_name?: string,
-    type_code?: number
+  type_id?: number;
+  type_name?: string;
+  type_code?: number;
 }
 
 export type Asset = {
@@ -31,28 +31,43 @@ export type Asset = {
   warranty_due_date: string;
   purchase_date: string;
   notes: string;
-  type_id?: number; // Specifc 
+  type_id?: number; // Specifc
   file: string;
   insurance_id?: string;
 };
 
 export type Repair = {
-    asset_id: number,
-    category_id: number,
-    user_id: number,
-    department_id: number,
-    issue: string
-    urgency_id: number,
-    status_id: number,
-    repair_request_id: number,
-    company_id: number,
-    sub_category_id: number,
-    type_id: number,
-    remarks: string,
-    date_reported: string,
-    repair_start_date: string,
-    repair_completion_date: string,
-    repair_cost: number
-}
+  asset_id: number;
+  category_id: number;
+  user_id: number;
+  department_id: number;
+  issue: string;
+  urgency_id: number;
+  status_id: number;
+  repair_request_id: number;
+  company_id: number;
+  sub_category_id: number;
+  type_id: number;
+  remarks: string;
+  date_reported: string;
+  repair_start_date: string;
+  repair_completion_date: string;
+  repair_cost: number;
+};
 
-
+export type Borrow = {
+  asset_id: number;
+  category_id: number;
+  user_id: number;
+  department_id: number;
+  date_borrowed: string;
+  asset_condition_id: string;
+  borrow_transaction_id: string;
+  company_id: number;
+  sub_category_id: number;
+  type_id: number;
+  due_date: string;
+  return_date: string;
+  duration: number;
+  remarks: string;
+};
