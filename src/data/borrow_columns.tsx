@@ -25,6 +25,9 @@ import { differenceInDays, format } from "date-fns";
 export const borrow_columns: ColumnDef<Borrow>[] = [
   {
     id: "asset_name",
+    accessorFn: (row) => {
+      return getAsset(row.asset_id)?.asset_name;
+    },
     header: "Asset Name",
     cell: ({ row }) => {
       return getAsset(row.original.asset_id)?.asset_name;
@@ -32,6 +35,9 @@ export const borrow_columns: ColumnDef<Borrow>[] = [
   },
   {
     id: "serial_number",
+    accessorFn: (row) => {
+      return getAsset(row.asset_id)?.serial_number;
+    },
     header: "Serial Number",
     cell: ({ row }) => {
       return getAsset(row.original.asset_id)?.serial_number;
@@ -39,6 +45,11 @@ export const borrow_columns: ColumnDef<Borrow>[] = [
   },
   {
     accessorKey: "category_id",
+    accessorFn: (row) => {
+      const assetID = getAsset(row.asset_id)?.category_id;
+      if (!assetID) return;
+      return getCategoryName(assetID);
+    },
     header: "Category",
     cell: ({ row }) => {
       const assetID = getAsset(row.original.asset_id)?.category_id;
@@ -48,6 +59,9 @@ export const borrow_columns: ColumnDef<Borrow>[] = [
   },
   {
     accessorKey: "user_id",
+    accessorFn: (row) => {
+      return getEmployeeName(row.user_id);
+    },
     header: "Employee",
     cell: ({ row }) => {
       return getEmployeeName(row.original.user_id);
@@ -55,6 +69,9 @@ export const borrow_columns: ColumnDef<Borrow>[] = [
   },
   {
     accessorKey: "department_id",
+    accessorFn: (row) => {
+      return getDepartmentName(row.department_id);
+    },
     header: "Department",
     cell: ({ row }) => {
       return getDepartmentName(row.original.department_id);
@@ -69,6 +86,11 @@ export const borrow_columns: ColumnDef<Borrow>[] = [
   },
   {
     accessorKey: "asset_condition_id",
+    accessorFn: (row) => {
+      const asset = getAsset(row.asset_id);
+      if (!asset) return;
+      return getConditionName(asset.asset_condition_id);
+    },
     header: "Condition",
     cell: ({ row }) => {
       const asset = getAsset(row.original.asset_id);
@@ -82,6 +104,9 @@ export const borrow_columns: ColumnDef<Borrow>[] = [
   },
   {
     accessorKey: "company_id",
+    accessorFn: (row) => {
+      return getCompanyName(row.company_id);
+    },
     header: "Company",
     cell: ({ row }) => {
       return getCompanyName(row.original.company_id);
@@ -89,6 +114,11 @@ export const borrow_columns: ColumnDef<Borrow>[] = [
   },
   {
     accessorKey: "sub_category_id",
+    accessorFn: (row) => {
+      const asset = getAsset(row.asset_id);
+      if (!asset) return;
+      return getSubCategoryName(asset.sub_category_id);
+    },
     header: "Sub Category",
     cell: ({ row }) => {
       const asset = getAsset(row.original.asset_id);
@@ -98,6 +128,11 @@ export const borrow_columns: ColumnDef<Borrow>[] = [
   },
   {
     accessorKey: "type_id",
+    accessorFn: (row) => {
+      const asset = getAsset(row.asset_id);
+      if (!asset?.type_id) return;
+      return getTypeName(asset.type_id);
+    },
     header: "Type",
     cell: ({ row }) => {
       const asset = getAsset(row.original.asset_id);
@@ -116,7 +151,7 @@ export const borrow_columns: ColumnDef<Borrow>[] = [
     accessorKey: "return_date",
     header: "Return Date",
     cell: ({ row }) => {
-      console.log(row.original)
+      console.log(row.original);
       if (row.original.return_date === "") return "---";
       return format(new Date(row.original.return_date), "PP");
     },
@@ -125,12 +160,9 @@ export const borrow_columns: ColumnDef<Borrow>[] = [
     accessorKey: "duration",
     header: "Duration",
     cell: ({ row }) => {
-          const result = differenceInDays(
-            row.original.due_date,
-            new Date()
-          );
-          return result <= 0 ? "Overdue" : result + " days";
-        },
+      const result = differenceInDays(row.original.due_date, new Date());
+      return result <= 0 ? "Overdue" : result + " days";
+    },
   },
   {
     accessorKey: "remarks",
