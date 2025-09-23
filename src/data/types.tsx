@@ -35,3 +35,24 @@ export type Asset = {
   file: string;
   insurance_id?: string;
 };
+
+export type Repair = {
+    asset_id: number,
+    category_id: number,
+    user_id: number,
+    department_id: number,
+    issue: string
+    urgency_id: number,
+    status_id: number,
+    repair_request_id: number,
+    company_id: number,
+    sub_category_id: number,
+    type_id: number,
+    remarks: string,
+    date_reported: string,
+    repair_start_date: string,
+    repair_completion_date: string,
+    repair_cost: number
+}
+
+
