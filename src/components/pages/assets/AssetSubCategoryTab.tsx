@@ -1,5 +1,5 @@
 import { DataTable } from "@/components/ui/data-table";
-import { asset_columns, def_asset_columns } from "@/data/asset_columns";
+import { asset_columns } from "@/data/asset_columns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { Asset_Category } from "@/data/types";
 import {
@@ -77,23 +77,43 @@ function AssetSubCategoryTab({ category }: { category: Asset_Category }) {
     });
   }, [filteredAsset, selectedType]);
 
+  const dynamicDefaultColumns = useMemo(() => {
+    const baseColumns = [
+      "asset_name",
+      "file",
+      "serial_number",
+      "brand",
+      "asset_condition_id",
+      "status_id",
+      "actions",
+    ];
+    if (category.category_name === "External") {
+      return [...baseColumns, "location"];
+    }
+    return [...baseColumns, "actions"];
+  }, [category.category_name]);
+
   return (
     <Tabs value={subCategory} onValueChange={setSubCategory} className="gap-0">
       <div className="border rounded-2xl py-3.5 p-5">
         <TabsList>
-        {subCats.map((sub) => (
-          <TabsTrigger
-            key={sub.sub_category_id}
-            value={sub.sub_category_name}
-            className="whitespace-nowrap flex-shrink-0 data-[state=active]:font-bold"
-          >
-            {sub.sub_category_name}
-          </TabsTrigger>
-        ))}
-      </TabsList>
+          {subCats.map((sub) => (
+            <TabsTrigger
+              key={sub.sub_category_id}
+              value={sub.sub_category_name}
+              className="whitespace-nowrap flex-shrink-0 data-[state=active]:font-bold"
+            >
+              {sub.sub_category_name}
+            </TabsTrigger>
+          ))}
+        </TabsList>
         {subCats.map((sub) => (
           <TabsContent key={sub.sub_category_id} value={sub.sub_category_name}>
-            <DataTable columns={asset_columns} data={displayedAssets} defaultVisibleColumns={def_asset_columns}>
+            <DataTable
+              columns={asset_columns}
+              data={displayedAssets}
+              defaultVisibleColumns={dynamicDefaultColumns}
+            >
               <AssetTypeDropdown
                 assetTypes={filteredAssetTypes}
                 selectedType={selectedType}

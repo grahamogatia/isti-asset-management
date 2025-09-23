@@ -14,6 +14,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export const asset_columns: ColumnDef<Asset>[] = [
+    {
+    accessorKey: "asset_id",
+    header: "Asset ID",
+  },
   {
     accessorKey: "asset_name",
     header: ({ column }) => {
@@ -61,10 +65,6 @@ export const asset_columns: ColumnDef<Asset>[] = [
     header: "Status ID",
   },
   {
-    accessorKey: "asset_id",
-    header: "Asset ID",
-  },
-  {
     accessorKey: "specifications",
     header: "Specifications",
   },
@@ -105,6 +105,10 @@ export const asset_columns: ColumnDef<Asset>[] = [
   {
     accessorKey: "insurance_id",
     header: "Insurance ID",
+  },
+  {
+    accessorKey: "location",
+    header: "Location",
   },
   {
     id: "actions",
