@@ -1,5 +1,5 @@
 import { DataTable } from "@/components/ui/data-table";
-import { asset_columns, def_asset_columns } from "@/data/asset-columns";
+import { asset_columns, def_asset_columns } from "@/data/asset_columns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { Asset_Category } from "@/data/types";
 import {
