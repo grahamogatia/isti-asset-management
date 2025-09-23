@@ -121,4 +121,5 @@ export const def_repair_columns = [
   "issue",
   "urgency_id",
   "status_id",
+  "actions",
 ];

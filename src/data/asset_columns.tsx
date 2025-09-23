@@ -138,4 +138,5 @@ export const def_asset_columns = [
   "brand",
   "asset_condition_id",
   "status_id",
+  "actions",
 ];
