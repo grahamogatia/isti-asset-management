@@ -1,6 +1,5 @@
 import { type ColumnDef } from "@tanstack/react-table";
 
-import type { Asset, Repair } from "./types";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
@@ -12,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import type { Repair } from "./types";
 
 export const repair_columns: ColumnDef<Repair>[] = [
   {
@@ -90,9 +90,7 @@ export const repair_columns: ColumnDef<Repair>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
-      const payment = row.original;
-
+    cell: () => {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
