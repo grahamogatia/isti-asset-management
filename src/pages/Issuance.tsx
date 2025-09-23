@@ -1,6 +1,5 @@
 import { DataTable } from "@/components/ui/data-table";
-import { issuance_columns } from "@/data/issuance_columns";
-import { def_repair_columns } from "@/data/repair_columns";
+import { def_issuance_columns, issuance_columns } from "@/data/issuance_columns";
 import { issuance_testcases } from "@/testcases/issuances";
 
 function Issuance() {
@@ -9,7 +8,7 @@ function Issuance() {
       <DataTable
         columns={issuance_columns}
         data={issuance_testcases}
-        defaultVisibleColumns={def_repair_columns}
+        defaultVisibleColumns={def_issuance_columns}
       />
     </div>
   );
