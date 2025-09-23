@@ -6,7 +6,11 @@ import {
   asset_conditions,
   insurances,
   status,
+  employees,
+  departments,
+  company_id,
 } from "@/testcases/foreignkeys";
+import { asset_testcases } from "@/testcases/assets";
 
 // Convert arrays into maps for fast lookup
 const categoryMap = new Map(asset_categories.map(c => [c.category_id, c]));
@@ -15,6 +19,11 @@ const typeMap = new Map(asset_types.map(t => [t.type_id, t]));
 const conditionMap = new Map(asset_conditions.map(c => [c.asset_condition_id, c]));
 const insuranceMap = new Map(insurances.map(i => [i.insurance_id, i]));
 const statusMap = new Map(status.map(s => [s.status_id, s]));
+const assetMap = new Map(asset_testcases.map(a => [a.asset_id, a]));
+const employeeMap = new Map(employees.map(e => [e.employee_id, e]));
+const departmentMap = new Map(departments.map(d => [d.department_id, d]));
+const companyMap = new Map(company_id.map(c => [c.company_id, c]));
+
 
 // Export lookup functions
 export function getCategoryName(id: number): string {
@@ -39,4 +48,20 @@ export function getInsuranceName(id: string): string {
 
 export function getStatusName(id: number): string {
   return statusMap.get(id)?.status_name ?? "Unknown Status";
+}
+
+export function getAsset(asset_id: number) {
+  return assetMap.get(asset_id);
+}
+
+export function getEmployeeName(employee_id: number): string {
+  return employeeMap.get(employee_id)?.employee_name ?? "Unknown Employee";
+}
+
+export function getDepartmentName(department_id: number): string {
+  return departmentMap.get(department_id)?.department_name ?? "Unknown Department";
+}
+
+export function getCompanyName(company_id: number): string {
+  return companyMap.get(company_id)?.company_name ?? "Unknown Company";
 }

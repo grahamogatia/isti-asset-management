@@ -125,6 +125,9 @@ export function DataTable<TData, TValue>({
                     onCheckedChange={(value) =>
                       column.toggleVisibility(!!value)
                     }
+                    onSelect={(event) => {
+                      event.preventDefault();
+                    }}
                   >
                     {displayName}
                   </DropdownMenuCheckboxItem>
