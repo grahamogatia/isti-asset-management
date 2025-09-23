@@ -79,7 +79,6 @@ function AssetSubCategoryTab({ category }: { category: Asset_Category }) {
 
   return (
     <Tabs value={subCategory} onValueChange={setSubCategory} className="gap-0">
-      
       <div className="border rounded-2xl py-3.5 p-5">
         <TabsList>
         {subCats.map((sub) => (
