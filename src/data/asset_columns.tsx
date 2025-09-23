@@ -1,4 +1,4 @@
-import { type ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef } from "@tanstack/react-table";
 
 import type { Asset } from "./types";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
 export const asset_columns: ColumnDef<Asset>[] = [
   {
@@ -25,7 +25,7 @@ export const asset_columns: ColumnDef<Asset>[] = [
           Asset Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
   },
   {
@@ -37,8 +37,8 @@ export const asset_columns: ColumnDef<Asset>[] = [
     header: "Sub Category",
   },
   {
-    accessorKey: "type_id", 
-    header: "Type"
+    accessorKey: "type_id",
+    header: "Type",
   },
   {
     accessorKey: "file",
@@ -92,7 +92,9 @@ export const asset_columns: ColumnDef<Asset>[] = [
       if (!purchaseDate) return "-";
       const purchase = new Date(purchaseDate);
       const now = new Date();
-      const diff = Math.floor((now.getTime() - purchase.getTime()) / (1000 * 60 * 60 * 24));
+      const diff = Math.floor(
+        (now.getTime() - purchase.getTime()) / (1000 * 60 * 60 * 24)
+      );
       return diff >= 0 ? diff : "-";
     },
   },
@@ -104,11 +106,11 @@ export const asset_columns: ColumnDef<Asset>[] = [
     accessorKey: "insurance_id",
     header: "Insurance ID",
   },
-    {
+  {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original
- 
+      const payment = row.original;
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -121,12 +123,21 @@ export const asset_columns: ColumnDef<Asset>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Update Asset</DropdownMenuItem>
-            <DropdownMenuItem className="text-red-700">Delete Asset</DropdownMenuItem>
+            <DropdownMenuItem className="text-red-700">
+              Delete Asset
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
 ];
 
-export const def_asset_columns = ["asset_name", "file", "serial_number", "brand", "asset_condition_id", "status_id"];
+export const def_asset_columns = [
+  "asset_name",
+  "file",
+  "serial_number",
+  "brand",
+  "asset_condition_id",
+  "status_id",
+];
