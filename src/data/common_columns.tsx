@@ -8,7 +8,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuItem,
 } from "@radix-ui/react-dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
+import { 
+  MoreHorizontal, 
+  Package,
+  User,
+  Building2,
+  Building,
+  Calendar,
+  DollarSign,
+  ArrowUpDown,
+  Hash,
+  Wrench,
+  AlertCircle,
+  Clock,
+  PhilippinePeso
+} from "lucide-react";
 import {
   getAsset,
   getCategoryName,
@@ -37,7 +51,17 @@ export const commonColumns = {
     accessorFn: (row) => {
       return getAsset(row.asset_id)?.asset_name;
     },
-    header: "Asset Name",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        className="flex items-center gap-2"
+      >
+        <Package className="h-4 w-4" />
+        Asset Name
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => {
       return getAsset(row.original.asset_id)?.asset_name;
     },
@@ -48,7 +72,12 @@ export const commonColumns = {
     accessorFn: (row) => {
       return getAsset(row.asset_id)?.serial_number;
     },
-    header: "Serial Number",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Hash className="h-4 w-4" />
+        Serial Number
+      </div>
+    ),
     cell: ({ row }) => {
       return getAsset(row.original.asset_id)?.serial_number;
     },
@@ -61,7 +90,12 @@ export const commonColumns = {
       if (!assetID) return;
       return getCategoryName(assetID);
     },
-    header: "Category",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Package className="h-4 w-4" />
+        Category
+      </div>
+    ),
     cell: ({ row }) => {
       const assetID = getAsset(row.original.asset_id)?.category_id;
       if (!assetID) return;
@@ -74,7 +108,12 @@ export const commonColumns = {
     accessorFn: (row) => {
       return getEmployeeName(row.user_id);
     },
-    header: "Employee",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <User className="h-4 w-4" />
+        Employee
+      </div>
+    ),
     cell: ({ row }) => {
       return getEmployeeName(row.original.user_id);
     },
@@ -85,7 +124,12 @@ export const commonColumns = {
     accessorFn: (row) => {
       return getDepartmentName(row.department_id);
     },
-    header: "Department",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Building2 className="h-4 w-4" />
+        Department
+      </div>
+    ),
     cell: ({ row }) => {
       return getDepartmentName(row.original.department_id);
     },
@@ -96,7 +140,12 @@ export const commonColumns = {
     accessorFn: (row) => {
       return getCompanyName(row.company_id);
     },
-    header: "Company",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Building className="h-4 w-4" />
+        Company
+      </div>
+    ),
     cell: ({ row }) => {
       return getCompanyName(row.original.company_id);
     },
@@ -109,7 +158,12 @@ export const commonColumns = {
       if (!asset) return;
       return getConditionName(asset.asset_condition_id);
     },
-    header: "Condition",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Wrench className="h-4 w-4" />
+        Condition
+      </div>
+    ),
     cell: ({ row }) => {
       const asset = getAsset(row.original.asset_id);
       if (!asset) return;
@@ -124,7 +178,12 @@ export const commonColumns = {
       if (!asset) return;
       return getSubCategoryName(asset.sub_category_id);
     },
-    header: "Sub Category",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Package className="h-4 w-4" />
+        Sub Category
+      </div>
+    ),
     cell: ({ row }) => {
       const asset = getAsset(row.original.asset_id);
       if (!asset) return;
@@ -139,7 +198,12 @@ export const commonColumns = {
       if (!asset?.type_id) return;
       return getTypeName(asset.type_id);
     },
-    header: "Type",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Package className="h-4 w-4" />
+        Type
+      </div>
+    ),
     cell: ({ row }) => {
       const asset = getAsset(row.original.asset_id);
       if (!asset?.type_id) return;
@@ -153,7 +217,12 @@ export const commonColumns = {
     header: string
   ): ColumnDef<T> => ({
     accessorKey: accessorKey as string,
-    header,
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Calendar className="h-4 w-4" />
+        {header}
+      </div>
+    ),
     cell: ({ row }) => {
       const date = row.original[accessorKey];
       if (!date || date === "") return "---";
@@ -166,7 +235,12 @@ export const commonColumns = {
     header: string
   ): ColumnDef<T> => ({
     accessorKey: accessorKey as string,
-    header,
+    header: () => (
+      <div className="flex items-center gap-2">
+        <PhilippinePeso className="h-4 w-4" />
+        {header}
+      </div>
+    ),
     cell: ({ row }) => {
       const value = row.original[accessorKey];
       return new Intl.NumberFormat("en-PH", {
@@ -179,6 +253,7 @@ export const commonColumns = {
   // Actions column
   actions: <T extends Record<string, any>>(): ColumnDef<T> => ({
     id: "actions",
+    header: "Actions",
     cell: () => {
       return (
         <DropdownMenu>
@@ -205,6 +280,11 @@ export const commonColumns = {
     header: string
   ): ColumnDef<T> => ({
     accessorKey: accessorKey as string,
-    header,
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Hash className="h-4 w-4" />
+        {header}
+      </div>
+    ),
   }),
 };

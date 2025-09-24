@@ -2,46 +2,66 @@ import { type ColumnDef } from "@tanstack/react-table";
 import type { Borrow } from "./types";
 import { differenceInDays } from "date-fns";
 import { commonColumns } from "./common_columns";
+import { Hash, Clock } from "lucide-react";
 
 export const borrow_columns: ColumnDef<Borrow>[] = [
+  // Asset identification first
   commonColumns.asset_name<Borrow>(),
   commonColumns.serial_number<Borrow>(),
   commonColumns.category<Borrow>(),
-  commonColumns.employee<Borrow>(),
-  commonColumns.company<Borrow>(),
-  commonColumns.department<Borrow>(),
-  commonColumns.dateColumn<Borrow>("date_borrowed", "Date Borrowed"),
-  commonColumns.condition<Borrow>(),
-  {
-    accessorKey: "borrow_transaction_id",
-    header: "Borrow Transaction ID",
-  },
   commonColumns.sub_category<Borrow>(),
   commonColumns.type<Borrow>(),
+  
+  // Transaction details
+  {
+    accessorKey: "borrow_transaction_id",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Hash className="h-4 w-4" />
+        Transaction ID
+      </div>
+    ),
+  },
+  commonColumns.dateColumn<Borrow>("date_borrowed", "Date Borrowed"),
   commonColumns.dateColumn<Borrow>("due_date", "Due Date"),
   commonColumns.dateColumn<Borrow>("return_date", "Return Date"),
   {
     accessorKey: "duration",
-    header: "Duration",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Clock className="h-4 w-4" />
+        Status
+      </div>
+    ),
     cell: ({ row }) => {
       const result = differenceInDays(row.original.due_date, new Date());
-      return result <= 0 ? "Overdue" : result + " days";
+      return result <= 0 ? "Overdue" : result + " days remaining";
     },
   },
+  
+  // People & organization
+  commonColumns.employee<Borrow>(),
+  commonColumns.department<Borrow>(),
+  commonColumns.company<Borrow>(),
+  
+  // Additional info
+  commonColumns.condition<Borrow>(),
   {
     accessorKey: "remarks",
     header: "Remarks",
   },
+  
+  // Actions last
   commonColumns.actions<Borrow>(),
 ];
 
 export const def_borrow_columns = [
   "asset_name",
   "serial_number",
-  "category",
-  "department",
+  "status",
+  "borrow_date",
+  "return_date",
   "employee",
-  "date_borrowed",
-  "condition",
+  "department",
   "actions",
 ];

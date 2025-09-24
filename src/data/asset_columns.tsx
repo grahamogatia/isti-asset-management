@@ -2,7 +2,28 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { differenceInMonths, format } from "date-fns";
 import type { Asset } from "./types";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { 
+  ArrowUpDown, 
+  MoreHorizontal,
+  Hash,
+  Package,
+  Tag,
+  Layers,
+  FileText,
+  Cpu,
+  Award,
+  CheckCircle,
+  AlertTriangle,
+  DollarSign,
+  Clock,
+  Calendar,
+  TrendingDown,
+  FileImage,
+  Shield,
+  MapPin,
+  ScrollText,
+  PhilippinePeso
+} from "lucide-react";
 import {
   getCategoryName,
   getSubCategoryName,
@@ -24,7 +45,12 @@ import {
 export const asset_columns: ColumnDef<Asset>[] = [
   {
     accessorKey: "asset_id",
-    header: "Asset ID",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Hash className="h-4 w-4" />
+        Asset ID
+      </div>
+    ),
   },
   {
     accessorKey: "asset_name",
@@ -33,7 +59,9 @@ export const asset_columns: ColumnDef<Asset>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="flex items-center gap-2"
         >
+          <Package className="h-4 w-4" />
           Asset Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -42,7 +70,12 @@ export const asset_columns: ColumnDef<Asset>[] = [
   },
   {
     accessorKey: "category_id",
-    header: "Category",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Layers className="h-4 w-4" />
+        Category
+      </div>
+    ),
     cell: ({ row }) => {
       const categoryId = row.original.category_id;
       return getCategoryName(categoryId);
@@ -50,7 +83,12 @@ export const asset_columns: ColumnDef<Asset>[] = [
   },
   {
     accessorKey: "sub_category_id",
-    header: "Sub Category",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Tag className="h-4 w-4" />
+        Sub Category
+      </div>
+    ),
     cell: ({ row }) => {
       const subCategoryId = row.original.sub_category_id;
       return getSubCategoryName(subCategoryId);
@@ -58,7 +96,12 @@ export const asset_columns: ColumnDef<Asset>[] = [
   },
   {
     accessorKey: "type_id",
-    header: "Type",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Package className="h-4 w-4" />
+        Type
+      </div>
+    ),
     cell: ({ row }) => {
       const typeId = row.original.type_id;
       return typeId ? getTypeName(typeId) : "-";
@@ -66,22 +109,42 @@ export const asset_columns: ColumnDef<Asset>[] = [
   },
   {
     accessorKey: "file",
-    header: "File",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <FileImage className="h-4 w-4" />
+        File
+      </div>
+    ),
   },
   {
     accessorKey: "serial_number",
-    header: "Serial Number",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Hash className="h-4 w-4" />
+        Serial Number
+      </div>
+    ),
   },
   {
     accessorKey: "brand",
-    header: "Brand",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Award className="h-4 w-4" />
+        Brand
+      </div>
+    ),
   },
   {
     accessorKey: "asset_condition_id",
     accessorFn: (row) => {
       return getConditionName(row.asset_condition_id);
     },
-    header: "Condition",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <CheckCircle className="h-4 w-4" />
+        Condition
+      </div>
+    ),
     cell: ({ row }) => {
       const conditionId = row.original.asset_condition_id;
       return getConditionName(conditionId);
@@ -92,7 +155,12 @@ export const asset_columns: ColumnDef<Asset>[] = [
     accessorFn: (row) => {
       return getStatusName(row.status_id);
     },
-    header: "Status",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <AlertTriangle className="h-4 w-4" />
+        Status
+      </div>
+    ),
     cell: ({ row }) => {
       const statusId = row.original.status_id;
       return getStatusName(statusId);
@@ -100,11 +168,21 @@ export const asset_columns: ColumnDef<Asset>[] = [
   },
   {
     accessorKey: "specifications",
-    header: "Specifications",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Cpu className="h-4 w-4" />
+        Specifications
+      </div>
+    ),
   },
   {
     accessorKey: "asset_amount",
-    header: "Amount",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <PhilippinePeso className="h-4 w-4" />
+        Amount
+      </div>
+    ),
     cell: ({ row }) => {
       const value = row.original.asset_amount;
       return new Intl.NumberFormat("en-PH", {
@@ -115,7 +193,12 @@ export const asset_columns: ColumnDef<Asset>[] = [
   },
   {
     accessorKey: "warranty_duration",
-    header: "Warranty Remaining",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Clock className="h-4 w-4" />
+        Warranty Remaining
+      </div>
+    ),
     cell: ({ row }) => {
       const result = differenceInMonths(
         row.original.warranty_due_date,
@@ -126,21 +209,36 @@ export const asset_columns: ColumnDef<Asset>[] = [
   },
   {
     accessorKey: "warranty_due_date",
-    header: "Warranty Due Date",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Calendar className="h-4 w-4" />
+        Warranty Due Date
+      </div>
+    ),
     cell: ({ row }) => {
       return format(new Date(row.original.warranty_due_date), "PP");
     },
   },
   {
     accessorKey: "purchase_date",
-    header: "Purchase Date",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Calendar className="h-4 w-4" />
+        Purchase Date
+      </div>
+    ),
     cell: ({ row }) => {
       return format(new Date(row.original.purchase_date), "PP");
     },
   },
   {
     id: "aging",
-    header: "Age",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Clock className="h-4 w-4" />
+        Age
+      </div>
+    ),
     cell: ({ row }) => {
       const purchaseDate = row.original.purchase_date;
       if (!purchaseDate) return "-";
@@ -150,7 +248,12 @@ export const asset_columns: ColumnDef<Asset>[] = [
   },
   {
     id: "asset_value",
-    header: "Asset Value",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <TrendingDown className="h-4 w-4" />
+        Asset Value
+      </div>
+    ),
     cell: ({ row }) => {
       const LAPTOP_SAMPLE_DEPRECIATION = 60; //60 months === depriciated
       const purchaseDate = row.original.purchase_date;
@@ -172,7 +275,12 @@ export const asset_columns: ColumnDef<Asset>[] = [
   },
   {
     accessorKey: "notes",
-    header: "Notes",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <ScrollText className="h-4 w-4" />
+        Notes
+      </div>
+    ),
   },
   {
     accessorKey: "insurance_id",
@@ -180,7 +288,12 @@ export const asset_columns: ColumnDef<Asset>[] = [
       if (!row.insurance_id) return;
       return getInsuranceName(row.insurance_id)
     },
-    header: "Insurance",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <Shield className="h-4 w-4" />
+        Insurance
+      </div>
+    ),
     cell: ({ row }) => {
       if (!row.original.insurance_id) return;
       return getInsuranceName(row.original.insurance_id);
@@ -188,7 +301,12 @@ export const asset_columns: ColumnDef<Asset>[] = [
   },
   {
     accessorKey: "location",
-    header: "Location",
+    header: () => (
+      <div className="flex items-center gap-2">
+        <MapPin className="h-4 w-4" />
+        Location
+      </div>
+    ),
   },
   {
     id: "actions",
