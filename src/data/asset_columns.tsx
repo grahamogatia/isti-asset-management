@@ -342,3 +342,12 @@ export const def_asset_columns = [
   "status_id",
   "actions",
 ];
+
+export const asset_filters = [
+  "condition",
+  "status",
+  "asset_amount",
+  "purchase_date",
+  "insurance_id",
+  "location"
+]

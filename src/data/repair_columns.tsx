@@ -93,3 +93,13 @@ export const def_repair_columns = [
   "employee",
   "actions",
 ];
+
+export const repair_filters = [
+  "category",
+  "company",
+  "department",
+  "status",
+  "sub_category",
+  "type",
+  "urgency"
+]

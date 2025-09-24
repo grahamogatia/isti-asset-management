@@ -63,3 +63,12 @@ export const def_issuance_columns = [
   "department",
   "actions",
 ];
+
+export const issuance_filters = [
+  "category",
+  "company",
+  "department",
+  "status",
+  "sub_category",
+  "type"
+]

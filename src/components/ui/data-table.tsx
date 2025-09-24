@@ -31,12 +31,14 @@ import {
 import { Button } from "./button";
 import { Input } from "./input";
 import { useState } from "react";
+import Filters from "./filters";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   children?: React.ReactNode;
   defaultVisibleColumns?: string[];
+  filterableColumns: string[];
 }
 
 export function DataTable<TData, TValue>({
@@ -44,6 +46,7 @@ export function DataTable<TData, TValue>({
   data,
   children,
   defaultVisibleColumns,
+  filterableColumns
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -95,15 +98,17 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4 gap-1">
-        <Input
-          placeholder="Search asset..."
-          value={globalFilter}
-          onChange={(event) => setGlobalFilter(event.target.value)}
-          className="max-w-60"
-        />
-        {children}
-        <DropdownMenu>
+      <div className="flex items-center pt-4 pb-1">
+        <div className="space-y-1 w-full">
+          <div className="flex justify-between gap-4 w-full">
+          {children}
+          <Input
+            placeholder="Search asset..."
+            value={globalFilter}
+            onChange={(event) => setGlobalFilter(event.target.value)}
+            className="max-w-60 mr-auto"
+          />
+           <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
               Columns
@@ -135,6 +140,10 @@ export function DataTable<TData, TValue>({
               })}
           </DropdownMenuContent>
         </DropdownMenu>
+          </div>
+          <Filters filterableColumns={filterableColumns}/>
+        </div>
+       
       </div>
       <div className="overflow-hidden rounded-md border">
         <Table>

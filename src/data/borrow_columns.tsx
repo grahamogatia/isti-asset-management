@@ -65,3 +65,12 @@ export const def_borrow_columns = [
   "department",
   "actions",
 ];
+
+export const borrow_filters = [
+  "category",
+  "company",
+  "department",
+  "status",
+  "sub_category",
+  "type"
+]

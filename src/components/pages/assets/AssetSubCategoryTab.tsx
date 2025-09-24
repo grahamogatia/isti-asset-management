@@ -1,5 +1,5 @@
 import { DataTable } from "@/components/ui/data-table";
-import { asset_columns } from "@/data/asset_columns";
+import { asset_columns, asset_filters } from "@/data/asset_columns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { Asset_Category } from "@/data/types";
    
@@ -126,6 +126,7 @@ function AssetSubCategoryTab({ category }: { category: Asset_Category }) {
               columns={asset_columns}
               data={displayedAssets}
               defaultVisibleColumns={dynamicDefaultColumns}
+              filterableColumns={asset_filters}
             >
               <AssetTypeDropdown
                 assetTypes={filteredAssetTypes}
