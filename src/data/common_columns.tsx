@@ -16,6 +16,7 @@ import {
   getConditionName,
   getDepartmentName,
   getEmployeeName,
+  getStatusName,
   getSubCategoryName,
   getTypeName,
 } from "@/lib/lookups";

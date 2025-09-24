@@ -77,10 +77,10 @@ export type Issuance = {
   category_id: number;
   user_id: number;
   department_id: number;
-  issuance_date: number;
-  pullout_date: number;
+  issuance_date: string;
+  pullout_date: string;
   status_id: number;
-  remarks: number;
+  remarks: string;
   issuance_id: number;
   sub_category_id: number;
   type_id: number;
