@@ -818,5 +818,13 @@ export const employees = [
   { employee_id: 100, employee_name: "Guillermo Paredes" },
 ]
 
+export const urgency = [
+  { urgency_id: 1, urgency_name: "Low" },
+  { urgency_id: 2, urgency_name: "Medium" },
+  { urgency_id: 3, urgency_name: "High" },
+  { urgency_id: 4, urgency_name: "Critical" },
+  { urgency_id: 5, urgency_name: "Emergency" },
+]
+
 
 

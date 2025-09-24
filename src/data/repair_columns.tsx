@@ -1,125 +1,57 @@
 import { type ColumnDef } from "@tanstack/react-table";
-
-import { Button } from "@/components/ui/button";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import type { Repair } from "./types";
+import { commonColumns } from "./common_columns";
+import { getStatusName } from "@/lib/lookups";
 
 export const repair_columns: ColumnDef<Repair>[] = [
+  commonColumns.asset_name<Repair>(),
+  commonColumns.serial_number<Repair>(),
+  commonColumns.category<Repair>(),
+  commonColumns.employee<Repair>(),
+  commonColumns.company<Repair>(),
+  commonColumns.department<Repair>(),
+  commonColumns.dateColumn<Repair>("date_reported", "Date Reported"),
+  commonColumns.simpleColumn<Repair>("issue", "Issue"),
+  commonColumns.dateColumn<Repair>("repair_completion_date", "Repair Completion Date"),
+  commonColumns.moneyColumn<Repair>("repair_cost", "Repair Cost"),
+  commonColumns.simpleColumn<Repair>("repair_request_id", "Repair ID"),
+  commonColumns.dateColumn<Repair>("repair_start_date", "Repair Start Date"),
+
   {
-    accessorKey: "asset_id",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Asset ID
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
+    accessorKey: "status",
+    accessorFn: (row) => {
+      return getStatusName(row.status_id);
     },
-  },
-  {
-    accessorKey: "category_id",
-    header: "Category",
-  },
-  {
-    accessorKey: "user_id",
-    header: "Employee",
-  },
-  {
-    accessorKey: "department_id",
-    header: "Department",
-  },
-  {
-    accessorKey: "issue",
-    header: "Issue",
-  },
-  {
-    accessorKey: "urgency_id",
-    header: "Urgency",
-  },
-  {
-    accessorKey: "status_id",
     header: "Status",
+    cell: ({ row }) => {
+      return getStatusName(row.original.status_id);
+    }
   },
   {
-    accessorKey: "repair_request_id",
-    header: "Repair Request Id",
-  },
-  {
-    accessorKey: "company_id",
-    header: "Company",
-  },
-  {
-    accessorKey: "sub_category_id",
-    header: "Sub Category",
-  },
-  {
-    accessorKey: "type_id",
-    header: "Type",
-  },
-  {
-    accessorKey: "remarks",
-    header: "Remarks",
-  },
-  {
-    accessorKey: "date_reported",
-    header: "Date Reported",
-  },
-  {
-    accessorKey: "repair_start_date",
-    header: "Repair Start Date",
-  },
-  {
-    accessorKey: "repair_completion_date",
-    header: "Repair Completion Date",
-  },
-  {
-    accessorKey: "repair_cost",
-    header: "Repair Cost",
-  },
-  {
-    id: "actions",
-    cell: () => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Update Asset</DropdownMenuItem>
-            <DropdownMenuItem className="text-red-700">
-              Delete Asset
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+    accessorKey: "urgency",
+    accessorFn: (row) => {
+      return getStatusName(row.urgency_id);
     },
+    header: "Urgency",
+    cell: ({ row }) => {
+      return getStatusName(row.original.urgency_id);
+    }
   },
+
+  commonColumns.sub_category<Repair>(),
+  commonColumns.type<Repair>(),
+  commonColumns.simpleColumn<Repair>("remarks", "Remarks"),
+  commonColumns.actions<Repair>(),
 ];
 
 export const def_repair_columns = [
-  "asset_id",
-  "category_id",
-  "user_id",
-  "department_id",
+  "asset_name",
+  "serial_number",
   "issue",
-  "urgency_id",
-  "status_id",
+  "category",
+  "employee",
+  "department",
+  "urgency",
+  "status",
   "actions",
 ];

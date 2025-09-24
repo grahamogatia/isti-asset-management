@@ -1,161 +1,25 @@
 import { type ColumnDef } from "@tanstack/react-table";
 import type { Borrow } from "./types";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuItem,
-} from "@radix-ui/react-dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
-import {
-  getAsset,
-  getCategoryName,
-  getCompanyName,
-  getConditionName,
-  getDepartmentName,
-  getEmployeeName,
-  getSubCategoryName,
-  getTypeName,
-} from "@/lib/lookups";
-import { differenceInDays, format } from "date-fns";
+import { differenceInDays } from "date-fns";
+import { commonColumns } from "./common_columns";
 
 export const borrow_columns: ColumnDef<Borrow>[] = [
-  {
-    id: "asset_name",
-    accessorFn: (row) => {
-      return getAsset(row.asset_id)?.asset_name;
-    },
-    header: "Asset Name",
-    cell: ({ row }) => {
-      return getAsset(row.original.asset_id)?.asset_name;
-    },
-  },
-  {
-    id: "serial_number",
-    accessorFn: (row) => {
-      return getAsset(row.asset_id)?.serial_number;
-    },
-    header: "Serial Number",
-    cell: ({ row }) => {
-      return getAsset(row.original.asset_id)?.serial_number;
-    },
-  },
-  {
-    accessorKey: "category_id",
-    accessorFn: (row) => {
-      const assetID = getAsset(row.asset_id)?.category_id;
-      if (!assetID) return;
-      return getCategoryName(assetID);
-    },
-    header: "Category",
-    cell: ({ row }) => {
-      const assetID = getAsset(row.original.asset_id)?.category_id;
-      if (!assetID) return;
-      return getCategoryName(assetID);
-    },
-  },
-  {
-    accessorKey: "user_id",
-    accessorFn: (row) => {
-      return getEmployeeName(row.user_id);
-    },
-    header: "Employee",
-    cell: ({ row }) => {
-      return getEmployeeName(row.original.user_id);
-    },
-  },
-  {
-    accessorKey: "department_id",
-    accessorFn: (row) => {
-      return getDepartmentName(row.department_id);
-    },
-    header: "Department",
-    cell: ({ row }) => {
-      return getDepartmentName(row.original.department_id);
-    },
-  },
-  {
-    accessorKey: "date_borrowed",
-    header: "Date Borrowed",
-    cell: ({ row }) => {
-      return format(new Date(row.original.date_borrowed), "PP");
-    },
-  },
-  {
-    accessorKey: "asset_condition_id",
-    accessorFn: (row) => {
-      const asset = getAsset(row.asset_id);
-      if (!asset) return;
-      return getConditionName(asset.asset_condition_id);
-    },
-    header: "Condition",
-    cell: ({ row }) => {
-      const asset = getAsset(row.original.asset_id);
-      if (!asset) return;
-      return getConditionName(asset.asset_condition_id);
-    },
-  },
+  commonColumns.asset_name<Borrow>(),
+  commonColumns.serial_number<Borrow>(),
+  commonColumns.category<Borrow>(),
+  commonColumns.employee<Borrow>(),
+  commonColumns.company<Borrow>(),
+  commonColumns.department<Borrow>(),
+  commonColumns.dateColumn<Borrow>("date_borrowed", "Date Borrowed"),
+  commonColumns.condition<Borrow>(),
   {
     accessorKey: "borrow_transaction_id",
     header: "Borrow Transaction ID",
   },
-  {
-    accessorKey: "company_id",
-    accessorFn: (row) => {
-      return getCompanyName(row.company_id);
-    },
-    header: "Company",
-    cell: ({ row }) => {
-      return getCompanyName(row.original.company_id);
-    },
-  },
-  {
-    accessorKey: "sub_category_id",
-    accessorFn: (row) => {
-      const asset = getAsset(row.asset_id);
-      if (!asset) return;
-      return getSubCategoryName(asset.sub_category_id);
-    },
-    header: "Sub Category",
-    cell: ({ row }) => {
-      const asset = getAsset(row.original.asset_id);
-      if (!asset) return;
-      return getSubCategoryName(asset.sub_category_id);
-    },
-  },
-  {
-    accessorKey: "type_id",
-    accessorFn: (row) => {
-      const asset = getAsset(row.asset_id);
-      if (!asset?.type_id) return;
-      return getTypeName(asset.type_id);
-    },
-    header: "Type",
-    cell: ({ row }) => {
-      const asset = getAsset(row.original.asset_id);
-      if (!asset?.type_id) return;
-      return getTypeName(asset.type_id);
-    },
-  },
-  {
-    accessorKey: "due_date",
-    header: "Due Date",
-    cell: ({ row }) => {
-      return format(new Date(row.original.due_date), "PP");
-    },
-  },
-  {
-    accessorKey: "return_date",
-    header: "Return Date",
-    cell: ({ row }) => {
-      console.log(row.original);
-      if (row.original.return_date === "") return "---";
-      return format(new Date(row.original.return_date), "PP");
-    },
-  },
+  commonColumns.sub_category<Borrow>(),
+  commonColumns.type<Borrow>(),
+  commonColumns.dateColumn<Borrow>("due_date", "Due Date"),
+  commonColumns.dateColumn<Borrow>("return_date", "Return Date"),
   {
     accessorKey: "duration",
     header: "Duration",
@@ -168,38 +32,16 @@ export const borrow_columns: ColumnDef<Borrow>[] = [
     accessorKey: "remarks",
     header: "Remarks",
   },
-  {
-    id: "actions",
-    cell: () => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Update Asset</DropdownMenuItem>
-            <DropdownMenuItem className="text-red-700">
-              Delete Asset
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
+  commonColumns.actions<Borrow>(),
 ];
 
 export const def_borrow_columns = [
   "asset_name",
   "serial_number",
-  "category_id",
-  "user_id",
-  "department_id",
+  "category",
+  "department",
+  "employee",
   "date_borrowed",
-  "asset_condition_id",
+  "condition",
   "actions",
 ];
