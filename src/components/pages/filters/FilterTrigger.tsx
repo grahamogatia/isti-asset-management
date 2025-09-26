@@ -7,7 +7,7 @@ function FilterTrigger() {
         <PopoverTrigger className="flex" asChild>
         <Button
           variant="ghost"
-          className="justify-start gap-1 text-xs h-auto has-[>svg]:px-0 opacity-50"
+          className="justify-start gap-1 text-xs h-auto opacity-50"
         >
           <Plus className="h-4 w-4" /> Filter
         </Button>
