@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { formatColumnName, getColumnIcon } from "@/lib/columnNameUtils";
 import { getDisplayNameForColumn } from "@/lib/lookups";
+import { ArrowLeft, Plus, X } from "lucide-react";
 import { useState } from "react";
 
 interface FilterValueListProps {
@@ -15,8 +16,9 @@ function FilterValueList({
   selectedColumn,
   setCurrentScreen,
 }: FilterValueListProps) {
-    
+
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+
 
   const getActualColumnName = (displayColumnName: string): string => {
     const columnMapping: Record<string, string> = {
@@ -53,16 +55,25 @@ function FilterValueList({
   };
 
   return (
-    <div>
-      <p className="flex items-center gap-2 mb-3 opacity-60">
-        {(() => {
-          const IconComponent = getColumnIcon(selectedColumn);
-          return <IconComponent className="h-4 w-4" />;
-        })()}
-        {formatColumnName(selectedColumn)}{" "}
-        <span className="font-semibold">is</span>
-      </p>
-      {getUniqueValues(selectedColumn)?.map((value, index) => {
+    <div className="flex flex-col gap-3">
+      <div className="flex items-center justify-between opacity-60">
+        <p className="flex items-center gap-1">
+            {(() => {
+            const IconComponent = getColumnIcon(selectedColumn);
+            return <IconComponent className="h-4 w-4" />;
+            })()}
+            {formatColumnName(selectedColumn)}{" "}
+            <span className="font-semibold">is</span>
+        </p>
+        <Button size="sm" variant="ghost" onClick={() => {
+            setCurrentScreen("columns")
+            setSelectedFilters([])
+            }}>
+          <ArrowLeft className="h-4 w-4"/>
+        </Button>
+      </div>
+      <div className="max-h-48 overflow-y-auto space-y-1">
+        {getUniqueValues(selectedColumn)?.map((value, index) => {
         return (
           <div
             key={index}
@@ -97,7 +108,8 @@ function FilterValueList({
           </div>
         );
       })}
-      <Button onClick={() => setCurrentScreen("columns")}>Back</Button>
+      </div>
+      <Button onClick={() => setCurrentScreen("columns")}><Plus />Create Filter</Button>
     </div>
   );
 }
