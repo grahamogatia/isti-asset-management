@@ -117,3 +117,9 @@ export const createSortableHeaderWithIcon = (columnName: string, displayName: st
     </Button>
   );
 };
+
+export const formatColumnName = (column: string) => {
+    return column
+      .replace(/_/g, " ") // Replace underscores with spaces
+      .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize first letter of each word
+  };

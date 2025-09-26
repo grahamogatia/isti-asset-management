@@ -2,7 +2,7 @@ import { type ColumnDef } from "@tanstack/react-table";
 import type { Issuance } from "./types";
 import { commonColumns } from "./common_columns";
 import { getStatusName } from "@/lib/lookups";
-import { createHeaderWithIcon } from "@/lib/header_format";
+import { createHeaderWithIcon } from "@/lib/columnNameUtils";
 
 export const issuance_columns: ColumnDef<Issuance>[] = [
   // Asset identification first

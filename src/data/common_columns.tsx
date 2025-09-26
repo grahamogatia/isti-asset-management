@@ -23,7 +23,7 @@ import { format } from "date-fns";
 import {
   createHeaderWithIcon,
   createSortableHeaderWithIcon,
-} from "@/lib/header_format";
+} from "@/lib/columnNameUtils";
 
 // Generic type that covers common fields across Borrow, Repair, and Issuance
 type CommonFields = {

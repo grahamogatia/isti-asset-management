@@ -3,7 +3,7 @@ import type { Repair } from "./types";
 import { commonColumns } from "./common_columns";
 import { getStatusName } from "@/lib/lookups";
 import { AlertTriangle } from "lucide-react";
-import { createHeaderWithIcon } from "@/lib/header_format";
+import { createHeaderWithIcon } from "@/lib/columnNameUtils";
 
 export const repair_columns: ColumnDef<Repair>[] = [
   // Asset identification first

@@ -32,7 +32,7 @@ import { Button } from "./button";
 import { Input } from "./input";
 import { useState } from "react";
 import Filters from "./filters";
-import { getColumnIcon } from "@/lib/header_format";
+import { getColumnIcon } from "@/lib/columnNameUtils";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

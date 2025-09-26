@@ -13,7 +13,7 @@ import {
   getStatusName,
   getInsuranceName,
 } from "@/lib/lookups";
-import { createHeaderWithIcon, createSortableHeaderWithIcon } from "@/lib/header_format";
+import { createHeaderWithIcon, createSortableHeaderWithIcon } from "@/lib/columnNameUtils";
 
 import {
   DropdownMenu,
