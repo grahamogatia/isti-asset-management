@@ -32,8 +32,7 @@ import { Button } from "./button";
 import { Input } from "./input";
 import { useState, useEffect } from "react";
 import Filters from "./filters";
-import { getActualColumnName, getColumnIcon } from "@/lib/columnNameUtils";
-import { getIdFromDisplayName } from "@/lib/lookups";
+import { getColumnIcon } from "@/lib/columnNameUtils";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

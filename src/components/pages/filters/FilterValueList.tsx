@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { formatColumnName, getActualColumnName, getColumnIcon } from "@/lib/columnNameUtils";
 import { getDisplayNameForColumn } from "@/lib/lookups";
-import { ArrowLeft, Plus, X } from "lucide-react";
+import { ArrowLeft, Plus } from "lucide-react";
 import { useState } from "react";
 
 interface FilterValueListProps {
