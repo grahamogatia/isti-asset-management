@@ -139,3 +139,14 @@ export const getActualColumnName = (displayColumnName: string): string => {
     };
     return columnMapping[displayColumnName] || displayColumnName;
   };
+
+// Standard filter function for handling multiple filter values
+export const createStandardFilterFn = (getValueFn: (row: any) => string | null | undefined) => {
+  return (row: any, _columnId: string, filterValue: any) => {
+    const rowValue = getValueFn(row);
+    if (Array.isArray(filterValue)) {
+      return filterValue.includes(rowValue);
+    }
+    return rowValue === filterValue;
+  };
+};

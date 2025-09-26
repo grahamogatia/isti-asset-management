@@ -1,9 +1,9 @@
 import { type ColumnDef } from "@tanstack/react-table";
 import type { Repair } from "./types";
 import { commonColumns } from "./common_columns";
-import { getStatusName } from "@/lib/lookups";
+import { getStatusName, getUrgencyName } from "@/lib/lookups";
 import { AlertTriangle } from "lucide-react";
-import { createHeaderWithIcon } from "@/lib/columnNameUtils";
+import { createHeaderWithIcon, createStandardFilterFn } from "@/lib/columnNameUtils";
 
 export const repair_columns: ColumnDef<Repair>[] = [
   // Asset identification first
@@ -25,12 +25,15 @@ export const repair_columns: ColumnDef<Repair>[] = [
   {
     accessorKey: "urgency",
     accessorFn: (row) => {
-      return getStatusName(row.urgency_id);
+      return getUrgencyName(row.urgency_id);
     },
     header: createHeaderWithIcon("urgency", "Urgency"),
     cell: ({ row }) => {
-      return getStatusName(row.original.urgency_id);
+      return getUrgencyName(row.original.urgency_id);
     },
+    filterFn: createStandardFilterFn((row) => 
+      getUrgencyName(row.original.urgency_id)
+    ),
   },
   {
     accessorKey: "status",
@@ -41,6 +44,9 @@ export const repair_columns: ColumnDef<Repair>[] = [
     cell: ({ row }) => {
       return getStatusName(row.original.status_id);
     },
+    filterFn: createStandardFilterFn((row) => 
+      getStatusName(row.original.status_id)
+    ),
   },
   commonColumns.dateColumn<Repair>("date_reported", "Date Reported"),
   commonColumns.dateColumn<Repair>("repair_start_date", "Start Date"),
@@ -53,16 +59,27 @@ export const repair_columns: ColumnDef<Repair>[] = [
   commonColumns.actions<Repair>(),
 ];
 
+// export const def_repair_columns = [
+//   "asset_name",
+//   "serial_number",
+//   "issue",
+//   "urgency",
+//   "status",
+//   "date_reported",
+//   "repair_cost",
+//   "employee",
+//   "actions",
+// ];
+
 export const def_repair_columns = [
   "asset_name",
-  "serial_number",
-  "issue",
-  "urgency",
+  "category",
+  "company",
+  "department",
   "status",
-  "date_reported",
-  "repair_cost",
-  "employee",
-  "actions",
+  "sub_category",
+  "type",
+  "urgency"
 ];
 
 export const repair_filters = [

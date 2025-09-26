@@ -13,7 +13,7 @@ import {
   getStatusName,
   getInsuranceName,
 } from "@/lib/lookups";
-import { createHeaderWithIcon, createSortableHeaderWithIcon } from "@/lib/columnNameUtils";
+import { createHeaderWithIcon, createSortableHeaderWithIcon, createStandardFilterFn } from "@/lib/columnNameUtils";
 
 import {
   DropdownMenu,
@@ -79,13 +79,9 @@ export const asset_columns: ColumnDef<Asset>[] = [
       const conditionId = row.original.asset_condition_id;
       return getConditionName(conditionId);
     },
-    filterFn: (row, _columnId, filterValue) => {
-      const rowValue = getConditionName(row.original.asset_condition_id);
-      if (Array.isArray(filterValue)) {
-        return filterValue.includes(rowValue);
-      }
-      return rowValue === filterValue;
-    },
+    filterFn: createStandardFilterFn((row) => 
+      getConditionName(row.original.asset_condition_id)
+    ),
   },
   {
     accessorKey: "status",
@@ -97,13 +93,9 @@ export const asset_columns: ColumnDef<Asset>[] = [
       const statusId = row.original.status_id;
       return getStatusName(statusId);
     },
-    filterFn: (row, _columnId, filterValue) => {
-      const rowValue = getStatusName(row.original.status_id);
-      if (Array.isArray(filterValue)) {
-        return filterValue.includes(rowValue);
-      }
-      return rowValue === filterValue;
-    },
+    filterFn: createStandardFilterFn((row) => 
+      getStatusName(row.original.status_id)
+    ),
   },
   {
     accessorKey: "specifications",
@@ -192,10 +184,16 @@ export const asset_columns: ColumnDef<Asset>[] = [
       if (!row.original.insurance_id) return;
       return getInsuranceName(row.original.insurance_id);
     },
+    filterFn: createStandardFilterFn((row) => 
+      row.original.insurance_id ? getInsuranceName(row.original.insurance_id) : null
+    ),
   },
   {
     accessorKey: "location",
     header: createHeaderWithIcon("location", "Location"),
+    filterFn: createStandardFilterFn((row) => 
+      row.original.location
+    )
   },
   {
     id: "actions",
@@ -227,7 +225,7 @@ export const def_asset_columns = [
   "serial_number",
   "file",
   "brand",
-  "asset_condition",
+  "condition",
   "status",
   "actions",
 ];

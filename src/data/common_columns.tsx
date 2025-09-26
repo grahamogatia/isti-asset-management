@@ -23,6 +23,7 @@ import { format } from "date-fns";
 import {
   createHeaderWithIcon,
   createSortableHeaderWithIcon,
+  createStandardFilterFn,
 } from "@/lib/columnNameUtils";
 
 // Generic type that covers common fields across Borrow, Repair, and Issuance
@@ -69,15 +70,11 @@ export const commonColumns = {
       if (!assetID) return;
       return getCategoryName(assetID);
     },
-    filterFn: (row, _columnId, filterValue) => {
+    filterFn: createStandardFilterFn((row) => {
       const assetID = getAsset(row.original.asset_id)?.category_id;
-      if (!assetID) return false;
-      const rowValue = getCategoryName(assetID);
-      if (Array.isArray(filterValue)) {
-        return filterValue.includes(rowValue);
-      }
-      return rowValue === filterValue;
-    },
+      if (!assetID) return null;
+      return getCategoryName(assetID);
+    }),
   }),
 
   employee: <T extends CommonFields>(): ColumnDef<T> => ({
@@ -89,13 +86,9 @@ export const commonColumns = {
     cell: ({ row }) => {
       return getEmployeeName(row.original.user_id);
     },
-    filterFn: (row, _columnId, filterValue) => {
-      const rowValue = getEmployeeName(row.original.user_id);
-      if (Array.isArray(filterValue)) {
-        return filterValue.includes(rowValue);
-      }
-      return rowValue === filterValue;
-    },
+    filterFn: createStandardFilterFn((row) => 
+      getEmployeeName(row.original.user_id)
+    ),
   }),
 
   department: <T extends CommonFields>(): ColumnDef<T> => ({
@@ -107,13 +100,9 @@ export const commonColumns = {
     cell: ({ row }) => {
       return getDepartmentName(row.original.department_id);
     },
-    filterFn: (row, _columnId, filterValue) => {
-      const rowValue = getDepartmentName(row.original.department_id);
-      if (Array.isArray(filterValue)) {
-        return filterValue.includes(rowValue);
-      }
-      return rowValue === filterValue;
-    },
+    filterFn: createStandardFilterFn((row) => 
+      getDepartmentName(row.original.department_id)
+    ),
   }),
 
   company: <T extends CommonFields>(): ColumnDef<T> => ({
@@ -125,13 +114,9 @@ export const commonColumns = {
     cell: ({ row }) => {
       return getCompanyName(row.original.company_id);
     },
-    filterFn: (row, _columnId, filterValue) => {
-      const rowValue = getCompanyName(row.original.company_id);
-      if (Array.isArray(filterValue)) {
-        return filterValue.includes(rowValue);
-      }
-      return rowValue === filterValue;
-    },
+    filterFn: createStandardFilterFn((row) => 
+      getCompanyName(row.original.company_id)
+    ),
   }),
 
   condition: <T extends CommonFields>(): ColumnDef<T> => ({
@@ -147,15 +132,11 @@ export const commonColumns = {
       if (!asset) return;
       return getConditionName(asset.asset_condition_id);
     },
-    filterFn: (row, _columnId, filterValue) => {
+    filterFn: createStandardFilterFn((row) => {
       const asset = getAsset(row.original.asset_id);
-      if (!asset) return false;
-      const rowValue = getConditionName(asset.asset_condition_id);
-      if (Array.isArray(filterValue)) {
-        return filterValue.includes(rowValue);
-      }
-      return rowValue === filterValue;
-    },
+      if (!asset) return null;
+      return getConditionName(asset.asset_condition_id);
+    }),
   }),
 
   sub_category: <T extends CommonFields>(): ColumnDef<T> => ({
@@ -171,15 +152,11 @@ export const commonColumns = {
       if (!asset) return;
       return getSubCategoryName(asset.sub_category_id);
     },
-    filterFn: (row, _columnId, filterValue) => {
+    filterFn: createStandardFilterFn((row) => {
       const asset = getAsset(row.original.asset_id);
-      if (!asset) return false;
-      const rowValue = getSubCategoryName(asset.sub_category_id);
-      if (Array.isArray(filterValue)) {
-        return filterValue.includes(rowValue);
-      }
-      return rowValue === filterValue;
-    },
+      if (!asset) return null;
+      return getSubCategoryName(asset.sub_category_id);
+    }),
   }),
 
   type: <T extends CommonFields>(): ColumnDef<T> => ({
@@ -195,15 +172,11 @@ export const commonColumns = {
       if (!asset?.type_id) return;
       return getTypeName(asset.type_id);
     },
-    filterFn: (row, _columnId, filterValue) => {
+    filterFn: createStandardFilterFn((row) => {
       const asset = getAsset(row.original.asset_id);
-      if (!asset?.type_id) return false;
-      const rowValue = getTypeName(asset.type_id);
-      if (Array.isArray(filterValue)) {
-        return filterValue.includes(rowValue);
-      }
-      return rowValue === filterValue;
-    },
+      if (!asset?.type_id) return null;
+      return getTypeName(asset.type_id);
+    }),
   }),
 
   // Date formatter utility

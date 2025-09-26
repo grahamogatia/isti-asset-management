@@ -2,7 +2,7 @@ import { type ColumnDef } from "@tanstack/react-table";
 import type { Issuance } from "./types";
 import { commonColumns } from "./common_columns";
 import { getStatusName } from "@/lib/lookups";
-import { createHeaderWithIcon } from "@/lib/columnNameUtils";
+import { createHeaderWithIcon, createStandardFilterFn } from "@/lib/columnNameUtils";
 
 export const issuance_columns: ColumnDef<Issuance>[] = [
   // Asset identification first
@@ -21,15 +21,9 @@ export const issuance_columns: ColumnDef<Issuance>[] = [
     cell: ({ row }) => {
       return getStatusName(row.original.status_id);
     },
-    filterFn: (row, _columnId, filterValue) => {
-      const rowValue = getStatusName(row.original.status_id);
-      // If filterValue is an array, check if rowValue is included
-      if (Array.isArray(filterValue)) {
-        return filterValue.includes(rowValue);
-      }
-      // If single value, do exact match
-      return rowValue === filterValue;
-    },
+    filterFn: createStandardFilterFn((row) => 
+      getStatusName(row.original.status_id)
+    ),
   },
   commonColumns.dateColumn<Issuance>("issuance_date", "Issuance Date"),
   commonColumns.dateColumn<Issuance>("pullout_date", "Pullout Date"),
