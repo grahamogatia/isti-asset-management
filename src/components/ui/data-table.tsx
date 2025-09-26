@@ -102,14 +102,11 @@ export function DataTable<TData, TValue>({
 
   useEffect(() => {
     const convertedFilters = appliedFilters.map((filter) => {
-     
       return {
         id: filter.columnName, // No conversion needed!
         value: filter.values,
       };
     });
-
-    console.log("Converted Filters: ", convertedFilters)
     setColumnFilters(convertedFilters);
   }, [appliedFilters]);
 

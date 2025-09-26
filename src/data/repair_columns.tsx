@@ -59,27 +59,16 @@ export const repair_columns: ColumnDef<Repair>[] = [
   commonColumns.actions<Repair>(),
 ];
 
-// export const def_repair_columns = [
-//   "asset_name",
-//   "serial_number",
-//   "issue",
-//   "urgency",
-//   "status",
-//   "date_reported",
-//   "repair_cost",
-//   "employee",
-//   "actions",
-// ];
-
 export const def_repair_columns = [
   "asset_name",
-  "category",
-  "company",
-  "department",
+  "serial_number",
+  "issue",
+  "urgency",
   "status",
-  "sub_category",
-  "type",
-  "urgency"
+  "date_reported",
+  "repair_cost",
+  "employee",
+  "actions",
 ];
 
 export const repair_filters = [
