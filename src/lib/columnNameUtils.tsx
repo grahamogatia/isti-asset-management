@@ -123,3 +123,19 @@ export const formatColumnName = (column: string) => {
       .replace(/_/g, " ") // Replace underscores with spaces
       .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize first letter of each word
   };
+
+export const getActualColumnName = (displayColumnName: string): string => {
+    const columnMapping: Record<string, string> = {
+      category: "category_id",
+      sub_category: "sub_category_id",
+      type: "type_id",
+      condition: "asset_condition_id",
+      department: "department_id",
+      company: "company_id",
+      employee: "user_id",
+      status: "status_id",
+      urgency: "urgency_id",
+      insurance: "insurance_id",
+    };
+    return columnMapping[displayColumnName] || displayColumnName;
+  };

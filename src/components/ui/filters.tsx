@@ -7,9 +7,10 @@ import FilterValueList from "../pages/filters/FilterValueList";
 interface FiltersProps {
   filterableColumns: string[];
   data: any[];
+  onFiltersChange?: (columnName: string, values: string[]) => void;
 }
 
-function Filters({ filterableColumns, data }: FiltersProps) {
+function Filters({ filterableColumns, data, onFiltersChange }: FiltersProps) {
   const [currentScreen, setCurrentScreen] = useState<string>("columns");
   const [selectedColumn, setSelectedColumn] = useState<string>("");
 
@@ -28,6 +29,7 @@ function Filters({ filterableColumns, data }: FiltersProps) {
             data={data}
             selectedColumn={selectedColumn}
             setCurrentScreen={setCurrentScreen}
+            onFiltersChange={onFiltersChange}
           />
         )}
       </PopoverContent>

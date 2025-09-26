@@ -30,9 +30,10 @@ import {
 } from "@/components/ui/table";
 import { Button } from "./button";
 import { Input } from "./input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Filters from "./filters";
-import { getColumnIcon } from "@/lib/columnNameUtils";
+import { getActualColumnName, getColumnIcon } from "@/lib/columnNameUtils";
+import { getIdFromDisplayName } from "@/lib/lookups";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -47,12 +48,10 @@ export function DataTable<TData, TValue>({
   data,
   children,
   defaultVisibleColumns,
-  filterableColumns
+  filterableColumns,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>(() => {
@@ -74,6 +73,46 @@ export function DataTable<TData, TValue>({
 
   const [rowSelection, setRowSelection] = useState({});
   const [globalFilter, setGlobalFilter] = useState("");
+  const [appliedFilters, setAppliedFilters] = useState<
+    { columnName: string; values: string[] }[]
+  >([]);
+
+  const handleFiltersChange = (columnName: string, values: string[]) => {
+    setAppliedFilters((previousFilters) => {
+      const existingFilterIndex = previousFilters.findIndex(
+        (filter) => filter.columnName === columnName
+      );
+
+      if (values.length === 0) {
+        return previousFilters.filter(
+          (filter) => filter.columnName !== columnName
+        );
+      }
+
+      const newFilter = { columnName, values };
+
+      if (existingFilterIndex >= 0) {
+        const updatedFilters = [...previousFilters];
+        updatedFilters[existingFilterIndex] = newFilter;
+        return updatedFilters;
+      } else {
+        return [...previousFilters, newFilter];
+      }
+    });
+  };
+
+  useEffect(() => {
+    const convertedFilters = appliedFilters.map((filter) => {
+     
+      return {
+        id: filter.columnName, // No conversion needed!
+        value: filter.values,
+      };
+    });
+
+    console.log("Converted Filters: ", convertedFilters)
+    setColumnFilters(convertedFilters);
+  }, [appliedFilters]);
 
   const table = useReactTable({
     data,
@@ -102,50 +141,53 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center pt-4 pb-1">
         <div className="space-y-1 w-full">
           <div className="flex justify-between gap-4 w-full">
-          {children}
-          <Input
-            placeholder="Search asset..."
-            value={globalFilter}
-            onChange={(event) => setGlobalFilter(event.target.value)}
-            className="max-w-60 mr-auto"
-          />
-           <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                const displayName = column.id
-                  .replace(/_/g, " ")
-                  .replace(/\b\w/g, (char) => char.toUpperCase());
-                const IconComponent = getColumnIcon(column.id);
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                    onSelect={(event) => {
-                      event.preventDefault();
-                    }}
-                  >
-                    <IconComponent/>
-                    {displayName}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+            {children}
+            <Input
+              placeholder="Search asset..."
+              value={globalFilter}
+              onChange={(event) => setGlobalFilter(event.target.value)}
+              className="max-w-60 mr-auto"
+            />
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="ml-auto">
+                  Columns
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {table
+                  .getAllColumns()
+                  .filter((column) => column.getCanHide())
+                  .map((column) => {
+                    const displayName = column.id
+                      .replace(/_/g, " ")
+                      .replace(/\b\w/g, (char) => char.toUpperCase());
+                    const IconComponent = getColumnIcon(column.id);
+                    return (
+                      <DropdownMenuCheckboxItem
+                        key={column.id}
+                        checked={column.getIsVisible()}
+                        onCheckedChange={(value) =>
+                          column.toggleVisibility(!!value)
+                        }
+                        onSelect={(event) => {
+                          event.preventDefault();
+                        }}
+                      >
+                        <IconComponent />
+                        {displayName}
+                      </DropdownMenuCheckboxItem>
+                    );
+                  })}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
-          <Filters filterableColumns={filterableColumns} data={data}/>
+          <Filters
+            filterableColumns={filterableColumns}
+            data={data}
+            onFiltersChange={handleFiltersChange}
+          />
         </div>
-       
       </div>
       <div className="overflow-hidden rounded-md border">
         <Table>

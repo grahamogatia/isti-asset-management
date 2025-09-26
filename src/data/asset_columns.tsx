@@ -70,14 +70,21 @@ export const asset_columns: ColumnDef<Asset>[] = [
     header: createHeaderWithIcon("brand", "Brand"),
   },
   {
-    accessorKey: "asset_condition",
+    accessorKey: "condition",
     accessorFn: (row) => {
       return getConditionName(row.asset_condition_id);
     },
-    header: createHeaderWithIcon("asset_condition", "Condition"),
+    header: createHeaderWithIcon("condition", "Condition"),
     cell: ({ row }) => {
       const conditionId = row.original.asset_condition_id;
       return getConditionName(conditionId);
+    },
+    filterFn: (row, _columnId, filterValue) => {
+      const rowValue = getConditionName(row.original.asset_condition_id);
+      if (Array.isArray(filterValue)) {
+        return filterValue.includes(rowValue);
+      }
+      return rowValue === filterValue;
     },
   },
   {
@@ -89,6 +96,13 @@ export const asset_columns: ColumnDef<Asset>[] = [
     cell: ({ row }) => {
       const statusId = row.original.status_id;
       return getStatusName(statusId);
+    },
+    filterFn: (row, _columnId, filterValue) => {
+      const rowValue = getStatusName(row.original.status_id);
+      if (Array.isArray(filterValue)) {
+        return filterValue.includes(rowValue);
+      }
+      return rowValue === filterValue;
     },
   },
   {

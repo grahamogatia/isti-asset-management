@@ -121,3 +121,65 @@ export function isLookupColumn(columnName: string): boolean {
   
   return lookupColumns.includes(columnName);
 }
+
+export function getIdFromDisplayName(columnName: string, displayName: string): number | string | null {
+  switch(columnName) {
+    case "condition":
+      for (const [id, condition] of conditionMap) {
+        if (condition.asset_condition_name === displayName) return id;
+      }
+      break;
+    case "status": 
+      for (const [id, statusItem] of statusMap) {
+        if (statusItem.status_name === displayName) return id;
+      }
+      break;
+    case "insurance": 
+      for (const [id, insurance] of insuranceMap) {
+        if (insurance.name === displayName) return id;
+      }
+      break;
+    case "category":
+      for (const [id, category] of categoryMap) {
+        if (category.category_name === displayName) return id;
+      }
+      break;
+    case "department":
+      for (const [id, department] of departmentMap) {
+        if (department.department_name === displayName) return id;
+      }
+      break;
+    case "sub_category":
+      for (const [id, subCategory] of subCategoryMap) {
+        if (subCategory.sub_category_name === displayName) return id;
+      }
+      break;
+    case "type":
+      for (const [id, type] of typeMap) {
+        if (type.type_name === displayName) return id as number;
+      }
+      break;
+    case "urgency":
+      for (const [id, urgencyItem] of urgencyMap) {
+        if (urgencyItem.urgency_name === displayName) return id;
+      }
+      break;
+    case "company":
+      for (const [id, company] of companyMap) {
+        if (company.company_name === displayName) return id;
+      }
+      break;
+    case "employee":
+    case "user_id":
+      for (const [id, employee] of employeeMap) {
+        if (employee.employee_name === displayName) return id;
+      }
+      break;
+
+    default: 
+      return displayName;
+  }
+  
+  // If no match found, return null
+  return null;
+}

@@ -69,6 +69,15 @@ export const commonColumns = {
       if (!assetID) return;
       return getCategoryName(assetID);
     },
+    filterFn: (row, _columnId, filterValue) => {
+      const assetID = getAsset(row.original.asset_id)?.category_id;
+      if (!assetID) return false;
+      const rowValue = getCategoryName(assetID);
+      if (Array.isArray(filterValue)) {
+        return filterValue.includes(rowValue);
+      }
+      return rowValue === filterValue;
+    },
   }),
 
   employee: <T extends CommonFields>(): ColumnDef<T> => ({
@@ -79,6 +88,13 @@ export const commonColumns = {
     header: createHeaderWithIcon("employee", "Employee"),
     cell: ({ row }) => {
       return getEmployeeName(row.original.user_id);
+    },
+    filterFn: (row, _columnId, filterValue) => {
+      const rowValue = getEmployeeName(row.original.user_id);
+      if (Array.isArray(filterValue)) {
+        return filterValue.includes(rowValue);
+      }
+      return rowValue === filterValue;
     },
   }),
 
@@ -91,6 +107,13 @@ export const commonColumns = {
     cell: ({ row }) => {
       return getDepartmentName(row.original.department_id);
     },
+    filterFn: (row, _columnId, filterValue) => {
+      const rowValue = getDepartmentName(row.original.department_id);
+      if (Array.isArray(filterValue)) {
+        return filterValue.includes(rowValue);
+      }
+      return rowValue === filterValue;
+    },
   }),
 
   company: <T extends CommonFields>(): ColumnDef<T> => ({
@@ -101,6 +124,13 @@ export const commonColumns = {
     header: createHeaderWithIcon("company", "Company"),
     cell: ({ row }) => {
       return getCompanyName(row.original.company_id);
+    },
+    filterFn: (row, _columnId, filterValue) => {
+      const rowValue = getCompanyName(row.original.company_id);
+      if (Array.isArray(filterValue)) {
+        return filterValue.includes(rowValue);
+      }
+      return rowValue === filterValue;
     },
   }),
 
@@ -117,6 +147,15 @@ export const commonColumns = {
       if (!asset) return;
       return getConditionName(asset.asset_condition_id);
     },
+    filterFn: (row, _columnId, filterValue) => {
+      const asset = getAsset(row.original.asset_id);
+      if (!asset) return false;
+      const rowValue = getConditionName(asset.asset_condition_id);
+      if (Array.isArray(filterValue)) {
+        return filterValue.includes(rowValue);
+      }
+      return rowValue === filterValue;
+    },
   }),
 
   sub_category: <T extends CommonFields>(): ColumnDef<T> => ({
@@ -132,6 +171,15 @@ export const commonColumns = {
       if (!asset) return;
       return getSubCategoryName(asset.sub_category_id);
     },
+    filterFn: (row, _columnId, filterValue) => {
+      const asset = getAsset(row.original.asset_id);
+      if (!asset) return false;
+      const rowValue = getSubCategoryName(asset.sub_category_id);
+      if (Array.isArray(filterValue)) {
+        return filterValue.includes(rowValue);
+      }
+      return rowValue === filterValue;
+    },
   }),
 
   type: <T extends CommonFields>(): ColumnDef<T> => ({
@@ -146,6 +194,15 @@ export const commonColumns = {
       const asset = getAsset(row.original.asset_id);
       if (!asset?.type_id) return;
       return getTypeName(asset.type_id);
+    },
+    filterFn: (row, _columnId, filterValue) => {
+      const asset = getAsset(row.original.asset_id);
+      if (!asset?.type_id) return false;
+      const rowValue = getTypeName(asset.type_id);
+      if (Array.isArray(filterValue)) {
+        return filterValue.includes(rowValue);
+      }
+      return rowValue === filterValue;
     },
   }),
 

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { formatColumnName, getColumnIcon } from "@/lib/columnNameUtils";
+import { formatColumnName, getActualColumnName, getColumnIcon } from "@/lib/columnNameUtils";
 import { getDisplayNameForColumn } from "@/lib/lookups";
 import { ArrowLeft, Plus, X } from "lucide-react";
 import { useState } from "react";
@@ -9,32 +9,18 @@ interface FilterValueListProps {
   data: any[];
   selectedColumn: string;
   setCurrentScreen: (type: string) => void;
+  onFiltersChange?: (columnName: string, values: string[]) => void;
 }
 
 function FilterValueList({
   data,
   selectedColumn,
   setCurrentScreen,
+  onFiltersChange,
 }: FilterValueListProps) {
-
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
-
-  const getActualColumnName = (displayColumnName: string): string => {
-    const columnMapping: Record<string, string> = {
-      category: "category_id",
-      sub_category: "sub_category_id",
-      type: "type_id",
-      condition: "asset_condition_id",
-      department: "department_id",
-      company: "company_id",
-      employee: "user_id",
-      status: "status_id",
-      urgency: "urgency_id",
-      insurance: "insurance_id",
-    };
-    return columnMapping[displayColumnName] || displayColumnName;
-  };
+  
 
   const getUniqueValues = (columnName: string) => {
     if (!data || data.length === 0) return;
@@ -58,58 +44,83 @@ function FilterValueList({
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between opacity-60">
         <p className="flex items-center gap-1">
-            {(() => {
+          {(() => {
             const IconComponent = getColumnIcon(selectedColumn);
             return <IconComponent className="h-4 w-4" />;
-            })()}
-            {formatColumnName(selectedColumn)}{" "}
-            <span className="font-semibold">is</span>
+          })()}
+          {formatColumnName(selectedColumn)}{" "}
+          <span className="font-semibold">is</span>
         </p>
-        <Button size="sm" variant="ghost" onClick={() => {
-            setCurrentScreen("columns")
-            setSelectedFilters([])
-            }}>
-          <ArrowLeft className="h-4 w-4"/>
+        <Button
+          size="sm"
+          variant="ghost"
+          onClick={() => {
+            setCurrentScreen("columns");
+            setSelectedFilters([]);
+          }}
+        >
+          <ArrowLeft className="h-4 w-4" />
         </Button>
       </div>
       <div className="max-h-48 overflow-y-auto space-y-1">
         {getUniqueValues(selectedColumn)?.map((value, index) => {
-        return (
-          <div
-            key={index}
-            className="flex items-center space-x-3 py-1.5 px-2 hover:bg-gray-50 rounded-md cursor-pointer group transition-colors duration-150"
-          >
-            <input
-              type="checkbox"
-              id={`filter-${selectedColumn}-${index}`}
-              checked={selectedFilters.includes(value)}
-              className="h-4 w-4 rounded-sm border border-gray-300 text-blue-600 focus:ring-blue-500 focus:ring-2 focus:ring-offset-0 transition-all duration-150"
-              onChange={(e) => {
-                if (e.target.checked) {
-                  // Add to selected filters (avoid duplicates)
-                  setSelectedFilters((prev) =>
-                    prev.includes(value) ? prev : [...prev, value]
-                  );
-                } else {
-                  // Remove from selected filters
-                  setSelectedFilters((prev) =>
-                    prev.filter((item) => item !== value)
-                  );
-                }
-                console.log("Selected filters:", selectedFilters);
-              }}
-            />
-            <Label
-              htmlFor={`filter-${selectedColumn}-${index}`}
-              className="text-sm text-gray-700 cursor-pointer select-none flex-1 group-hover:text-gray-900 transition-colors duration-150"
+          return (
+            <div
+              key={index}
+              className="flex items-center space-x-3 py-1.5 px-2 hover:bg-gray-50 rounded-md cursor-pointer group transition-colors duration-150"
             >
-              {value}
-            </Label>
-          </div>
-        );
-      })}
+              <input
+                type="checkbox"
+                id={`filter-${selectedColumn}-${index}`}
+                checked={selectedFilters.includes(value)}
+                className="h-4 w-4 rounded-sm border border-gray-300 text-blue-600 focus:ring-blue-500 focus:ring-2 focus:ring-offset-0 transition-all duration-150"
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    // Add to selected filters (avoid duplicates)
+                    setSelectedFilters((prev) =>
+                      prev.includes(value) ? prev : [...prev, value]
+                    );
+                  } else {
+                    // Remove from selected filters
+                    setSelectedFilters((prev) =>
+                      prev.filter((item) => item !== value)
+                    );
+                  }
+                }}
+              />
+              <Label
+                htmlFor={`filter-${selectedColumn}-${index}`}
+                className="text-sm text-gray-700 cursor-pointer select-none flex-1 group-hover:text-gray-900 transition-colors duration-150"
+              >
+                {value}
+              </Label>
+            </div>
+          );
+        })}
       </div>
-      <Button onClick={() => setCurrentScreen("columns")}><Plus />Create Filter</Button>
+      <Button
+        onClick={() => {
+          if (onFiltersChange) {
+            onFiltersChange(selectedColumn, selectedFilters);
+          }
+          setSelectedFilters([]);
+          setCurrentScreen("columns");
+        }}
+        disabled={selectedFilters.length === 0}
+        variant={selectedFilters.length === 0 ? "outline" : "default"}
+      >
+        {selectedFilters.length === 0
+          ? "Select filters"
+          : (
+              <>
+                <Plus />
+                {`Apply ${selectedFilters.length} filter${
+                  selectedFilters.length === 1 ? "" : "s"
+                }`}
+              </>
+            )
+        }
+      </Button>
     </div>
   );
 }
