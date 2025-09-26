@@ -2,7 +2,7 @@ import { type ColumnDef } from "@tanstack/react-table";
 import type { Repair } from "./types";
 import { commonColumns } from "./common_columns";
 import { getStatusName } from "@/lib/lookups";
-import { AlertTriangle, Wrench, Hash } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 import { createHeaderWithIcon } from "@/lib/header_format";
 
 export const repair_columns: ColumnDef<Repair>[] = [
