@@ -143,7 +143,7 @@ export function DataTable<TData, TValue>({
           </DropdownMenuContent>
         </DropdownMenu>
           </div>
-          <Filters filterableColumns={filterableColumns}/>
+          <Filters filterableColumns={filterableColumns} data={data}/>
         </div>
        
       </div>

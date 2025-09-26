@@ -27,7 +27,7 @@ const companyMap = new Map(company_id.map(c => [c.company_id, c]));
 const urgencyMap = new Map(urgency.map(u => [u.urgency_id, u]));
 
 
-// Export lookup functions
+// Export lookup functions (ID → Name)
 export function getCategoryName(id: number): string {
   return categoryMap.get(id)?.category_name ?? "Unknown Category";
 }
@@ -78,4 +78,46 @@ export function getUrgencyName(urgency_id: number): string {
 
 export function getUrgency(urgency_id: number) {
   return urgencyMap.get(urgency_id);
+}
+
+export function getDisplayNameForColumn(columnName: string, id: number | string): string {
+  const lookupFunctions: Record<string, (id: any) => string> = {
+    'category_id': getCategoryName,
+    'sub_category_id': getSubCategoryName,
+    'type_id': getTypeName,
+    'asset_condition_id': getConditionName,
+    'insurance_id': getInsuranceName,
+    'status_id': getStatusName,
+    'user_id': getEmployeeName,
+    'employee_id': getEmployeeName,
+    'department_id': getDepartmentName,
+    'company_id': getCompanyName,
+    'urgency_id': getUrgencyName,
+  };
+
+  const lookupFunction = lookupFunctions[columnName];
+  if (lookupFunction) {
+    return lookupFunction(id);
+  }
+  
+  // For non-ID columns, just return the value as string
+  return String(id);
+}
+
+export function isLookupColumn(columnName: string): boolean {
+  const lookupColumns = [
+    'category_id',
+    'sub_category_id', 
+    'type_id',
+    'asset_condition_id',
+    'insurance_id',
+    'status_id',
+    'user_id',
+    'employee_id',
+    'department_id',
+    'company_id',
+    'urgency_id'
+  ];
+  
+  return lookupColumns.includes(columnName);
 }
