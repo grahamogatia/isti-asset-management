@@ -5,6 +5,7 @@ import { useState } from "react";
 import { getColumnIcon } from "@/lib/header_format";
 import { Plus, Search } from "lucide-react";
 import { getDisplayNameForColumn } from "@/lib/lookups";
+import { Label } from "./label";
 
 function Filters({
   filterableColumns,
@@ -16,6 +17,7 @@ function Filters({
   const [searchTerm, setSearchTerm] = useState("");
   const [currentScreen, setCurrentScreen] = useState<string>("columns");
   const [selectedColumn, setSelectedColumn] = useState<string>("");
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
   const filteredColumns = filterableColumns.filter((column) =>
     column.toLowerCase().includes(searchTerm.toLowerCase())
@@ -38,6 +40,7 @@ function Filters({
       employee: "user_id",
       status: "status_id",
       urgency: "urgency_id",
+      insurance: "insurance_id",
     };
     return columnMapping[displayColumnName] || displayColumnName;
   };
@@ -53,7 +56,7 @@ function Filters({
       .map((row) => row[actualColumnName])
       .filter((value) => value != null)
       .filter((value, index, self) => self.indexOf(value) === index)
-      .sort((a, b) => a - b); 
+      .sort((a, b) => a - b);
 
     // Return to presentable names
     const valuesName = valuesID.map((id) =>
@@ -107,7 +110,49 @@ function Filters({
           </div>
         ) : (
           <div>
-            <p>Filtering by: {formatColumnName(selectedColumn)}</p>
+            <p className="flex items-center gap-2 mb-3 opacity-60">
+              {(() => {
+                const IconComponent = getColumnIcon(selectedColumn);
+                return <IconComponent className="h-4 w-4" />;
+              })()}
+              {formatColumnName(selectedColumn)}{" "}
+              <span className="font-semibold">is</span>
+            </p>
+            {getUniqueValues(selectedColumn)?.map((value, index) => {
+              return (
+                <div
+                  key={index}
+                  className="flex items-center space-x-3 py-1.5 px-2 hover:bg-gray-50 rounded-md cursor-pointer group transition-colors duration-150"
+                >
+                  <input
+                    type="checkbox"
+                    id={`filter-${selectedColumn}-${index}`}
+                    checked={selectedFilters.includes(value)}
+                    className="h-4 w-4 rounded-sm border border-gray-300 text-blue-600 focus:ring-blue-500 focus:ring-2 focus:ring-offset-0 transition-all duration-150"
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        // Add to selected filters (avoid duplicates)
+                        setSelectedFilters(prev => 
+                          prev.includes(value) ? prev : [...prev, value]
+                        );
+                      } else {
+                        // Remove from selected filters
+                        setSelectedFilters(prev => 
+                          prev.filter(item => item !== value)
+                        );
+                      }
+                      console.log("Selected filters:", selectedFilters);
+                    }}
+                  />
+                  <Label
+                    htmlFor={`filter-${selectedColumn}-${index}`}
+                    className="text-sm text-gray-700 cursor-pointer select-none flex-1 group-hover:text-gray-900 transition-colors duration-150"
+                  >
+                    {value}
+                  </Label>
+                </div>
+              );
+            })}
             <Button onClick={() => setCurrentScreen("columns")}>Back</Button>
           </div>
         )}
