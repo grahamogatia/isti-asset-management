@@ -32,6 +32,7 @@ import { Button } from "./button";
 import { Input } from "./input";
 import { useState } from "react";
 import Filters from "./filters";
+import { getColumnIcon } from "@/lib/header_format";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -122,7 +123,7 @@ export function DataTable<TData, TValue>({
                 const displayName = column.id
                   .replace(/_/g, " ")
                   .replace(/\b\w/g, (char) => char.toUpperCase());
-
+                const IconComponent = getColumnIcon(column.id);
                 return (
                   <DropdownMenuCheckboxItem
                     key={column.id}
@@ -134,6 +135,7 @@ export function DataTable<TData, TValue>({
                       event.preventDefault();
                     }}
                   >
+                    <IconComponent/>
                     {displayName}
                   </DropdownMenuCheckboxItem>
                 );

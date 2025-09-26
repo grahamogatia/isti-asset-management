@@ -2,7 +2,7 @@ import { type ColumnDef } from "@tanstack/react-table";
 import type { Borrow } from "./types";
 import { differenceInDays } from "date-fns";
 import { commonColumns } from "./common_columns";
-import { Hash, Clock } from "lucide-react";
+import { Clock } from "lucide-react";
 
 export const borrow_columns: ColumnDef<Borrow>[] = [
   // Asset identification first
@@ -11,17 +11,7 @@ export const borrow_columns: ColumnDef<Borrow>[] = [
   commonColumns.category<Borrow>(),
   commonColumns.sub_category<Borrow>(),
   commonColumns.type<Borrow>(),
-  
-  // Transaction details
-  {
-    accessorKey: "borrow_transaction_id",
-    header: () => (
-      <div className="flex items-center gap-2">
-        <Hash className="h-4 w-4" />
-        Transaction ID
-      </div>
-    ),
-  },
+  commonColumns.simpleColumn("borrow_transaction_id", "Borrow Transaction ID"),
   commonColumns.dateColumn<Borrow>("date_borrowed", "Date Borrowed"),
   commonColumns.dateColumn<Borrow>("due_date", "Due Date"),
   commonColumns.dateColumn<Borrow>("return_date", "Return Date"),
@@ -38,28 +28,18 @@ export const borrow_columns: ColumnDef<Borrow>[] = [
       return result <= 0 ? "Overdue" : result + " days remaining";
     },
   },
-  
-  // People & organization
   commonColumns.employee<Borrow>(),
   commonColumns.department<Borrow>(),
   commonColumns.company<Borrow>(),
-  
-  // Additional info
   commonColumns.condition<Borrow>(),
-  {
-    accessorKey: "remarks",
-    header: "Remarks",
-  },
-  
-  // Actions last
+  commonColumns.simpleColumn("remarks", "Remarks"),
   commonColumns.actions<Borrow>(),
 ];
 
 export const def_borrow_columns = [
   "asset_name",
   "serial_number",
-  "status",
-  "borrow_date",
+  "date_borrowed",
   "return_date",
   "employee",
   "department",
@@ -72,5 +52,5 @@ export const borrow_filters = [
   "department",
   "status",
   "sub_category",
-  "type"
-]
+  "type",
+];

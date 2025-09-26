@@ -3,26 +3,7 @@ import { differenceInMonths, format } from "date-fns";
 import type { Asset } from "./types";
 import { Button } from "@/components/ui/button";
 import { 
-  ArrowUpDown, 
-  MoreHorizontal,
-  Hash,
-  Package,
-  Tag,
-  Layers,
-  FileText,
-  Cpu,
-  Award,
-  CheckCircle,
-  AlertTriangle,
-  DollarSign,
-  Clock,
-  Calendar,
-  TrendingDown,
-  FileImage,
-  Shield,
-  MapPin,
-  ScrollText,
-  PhilippinePeso
+  MoreHorizontal
 } from "lucide-react";
 import {
   getCategoryName,
@@ -32,6 +13,7 @@ import {
   getStatusName,
   getInsuranceName,
 } from "@/lib/lookups";
+import { createHeaderWithIcon, createSortableHeaderWithIcon } from "@/lib/header_format";
 
 import {
   DropdownMenu,
@@ -45,122 +27,65 @@ import {
 export const asset_columns: ColumnDef<Asset>[] = [
   {
     accessorKey: "asset_id",
-    header: () => (
-      <div className="flex items-center gap-2">
-        <Hash className="h-4 w-4" />
-        Asset ID
-      </div>
-    ),
+    header: createHeaderWithIcon("asset_id", "Asset ID")
   },
   {
     accessorKey: "asset_name",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="flex items-center gap-2"
-        >
-          <Package className="h-4 w-4" />
-          Asset Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: createSortableHeaderWithIcon("asset_name", "Asset Name"),
   },
   {
-    accessorKey: "category_id",
-    header: () => (
-      <div className="flex items-center gap-2">
-        <Layers className="h-4 w-4" />
-        Category
-      </div>
-    ),
+    accessorKey: "category",
+    header: createHeaderWithIcon("catgory", "Category"),
     cell: ({ row }) => {
       const categoryId = row.original.category_id;
       return getCategoryName(categoryId);
     },
   },
   {
-    accessorKey: "sub_category_id",
-    header: () => (
-      <div className="flex items-center gap-2">
-        <Tag className="h-4 w-4" />
-        Sub Category
-      </div>
-    ),
+    accessorKey: "sub_category",
+    header: createHeaderWithIcon("sub_category", "Sub Category"),
     cell: ({ row }) => {
       const subCategoryId = row.original.sub_category_id;
       return getSubCategoryName(subCategoryId);
     },
   },
   {
-    accessorKey: "type_id",
-    header: () => (
-      <div className="flex items-center gap-2">
-        <Package className="h-4 w-4" />
-        Type
-      </div>
-    ),
+    accessorKey: "type",
+    header: createHeaderWithIcon("type", "Type"),
     cell: ({ row }) => {
       const typeId = row.original.type_id;
       return typeId ? getTypeName(typeId) : "-";
     },
   },
   {
-    accessorKey: "file",
-    header: () => (
-      <div className="flex items-center gap-2">
-        <FileImage className="h-4 w-4" />
-        File
-      </div>
-    ),
+    accessorKey: "serial_number",
+    header: createHeaderWithIcon("serial_number", "Serial Number"),
   },
   {
-    accessorKey: "serial_number",
-    header: () => (
-      <div className="flex items-center gap-2">
-        <Hash className="h-4 w-4" />
-        Serial Number
-      </div>
-    ),
+    accessorKey: "file",
+    header: createHeaderWithIcon("file", "File"),
   },
   {
     accessorKey: "brand",
-    header: () => (
-      <div className="flex items-center gap-2">
-        <Award className="h-4 w-4" />
-        Brand
-      </div>
-    ),
+    header: createHeaderWithIcon("brand", "Brand"),
   },
   {
-    accessorKey: "asset_condition_id",
+    accessorKey: "asset_condition",
     accessorFn: (row) => {
       return getConditionName(row.asset_condition_id);
     },
-    header: () => (
-      <div className="flex items-center gap-2">
-        <CheckCircle className="h-4 w-4" />
-        Condition
-      </div>
-    ),
+    header: createHeaderWithIcon("asset_condition", "Condition"),
     cell: ({ row }) => {
       const conditionId = row.original.asset_condition_id;
       return getConditionName(conditionId);
     },
   },
   {
-    accessorKey: "status_id",
+    accessorKey: "status",
     accessorFn: (row) => {
       return getStatusName(row.status_id);
     },
-    header: () => (
-      <div className="flex items-center gap-2">
-        <AlertTriangle className="h-4 w-4" />
-        Status
-      </div>
-    ),
+    header: createHeaderWithIcon("status", "Status"),
     cell: ({ row }) => {
       const statusId = row.original.status_id;
       return getStatusName(statusId);
@@ -168,21 +93,11 @@ export const asset_columns: ColumnDef<Asset>[] = [
   },
   {
     accessorKey: "specifications",
-    header: () => (
-      <div className="flex items-center gap-2">
-        <Cpu className="h-4 w-4" />
-        Specifications
-      </div>
-    ),
+    header: createHeaderWithIcon("specifications", "Specifications"),
   },
   {
     accessorKey: "asset_amount",
-    header: () => (
-      <div className="flex items-center gap-2">
-        <PhilippinePeso className="h-4 w-4" />
-        Amount
-      </div>
-    ),
+    header: createHeaderWithIcon("asset_amount", "Amount"),
     cell: ({ row }) => {
       const value = row.original.asset_amount;
       return new Intl.NumberFormat("en-PH", {
@@ -193,12 +108,7 @@ export const asset_columns: ColumnDef<Asset>[] = [
   },
   {
     accessorKey: "warranty_duration",
-    header: () => (
-      <div className="flex items-center gap-2">
-        <Clock className="h-4 w-4" />
-        Warranty Remaining
-      </div>
-    ),
+    header: createHeaderWithIcon("warranty_duration", "Warranty Remaining"),
     cell: ({ row }) => {
       const result = differenceInMonths(
         row.original.warranty_due_date,
@@ -209,36 +119,21 @@ export const asset_columns: ColumnDef<Asset>[] = [
   },
   {
     accessorKey: "warranty_due_date",
-    header: () => (
-      <div className="flex items-center gap-2">
-        <Calendar className="h-4 w-4" />
-        Warranty Due Date
-      </div>
-    ),
+    header: createHeaderWithIcon("warranty_due_date", "Warranty Due Date"),
     cell: ({ row }) => {
       return format(new Date(row.original.warranty_due_date), "PP");
     },
   },
   {
     accessorKey: "purchase_date",
-    header: () => (
-      <div className="flex items-center gap-2">
-        <Calendar className="h-4 w-4" />
-        Purchase Date
-      </div>
-    ),
+    header: createHeaderWithIcon("purchase_date", "Purchase Date"),
     cell: ({ row }) => {
       return format(new Date(row.original.purchase_date), "PP");
     },
   },
   {
     id: "aging",
-    header: () => (
-      <div className="flex items-center gap-2">
-        <Clock className="h-4 w-4" />
-        Age
-      </div>
-    ),
+    header: createHeaderWithIcon("aging", "Age"),
     cell: ({ row }) => {
       const purchaseDate = row.original.purchase_date;
       if (!purchaseDate) return "-";
@@ -248,12 +143,7 @@ export const asset_columns: ColumnDef<Asset>[] = [
   },
   {
     id: "asset_value",
-    header: () => (
-      <div className="flex items-center gap-2">
-        <TrendingDown className="h-4 w-4" />
-        Asset Value
-      </div>
-    ),
+    header: createHeaderWithIcon("asset_value", "Asset Value"),
     cell: ({ row }) => {
       const LAPTOP_SAMPLE_DEPRECIATION = 60; //60 months === depriciated
       const purchaseDate = row.original.purchase_date;
@@ -275,25 +165,15 @@ export const asset_columns: ColumnDef<Asset>[] = [
   },
   {
     accessorKey: "notes",
-    header: () => (
-      <div className="flex items-center gap-2">
-        <ScrollText className="h-4 w-4" />
-        Notes
-      </div>
-    ),
+    header: createHeaderWithIcon("notes", "Notes"),
   },
   {
-    accessorKey: "insurance_id",
+    accessorKey: "insurance",
     accessorFn: (row) => { 
       if (!row.insurance_id) return;
       return getInsuranceName(row.insurance_id)
     },
-    header: () => (
-      <div className="flex items-center gap-2">
-        <Shield className="h-4 w-4" />
-        Insurance
-      </div>
-    ),
+    header: createHeaderWithIcon("insurance", "Insurance"),
     cell: ({ row }) => {
       if (!row.original.insurance_id) return;
       return getInsuranceName(row.original.insurance_id);
@@ -301,12 +181,7 @@ export const asset_columns: ColumnDef<Asset>[] = [
   },
   {
     accessorKey: "location",
-    header: () => (
-      <div className="flex items-center gap-2">
-        <MapPin className="h-4 w-4" />
-        Location
-      </div>
-    ),
+    header: createHeaderWithIcon("location", "Location"),
   },
   {
     id: "actions",
@@ -335,11 +210,11 @@ export const asset_columns: ColumnDef<Asset>[] = [
 
 export const def_asset_columns = [
   "asset_name",
-  "file",
   "serial_number",
+  "file",
   "brand",
-  "asset_condition_id",
-  "status_id",
+  "asset_condition",
+  "status",
   "actions",
 ];
 
@@ -348,6 +223,6 @@ export const asset_filters = [
   "status",
   "asset_amount",
   "purchase_date",
-  "insurance_id",
+  "insurance",
   "location"
 ]

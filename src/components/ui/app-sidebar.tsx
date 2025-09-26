@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import un_logo from "@/assets/un_logo.png";
 import { cn } from "@/lib/utils";
+import { useLocation } from "react-router-dom";
 
 const items = [
   {
@@ -47,17 +48,41 @@ const items = [
   },
 ];
 
-export function AppSidebar() { 
+export function AppSidebar() {
+  const { state } = useSidebar();
+  const location = useLocation();
 
-    const {state} = useSidebar();
+  // Function to check if the current item is active
+  const isActiveItem = (itemUrl: string) => {
+    if (itemUrl === "/") {
+      return location.pathname === "/";
+    }
+    return location.pathname.includes(itemUrl);
+  };
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarContent className={cn(state==="collapsed"? "": "p-2")}>
+      <SidebarContent className={cn(state === "collapsed" ? "" : "p-2")}>
         <SidebarHeader>
-          <div className={cn(state === "collapsed" ? "pt-4.5": "px-2.5", "flex items-center gap-3 transition-all")}>
-            <img src={un_logo} className={cn(state === "collapsed" ? "w-8" : "w-14", "h-auto transition-all")}/>
-            <h1 className={cn(state==="collapsed" ? "hidden" : "text-left font-semibold", "leading-tight")}>
+          <div
+            className={cn(
+              state === "collapsed" ? "pt-4.5" : "px-2.5",
+              "flex items-center gap-3 transition-all"
+            )}
+          >
+            <img
+              src={un_logo}
+              className={cn(
+                state === "collapsed" ? "w-8" : "w-14",
+                "h-auto transition-all"
+              )}
+            />
+            <h1
+              className={cn(
+                state === "collapsed" ? "hidden" : "text-left font-semibold",
+                "leading-tight"
+              )}
+            >
               ISTI Asset
               <br />
               Management
@@ -69,7 +94,7 @@ export function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild isActive={isActiveItem(item.url)}>
                     <a href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>

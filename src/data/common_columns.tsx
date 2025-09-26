@@ -8,21 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuItem,
 } from "@radix-ui/react-dropdown-menu";
-import { 
-  MoreHorizontal, 
-  Package,
-  User,
-  Building2,
-  Building,
-  Calendar,
-  DollarSign,
-  ArrowUpDown,
-  Hash,
-  Wrench,
-  AlertCircle,
-  Clock,
-  PhilippinePeso
-} from "lucide-react";
+import { MoreHorizontal, Hash } from "lucide-react";
 import {
   getAsset,
   getCategoryName,
@@ -30,11 +16,14 @@ import {
   getConditionName,
   getDepartmentName,
   getEmployeeName,
-  getStatusName,
   getSubCategoryName,
   getTypeName,
 } from "@/lib/lookups";
 import { format } from "date-fns";
+import {
+  createHeaderWithIcon,
+  createSortableHeaderWithIcon,
+} from "@/lib/header_format";
 
 // Generic type that covers common fields across Borrow, Repair, and Issuance
 type CommonFields = {
@@ -44,24 +33,13 @@ type CommonFields = {
   company_id: number;
 };
 
-// Reusable column definitions
 export const commonColumns = {
   asset_name: <T extends CommonFields>(): ColumnDef<T> => ({
     id: "asset_name",
     accessorFn: (row) => {
       return getAsset(row.asset_id)?.asset_name;
     },
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="flex items-center gap-2"
-      >
-        <Package className="h-4 w-4" />
-        Asset Name
-        <ArrowUpDown className="ml-2 h-4 w-4" />
-      </Button>
-    ),
+    header: createSortableHeaderWithIcon("asset_name", "Asset Name"),
     cell: ({ row }) => {
       return getAsset(row.original.asset_id)?.asset_name;
     },
@@ -72,12 +50,7 @@ export const commonColumns = {
     accessorFn: (row) => {
       return getAsset(row.asset_id)?.serial_number;
     },
-    header: () => (
-      <div className="flex items-center gap-2">
-        <Hash className="h-4 w-4" />
-        Serial Number
-      </div>
-    ),
+    header: createHeaderWithIcon("serial_number", "Serial Number"),
     cell: ({ row }) => {
       return getAsset(row.original.asset_id)?.serial_number;
     },
@@ -90,12 +63,7 @@ export const commonColumns = {
       if (!assetID) return;
       return getCategoryName(assetID);
     },
-    header: () => (
-      <div className="flex items-center gap-2">
-        <Package className="h-4 w-4" />
-        Category
-      </div>
-    ),
+    header: createHeaderWithIcon("category", "Category"),
     cell: ({ row }) => {
       const assetID = getAsset(row.original.asset_id)?.category_id;
       if (!assetID) return;
@@ -108,12 +76,7 @@ export const commonColumns = {
     accessorFn: (row) => {
       return getEmployeeName(row.user_id);
     },
-    header: () => (
-      <div className="flex items-center gap-2">
-        <User className="h-4 w-4" />
-        Employee
-      </div>
-    ),
+    header: createHeaderWithIcon("employee", "Employee"),
     cell: ({ row }) => {
       return getEmployeeName(row.original.user_id);
     },
@@ -124,12 +87,7 @@ export const commonColumns = {
     accessorFn: (row) => {
       return getDepartmentName(row.department_id);
     },
-    header: () => (
-      <div className="flex items-center gap-2">
-        <Building2 className="h-4 w-4" />
-        Department
-      </div>
-    ),
+    header: createHeaderWithIcon("department", "Department"),
     cell: ({ row }) => {
       return getDepartmentName(row.original.department_id);
     },
@@ -140,12 +98,7 @@ export const commonColumns = {
     accessorFn: (row) => {
       return getCompanyName(row.company_id);
     },
-    header: () => (
-      <div className="flex items-center gap-2">
-        <Building className="h-4 w-4" />
-        Company
-      </div>
-    ),
+    header: createHeaderWithIcon("company", "Company"),
     cell: ({ row }) => {
       return getCompanyName(row.original.company_id);
     },
@@ -158,12 +111,7 @@ export const commonColumns = {
       if (!asset) return;
       return getConditionName(asset.asset_condition_id);
     },
-    header: () => (
-      <div className="flex items-center gap-2">
-        <Wrench className="h-4 w-4" />
-        Condition
-      </div>
-    ),
+    header: createHeaderWithIcon("condition", "Condition"),
     cell: ({ row }) => {
       const asset = getAsset(row.original.asset_id);
       if (!asset) return;
@@ -178,12 +126,7 @@ export const commonColumns = {
       if (!asset) return;
       return getSubCategoryName(asset.sub_category_id);
     },
-    header: () => (
-      <div className="flex items-center gap-2">
-        <Package className="h-4 w-4" />
-        Sub Category
-      </div>
-    ),
+    header: createHeaderWithIcon("sub_category", "Sub Category"),
     cell: ({ row }) => {
       const asset = getAsset(row.original.asset_id);
       if (!asset) return;
@@ -198,12 +141,7 @@ export const commonColumns = {
       if (!asset?.type_id) return;
       return getTypeName(asset.type_id);
     },
-    header: () => (
-      <div className="flex items-center gap-2">
-        <Package className="h-4 w-4" />
-        Type
-      </div>
-    ),
+    header: createHeaderWithIcon("type", "Type"),
     cell: ({ row }) => {
       const asset = getAsset(row.original.asset_id);
       if (!asset?.type_id) return;
@@ -217,12 +155,7 @@ export const commonColumns = {
     header: string
   ): ColumnDef<T> => ({
     accessorKey: accessorKey as string,
-    header: () => (
-      <div className="flex items-center gap-2">
-        <Calendar className="h-4 w-4" />
-        {header}
-      </div>
-    ),
+    header: createHeaderWithIcon(accessorKey as string, header),
     cell: ({ row }) => {
       const date = row.original[accessorKey];
       if (!date || date === "") return "---";
@@ -235,12 +168,7 @@ export const commonColumns = {
     header: string
   ): ColumnDef<T> => ({
     accessorKey: accessorKey as string,
-    header: () => (
-      <div className="flex items-center gap-2">
-        <PhilippinePeso className="h-4 w-4" />
-        {header}
-      </div>
-    ),
+    header: createHeaderWithIcon(accessorKey as string, header),
     cell: ({ row }) => {
       const value = row.original[accessorKey];
       return new Intl.NumberFormat("en-PH", {
