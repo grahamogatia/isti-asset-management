@@ -17,7 +17,7 @@ function Header() {
   };
 
   return (
-    <div className="flex h-18 items-center top-0 sticky bg-white border ">
+    <div className="flex h-16 items-center top-0 sticky bg-white  z-50">
       <SidebarTrigger />
       <p className="font-semibold text-lg ml-4">{getPageTitle()}</p>
     </div>

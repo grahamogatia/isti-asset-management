@@ -99,9 +99,8 @@ function AssetSubCategoryTab({ category }: { category: Asset_Category }) {
   }, [category.category_name]);
 
   return (
-    <Tabs value={subCategory} onValueChange={setSubCategory} className="gap-0">
-      <div className="border rounded-2xl py-3.5 p-5">
-        <TabsList className="max-w-full gap-2 overflow-x-auto">
+    <Tabs value={subCategory} onValueChange={setSubCategory} className="gap-0 px-5 pl-5">
+        <TabsList className="gap-2 overflow-x-auto max-w-full">
           {subCats.map((sub) => (
             <TabsTrigger
               key={sub.sub_category_id}
@@ -112,6 +111,7 @@ function AssetSubCategoryTab({ category }: { category: Asset_Category }) {
             </TabsTrigger>
           ))}
         </TabsList>
+        <div className="border rounded-2xl py-3.5 p-5 mt-3.5">
         {subCats.map((sub) => (
           <TabsContent key={sub.sub_category_id} value={sub.sub_category_name}>
             <DataTable

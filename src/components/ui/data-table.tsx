@@ -161,7 +161,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center pt-4 pb-1">
+      <div className="flex items-center pb-1">
         <div className="space-y-1 w-full">
           <div className="flex justify-between gap-4 w-full">
             {children}
