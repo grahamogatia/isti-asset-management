@@ -19,9 +19,6 @@ function FilterValueList({
   onFiltersChange,
 }: FilterValueListProps) {
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
-
-  
-
   const getUniqueValues = (columnName: string) => {
     if (!data || data.length === 0) return;
 
