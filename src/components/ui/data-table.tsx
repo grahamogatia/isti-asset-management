@@ -32,7 +32,9 @@ import { Button } from "./button";
 import { Input } from "./input";
 import { useState, useEffect } from "react";
 import Filters from "./filters";
-import { getColumnIcon } from "@/lib/columnNameUtils";
+import FilterBar from "../pages/filters/FilterBar";
+import { formatColumnName, getColumnIcon } from "@/lib/columnNameUtils";
+import type { ActiveFilter } from "@/data/types";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -87,7 +89,6 @@ export function DataTable<TData, TValue>({
           (filter) => filter.columnName !== columnName
         );
       }
-
       const newFilter = { columnName, values };
 
       if (existingFilterIndex >= 0) {
@@ -98,6 +99,31 @@ export function DataTable<TData, TValue>({
         return [...previousFilters, newFilter];
       }
     });
+    console.log("Applied Filters: ", appliedFilters);
+  };
+
+  const getActiveFiltersForDisplay = (): ActiveFilter[] => {
+    
+    return appliedFilters.map(filter => ({
+      id: filter.columnName,
+      columnName: filter.columnName,
+      values: filter.values,
+      displayLabel: `${formatColumnName(filter.columnName)}: ${filter.values.join(', ')}`
+    }));
+  };
+
+  const getAvailableColumns = () => {
+    const usedColumns = appliedFilters.map(filter => filter.columnName);
+    return filterableColumns.filter(column => !usedColumns.includes(column));
+  };
+
+  // FilterBar handlers
+  const handleEditFilter = (columnName: string) => {
+    console.log("Edit filter clicked for:", columnName);
+  };
+
+  const handleDeleteFilter = (columnName: string) => {
+    handleFiltersChange(columnName, []);
   };
 
   useEffect(() => {
@@ -178,10 +204,18 @@ export function DataTable<TData, TValue>({
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <Filters
-            filterableColumns={filterableColumns}
+          {/* <Filters
+            filterableColumns={getAvailableColumns()}
             data={data}
             onFiltersChange={handleFiltersChange}
+          /> */}
+          <FilterBar
+            data={data}
+            activeFilters={getActiveFiltersForDisplay()}
+            availableColumns={getAvailableColumns()}
+            onFiltersChange={handleFiltersChange}
+            onEditFilter={handleEditFilter}
+            onDeleteFilter={handleDeleteFilter}
           />
         </div>
       </div>

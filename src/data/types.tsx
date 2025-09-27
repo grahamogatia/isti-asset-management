@@ -86,3 +86,10 @@ export type Issuance = {
   type_id: number;
   company_id: number;
 };
+
+export type ActiveFilter = {
+  id: string;
+  columnName: string;
+  values: string[];
+  displayLabel: string;
+}
