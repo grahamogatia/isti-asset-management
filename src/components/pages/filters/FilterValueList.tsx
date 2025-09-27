@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { formatColumnName, getActualColumnName, getColumnIcon } from "@/lib/columnNameUtils";
 import { getDisplayNameForColumn } from "@/lib/lookups";
 import { ArrowLeft, Plus } from "lucide-react";
@@ -66,13 +67,11 @@ function FilterValueList({
               key={index}
               className="flex items-center space-x-3 py-1.5 px-2 hover:bg-gray-50 rounded-md cursor-pointer group transition-colors duration-150"
             >
-              <input
-                type="checkbox"
+              <Checkbox
                 id={`filter-${selectedColumn}-${index}`}
                 checked={selectedFilters.includes(value)}
-                className="h-4 w-4 rounded-sm border border-gray-300 text-blue-600 focus:ring-blue-500 focus:ring-2 focus:ring-offset-0 transition-all duration-150"
-                onChange={(e) => {
-                  if (e.target.checked) {
+                onCheckedChange={(checked) => {
+                  if (checked) {
                     // Add to selected filters (avoid duplicates)
                     setSelectedFilters((prev) =>
                       prev.includes(value) ? prev : [...prev, value]
