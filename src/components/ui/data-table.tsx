@@ -31,7 +31,6 @@ import {
 import { Button } from "./button";
 import { Input } from "./input";
 import { useState, useEffect } from "react";
-import Filters from "./filters";
 import FilterBar from "../pages/filters/FilterBar";
 import { formatColumnName, getColumnIcon } from "@/lib/columnNameUtils";
 import type { ActiveFilter } from "@/data/types";

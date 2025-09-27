@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import type { ActiveFilter } from "@/data/types";
-import { formatColumnName, getColumnIcon } from "@/lib/columnNameUtils";
+import { getColumnIcon } from "@/lib/columnNameUtils";
 
 interface FilterChipProps {
   filter: ActiveFilter;
