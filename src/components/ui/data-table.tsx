@@ -35,6 +35,7 @@ import Filters from "./filters";
 import FilterBar from "../pages/filters/FilterBar";
 import { formatColumnName, getColumnIcon } from "@/lib/columnNameUtils";
 import type { ActiveFilter } from "@/data/types";
+import NewAssetSheet from "../layout/NewAssetSheet";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -176,6 +177,7 @@ export function DataTable<TData, TValue>({
                   Columns
                 </Button>
               </DropdownMenuTrigger>
+              <NewAssetSheet/>
               <DropdownMenuContent align="end">
                 {table
                   .getAllColumns()
