@@ -42,7 +42,8 @@ interface DataTableProps<TData, TValue> {
   children?: React.ReactNode;
   defaultVisibleColumns?: string[];
   filterableColumns: string[];
-  
+  type:string,
+  form: React.ReactNode,
 }
 
 export function DataTable<TData, TValue>({
@@ -51,6 +52,8 @@ export function DataTable<TData, TValue>({
   children,
   defaultVisibleColumns,
   filterableColumns,
+  type, 
+  form,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -177,7 +180,7 @@ export function DataTable<TData, TValue>({
                   Columns
                 </Button>
               </DropdownMenuTrigger>
-              <NewAssetSheet />
+              <NewAssetSheet type={type} form={form}/>
               <DropdownMenuContent align="end">
                 {table
                   .getAllColumns()

@@ -8,6 +8,7 @@ import type { Asset_Type } from "@/data/types";
 import AssetTypeDropdown from "./AssetTypeDropdown";
 import { asset_categories, asset_sub_categories, asset_types } from "@/testcases/foreignkeys";
 import { asset_testcases } from "@/testcases/assets";
+import AssetForm from "../forms/AssetForm";
 
 const ASSET_TESTCASES = asset_testcases;
 
@@ -119,6 +120,8 @@ function AssetSubCategoryTab({ category }: { category: Asset_Category }) {
               data={displayedAssets}
               defaultVisibleColumns={dynamicDefaultColumns}
               filterableColumns={asset_filters}
+              type="Asset"
+              form={<AssetForm/>}
             >
               <AssetTypeDropdown
                 assetTypes={filteredAssetTypes}

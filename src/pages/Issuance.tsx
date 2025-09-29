@@ -10,6 +10,8 @@ function Issuance() {
         data={issuance_testcases}
         defaultVisibleColumns={def_issuance_columns}
         filterableColumns={issuance_filters}
+        type="Issuance"
+        form="Form"
       /> 
     </div>
   );

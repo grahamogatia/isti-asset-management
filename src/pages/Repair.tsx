@@ -14,6 +14,8 @@ function Repair() {
         data={repair_testcases}
         defaultVisibleColumns={def_repair_columns}
         filterableColumns={repair_filters}
+        type="Repair"
+        form="Form"
       />
     </div>
   );

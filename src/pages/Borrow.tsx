@@ -10,6 +10,8 @@ function Borrow() {
         data={borrow_testcases}
         defaultVisibleColumns={def_borrow_columns}
         filterableColumns={borrow_filters}
+        type="Borrow"
+        form="Form"
       /> 
     </div>
   );
