@@ -1,4 +1,3 @@
-import { Label } from "@radix-ui/react-dropdown-menu";
 import { Button } from "../ui/button";
 import {
   Sheet,
@@ -10,7 +9,6 @@ import {
   SheetFooter,
   SheetClose,
 } from "../ui/sheet";
-import { Input } from "../ui/input";
 import { Plus } from "lucide-react";
 import { HeroHighlightDemo } from "../ui/custom-hero-higlight";
 
