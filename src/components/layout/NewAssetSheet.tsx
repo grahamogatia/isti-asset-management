@@ -1,21 +1,33 @@
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { Button } from "../ui/button";
-import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter, SheetClose } from "../ui/sheet";
+import {
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+  SheetFooter,
+  SheetClose,
+} from "../ui/sheet";
 import { Input } from "../ui/input";
 import { Plus } from "lucide-react";
+import { HeroHighlightDemo } from "../ui/custom-hero-higlight";
 
 function NewAssetSheet() {
-    return (
+  return (
     <Sheet>
       <SheetTrigger asChild>
         <Button className="bg-[#4a47c6] text-white hover:bg-[#3d3bb0] gap-0">
-  <Plus className="mr-1"/>New
-</Button>
-
+          <Plus className="mr-1" />
+          New
+        </Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="lg:max-w-[50vw] max-w-none">
         <SheetHeader>
-          <SheetTitle>New Asset</SheetTitle>
+          <SheetTitle className="flex items-center gap-1">
+            Add a <HeroHighlightDemo toHighlight="New Asset"/>
+          </SheetTitle>
           <SheetDescription>
             Make changes to your profile here. Click save when you&apos;re done.
           </SheetDescription>
@@ -38,7 +50,7 @@ function NewAssetSheet() {
         </SheetFooter>
       </SheetContent>
     </Sheet>
-  )
+  );
 }
 
 export default NewAssetSheet;
