@@ -18,7 +18,7 @@ export function HeroHighlightDemo({toHighlight}: {toHighlight: string}) {
           ease: [0.4, 0.0, 0.2, 1],
         }}
       >
-        <Highlight className="text-black dark:text-white">
+        <Highlight className="text-black dark:text-white p-1 px-1">
           {toHighlight}
         </Highlight>
       </motion.h1>

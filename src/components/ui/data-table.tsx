@@ -42,6 +42,7 @@ interface DataTableProps<TData, TValue> {
   children?: React.ReactNode;
   defaultVisibleColumns?: string[];
   filterableColumns: string[];
+  
 }
 
 export function DataTable<TData, TValue>({
@@ -176,7 +177,7 @@ export function DataTable<TData, TValue>({
                   Columns
                 </Button>
               </DropdownMenuTrigger>
-              <NewAssetSheet/>
+              <NewAssetSheet />
               <DropdownMenuContent align="end">
                 {table
                   .getAllColumns()

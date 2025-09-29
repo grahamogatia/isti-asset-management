@@ -29,7 +29,7 @@ function NewAssetSheet() {
             Add a <HeroHighlightDemo toHighlight="New Asset"/>
           </SheetTitle>
           <SheetDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
+            Fill out the asset details below and click save to add it to your inventory.
           </SheetDescription>
         </SheetHeader>
         <div className="grid flex-1 auto-rows-min gap-6 px-4">
