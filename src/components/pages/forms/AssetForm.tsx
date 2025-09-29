@@ -34,11 +34,17 @@ function AssetForm() {
       file: undefined,
       sub_category_id: undefined,
       type_id: undefined,
+      //remove
+      asset_id: 1,
+      asset_name: "Test",
+      asset_condition_id: 1,
+      status_id: 1,
+      warranty_duration: 1,
     },
     mode: "all"
   });
 
-  function onSubmit(values: z.infer<Asset>) {
+  function onSubmit(values: Asset) {
     console.log(values);
   }
 
