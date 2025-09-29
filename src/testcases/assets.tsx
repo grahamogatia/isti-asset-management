@@ -47,7 +47,7 @@ export function generateAssets(count = 100): Asset[] {
       warranty_due_date: warrantyDue.toISOString().split("T")[0],
       purchase_date: purchase_date.toISOString().split("T")[0],
       notes: faker.lorem.sentence(),
-      file: `${type.code}_${i}.pdf`,
+      file: null,
       insurance_id: insurance.insurance_id,
     });
   }

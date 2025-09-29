@@ -537,54 +537,54 @@ export const asset_conditions = [
 
 export const insurances = [
   {
-    insurance_id: "INS-2024-001",
+    insurance_id: 1,
     name: "TechGuard Insurance",
     description:
       "Comprehensive coverage for technology assets including laptops, tablets, and mobile devices",
     coverage: 50000,
   },
   {
-    insurance_id: "INS-2024-002",
+    insurance_id: 2,
     name: "Corporate Asset Shield",
     description:
       "Protection against theft and accidental damage for all business equipment",
     coverage: 75000,
   },
   {
-    insurance_id: "INS-2024-003",
+    insurance_id: 3,
     name: "Business Equipment Insurance",
     description: "Specialized coverage for office equipment and peripherals",
     coverage: 30000,
   },
   {
-    insurance_id: "INS-2023-004",
+    insurance_id: 4,
     name: "SecureAsset Insurance",
     description:
       "Full coverage including replacement cost and business interruption",
     coverage: 100000,
   },
   {
-    insurance_id: "INS-2024-005",
+    insurance_id: 5,
     name: "Global Tech Insurance",
     description:
       "Electronics-specific coverage for high-value technology assets",
     coverage: 60000,
   },
   {
-    insurance_id: "INS-2024-006",
+    insurance_id: 6,
     name: "Enterprise Equipment Protect",
     description:
       "Combined liability and asset protection for enterprise-grade equipment",
     coverage: 80000,
   },
   {
-    insurance_id: "INS-2024-007",
+    insurance_id: 7,
     name: "IT Asset Insurance",
     description: "Technology-specific coverage with rapid replacement services",
     coverage: 45000,
   },
   {
-    insurance_id: "INS-2024-008",
+    insurance_id: 8,
     name: "Universal Business Cover",
     description:
       "All-risk coverage for business assets including natural disasters and cyber incidents",

@@ -14,6 +14,8 @@ import FormFieldMoney from "./FormFieldMoney";
 import FormFieldDate from "./FormFieldDate";
 import FormFieldFile from "./FormFieldFile";
 import FormCardContent from "@/components/layout/FormCardContainer";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
 function AssetForm() {
   const form = useForm<Asset>({
@@ -33,6 +35,7 @@ function AssetForm() {
       sub_category_id: undefined,
       type_id: undefined,
     },
+    mode: "all"
   });
 
   function onSubmit(values: z.infer<Asset>) {
@@ -106,7 +109,7 @@ function AssetForm() {
           >
             {insurances.map((insurance) => {
               return (
-                <SelectItem value={insurance.insurance_id}>
+                <SelectItem value={String(insurance.insurance_id)}>
                   {insurance.name}
                 </SelectItem>
               );
@@ -125,6 +128,12 @@ function AssetForm() {
             placeholder="Enter notes"
           />
         </FormCardContent>
+        <div className="pb-6">
+          <Button className="w-full h-10 items-center rounded-md pb-1" type="submit">
+            <Plus />
+            Add Asset
+          </Button>
+        </div>
       </form>
     </Form>
   );

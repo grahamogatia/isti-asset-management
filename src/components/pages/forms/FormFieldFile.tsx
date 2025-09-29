@@ -1,9 +1,16 @@
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Upload, X, File } from "lucide-react";
 import { useState } from "react";
 import type { Control } from "react-hook-form";
+import { getColumnIcon } from "@/lib/columnNameUtils";
 
 interface FormFieldFileProps {
   control: Control<any>;
@@ -13,14 +20,15 @@ interface FormFieldFileProps {
   accept?: string;
 }
 
-function FormFieldFile({ 
-  control, 
-  name, 
-  label, 
-  placeholder = "Choose a file", 
-  accept = "image/*"
+function FormFieldFile({
+  control,
+  name,
+  label,
+  placeholder = "Choose a file",
+  accept = "image/*",
 }: FormFieldFileProps) {
   const [fileName, setFileName] = useState<string>("");
+  const IconComponent = getColumnIcon(name);
 
   return (
     <FormField
@@ -28,7 +36,7 @@ function FormFieldFile({
       name={name}
       render={({ field: { onChange, value, ...field } }) => (
         <FormItem>
-          <FormLabel>{label}</FormLabel>
+          <FormLabel><IconComponent className="h-4 w-4"/>{label}</FormLabel>
           <FormControl>
             <div className="space-y-2">
               <div className="flex items-center gap-2">
@@ -50,12 +58,14 @@ function FormFieldFile({
                   type="button"
                   variant="outline"
                   className="flex items-center gap-2"
-                  onClick={() => document.getElementById(`file-input-${name}`)?.click()}
+                  onClick={() =>
+                    document.getElementById(`file-input-${name}`)?.click()
+                  }
                 >
                   <Upload className="h-4 w-4" />
                   {fileName ? "Change File" : placeholder}
                 </Button>
-                
+
                 {fileName && (
                   <div className="flex items-center gap-2 px-3 py-1 bg-gray-50 rounded-md">
                     <File className="h-4 w-4 text-gray-500" />
@@ -70,7 +80,9 @@ function FormFieldFile({
                       onClick={() => {
                         setFileName("");
                         onChange(null);
-                        const input = document.getElementById(`file-input-${name}`) as HTMLInputElement;
+                        const input = document.getElementById(
+                          `file-input-${name}`
+                        ) as HTMLInputElement;
                         if (input) input.value = "";
                       }}
                     >

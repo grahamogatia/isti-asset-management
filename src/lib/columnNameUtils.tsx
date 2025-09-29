@@ -41,7 +41,7 @@ export function getColumnIcon (column: string) {
     brand: Award,
     file: FileImage,
     specifications: Cpu,
-    asset_amount: DollarSign,
+    asset_amount: PhilippinePeso,
     asset_condition_id: CheckCircle,
     status_id: AlertTriangle,
     warranty_duration: Clock,

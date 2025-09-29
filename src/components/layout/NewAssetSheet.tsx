@@ -42,12 +42,6 @@ function NewAssetSheet({
     {form}
   </div>
   
-  <SheetFooter className="flex-shrink-0 mt-4">
-    <Button type="submit">Save changes</Button>
-    <SheetClose asChild>
-      <Button variant="outline">Close</Button>
-    </SheetClose>
-  </SheetFooter>
 </SheetContent>
     </Sheet>
   );

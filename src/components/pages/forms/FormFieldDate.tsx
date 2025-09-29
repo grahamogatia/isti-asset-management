@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import type { Control } from "react-hook-form";
+import { getColumnIcon } from "@/lib/columnNameUtils";
 
 interface FormFieldDateProps {
   control: Control<any>;
@@ -15,13 +16,15 @@ interface FormFieldDateProps {
 }
 
 function FormFieldDate({ control, name, label, placeholder = "Pick a date" }: FormFieldDateProps) {
+      const IconComponent = getColumnIcon(name);
+    
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
         <FormItem className="flex flex-col">
-          <FormLabel>{label}</FormLabel>
+          <FormLabel><IconComponent className="h-4 w-4"/>{label}</FormLabel>
           <Popover>
             <PopoverTrigger asChild>
               <FormControl>

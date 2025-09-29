@@ -44,7 +44,7 @@ export function getConditionName(id: number): string {
   return conditionMap.get(id)?.asset_condition_name ?? "Unknown Condition";
 }
 
-export function getInsuranceName(id: string): string {
+export function getInsuranceName(id: number): string {
   return insuranceMap.get(id)?.name ?? "Unknown Insurance";
 }
 
