@@ -3,10 +3,8 @@ import type { Asset } from "@/data/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
-import { SelectItem } from "@/components/ui/select";
 
 import FormFieldText from "./FormFieldText";
-import FormFieldSelect from "./FormFieldSelect";
 import { asset_types, insurances } from "@/testcases/foreignkeys";
 import FormFieldTextArea from "./FormFieldTextArea";
 import FormFieldMoney from "./FormFieldMoney";
@@ -15,8 +13,9 @@ import FormFieldFile from "./FormFieldFile";
 import FormCardContent from "@/components/layout/FormCardContainer";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import FormFieldTypePopover from "./FormFieldTypePopover";
-import { getCategoryName, getIdFromDisplayName } from "@/lib/lookups";
+import FormFieldTypeCombobox from "./FormFieldTypeCombobox";
+import { getIdFromDisplayName } from "@/lib/lookups";
+import FormFieldInsuranceCombobox from "./FormFieldInsuranceCombobox";
 
 function AssetForm() {
   const form = useForm<Asset>({
@@ -24,18 +23,17 @@ function AssetForm() {
     defaultValues: {
       serial_number: "Test",
       category_id: undefined,
-      location: undefined,
+      location: "Test Location", // Changed from "undefined" string
       brand: "Test",
       specifications: "Test",
       asset_amount: 123,
-      purchase_date: undefined,
-      warranty_due_date: undefined,
-      notes: undefined,
-      insurance_id: undefined,
-      file: undefined,
+      purchase_date: "",  // Changed to empty string
+      warranty_due_date: "", // Changed to empty string
+      notes: "",  // Changed to empty string
+      insurance_id: 1,
+      file: null, // Changed to null
       sub_category_id: undefined,
       type_id: undefined,
-      //remove
       asset_id: 1,
       asset_name: "Test",
       asset_condition_id: 1,
@@ -46,14 +44,22 @@ function AssetForm() {
   });
 
   function onSubmit(values: Asset) {
-    console.log(values);
+    console.log("🎉 SUCCESS! Form submitted:", values);
   }
 
-  const watchCategory = form.watch("category_id") === getIdFromDisplayName("category", "External") as number
+  function onError(errors: any) {
+    console.log("❌ VALIDATION ERRORS:", errors);
+  }
+ 
+  const watchCategory = form.watch("category_id") === getIdFromDisplayName("category", "External") as number;
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+      <form 
+        id="asset-form"
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-5"
+      >
         <FormCardContent title="Asset Information">
           <FormFieldText
             control={form.control}
@@ -67,7 +73,7 @@ function AssetForm() {
             label="Brand"
             placeholder="e.g. Dell, HP, Apple"
           />
-          <FormFieldTypePopover
+          <FormFieldTypeCombobox
             control={form.control}
             name="type_id"
             label="Type"
@@ -76,10 +82,10 @@ function AssetForm() {
           />
           {watchCategory && (
             <FormFieldText
-            control={form.control}
-            name="location"
-            label="Location"
-            placeholder="e.g. Makati, Manila, Pasay"
+              control={form.control}
+              name="location"
+              label="Location"
+              placeholder="e.g. Makati, Manila, Pasay"
             />
           )}
           <FormFieldTextArea
@@ -89,6 +95,7 @@ function AssetForm() {
             placeholder="e.g. Intel i7 processor, 16GB RAM, 512GB SSD..."
           />
         </FormCardContent>
+
         <FormCardContent title="Asset Details">
           <FormFieldMoney
             control={form.control}
@@ -96,7 +103,6 @@ function AssetForm() {
             label="Amount"
             placeholder="0.00"
           />
-
           <FormFieldDate
             control={form.control}
             name="purchase_date"
@@ -110,21 +116,8 @@ function AssetForm() {
             placeholder="Select warranty expiry date"
           />
         </FormCardContent>
+
         <FormCardContent title="Additional Information">
-          <FormFieldSelect
-            control={form.control}
-            name="insurance_id"
-            label="Insurance"
-            placeholder="Enter insurance"
-          >
-            {insurances.map((insurance) => {
-              return (
-                <SelectItem value={String(insurance.insurance_id)}>
-                  {insurance.name}
-                </SelectItem>
-              );
-            })}
-          </FormFieldSelect>
           <FormFieldFile
             control={form.control}
             name="file"
@@ -138,8 +131,13 @@ function AssetForm() {
             placeholder="Enter notes"
           />
         </FormCardContent>
+
         <div className="pb-6">
-          <Button className="w-full h-10 items-center rounded-md pb-1" type="submit">
+          <Button 
+            className="w-full h-10 items-center rounded-md pb-1" 
+            type="submit"
+            form="asset-form"
+            >
             <Plus />
             Add Asset
           </Button>
