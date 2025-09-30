@@ -118,6 +118,13 @@ function AssetForm() {
         </FormCardContent>
 
         <FormCardContent title="Additional Information">
+          <FormFieldInsuranceCombobox
+          control={form.control}
+          name="insurance_id"
+          label="Insurance"
+          insurances={insurances}
+          form={{...form}}
+          />
           <FormFieldFile
             control={form.control}
             name="file"

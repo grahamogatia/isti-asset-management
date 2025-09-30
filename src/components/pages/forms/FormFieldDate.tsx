@@ -13,34 +13,54 @@ interface FormFieldDateProps {
   name: string;
   label: string;
   placeholder?: string;
+  minDate?: Date;
+  maxDate?: Date;
 }
 
-function FormFieldDate({ control, name, label, placeholder = "Pick a date" }: FormFieldDateProps) {
-      const IconComponent = getColumnIcon(name);
+function FormFieldDate({ 
+  control, 
+  name, 
+  label, 
+  placeholder = "Pick a date", 
+  minDate, 
+  maxDate 
+}: FormFieldDateProps) {
+  const IconComponent = getColumnIcon(name);
+  
+  const isDateDisabled = (date: Date) => {
+    if (minDate && date < minDate) return true;
+    if (maxDate && date > maxDate) return true;
+    return false;
+  };
     
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className="flex flex-col">
-          <FormLabel><IconComponent className="h-4 w-4"/>{label}</FormLabel>
+        <FormItem className="flex flex-col w-full">
+          <FormLabel className="flex items-center gap-2">
+            <IconComponent className="h-4 w-4"/>
+            {label}
+          </FormLabel>
           <Popover>
             <PopoverTrigger asChild>
               <FormControl>
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-full pl-3 text-left font-normal",
+                    "w-full pl-3 text-left font-normal justify-between",
                     !field.value && "text-muted-foreground"
                   )}
                 >
-                  {field.value ? (
-                    format(new Date(field.value), "PPP")
-                  ) : (
-                    <span>{placeholder}</span>
-                  )}
-                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                  <span className="truncate flex-1 mr-2">
+                    {field.value ? (
+                      format(new Date(field.value), "PP")
+                    ) : (
+                      placeholder
+                    )}
+                  </span>
+                  <CalendarIcon className="h-4 w-4 opacity-50 flex-shrink-0" />
                 </Button>
               </FormControl>
             </PopoverTrigger>
@@ -48,10 +68,17 @@ function FormFieldDate({ control, name, label, placeholder = "Pick a date" }: Fo
               <Calendar
                 mode="single"
                 selected={field.value ? new Date(field.value) : undefined}
-                onSelect={(date) => field.onChange(date?.toISOString().split('T')[0])}
-                disabled={(date) => date > new Date()}
+                onSelect={(date) => {
+                  if (date) {
+                    field.onChange(format(date, 'yyyy-MM-dd'));
+                  } else {
+                    field.onChange(null);
+                  }
+                }}
+                disabled={isDateDisabled}
                 captionLayout="dropdown"
-                initialFocus
+                startMonth={minDate}
+                endMonth={maxDate}
               />
             </PopoverContent>
           </Popover>

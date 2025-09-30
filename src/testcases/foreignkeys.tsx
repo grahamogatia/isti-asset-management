@@ -2,6 +2,7 @@ import type {
   Asset_Category,
   Asset_Sub_Category,
   Asset_Type,
+  Insurance,
 } from "@/data/types";
 
 export const asset_categories: Asset_Category[] = [
@@ -535,58 +536,58 @@ export const asset_conditions = [
   { asset_condition_id: 8, asset_condition_name: "Damaged" },
 ];
 
-export const insurances = [
+export const insurances: Insurance[] = [
   {
     insurance_id: 1,
-    name: "TechGuard Insurance",
-    description:
+    insurance_name: "TechGuard Insurance",
+    insurance_desc:
       "Comprehensive coverage for technology assets including laptops, tablets, and mobile devices",
     coverage: 50000,
   },
   {
     insurance_id: 2,
-    name: "Corporate Asset Shield",
-    description:
+    insurance_name: "Corporate Asset Shield",
+    insurance_desc:
       "Protection against theft and accidental damage for all business equipment",
     coverage: 75000,
   },
   {
     insurance_id: 3,
-    name: "Business Equipment Insurance",
-    description: "Specialized coverage for office equipment and peripherals",
+    insurance_name: "Business Equipment Insurance",
+    insurance_desc: "Specialized coverage for office equipment and peripherals",
     coverage: 30000,
   },
   {
     insurance_id: 4,
-    name: "SecureAsset Insurance",
-    description:
+    insurance_name: "SecureAsset Insurance",
+    insurance_desc:
       "Full coverage including replacement cost and business interruption",
     coverage: 100000,
   },
   {
     insurance_id: 5,
-    name: "Global Tech Insurance",
-    description:
+    insurance_name: "Global Tech Insurance",
+    insurance_desc:
       "Electronics-specific coverage for high-value technology assets",
     coverage: 60000,
   },
   {
     insurance_id: 6,
-    name: "Enterprise Equipment Protect",
-    description:
+    insurance_name: "Enterprise Equipment Protect",
+    insurance_desc:
       "Combined liability and asset protection for enterprise-grade equipment",
     coverage: 80000,
   },
   {
     insurance_id: 7,
-    name: "IT Asset Insurance",
-    description: "Technology-specific coverage with rapid replacement services",
+    insurance_name: "IT Asset Insurance",
+    insurance_desc: "Technology-specific coverage with rapid replacement services",
     coverage: 45000,
   },
   {
     insurance_id: 8,
-    name: "Universal Business Cover",
-    description:
+    insurance_name: "Universal Business Cover",
+    insurance_desc:
       "All-risk coverage for business assets including natural disasters and cyber incidents",
     coverage: 90000,
   },

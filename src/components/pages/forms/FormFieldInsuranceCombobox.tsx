@@ -1,6 +1,6 @@
+import NewFormSheet from "@/components/layout/NewFormSheet";
 import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import DisplayType from "@/components/ui/display-type";
 import {
   FormControl,
   FormField,
@@ -8,34 +8,34 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import type { Asset_Type } from "@/data/types";
+import type { Insurance } from "@/data/types";
 import { getColumnIcon } from "@/lib/columnNameUtils";
 import { cn } from "@/lib/utils";
-import { Check, ChevronsUpDown } from "lucide-react";
-import type { Control } from "react-hook-form";
+import { Check, ChevronsUpDown, Plus } from "lucide-react";
+import type { Control } from "react-hook-form"; 
+import { InsuranceForm } from "./InsuranceForm";
 
-interface FormFieldComboboxProps {
+interface FormFieldInsuranceComboboxProps {
   control: Control<any>;
   name: string;
   label: string;
   placeholder?: string;
-  assetTypes: Asset_Type[];
+  insurances: Insurance[];
   form: any;
 }
 
-function FormFieldTypePopover({
+function FormFieldInsuranceCombobox({
   control,
   name,
   label,
-  assetTypes,
+  insurances,
   form
-}: FormFieldComboboxProps) {
+}: FormFieldInsuranceComboboxProps) {
   const IconComponent = getColumnIcon(name);
 
   return (
@@ -61,37 +61,37 @@ function FormFieldTypePopover({
                     )}
                   >
                     {field.value 
-                    ? assetTypes.find(
-                      (type) => type.type_id === field.value
-                    )?.type_name
-                  : "Select type"}
+                    ? insurances.find(
+                      (insurance) => insurance.insurance_id === field.value
+                    )?.insurance_name
+                  : "Select Insurance"}
                     <ChevronsUpDown className="opacity-50" />
                   </Button>
                 </FormControl>
               </PopoverTrigger>
-              <PopoverContent className="w-[200px] p-0">
+              <PopoverContent className="w-90 p-0">
                 <Command>
                     <CommandInput
                     placeholder="Search type..."
                     className="h-9"/>
                     <CommandList>
-                      <CommandEmpty>No type found.</CommandEmpty>
+                      <CommandEmpty className="flex justify-center p-4">
+                        <InsuranceForm/>
+                      </CommandEmpty>
                       <CommandGroup>
-                        {assetTypes.map((type) => (
+                        {insurances.map((insurance) => (
                           <CommandItem
-                          value={type.type_name}
-                          key={type.type_id}
+                          value={insurance.insurance_name}
+                          key={insurance.insurance_id}
                           onSelect={() => {
-                            form.setValue("type_id", type.type_id)
-                            form.setValue("sub_category_id", type.sub_category_id)
-                            form.setValue("category_id", type.category_id)
+                            form.setValue("insurance_id", insurance.insurance_id)
                           }}
                           >
-                            <DisplayType category={type.category_name} sub_category={type.sub_category_name} type={type.type_name} />
+                            {insurance.insurance_name}
                             <Check
                             className={cn(
                                 "ml-auto",
-                                type.type_id === field.value
+                                insurance.insurance_id === field.value
                                   ? "opacity-100"
                                   : "opacity-0"
                               )}
@@ -111,4 +111,4 @@ function FormFieldTypePopover({
   );
 }
 
-export default FormFieldTypePopover;
+export default FormFieldInsuranceCombobox;

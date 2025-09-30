@@ -45,7 +45,7 @@ export function getConditionName(id: number): string {
 }
 
 export function getInsuranceName(id: number): string {
-  return insuranceMap.get(id)?.name ?? "Unknown Insurance";
+  return insuranceMap.get(id)?.insurance_name ?? "Unknown Insurance";
 }
 
 export function getStatusName(id: number): string {
@@ -136,7 +136,7 @@ export function getIdFromDisplayName(columnName: string, displayName: string): n
       break;
     case "insurance": 
       for (const [id, insurance] of insuranceMap) {
-        if (insurance.name === displayName) return id;
+        if (insurance.insurance_name === displayName) return id;
       }
       break;
     case "category":

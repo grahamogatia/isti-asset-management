@@ -8,7 +8,6 @@ import {
   Building2, 
   Building, 
   Calendar, 
-  DollarSign, 
   Wrench, 
   CheckCircle, 
   AlertTriangle, 
@@ -54,6 +53,11 @@ export function getColumnIcon (column: string) {
     location: MapPin,
     condition: Wrench,
     
+    // Insurance columns
+    insurance_name: Shield,
+    insurance_desc: ScrollText,
+    insurance_coverage: ScrollText,
+
     // People & organization
     employee: User,
     user_id: User,

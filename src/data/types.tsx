@@ -1,5 +1,5 @@
 import type z from "zod";
-import type { AssetSchema } from "./schemas";
+import type { AssetSchema, InsuranceSchema } from "./schemas";
 
 export type Asset_Category = {
   category_id: number;
@@ -40,6 +40,7 @@ export interface Asset_Type extends Asset_Sub_Category {
 // };
 
 export type Asset = z.infer<typeof AssetSchema>;
+export type Insurance = z.infer<typeof InsuranceSchema>;
 
 export type Repair = {
   asset_id: number;
