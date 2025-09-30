@@ -10,7 +10,7 @@ import FormFieldTextArea from "./FormFieldTextArea";
 import FormFieldMoney from "./FormFieldMoney";
 import FormFieldDate from "./FormFieldDate";
 import FormFieldFile from "./FormFieldFile";
-import FormCardContent from "@/components/layout/FormCardContainer";
+import FormCardContent from "@/components/layout/FormCardContent";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import FormFieldTypeCombobox from "./FormFieldTypeCombobox";

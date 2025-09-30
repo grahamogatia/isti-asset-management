@@ -1,3 +1,4 @@
+import RepairForm from "@/components/pages/forms/RepairForm";
 import { DataTable } from "@/components/ui/data-table";
 import {
   def_repair_columns,
@@ -15,7 +16,7 @@ function Repair() {
         defaultVisibleColumns={def_repair_columns}
         filterableColumns={repair_filters}
         type="Repair"
-        form="Form"
+        form={<RepairForm/>}
       />
     </div>
   );

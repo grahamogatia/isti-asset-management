@@ -42,7 +42,7 @@ function FormFieldSelect({
             // field.onChange
             } defaultValue={field.value}>
             <FormControl>
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
             </FormControl>
