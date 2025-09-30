@@ -6,7 +6,7 @@ export const AssetSchema = z.object({
   asset_name: z.string().optional(),
   category_id: z.number(), // Pool from existing category IDs
   sub_category_id: z.number().optional(),
-  type_id: z.number().optional(),
+  type_id: z.number(),
   asset_condition_id: z.number().optional(),
   location: z.string().optional(),
   status_id: z.number().optional(),

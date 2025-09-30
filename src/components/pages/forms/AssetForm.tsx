@@ -2,13 +2,12 @@ import { AssetSchema } from "@/data/schemas";
 import type { Asset } from "@/data/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import { SelectItem } from "@/components/ui/select";
 
 import FormFieldText from "./FormFieldText";
 import FormFieldSelect from "./FormFieldSelect";
-import { asset_categories, insurances } from "@/testcases/foreignkeys";
+import { asset_types, insurances } from "@/testcases/foreignkeys";
 import FormFieldTextArea from "./FormFieldTextArea";
 import FormFieldMoney from "./FormFieldMoney";
 import FormFieldDate from "./FormFieldDate";
@@ -16,17 +15,19 @@ import FormFieldFile from "./FormFieldFile";
 import FormCardContent from "@/components/layout/FormCardContainer";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import FormFieldTypePopover from "./FormFieldTypePopover";
+import { getCategoryName, getIdFromDisplayName } from "@/lib/lookups";
 
 function AssetForm() {
   const form = useForm<Asset>({
     resolver: zodResolver(AssetSchema),
     defaultValues: {
-      serial_number: undefined,
+      serial_number: "Test",
       category_id: undefined,
       location: undefined,
-      brand: undefined,
-      specifications: undefined,
-      asset_amount: undefined,
+      brand: "Test",
+      specifications: "Test",
+      asset_amount: 123,
       purchase_date: undefined,
       warranty_due_date: undefined,
       notes: undefined,
@@ -41,12 +42,14 @@ function AssetForm() {
       status_id: 1,
       warranty_duration: 1,
     },
-    mode: "all"
+    mode: "all",
   });
 
   function onSubmit(values: Asset) {
     console.log(values);
   }
+
+  const watchCategory = form.watch("category_id") === getIdFromDisplayName("category", "External") as number
 
   return (
     <Form {...form}>
@@ -64,20 +67,21 @@ function AssetForm() {
             label="Brand"
             placeholder="e.g. Dell, HP, Apple"
           />
-          <FormFieldSelect
+          <FormFieldTypePopover
             control={form.control}
-            name="category_id"
-            label="Category"
-            placeholder="Select the asset category"
-          >
-            {asset_categories.map((category) => {
-              return (
-                <SelectItem value={String(category.category_id)}>
-                  {category.category_name}
-                </SelectItem>
-              );
-            })}
-          </FormFieldSelect>
+            name="type_id"
+            label="Type"
+            assetTypes={asset_types}
+            form={{...form}}
+          />
+          {watchCategory && (
+            <FormFieldText
+            control={form.control}
+            name="location"
+            label="Location"
+            placeholder="e.g. Makati, Manila, Pasay"
+            />
+          )}
           <FormFieldTextArea
             control={form.control}
             name="specifications"

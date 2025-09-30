@@ -13,9 +13,9 @@ export interface Asset_Sub_Category extends Asset_Category {
 }
 
 export interface Asset_Type extends Asset_Sub_Category {
-  type_id?: number;
-  type_name?: string;
-  type_code?: number;
+  type_id: number;
+  type_name: string;
+  type_code: number;
 }
 
 // export type Asset = {

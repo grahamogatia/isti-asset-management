@@ -56,33 +56,18 @@ function AssetSubCategoryTab({ category }: { category: Asset_Category }) {
   }, [category, subCategory]);
 
   const filteredAssetTypes = useMemo<Asset_Type[]>(() => {
-    const uniqueTypeIds = Array.from(
-      new Set(filteredAsset.map((asset) => asset.type_id))
-    );
-    return uniqueTypeIds
-      .filter((id): id is number => typeof id === "number")
-      .map((type_id) => {
-        // Get the type information from the foreign keys data
-        const assetType = asset_types.find((type) => type.type_id === type_id);
-        if (assetType) {
-          return assetType;
-        }
-        
-        // Fallback if type not found in foreign keys
-        const asset = filteredAsset.find((a) => a.type_id === type_id);
-        const subCat = asset_sub_categories.find((sc) => sc.sub_category_id === asset?.sub_category_id);
-        return {
-          type_id,
-          type_name: `Type ${type_id}`,
-          type_code: undefined,
-          sub_category_id: asset?.sub_category_id || 0,
-          sub_category_name: subCat?.sub_category_name || "",
-          code: subCat?.code || "",
-          category_id: asset?.category_id || 0,
-          category_name: (subCat?.category_name || "Internal") as "Internal" | "External" | "Events",
-        };
-      });
-  }, [category, subCategory, filteredAsset]);
+  const uniqueTypeIds = Array.from(
+    new Set(filteredAsset.map((asset) => asset.type_id))
+  );
+  
+  return uniqueTypeIds
+    .filter((id): id is number => typeof id === "number")
+    .flatMap((type_id) => {
+      // Get the type information from the foreign keys data
+      const assetType = asset_types.find((type) => type.type_id === type_id);
+      return assetType ? [assetType] : []; // Return array with item or empty array
+    });
+}, [category, subCategory, filteredAsset]);
 
   const displayedAssets = useMemo(() => {
     if (selectedType === "All") return filteredAsset;
