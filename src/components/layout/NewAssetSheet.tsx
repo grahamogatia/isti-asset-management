@@ -6,8 +6,6 @@ import {
   SheetHeader,
   SheetTitle,
   SheetDescription,
-  SheetFooter,
-  SheetClose,
 } from "../ui/sheet";
 import { Plus } from "lucide-react";
 import { HeroHighlightDemo } from "../ui/custom-hero-higlight";

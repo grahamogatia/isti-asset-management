@@ -1,4 +1,3 @@
-import NewFormSheet from "@/components/layout/NewFormSheet";
 import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import {
@@ -16,7 +15,7 @@ import {
 import type { Insurance } from "@/data/types";
 import { getColumnIcon } from "@/lib/columnNameUtils";
 import { cn } from "@/lib/utils";
-import { Check, ChevronsUpDown, Plus } from "lucide-react";
+import { Check, ChevronsUpDown } from "lucide-react";
 import type { Control } from "react-hook-form"; 
 import { InsuranceForm } from "./InsuranceForm";
 

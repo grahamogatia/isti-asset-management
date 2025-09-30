@@ -540,56 +540,58 @@ export const insurances: Insurance[] = [
   {
     insurance_id: 1,
     insurance_name: "TechGuard Insurance",
-    insurance_desc:
-      "Comprehensive coverage for technology assets including laptops, tablets, and mobile devices",
-    coverage: 50000,
+    insurance_coverage: "Comprehensive coverage for technology assets including laptops, tablets, and mobile devices",
+    insurance_date_from: "2024-01-01",
+    insurance_date_to: "2024-12-31"
   },
   {
     insurance_id: 2,
     insurance_name: "Corporate Asset Shield",
-    insurance_desc:
-      "Protection against theft and accidental damage for all business equipment",
-    coverage: 75000,
+    insurance_coverage: "Protection against theft and accidental damage for all business equipment",
+    insurance_date_from: "2024-02-15",
+    insurance_date_to: "2025-02-14"
   },
   {
     insurance_id: 3,
     insurance_name: "Business Equipment Insurance",
-    insurance_desc: "Specialized coverage for office equipment and peripherals",
-    coverage: 30000,
+    insurance_coverage: "Specialized coverage for office equipment and peripherals",
+    insurance_date_from: "2024-03-01",
+    insurance_date_to: "2025-02-28"
   },
   {
     insurance_id: 4,
     insurance_name: "SecureAsset Insurance",
-    insurance_desc:
-      "Full coverage including replacement cost and business interruption",
-    coverage: 100000,
+    insurance_coverage: "Full coverage including replacement cost and business interruption",
+    insurance_date_from: "2024-01-15",
+    insurance_date_to: "2025-01-14"
   },
   {
     insurance_id: 5,
     insurance_name: "Global Tech Insurance",
-    insurance_desc:
-      "Electronics-specific coverage for high-value technology assets",
-    coverage: 60000,
+    insurance_coverage: "Electronics-specific coverage for high-value technology assets",
+    insurance_date_from: "2024-04-01",
+    insurance_date_to: "2025-03-31"
   },
   {
     insurance_id: 6,
     insurance_name: "Enterprise Equipment Protect",
-    insurance_desc:
-      "Combined liability and asset protection for enterprise-grade equipment",
-    coverage: 80000,
+    insurance_coverage: "Combined liability and asset protection for enterprise-grade equipment",
+    insurance_date_from: "2024-05-01",
+    insurance_date_to: "2025-04-30"
   },
   {
     insurance_id: 7,
     insurance_name: "IT Asset Insurance",
-    insurance_desc: "Technology-specific coverage with rapid replacement services",
-    coverage: 45000,
+    insurance_coverage: "Technology-specific coverage with rapid replacement services",
+    insurance_date_from: "2024-06-01",
+    insurance_date_to: "2025-05-31"
   },
   {
     insurance_id: 8,
     insurance_name: "Universal Business Cover",
-    insurance_desc:
-      "All-risk coverage for business assets including natural disasters and cyber incidents",
-    coverage: 90000,
+    insurance_coverage: "All-risk coverage for business assets including natural disasters and cyber incidents",
+    insurance_date_from: "2024-07-01",
+    insurance_date_to: "2025-06-30"
   },
 ];
 

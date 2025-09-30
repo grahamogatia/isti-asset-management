@@ -46,10 +46,6 @@ function AssetForm() {
   function onSubmit(values: Asset) {
     console.log("🎉 SUCCESS! Form submitted:", values);
   }
-
-  function onError(errors: any) {
-    console.log("❌ VALIDATION ERRORS:", errors);
-  }
  
   const watchCategory = form.watch("category_id") === getIdFromDisplayName("category", "External") as number;
 
