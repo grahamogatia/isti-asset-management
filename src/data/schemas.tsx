@@ -62,7 +62,7 @@ export const BorrowSchema = z.object({
   type_id: z.number(),
   due_date: z.string(),
   return_date: z.string(),
-  duration: z.string(),
+  duration: z.number(),
   remarks: z.string()
 })
 
