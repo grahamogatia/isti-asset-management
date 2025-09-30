@@ -27,7 +27,7 @@ function NewAssetSheet({
           New
         </Button>
       </SheetTrigger>
-      <SheetContent className="max-w-none flex flex-col h-full lg:max-w-[30vw]">
+      <SheetContent className="max-w-none flex flex-col h-full lg:max-w-[40vw]">
   <SheetHeader className="flex-shrink-0 pl-6 pr-6 pt-6 pb-2">
     <SheetTitle className="flex text-xl items-center gap-1">
       Add a New <HeroHighlightDemo toHighlight={type} />
