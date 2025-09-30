@@ -73,7 +73,7 @@ function BorrowForm() {
             form="borrow-form"
           >
             <Plus />
-            Add Asset
+            Create Borrow Request
           </Button>
         </div>
       </form>

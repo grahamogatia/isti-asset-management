@@ -94,7 +94,7 @@ function RepairForm() {
             form="repair-form"
           >
             <Plus />
-            Add Asset
+            Report Repair
           </Button>
         </div>
       </form>
