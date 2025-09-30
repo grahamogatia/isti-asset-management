@@ -6,13 +6,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Plus } from "lucide-react";
-import FormFieldText from "./FormFieldText";
+import FormFieldText from "./form-fields/FormFieldText";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InsuranceSchema } from "@/data/schemas";
 import type { Insurance } from "@/data/types";
-import FormFieldDate from "./FormFieldDate";
-import FormFieldTextArea from "./FormFieldTextArea";
+import FormFieldDate from "./form-fields/FormFieldDate";
+import FormFieldTextArea from "./form-fields/FormFieldTextArea";
 import { useState } from "react";
 
 export function InsuranceForm() {

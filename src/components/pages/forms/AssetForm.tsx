@@ -4,18 +4,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 
-import FormFieldText from "./FormFieldText";
+import FormFieldText from "./form-fields/FormFieldText";
 import { asset_types, insurances } from "@/testcases/foreignkeys";
-import FormFieldTextArea from "./FormFieldTextArea";
-import FormFieldMoney from "./FormFieldMoney";
-import FormFieldDate from "./FormFieldDate";
-import FormFieldFile from "./FormFieldFile";
+import FormFieldTextArea from "./form-fields/FormFieldTextArea";
+import FormFieldMoney from "./form-fields/FormFieldMoney";
+import FormFieldDate from "./form-fields/FormFieldDate";
+import FormFieldFile from "./form-fields/FormFieldFile";
 import FormCardContent from "@/components/layout/FormCardContent";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import FormFieldTypeCombobox from "./FormFieldTypeCombobox";
+import FormFieldTypeCombobox from "./form-fields/FormFieldTypeCombobox";
 import { getIdFromDisplayName } from "@/lib/lookups";
-import FormFieldInsuranceCombobox from "./FormFieldInsuranceCombobox";
+import FormFieldInsuranceCombobox from "./form-fields/FormFieldInsuranceCombobox";
 
 function AssetForm() {
   const form = useForm<Asset>({

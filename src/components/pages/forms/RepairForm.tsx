@@ -7,12 +7,12 @@ import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import FormCardContent from "@/components/layout/FormCardContent";
-import FormFieldTextArea from "./FormFieldTextArea";
+import FormFieldTextArea from "./form-fields/FormFieldTextArea";
 import { urgency } from "@/testcases/foreignkeys";
 import { SelectItem } from "@/components/ui/select";
-import FormFieldSelect from "./FormFieldSelect";
-import FormFieldDate from "./FormFieldDate";
-import FormFieldMoney from "./FormFieldMoney";
+import FormFieldSelect from "./form-fields/FormFieldSelect";
+import FormFieldDate from "./form-fields/FormFieldDate";
+import FormFieldMoney from "./form-fields/FormFieldMoney";
 
 function RepairForm() {
   const form = useForm<Repair>({
