@@ -1,5 +1,5 @@
-import { BorrowSchema, RepairSchema } from "@/data/schemas";
-import type { Borrow, Repair } from "@/data/types";
+import { BorrowSchema } from "@/data/schemas";
+import type { Borrow } from "@/data/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
