@@ -50,7 +50,7 @@ function RepairForm() {
         className="space-y-5"
       >
         <FormCardContent
-        title="Repair For"
+        title="Repair Details"
         >
             <p>Test</p>
         </FormCardContent>
