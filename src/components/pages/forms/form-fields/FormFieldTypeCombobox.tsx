@@ -41,55 +41,74 @@ function FormFieldTypeCombobox({
     <FormField
       control={control}
       name={name}
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>
-            <IconComponent className="h-4 w-4" />
-            {label}
-          </FormLabel>
-          <FormControl>
-            <Popover>
-              <PopoverTrigger asChild>
-                <FormControl>
-                  <Button
-                    variant="outline"
-                    role="combobox"
-                    className={cn(
-                      "justify-between w-full",
-                      !field.value && "text-muted-foreground"
-                    )}
-                  >
-                    {field.value 
-                    ? assetTypes.find(
-                      (type) => type.type_id === field.value
-                    )?.type_name
-                  : "Select type"}
-                    <ChevronsUpDown className="opacity-50" />
-                  </Button>
-                </FormControl>
-              </PopoverTrigger>
-              <PopoverContent className="w-[200px] p-0">
-                <Command>
+      render={({ field }) => {
+        const selectedType = field.value 
+          ? assetTypes.find((type) => type.type_id === field.value)
+          : null;
+
+        return (
+          <FormItem>
+            <FormLabel className="flex items-center gap-2">
+              <IconComponent className="h-4 w-4" />
+              {label}
+            </FormLabel>
+            <FormControl>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      className={cn(
+                        "justify-between w-full h-auto min-h-[2.5rem] px-3 py-2",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      <div className="flex-1 text-left">
+                        {selectedType ? (
+                          <DisplayType 
+                            category={selectedType.category_name} 
+                            sub_category={selectedType.sub_category_name} 
+                            type={selectedType.type_name} 
+                          />
+                        ) : (
+                          <span className="text-muted-foreground">Select type</span>
+                        )}
+                      </div>
+                      <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50 flex-shrink-0" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-[300px] p-0"> {/* Increased width for better display */}
+                  <Command>
                     <CommandInput
-                    placeholder="Search type..."
-                    className="h-9"/>
+                      placeholder="Search type..."
+                      className="h-9"
+                    />
                     <CommandList>
                       <CommandEmpty>No type found.</CommandEmpty>
                       <CommandGroup>
                         {assetTypes.map((type) => (
                           <CommandItem
-                          value={type.type_name}
-                          key={type.type_id}
-                          onSelect={() => {
-                            form.setValue("type_id", type.type_id)
-                            form.setValue("sub_category_id", type.sub_category_id)
-                            form.setValue("category_id", type.category_id)
-                          }}
+                            value={type.type_name}
+                            key={type.type_id}
+                            onSelect={() => {
+                              form.setValue("type_id", type.type_id);
+                              form.setValue("sub_category_id", type.sub_category_id);
+                              form.setValue("category_id", type.category_id);
+                            }}
+                            className="cursor-pointer"
                           >
-                            <DisplayType category={type.category_name} sub_category={type.sub_category_name} type={type.type_name} />
+                            <div className="flex-1">
+                              <DisplayType 
+                                category={type.category_name} 
+                                sub_category={type.sub_category_name} 
+                                type={type.type_name} 
+                              />
+                            </div>
                             <Check
-                            className={cn(
-                                "ml-auto",
+                              className={cn(
+                                "ml-2 h-4 w-4",
                                 type.type_id === field.value
                                   ? "opacity-100"
                                   : "opacity-0"
@@ -99,13 +118,14 @@ function FormFieldTypeCombobox({
                         ))}
                       </CommandGroup>
                     </CommandList>
-                </Command>
-              </PopoverContent>
-            </Popover>
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        );
+      }}
     />
   );
 }
