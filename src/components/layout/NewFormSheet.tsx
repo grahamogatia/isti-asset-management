@@ -10,7 +10,7 @@ import {
 import { Plus } from "lucide-react";
 import { HeroHighlightDemo } from "../ui/custom-hero-higlight";
 
-function NewAssetSheet({
+function NewFormSheet({
   type,
   form,
 }: {
@@ -45,4 +45,4 @@ function NewAssetSheet({
   );
 }
 
-export default NewAssetSheet;
+export default NewFormSheet;

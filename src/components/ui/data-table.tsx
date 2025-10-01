@@ -34,7 +34,7 @@ import { useState, useEffect } from "react";
 import FilterBar from "../pages/filters/FilterBar";
 import { formatColumnName, getColumnIcon } from "@/lib/columnNameUtils";
 import type { ActiveFilter } from "@/data/types";
-import NewAssetSheet from "../layout/NewFormSheet";
+import NewFormSheet from "../layout/NewFormSheet";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -180,7 +180,7 @@ export function DataTable<TData, TValue>({
                   Columns
                 </Button>
               </DropdownMenuTrigger>
-              <NewAssetSheet type={type} form={form}/>
+              <NewFormSheet type={type} form={form}/>
               <DropdownMenuContent align="end">
                 {table
                   .getAllColumns()
