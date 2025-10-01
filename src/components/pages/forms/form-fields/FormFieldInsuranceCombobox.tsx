@@ -68,7 +68,7 @@ function FormFieldInsuranceCombobox({
                   </Button>
                 </FormControl>
               </PopoverTrigger>
-              <PopoverContent className="w-90 p-0">
+              <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
                 <Command>
                     <CommandInput
                     placeholder="Search type..."

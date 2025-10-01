@@ -79,7 +79,7 @@ function FormFieldTypeCombobox({
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="w-[300px] p-0"> {/* Increased width for better display */}
+                <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0"> {/* Increased width for better display */}
                   <Command>
                     <CommandInput
                       placeholder="Search type..."
