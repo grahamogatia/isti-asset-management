@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import DisplayEmployee from "@/components/ui/display-employee";
 import {
   FormControl,
   FormField,
@@ -89,7 +90,6 @@ function FormFieldUserCombobox({
                     <CommandList>
                       <CommandEmpty>No type found.</CommandEmpty>
                       <CommandGroup>
-                        {/* Return filters here for employee filtering */}
                         <OrgFilter 
                         companies={company}
                         departments={departments}
@@ -110,7 +110,7 @@ function FormFieldUserCombobox({
                             className="cursor-pointer"
                           >
                             <div className="flex-1">
-                              {employee.name}
+                              <DisplayEmployee employee={employee}/>
                             </div>
                             {/* <Check
                               className={cn(

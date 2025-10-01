@@ -10,6 +10,7 @@ import {
   departments,
   company,
   urgency,
+  units,
 } from "@/testcases/foreignkeys";
 import { asset_testcases } from "@/testcases/assets";
 
@@ -23,6 +24,7 @@ const statusMap = new Map(status.map(s => [s.status_id, s]));
 const assetMap = new Map(asset_testcases.map(a => [a.asset_id, a]));
 const employeeMap = new Map(employees.map(e => [e.user_id, e]));
 const departmentMap = new Map(departments.map(d => [d.department_id, d]));
+const unitMap = new Map(units.map(u => [u.unit_id, u]));
 const companyMap = new Map(company.map(c => [c.company_id, c]));
 const urgencyMap = new Map(urgency.map(u => [u.urgency_id, u]));
 
@@ -70,6 +72,10 @@ export function getDepartmentName(department_id: number): string {
 
 export function getCompanyName(company: number): string {
   return companyMap.get(company)?.name ?? "Unknown Company";
+}
+
+export function getUnitName(unit_id: number): string {
+  return unitMap.get(unit_id)?.name ?? "Unknown Unit";
 }
 
 export function getUrgencyName(urgency_id: number): string {
