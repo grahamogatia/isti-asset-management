@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import DisplayType from "@/components/ui/display-type";
 import {
   FormControl,
   FormField,
@@ -8,15 +7,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import OrgFilter from "@/components/ui/org-filter";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import type { Asset_Type, Employee } from "@/data/types";
+import type { Employee } from "@/data/types";
 import { getColumnIcon } from "@/lib/columnNameUtils";
 import { cn } from "@/lib/utils";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { company, departments, units } from "@/testcases/foreignkeys";
+import { ChevronsUpDown } from "lucide-react";
 import type { Control } from "react-hook-form";
 
 interface FormFieldUserComboboxProps {
@@ -88,6 +89,15 @@ function FormFieldUserCombobox({
                     <CommandList>
                       <CommandEmpty>No type found.</CommandEmpty>
                       <CommandGroup>
+                        {/* Return filters here for employee filtering */}
+                        <OrgFilter 
+                        companies={company}
+                        departments={departments}
+                        units={units}
+                        onChange={(selection) => {
+                            console.log("Filter changed: ", selection)
+                        }}
+                        />
                         {employees.map((employee) => (
                           <CommandItem
                             value={employee.name}

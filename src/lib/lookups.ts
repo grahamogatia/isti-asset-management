@@ -65,11 +65,11 @@ export function getEmployeeName(employee_id: number): string {
 }
 
 export function getDepartmentName(department_id: number): string {
-  return departmentMap.get(department_id)?.department_name ?? "Unknown Department";
+  return departmentMap.get(department_id)?.name ?? "Unknown Department";
 }
 
 export function getCompanyName(company: number): string {
-  return companyMap.get(company)?.company_name ?? "Unknown Company";
+  return companyMap.get(company)?.name ?? "Unknown Company";
 }
 
 export function getUrgencyName(urgency_id: number): string {
@@ -146,7 +146,7 @@ export function getIdFromDisplayName(columnName: string, displayName: string): n
       break;
     case "department":
       for (const [id, department] of departmentMap) {
-        if (department.department_name === displayName) return id;
+        if (department.name === displayName) return id;
       }
       break;
     case "sub_category":
@@ -166,7 +166,7 @@ export function getIdFromDisplayName(columnName: string, displayName: string): n
       break;
     case "company":
       for (const [id, company] of companyMap) {
-        if (company.company_name === displayName) return id;
+        if (company.name === displayName) return id;
       }
       break;
     case "employee":

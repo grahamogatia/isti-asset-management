@@ -1,5 +1,15 @@
 import type z from "zod";
-import type { AssetSchema, InsuranceSchema, RepairSchema, BorrowSchema, IssuanceSchema, DepartmentSchema, CompanySchema, UnitSchema, EmployeeSchema } from "./schemas";
+import type {
+  AssetSchema,
+  InsuranceSchema,
+  RepairSchema,
+  BorrowSchema,
+  IssuanceSchema,
+  DepartmentSchema,
+  CompanySchema,
+  UnitSchema,
+  EmployeeSchema,
+} from "./schemas";
 
 export type Asset_Category = {
   category_id: number;
@@ -34,4 +44,5 @@ export type ActiveFilter = {
   columnName: string;
   values: string[];
   displayLabel: string;
-}
+};
+
