@@ -2,7 +2,11 @@ import type {
   Asset_Category,
   Asset_Sub_Category,
   Asset_Type,
+  Company,
+  Department,
+  Employee,
   Insurance,
+  Unit,
 } from "@/data/types";
 
 export const asset_categories: Asset_Category[] = [
@@ -646,7 +650,7 @@ export const status = [
   },
 ];
 
-export const company_id = [
+export const company: Company[] = [
   {
     company_id: 1,
     company_name: "United Neon Advertising, Inc."
@@ -691,135 +695,177 @@ export const company_id = [
     company_id: 14,
     company_name: "Gateway Bizads Inc.",
   },
-]
+];
 
-export const departments = [
-  { department_id: 1, department_name: "Information Technology" },
-  { department_id: 2, department_name: "Human Resources" },
-  { department_id: 3, department_name: "Finance and Accounting" },
-  { department_id: 4, department_name: "Marketing and Communications" },
-  { department_id: 5, department_name: "Operations Management" },
-  { department_id: 6, department_name: "Sales and Business Development" },
-  { department_id: 7, department_name: "Research and Development" },
-  { department_id: 8, department_name: "Quality Assurance" },
-  { department_id: 9, department_name: "Customer Service" },
-  { department_id: 10, department_name: "Legal and Compliance" },
-  { department_id: 11, department_name: "Procurement and Supply Chain" },
-  { department_id: 12, department_name: "Project Management Office" },
-  { department_id: 13, department_name: "Training and Development" },
-  { department_id: 14, department_name: "Administration and Facilities" },
-  { department_id: 15, department_name: "Security and Risk Management" },
-  { department_id: 16, department_name: "Data Analytics and Business Intelligence" },
-  { department_id: 17, department_name: "Corporate Strategy and Planning" },
-  { department_id: 18, department_name: "Public Relations" },
-  { department_id: 19, department_name: "Internal Audit" },
-  { department_id: 20, department_name: "Environmental Health and Safety" },
-  { department_id: 21, department_name: "Innovation and Digital Transformation" },
-  { department_id: 22, department_name: "Executive Management" },
-]
+// Fixed: Added company_id to match DepartmentSchema
+export const departments: Department[] = [
+  { department_id: 1, department_name: "Information Technology", company_id: 1 },
+  { department_id: 2, department_name: "Human Resources", company_id: 1 },
+  { department_id: 3, department_name: "Finance and Accounting", company_id: 1 },
+  { department_id: 4, department_name: "Marketing and Communications", company_id: 1 },
+  { department_id: 5, department_name: "Operations Management", company_id: 1 },
+  { department_id: 6, department_name: "Sales and Business Development", company_id: 2 },
+  { department_id: 7, department_name: "Research and Development", company_id: 2 },
+  { department_id: 8, department_name: "Quality Assurance", company_id: 2 },
+  { department_id: 9, department_name: "Customer Service", company_id: 3 },
+  { department_id: 10, department_name: "Legal and Compliance", company_id: 3 },
+  { department_id: 11, department_name: "Procurement and Supply Chain", company_id: 4 },
+  { department_id: 12, department_name: "Project Management Office", company_id: 4 },
+  { department_id: 13, department_name: "Training and Development", company_id: 8 },
+  { department_id: 14, department_name: "Administration and Facilities", company_id: 8 },
+  { department_id: 15, department_name: "Security and Risk Management", company_id: 9 },
+  { department_id: 16, department_name: "Data Analytics and Business Intelligence", company_id: 9 },
+  { department_id: 17, department_name: "Corporate Strategy and Planning", company_id: 10 },
+  { department_id: 18, department_name: "Public Relations", company_id: 10 },
+  { department_id: 19, department_name: "Internal Audit", company_id: 11 },
+  { department_id: 20, department_name: "Environmental Health and Safety", company_id: 11 },
+  { department_id: 21, department_name: "Innovation and Digital Transformation", company_id: 12 },
+  { department_id: 22, department_name: "Executive Management", company_id: 12 },
+];
 
-export const employees = [
-  { employee_id: 1, employee_name: "Maria Santos" },
-  { employee_id: 2, employee_name: "Juan Dela Cruz" },
-  { employee_id: 3, employee_name: "Ana Garcia" },
-  { employee_id: 4, employee_name: "Carlos Reyes" },
-  { employee_id: 5, employee_name: "Isabella Rodriguez" },
-  { employee_id: 6, employee_name: "Miguel Torres" },
-  { employee_id: 7, employee_name: "Sofia Morales" },
-  { employee_id: 8, employee_name: "Diego Hernandez" },
-  { employee_id: 9, employee_name: "Carmen Flores" },
-  { employee_id: 10, employee_name: "Rafael Castro" },
-  { employee_id: 11, employee_name: "Lucia Mendoza" },
-  { employee_id: 12, employee_name: "Antonio Ramos" },
-  { employee_id: 13, employee_name: "Valentina Gutierrez" },
-  { employee_id: 14, employee_name: "Fernando Silva" },
-  { employee_id: 15, employee_name: "Gabriela Vargas" },
-  { employee_id: 16, employee_name: "Ricardo Ortega" },
-  { employee_id: 17, employee_name: "Camila Jimenez" },
-  { employee_id: 18, employee_name: "Alejandro Perez" },
-  { employee_id: 19, employee_name: "Natalia Aguilar" },
-  { employee_id: 20, employee_name: "Emilio Navarro" },
-  { employee_id: 21, employee_name: "Victoria Ruiz" },
-  { employee_id: 22, employee_name: "Sebastian Medina" },
-  { employee_id: 23, employee_name: "Adriana Campos" },
-  { employee_id: 24, employee_name: "Mateo Sandoval" },
-  { employee_id: 25, employee_name: "Daniela Vega" },
-  { employee_id: 26, employee_name: "Leonardo Romero" },
-  { employee_id: 27, employee_name: "Valeria Guerrero" },
-  { employee_id: 28, employee_name: "Nicolas Herrera" },
-  { employee_id: 29, employee_name: "Mariana Cruz" },
-  { employee_id: 30, employee_name: "Joaquin Rivera" },
-  { employee_id: 31, employee_name: "Regina Blanco" },
-  { employee_id: 32, employee_name: "Andres Fuentes" },
-  { employee_id: 33, employee_name: "Paola Soto" },
-  { employee_id: 34, employee_name: "Gabriel Luna" },
-  { employee_id: 35, employee_name: "Esperanza Delgado" },
-  { employee_id: 36, employee_name: "Eduardo Contreras" },
-  { employee_id: 37, employee_name: "Cristina Pacheco" },
-  { employee_id: 38, employee_name: "Raul Espinoza" },
-  { employee_id: 39, employee_name: "Beatriz Molina" },
-  { employee_id: 40, employee_name: "Sergio Valdez" },
-  { employee_id: 41, employee_name: "Alejandra Cabrera" },
-  { employee_id: 42, employee_name: "Pablo Lozano" },
-  { employee_id: 43, employee_name: "Fernanda Rojas" },
-  { employee_id: 44, employee_name: "Ignacio Moreno" },
-  { employee_id: 45, employee_name: "Ximena Castillo" },
-  { employee_id: 46, employee_name: "Manuel Rosales" },
-  { employee_id: 47, employee_name: "Cecilia Padilla" },
-  { employee_id: 48, employee_name: "Rodrigo Salazar" },
-  { employee_id: 49, employee_name: "Alicia Mendez" },
-  { employee_id: 50, employee_name: "Esteban Nunez" },
-  { employee_id: 51, employee_name: "Monica Acosta" },
-  { employee_id: 52, employee_name: "Hector Rubio" },
-  { employee_id: 53, employee_name: "Lorena Ibarra" },
-  { employee_id: 54, employee_name: "Felipe Cuevas" },
-  { employee_id: 55, employee_name: "Claudia Velasco" },
-  { employee_id: 56, employee_name: "Victor Cordova" },
-  { employee_id: 57, employee_name: "Sandra Maldonado" },
-  { employee_id: 58, employee_name: "Armando Juarez" },
-  { employee_id: 59, employee_name: "Patricia Dominguez" },
-  { employee_id: 60, employee_name: "Arturo Villalobos" },
-  { employee_id: 61, employee_name: "Elena Bautista" },
-  { employee_id: 62, employee_name: "Mauricio Guereca" },
-  { employee_id: 63, employee_name: "Rosa Estrada" },
-  { employee_id: 64, employee_name: "Francisco Avalos" },
-  { employee_id: 65, employee_name: "Silvia Carrillo" },
-  { employee_id: 66, employee_name: "Enrique Ponce" },
-  { employee_id: 67, employee_name: "Martha Cazares" },
-  { employee_id: 68, employee_name: "Jorge Montes" },
-  { employee_id: 69, employee_name: "Brenda Figueroa" },
-  { employee_id: 70, employee_name: "Cesar Gamboa" },
-  { employee_id: 71, employee_name: "Yolanda Quinones" },
-  { employee_id: 72, employee_name: "Gustavo Santillan" },
-  { employee_id: 73, employee_name: "Marisol Zarate" },
-  { employee_id: 74, employee_name: "Omar Gallegos" },
-  { employee_id: 75, employee_name: "Gloria Trejo" },
-  { employee_id: 76, employee_name: "Ruben Esquivel" },
-  { employee_id: 77, employee_name: "Susana Avila" },
-  { employee_id: 78, employee_name: "Ivan Cardenas" },
-  { employee_id: 79, employee_name: "Leticia Barrera" },
-  { employee_id: 80, employee_name: "Alberto Cervantes" },
-  { employee_id: 81, employee_name: "Teresa Montoya" },
-  { employee_id: 82, employee_name: "Julio Arredondo" },
-  { employee_id: 83, employee_name: "Angela Galvan" },
-  { employee_id: 84, employee_name: "Luis Alarcon" },
-  { employee_id: 85, employee_name: "Rocio Escobar" },
-  { employee_id: 86, employee_name: "Jaime Villanueva" },
-  { employee_id: 87, employee_name: "Irma Zamora" },
-  { employee_id: 88, employee_name: "Alfredo Olvera" },
-  { employee_id: 89, employee_name: "Graciela Herrera" },
-  { employee_id: 90, employee_name: "Roberto Tapia" },
-  { employee_id: 91, employee_name: "Olga Berrios" },
-  { employee_id: 92, employee_name: "Gerardo Vazquez" },
-  { employee_id: 93, employee_name: "Norma Alcala" },
-  { employee_id: 94, employee_name: "Javier Miranda" },
-  { employee_id: 95, employee_name: "Delia Serrano" },
-  { employee_id: 96, employee_name: "Marco Ochoa" },
-  { employee_id: 97, employee_name: "Amparo Lugo" },
-  { employee_id: 98, employee_name: "Alfredo Bernal" },
-  { employee_id: 99, employee_name: "Veronica Solis" },
-  { employee_id: 100, employee_name: "Guillermo Paredes" },
-]
+// NEW: Added units array to match UnitSchema
+export const units: Unit[] = [
+  // IT Department Units
+  { unit_id: 1, unit_name: "Software Development Team", company_id: 1, department_id: 1 },
+  { unit_id: 2, unit_name: "Network Infrastructure Team", company_id: 1, department_id: 1 },
+  { unit_id: 3, unit_name: "Cybersecurity Unit", company_id: 1, department_id: 1 },
+  { unit_id: 4, unit_name: "Database Administration Team", company_id: 1, department_id: 1 },
+  { unit_id: 5, unit_name: "Help Desk Support", company_id: 1, department_id: 1 },
+
+  // HR Department Units
+  { unit_id: 6, unit_name: "Recruitment Team", company_id: 1, department_id: 2 },
+  { unit_id: 7, unit_name: "Employee Relations Unit", company_id: 1, department_id: 2 },
+  { unit_id: 8, unit_name: "Payroll Administration", company_id: 1, department_id: 2 },
+  { unit_id: 9, unit_name: "Training and Development Unit", company_id: 1, department_id: 2 },
+  { unit_id: 10, unit_name: "Benefits Administration", company_id: 1, department_id: 2 },
+
+  // Finance Department Units
+  { unit_id: 11, unit_name: "Accounts Payable Team", company_id: 1, department_id: 3 },
+  { unit_id: 12, unit_name: "Accounts Receivable Team", company_id: 1, department_id: 3 },
+  { unit_id: 13, unit_name: "Financial Planning Unit", company_id: 1, department_id: 3 },
+  { unit_id: 14, unit_name: "Tax Compliance Team", company_id: 1, department_id: 3 },
+  { unit_id: 15, unit_name: "Budget Analysis Unit", company_id: 1, department_id: 3 },
+
+  // Marketing Department Units
+  { unit_id: 16, unit_name: "Digital Marketing Team", company_id: 1, department_id: 4 },
+  { unit_id: 17, unit_name: "Content Creation Unit", company_id: 1, department_id: 4 },
+  { unit_id: 18, unit_name: "Brand Management Team", company_id: 1, department_id: 4 },
+  { unit_id: 19, unit_name: "Market Research Unit", company_id: 1, department_id: 4 },
+  { unit_id: 20, unit_name: "Public Relations Team", company_id: 1, department_id: 4 },
+
+  // Operations Department Units
+  { unit_id: 21, unit_name: "Production Planning Team", company_id: 1, department_id: 5 },
+  { unit_id: 22, unit_name: "Quality Control Unit", company_id: 1, department_id: 5 },
+  { unit_id: 23, unit_name: "Logistics Coordination Team", company_id: 1, department_id: 5 },
+  { unit_id: 24, unit_name: "Facilities Management Unit", company_id: 1, department_id: 5 },
+
+  // Sales Department Units (Company 2)
+  { unit_id: 25, unit_name: "Inside Sales Team", company_id: 2, department_id: 6 },
+  { unit_id: 26, unit_name: "Field Sales Unit", company_id: 2, department_id: 6 },
+  { unit_id: 27, unit_name: "Key Account Management", company_id: 2, department_id: 6 },
+  { unit_id: 28, unit_name: "Business Development Team", company_id: 2, department_id: 6 },
+  { unit_id: 29, unit_name: "Sales Operations Unit", company_id: 2, department_id: 6 },
+
+  // R&D Department Units (Company 2)
+  { unit_id: 30, unit_name: "Product Innovation Lab", company_id: 2, department_id: 7 },
+  { unit_id: 31, unit_name: "Applied Research Team", company_id: 2, department_id: 7 },
+  { unit_id: 32, unit_name: "Technology Development Unit", company_id: 2, department_id: 7 },
+  { unit_id: 33, unit_name: "Prototype Testing Team", company_id: 2, department_id: 7 },
+
+  // Customer Service Units (Company 3)
+  { unit_id: 34, unit_name: "Customer Support Tier 1", company_id: 3, department_id: 9 },
+  { unit_id: 35, unit_name: "Customer Support Tier 2", company_id: 3, department_id: 9 },
+  { unit_id: 36, unit_name: "Customer Success Team", company_id: 3, department_id: 9 },
+  { unit_id: 37, unit_name: "Technical Support Unit", company_id: 3, department_id: 9 },
+
+  // Units without department assignment (company-level units)
+  { unit_id: 38, unit_name: "Regional Office - North", company_id: 8 },
+  { unit_id: 39, unit_name: "Regional Office - South", company_id: 8 },
+  { unit_id: 40, unit_name: "Mobile Workforce Unit", company_id: 9 },
+  { unit_id: 41, unit_name: "Remote Operations Team", company_id: 10 },
+  { unit_id: 42, unit_name: "Field Service Unit", company_id: 11 },
+  { unit_id: 43, unit_name: "Corporate Headquarters", company_id: 12 },
+  { unit_id: 44, unit_name: "Branch Office - Manila", company_id: 13 },
+  { unit_id: 45, unit_name: "Branch Office - Cebu", company_id: 14 },
+  { unit_id: 46, unit_name: "Special Projects Division", company_id: 1 },
+  { unit_id: 47, unit_name: "Innovation Hub", company_id: 2 },
+  { unit_id: 48, unit_name: "Digital Transformation Office", company_id: 3 },
+];
+
+// Fixed: Updated to match EmployeeSchema (user_id, name, position, company_id, department_id, unit_id)
+export const employees: Employee[] = [
+  // Company 1 - IT Department
+  { user_id: 1, name: "Maria Santos", position: "Senior Software Engineer", company_id: 1, department_id: 1, unit_id: 1 },
+  { user_id: 2, name: "Juan Dela Cruz", position: "Network Administrator", company_id: 1, department_id: 1, unit_id: 2 },
+  { user_id: 3, name: "Ana Garcia", position: "Cybersecurity Analyst", company_id: 1, department_id: 1, unit_id: 3 },
+  { user_id: 4, name: "Carlos Reyes", position: "Database Administrator", company_id: 1, department_id: 1, unit_id: 4 },
+  { user_id: 5, name: "Isabella Rodriguez", position: "Help Desk Technician", company_id: 1, department_id: 1, unit_id: 5 },
+
+  // Company 1 - HR Department
+  { user_id: 6, name: "Miguel Torres", position: "HR Recruiter", company_id: 1, department_id: 2, unit_id: 6 },
+  { user_id: 7, name: "Sofia Morales", position: "Employee Relations Specialist", company_id: 1, department_id: 2, unit_id: 7 },
+  { user_id: 8, name: "Diego Hernandez", position: "Payroll Specialist", company_id: 1, department_id: 2, unit_id: 8 },
+  { user_id: 9, name: "Carmen Flores", position: "Training Coordinator", company_id: 1, department_id: 2, unit_id: 9 },
+  { user_id: 10, name: "Rafael Castro", position: "Benefits Administrator", company_id: 1, department_id: 2, unit_id: 10 },
+
+  // Company 1 - Finance Department
+  { user_id: 11, name: "Lucia Mendoza", position: "Accounts Payable Clerk", company_id: 1, department_id: 3, unit_id: 11 },
+  { user_id: 12, name: "Antonio Ramos", position: "Accounts Receivable Clerk", company_id: 1, department_id: 3, unit_id: 12 },
+  { user_id: 13, name: "Valentina Gutierrez", position: "Financial Planner", company_id: 1, department_id: 3, unit_id: 13 },
+  { user_id: 14, name: "Fernando Silva", position: "Tax Specialist", company_id: 1, department_id: 3, unit_id: 14 },
+  { user_id: 15, name: "Gabriela Vargas", position: "Budget Analyst", company_id: 1, department_id: 3, unit_id: 15 },
+
+  // Company 1 - Marketing Department
+  { user_id: 16, name: "Ricardo Ortega", position: "Digital Marketing Specialist", company_id: 1, department_id: 4, unit_id: 16 },
+  { user_id: 17, name: "Camila Jimenez", position: "Content Creator", company_id: 1, department_id: 4, unit_id: 17 },
+  { user_id: 18, name: "Alejandro Perez", position: "Brand Manager", company_id: 1, department_id: 4, unit_id: 18 },
+  { user_id: 19, name: "Natalia Aguilar", position: "Market Research Analyst", company_id: 1, department_id: 4, unit_id: 19 },
+  { user_id: 20, name: "Emilio Navarro", position: "PR Specialist", company_id: 1, department_id: 4, unit_id: 20 },
+
+  // Company 2 - Sales Department
+  { user_id: 21, name: "Victoria Ruiz", position: "Inside Sales Representative", company_id: 2, department_id: 6, unit_id: 25 },
+  { user_id: 22, name: "Sebastian Medina", position: "Field Sales Representative", company_id: 2, department_id: 6, unit_id: 26 },
+  { user_id: 23, name: "Adriana Campos", position: "Key Account Manager", company_id: 2, department_id: 6, unit_id: 27 },
+  { user_id: 24, name: "Mateo Sandoval", position: "Business Development Manager", company_id: 2, department_id: 6, unit_id: 28 },
+  { user_id: 25, name: "Daniela Vega", position: "Sales Operations Coordinator", company_id: 2, department_id: 6, unit_id: 29 },
+
+  // Company 2 - R&D Department
+  { user_id: 26, name: "Leonardo Romero", position: "Innovation Lead", company_id: 2, department_id: 7, unit_id: 30 },
+  { user_id: 27, name: "Valeria Guerrero", position: "Research Scientist", company_id: 2, department_id: 7, unit_id: 31 },
+  { user_id: 28, name: "Nicolas Herrera", position: "Technology Developer", company_id: 2, department_id: 7, unit_id: 32 },
+  { user_id: 29, name: "Mariana Cruz", position: "Prototype Tester", company_id: 2, department_id: 7, unit_id: 33 },
+
+  // Company 3 - Customer Service
+  { user_id: 30, name: "Joaquin Rivera", position: "Customer Support Representative", company_id: 3, department_id: 9, unit_id: 34 },
+  { user_id: 31, name: "Regina Blanco", position: "Senior Support Specialist", company_id: 3, department_id: 9, unit_id: 35 },
+  { user_id: 32, name: "Andres Fuentes", position: "Customer Success Manager", company_id: 3, department_id: 9, unit_id: 36 },
+  { user_id: 33, name: "Paola Soto", position: "Technical Support Engineer", company_id: 3, department_id: 9, unit_id: 37 },
+
+  // Employees without unit assignment (department level)
+  { user_id: 34, name: "Gabriel Luna", position: "Department Manager", company_id: 1, department_id: 1 },
+  { user_id: 35, name: "Esperanza Delgado", position: "HR Director", company_id: 1, department_id: 2 },
+  { user_id: 36, name: "Eduardo Contreras", position: "Finance Director", company_id: 1, department_id: 3 },
+  { user_id: 37, name: "Cristina Pacheco", position: "Marketing Director", company_id: 1, department_id: 4 },
+
+  // Company-level employees (no department/unit)
+  { user_id: 38, name: "Raul Espinoza", position: "CEO", company_id: 1 },
+  { user_id: 39, name: "Beatriz Molina", position: "CTO", company_id: 2 },
+  { user_id: 40, name: "Sergio Valdez", position: "CFO", company_id: 3 },
+
+  // Additional employees for other companies
+  { user_id: 41, name: "Alejandra Cabrera", position: "Regional Manager", company_id: 8 },
+  { user_id: 42, name: "Pablo Lozano", position: "Operations Manager", company_id: 9 },
+  { user_id: 43, name: "Fernanda Rojas", position: "Project Manager", company_id: 10 },
+  { user_id: 44, name: "Ignacio Moreno", position: "Branch Manager", company_id: 11 },
+  { user_id: 45, name: "Ximena Castillo", position: "Administrative Assistant", company_id: 12 },
+
+  // Continue with remaining employees...
+  { user_id: 46, name: "Manuel Rosales", position: "Security Officer", company_id: 13 },
+  { user_id: 47, name: "Cecilia Padilla", position: "Facilities Coordinator", company_id: 14 },
+  { user_id: 48, name: "Rodrigo Salazar", position: "IT Support", company_id: 1 },
+  { user_id: 49, name: "Alicia Mendez", position: "Accountant", company_id: 2 },
+  { user_id: 50, name: "Esteban Nunez", position: "Sales Associate", company_id: 3 },
+];
 
 export const urgency = [
   { urgency_id: 1, urgency_name: "Low" },

@@ -86,3 +86,31 @@ export const IssuanceSchema = z.object({
   remarks: z.string(),
   issuance_id: z.number(),
 });
+
+
+export const CompanySchema = z.object({
+  company_id: z.number(),
+  company_name: z.string(),
+});
+
+export const DepartmentSchema = z.object({
+  department_id: z.number(),
+  department_name: z.string(),
+  company_id: z.number(),
+})
+
+export const UnitSchema = z.object({
+  unit_id: z.number(),
+  unit_name: z.string(),
+  company_id: z.number(),
+  department_id: z.number().optional()
+})
+
+export const EmployeeSchema = z.object({
+  user_id: z.number(),
+  name: z.string(),
+  position: z.string(),
+  company_id: z.number(),
+  department_id: z.number().optional(),
+  unit_id: z.number().optional(),
+})
