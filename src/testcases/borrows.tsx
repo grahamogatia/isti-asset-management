@@ -2,11 +2,11 @@ import { faker } from "@faker-js/faker";
 import { 
   asset_conditions, 
   asset_types, 
-  company_id,
+  company,
   departments,
   employees 
 } from "./foreignkeys";
-import type { Borrow } from "@/data/types";
+import type { Borrow, Company, Department, Employee } from "@/data/types";
 
 faker.seed(12345);
 
@@ -34,9 +34,9 @@ export function generateBorrows(count = 50): Borrow[] {
     const category_id = type.category_id;
     
     const condition = faker.helpers.arrayElement(asset_conditions);
-    const company = faker.helpers.arrayElement(company_id);
-    const department = faker.helpers.arrayElement(departments);
-    const employee = faker.helpers.arrayElement(employees);
+    const comp: Company = faker.helpers.arrayElement(company); // Fixed: renamed variable
+    const department: Department = faker.helpers.arrayElement(departments);
+    const employee: Employee = faker.helpers.arrayElement(employees);
     
     // Generate borrow dates
     const dateBorrowed = randomDate();
@@ -47,21 +47,21 @@ export function generateBorrows(count = 50): Borrow[] {
     const isReturned = faker.datatype.boolean({ probability: 0.7 });
     const returnDate = isReturned 
       ? addDays(dateBorrowed, faker.number.int({ min: 1, max: duration + 5 }))
-      : dateBorrowed; // Use borrow date as placeholder for unreturned items
+      : null; // Fixed: use null for unreturned items
 
     borrows.push({
-      asset_id: faker.number.int({ min: 1, max: 100 }), // Reference to assets
+      asset_id: faker.number.int({ min: 1, max: 100 }),
       category_id,
-      user_id: employee.employee_id,
+      user_id: employee.user_id,
       department_id: department.department_id,
       date_borrowed: dateBorrowed.toISOString().split("T")[0],
-      asset_condition_id: condition.asset_condition_id.toString(),
-      borrow_transaction_id: `BRW-${String(i).padStart(4, "0")}`,
-      company_id: company.company_id,
+      asset_condition_id: condition.asset_condition_id,
+      borrow_transaction_id: i,
+      company_id: comp.company_id, // Fixed: use comp instead of company
       sub_category_id,
       type_id: type.type_id || 0,
       due_date: dueDate.toISOString().split("T")[0],
-      return_date: isReturned ? returnDate.toISOString().split("T")[0] : "",
+      return_date: isReturned ? returnDate!.toISOString().split("T")[0] : "",
       duration,
       remarks: faker.helpers.arrayElement([
         "Equipment for project work",

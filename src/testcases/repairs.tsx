@@ -2,7 +2,7 @@ import { faker } from "@faker-js/faker";
 import { 
   asset_types, 
   status, 
-  company_id,
+  company,
   departments,
   employees,
   urgency
@@ -61,7 +61,7 @@ export function generateRepairs(count = 30): Repair[] {
     const repairStatus = faker.helpers.arrayElement(status.filter(s => 
       ["Under Repair", "Available", "Out of Service", "Maintenance"].includes(s.status_name)
     ));
-    const company = faker.helpers.arrayElement(company_id);
+    const comp = faker.helpers.arrayElement(company);
     const department = faker.helpers.arrayElement(departments);
     const employee = faker.helpers.arrayElement(employees);
     
@@ -82,13 +82,13 @@ export function generateRepairs(count = 30): Repair[] {
     repairs.push({
       asset_id: faker.number.int({ min: 1, max: 100 }), // Reference to assets
       category_id,
-      user_id: employee.employee_id,
+      user_id: employee.user_id,
       department_id: department.department_id,
       issue,
       urgency_id: urgencyLevel.urgency_id,
       status_id: repairStatus.status_id,
       repair_request_id: i, // Sequential repair request ID
-      company_id: company.company_id,
+      company_id: comp.company_id,
       sub_category_id,
       type_id: type.type_id || 0,
       remarks: faker.helpers.arrayElement([

@@ -2,7 +2,7 @@ import { faker } from "@faker-js/faker";
 import { 
   asset_types, 
   status, 
-  company_id,
+  company,
   departments,
   employees
 } from "./foreignkeys";
@@ -36,7 +36,7 @@ export function generateIssuances(count = 40): Issuance[] {
     const issuanceStatus = faker.helpers.arrayElement(status.filter(s => 
       ["In Use", "Available", "Borrowed", "Pending Return"].includes(s.status_name)
     ));
-    const company = faker.helpers.arrayElement(company_id);
+    const comp = faker.helpers.arrayElement(company);
     const department = faker.helpers.arrayElement(departments);
     const employee = faker.helpers.arrayElement(employees);
     
@@ -60,7 +60,7 @@ export function generateIssuances(count = 40): Issuance[] {
     issuances.push({
       asset_id: faker.number.int({ min: 1, max: 100 }), // Reference to assets
       category_id,
-      user_id: employee.employee_id,
+      user_id: employee.user_id,
       department_id: department.department_id,
       issuance_date: issuanceDateString,
       pullout_date: pulloutDateString,
@@ -80,7 +80,7 @@ export function generateIssuances(count = 40): Issuance[] {
       issuance_id: i, // Sequential issuance ID
       sub_category_id,
       type_id: type.type_id || 0,
-      company_id: company.company_id,
+      company_id: comp.company_id,
     });
   }
 

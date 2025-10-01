@@ -8,7 +8,7 @@ import {
   status,
   employees,
   departments,
-  company_id,
+  company,
   urgency,
 } from "@/testcases/foreignkeys";
 import { asset_testcases } from "@/testcases/assets";
@@ -21,9 +21,9 @@ const conditionMap = new Map(asset_conditions.map(c => [c.asset_condition_id, c]
 const insuranceMap = new Map(insurances.map(i => [i.insurance_id, i]));
 const statusMap = new Map(status.map(s => [s.status_id, s]));
 const assetMap = new Map(asset_testcases.map(a => [a.asset_id, a]));
-const employeeMap = new Map(employees.map(e => [e.employee_id, e]));
+const employeeMap = new Map(employees.map(e => [e.user_id, e]));
 const departmentMap = new Map(departments.map(d => [d.department_id, d]));
-const companyMap = new Map(company_id.map(c => [c.company_id, c]));
+const companyMap = new Map(company.map(c => [c.company_id, c]));
 const urgencyMap = new Map(urgency.map(u => [u.urgency_id, u]));
 
 
@@ -61,15 +61,15 @@ export function getAsset(asset_id: number) {
 }
 
 export function getEmployeeName(employee_id: number): string {
-  return employeeMap.get(employee_id)?.employee_name ?? "Unknown Employee";
+  return employeeMap.get(employee_id)?.name ?? "Unknown Employee";
 }
 
 export function getDepartmentName(department_id: number): string {
   return departmentMap.get(department_id)?.department_name ?? "Unknown Department";
 }
 
-export function getCompanyName(company_id: number): string {
-  return companyMap.get(company_id)?.company_name ?? "Unknown Company";
+export function getCompanyName(company: number): string {
+  return companyMap.get(company)?.company_name ?? "Unknown Company";
 }
 
 export function getUrgencyName(urgency_id: number): string {
@@ -91,7 +91,7 @@ export function getDisplayNameForColumn(columnName: string, id: number | string)
     'user_id': getEmployeeName,
     'employee_id': getEmployeeName,
     'department_id': getDepartmentName,
-    'company_id': getCompanyName,
+    'company': getCompanyName,
     'urgency_id': getUrgencyName,
   };
 
@@ -115,7 +115,7 @@ export function isLookupColumn(columnName: string): boolean {
     'user_id',
     'employee_id',
     'department_id',
-    'company_id',
+    'company',
     'urgency_id'
   ];
   
@@ -172,7 +172,7 @@ export function getIdFromDisplayName(columnName: string, displayName: string): n
     case "employee":
     case "user_id":
       for (const [id, employee] of employeeMap) {
-        if (employee.employee_name === displayName) return id;
+        if (employee.name === displayName) return id;
       }
       break;
 

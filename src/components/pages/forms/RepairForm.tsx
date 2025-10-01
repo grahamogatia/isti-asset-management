@@ -8,13 +8,14 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import FormCardContent from "@/components/layout/FormCardContent";
 import FormFieldTextArea from "./form-fields/FormFieldTextArea";
-import { urgency } from "@/testcases/foreignkeys";
+import { employees, urgency } from "@/testcases/foreignkeys";
 import { SelectItem } from "@/components/ui/select";
 import FormFieldSelect from "./form-fields/FormFieldSelect";
 import FormFieldDate from "./form-fields/FormFieldDate";
 import FormFieldMoney from "./form-fields/FormFieldMoney";
 import FormFieldAssetCombobox from "./form-fields/FormFieldAssetCombobox";
 import { asset_testcases } from "@/testcases/assets";
+import FormFieldUserCombobox from "./form-fields/FormFieldUserCombobox";
 
 function RepairForm() {
   const form = useForm<Repair>({
@@ -59,6 +60,13 @@ function RepairForm() {
             name="asset_id"
             label="Asset for Repair"
             assets={asset_testcases}
+            form={{...form}}
+            />
+            <FormFieldUserCombobox
+            control={form.control}
+            name="user_id"
+            label="User"
+            employees={employees}
             form={{...form}}
             />
         </FormCardContent>
