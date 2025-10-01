@@ -13,6 +13,8 @@ import { SelectItem } from "@/components/ui/select";
 import FormFieldSelect from "./form-fields/FormFieldSelect";
 import FormFieldDate from "./form-fields/FormFieldDate";
 import FormFieldMoney from "./form-fields/FormFieldMoney";
+import FormFieldAssetCombobox from "./form-fields/FormFieldAssetCombobox";
+import { asset_testcases } from "@/testcases/assets";
 
 function RepairForm() {
   const form = useForm<Repair>({
@@ -50,9 +52,15 @@ function RepairForm() {
         className="space-y-5"
       >
         <FormCardContent
-        title="Repair Details"
+        title="Details"
         >
-            <p>Test</p>
+            <FormFieldAssetCombobox
+            control={form.control}
+            name="asset_id"
+            label="Asset for Repair"
+            assets={asset_testcases}
+            form={{...form}}
+            />
         </FormCardContent>
         <FormCardContent
         title="Request"
