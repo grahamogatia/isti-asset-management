@@ -1,5 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 import DisplayEmployee from "@/components/ui/display-employee";
 import {
   FormControl,
@@ -18,7 +25,8 @@ import type { Employee } from "@/data/types";
 import { getColumnIcon } from "@/lib/columnNameUtils";
 import { cn } from "@/lib/utils";
 import { company, departments, units } from "@/testcases/foreignkeys";
-import { ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { useState } from "react";
 import type { Control } from "react-hook-form";
 
 interface FormFieldUserComboboxProps {
@@ -35,16 +43,37 @@ function FormFieldUserCombobox({
   name,
   label,
   employees,
-  form
+  form,
 }: FormFieldUserComboboxProps) {
   const IconComponent = getColumnIcon(name);
+  const [displayedEmployees, setDisplayedEmployees] = useState<Employee[]>(employees);
+
+
+  const filteredEmployees = (
+    prev: Employee[],
+    compId?: number | null,
+    deptId?: number | null,
+    unitId?: number | null
+  ): Employee[] => {
+    
+    if (!compId && !deptId && !unitId) {
+      return employees;
+    }
+
+    return prev.filter((employee) => {
+        if (compId && employee.company_id !== compId) return false
+        if (deptId && employee.department_id !== deptId) return false
+        if (unitId && employee.unit_id !== unitId) return false;
+        return true;
+    })
+  };
 
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => {
-        const selectedType = field.value 
+        const selectedEmployee = field.value
           ? employees.find((employee) => employee.user_id === field.value)
           : null;
 
@@ -55,7 +84,7 @@ function FormFieldUserCombobox({
               {label}
             </FormLabel>
             <FormControl>
-              <Popover>
+              <Popover modal>
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
@@ -66,22 +95,21 @@ function FormFieldUserCombobox({
                         !field.value && "text-muted-foreground"
                       )}
                     >
-                      {/* <div className="flex-1 text-left">
-                        {selectedType ? (
-                          <DisplayType 
-                            category={selectedType.category_name} 
-                            sub_category={selectedType.sub_category_name} 
-                            type={selectedType.type_name} 
+                      <div className="flex-1 text-left">
+                        {selectedEmployee ? (
+                          <DisplayEmployee employee={selectedEmployee}
                           />
                         ) : (
-                          <span className="text-muted-foreground">Select type</span>
+                          <span className="text-muted-foreground">Select user</span>
                         )}
-                      </div> */}
+                      </div>
                       <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50 flex-shrink-0" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0"> {/* Increased width for better display */}
+                <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
+                  {" "}
+                  {/* Increased width for better display */}
                   <Command>
                     <CommandInput
                       placeholder="Search type..."
@@ -90,36 +118,38 @@ function FormFieldUserCombobox({
                     <CommandList>
                       <CommandEmpty>No type found.</CommandEmpty>
                       <CommandGroup>
-                        <OrgFilter 
-                        companies={company}
-                        departments={departments}
-                        units={units}
-                        onChange={(selection) => {
-                            console.log("Filter changed: ", selection)
-                        }}
+                        <OrgFilter
+                          companies={company}
+                          departments={departments}
+                          units={units}
+                          onChange={(s) => {
+                            setDisplayedEmployees((prev) => filteredEmployees(
+                              prev,
+                              s.companyId,
+                              s.departmentId,
+                              s.unitId))
+                          }}
                         />
-                        {employees.map((employee) => (
+                        {displayedEmployees.map((employee) => (
                           <CommandItem
                             value={employee.name}
                             key={employee.user_id}
                             onSelect={() => {
-                            //   form.setValue("type_id", type.type_id);
-                            //   form.setValue("sub_category_id", type.sub_category_id);
-                            //   form.setValue("category_id", type.category_id);
+                                form.setValue(name, employee.user_id);
                             }}
                             className="cursor-pointer"
                           >
                             <div className="flex-1">
-                              <DisplayEmployee employee={employee}/>
+                              <DisplayEmployee employee={employee} />
                             </div>
-                            {/* <Check
+                            <Check
                               className={cn(
                                 "ml-2 h-4 w-4",
-                                type.type_id === field.value
+                                employee.user_id === field.value
                                   ? "opacity-100"
                                   : "opacity-0"
                               )}
-                            /> */}
+                            />
                           </CommandItem>
                         ))}
                       </CommandGroup>

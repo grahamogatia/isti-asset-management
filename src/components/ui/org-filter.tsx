@@ -39,7 +39,7 @@ export default function OrgFilter({
 
   useEffect(() => {
     onChange?.({ companyId, departmentId, unitId });
-  }, [companyId, departmentId, unitId, onChange]);
+  }, [companyId, departmentId, unitId]);
 
   // Get current selections
   const selectedCompany = companyId ? companies.find(c => c.company_id === companyId) : null;
