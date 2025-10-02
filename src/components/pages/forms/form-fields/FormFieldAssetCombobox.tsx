@@ -90,7 +90,7 @@ function FormFieldAssetCombobox({
                           />
                         ) : (
                           <span className="text-muted-foreground">
-                            Select asset
+                            Select Asset
                           </span>
                         )}
                       </div>

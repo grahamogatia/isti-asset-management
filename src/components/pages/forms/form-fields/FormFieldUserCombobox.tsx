@@ -100,7 +100,7 @@ function FormFieldUserCombobox({
                           <DisplayEmployee employee={selectedEmployee}
                           />
                         ) : (
-                          <span className="text-muted-foreground">Select user</span>
+                          <span className="text-muted-foreground">Select Employee</span>
                         )}
                       </div>
                       <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50 flex-shrink-0" />
@@ -112,7 +112,7 @@ function FormFieldUserCombobox({
                   {/* Increased width for better display */}
                   <Command>
                     <CommandInput
-                      placeholder="Search type..."
+                      placeholder="Search Employee..."
                       className="h-9"
                     />
                     <CommandList>

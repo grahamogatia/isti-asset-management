@@ -22,7 +22,7 @@ function RepairForm() {
     resolver: zodResolver(RepairSchema),
     defaultValues: {
       repair_request_id: 1,
-      asset_id: 1,
+      asset_id: undefined,
       category_id: 1,
       sub_category_id: 1,
       type_id: 1,
@@ -52,55 +52,53 @@ function RepairForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-5"
       >
-        <FormCardContent
-        title="Details"
-        >
-            <FormFieldAssetCombobox
+        <FormCardContent title="Details">
+          <FormFieldAssetCombobox
             control={form.control}
             name="asset_id"
-            label="Asset for Repair"
+            label="Asset Requiring Repair"
             assets={asset_testcases}
-            form={{...form}}
-            />
-            <FormFieldUserCombobox
+            form={{ ...form }}
+          />
+          <FormFieldUserCombobox
             control={form.control}
             name="user_id"
-            label="User"
+            label="Reported By"
             employees={employees}
-            form={{...form}}
-            />
+            form={{ ...form }}
+          />
         </FormCardContent>
-        <FormCardContent
-        title="Request"
-        >
-            <FormFieldTextArea
-            control={form.control}
-            name="issue"
-            label="Issue"
-            placeholder="Enter issue"
-            />
-            <FormFieldSelect
+        <FormCardContent title="Request">
+          <FormFieldSelect
             control={form.control}
             name="urgency_id"
             label="Urgency"
             placeholder="Select urgency level"
-            >
-                {urgency.map((urgency) => (
-                    <SelectItem value={String(urgency.urgency_id)}>
-                        {urgency.urgency_name}
-                    </SelectItem>
-                ))}
-            </FormFieldSelect>
-            <FormFieldDate
+          >
+            {urgency.map((urgency) => (
+              <SelectItem value={String(urgency.urgency_id)}>
+                {urgency.urgency_name}
+              </SelectItem>
+            ))}
+          </FormFieldSelect>
+          <FormFieldDate
             control={form.control}
             name="repair_start_date"
-            label="Repair Start Date"/>
-            <FormFieldMoney
+            label="Repair Start Date"
+            placeholder="Select a date"
+          />
+          <FormFieldMoney
             control={form.control}
             name="repair_cost"
             label="Repair Cost"
-            placeholder="Enter Cost"
-            />
+            placeholder="0.00"
+          />
+          <FormFieldTextArea
+            control={form.control}
+            name="issue"
+            label="Issue"
+            placeholder="Describe the problem in detail"
+          />
         </FormCardContent>
 
         <div className="pb-6">
