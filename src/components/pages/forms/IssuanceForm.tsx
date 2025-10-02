@@ -6,12 +6,16 @@ import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import FormCardContent from "@/components/layout/FormCardContent";
+import { asset_testcases } from "@/testcases/assets";
+import { employees } from "@/testcases/foreignkeys";
+import FormFieldUserCombobox from "./form-fields/FormFieldUserCombobox";
+import FormFieldAssetCombobox from "./form-fields/FormFieldAssetCombobox";
 
 function IssuanceForm() {
   const form = useForm<Issuance>({
     resolver: zodResolver(IssuanceSchema),
     defaultValues: {
-      asset_id: 1,
+      asset_id: undefined,
       category_id: 1,
       user_id: 1,
       department_id: 1,
@@ -38,11 +42,23 @@ function IssuanceForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-5"
       >
-        <FormCardContent title="Issue Item">
-          <p>Asset</p>
+        <FormCardContent title="Asset Details">
+          <FormFieldAssetCombobox
+            control={form.control}
+            name="asset_id"
+            label="Asset to Issue"
+            assets={asset_testcases}
+            form={{ ...form }}
+          />
         </FormCardContent>
-        <FormCardContent title="To User">
-          <p>User</p>
+        <FormCardContent title="Recipient Informationr">
+          <FormFieldUserCombobox
+            control={form.control}
+            name="user_id"
+            label="Issued To"
+            employees={employees}
+            form={{ ...form }}
+          />
         </FormCardContent>
         <div className="pb-6">
           <Button
