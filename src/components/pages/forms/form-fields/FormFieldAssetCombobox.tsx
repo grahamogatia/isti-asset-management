@@ -109,38 +109,43 @@ function FormFieldAssetCombobox({
                     <CommandList>
                       <CommandEmpty>No asset found.</CommandEmpty>
                       <CommandGroup>
-                        {assets.map((asset) => (
-                          <CommandItem
-                            value={asset.asset_name}
-                            key={asset.asset_id}
-                            onSelect={() => {
+                        {assets
+                          .sort((a, b) => (a.asset_name || "").localeCompare(b.asset_name || ""))
+                          .map((asset) => (
+                            <CommandItem
+                              value={asset.asset_name}
+                              key={asset.asset_id}
+                              onSelect={() => {
                                 field.onChange(asset.asset_id);
                                 form.setValue("type_id", asset.type_id);
-                                form.setValue("sub_category_id", asset.sub_category_id);
-                                form.setValue("category_id", asset.category_id);
-                            }}
-                            className="cursor-pointer"
-                          >
-                            <div className="flex-1">
-                              <DisplayAsset
-                                asset_name={asset.asset_name as string}
-                                category={getCategoryName(asset.category_id)}
-                                sub_category={getSubCategoryName(
+                                form.setValue(
+                                  "sub_category_id",
                                   asset.sub_category_id
+                                );
+                                form.setValue("category_id", asset.category_id);
+                              }}
+                              className="cursor-pointer"
+                            >
+                              <div className="flex-1">
+                                <DisplayAsset
+                                  asset_name={asset.asset_name as string}
+                                  category={getCategoryName(asset.category_id)}
+                                  sub_category={getSubCategoryName(
+                                    asset.sub_category_id
+                                  )}
+                                  type={getTypeName(asset.type_id)}
+                                />
+                              </div>
+                              <Check
+                                className={cn(
+                                  "ml-2 h-4 w-4",
+                                  asset.asset_id === field.value
+                                    ? "opacity-100"
+                                    : "opacity-0"
                                 )}
-                                type={getTypeName(asset.type_id)}
                               />
-                            </div>
-                            <Check
-                              className={cn(
-                                "ml-2 h-4 w-4",
-                                asset.asset_id === field.value
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              )}
-                            />
-                          </CommandItem>
-                        ))}
+                            </CommandItem>
+                          ))}
                       </CommandGroup>
                     </CommandList>
                   </Command>

@@ -1,5 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 import DisplayType from "@/components/ui/display-type";
 import {
   FormControl,
@@ -33,7 +40,7 @@ function FormFieldTypeCombobox({
   name,
   label,
   assetTypes,
-  form
+  form,
 }: FormFieldTypeComboboxProps) {
   const IconComponent = getColumnIcon(name);
 
@@ -42,7 +49,7 @@ function FormFieldTypeCombobox({
       control={control}
       name={name}
       render={({ field }) => {
-        const selectedType = field.value 
+        const selectedType = field.value
           ? assetTypes.find((type) => type.type_id === field.value)
           : null;
 
@@ -66,20 +73,24 @@ function FormFieldTypeCombobox({
                     >
                       <div className="flex-1 text-left">
                         {selectedType ? (
-                          <DisplayType 
-                            category={selectedType.category_name} 
-                            sub_category={selectedType.sub_category_name} 
-                            type={selectedType.type_name} 
+                          <DisplayType
+                            category={selectedType.category_name}
+                            sub_category={selectedType.sub_category_name}
+                            type={selectedType.type_name}
                           />
                         ) : (
-                          <span className="text-muted-foreground">Select type</span>
+                          <span className="text-muted-foreground">
+                            Select type
+                          </span>
                         )}
                       </div>
                       <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50 flex-shrink-0" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0"> {/* Increased width for better display */}
+                <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
+                  {" "}
+                  {/* Increased width for better display */}
                   <Command>
                     <CommandInput
                       placeholder="Search type..."
@@ -88,22 +99,27 @@ function FormFieldTypeCombobox({
                     <CommandList>
                       <CommandEmpty>No type found.</CommandEmpty>
                       <CommandGroup>
-                        {assetTypes.map((type) => (
+                        {assetTypes
+                        .sort((a, b) => a.type_name.localeCompare(b.type_name))
+                        .map((type) => (
                           <CommandItem
                             value={type.type_name}
                             key={type.type_id}
                             onSelect={() => {
                               form.setValue("type_id", type.type_id);
-                              form.setValue("sub_category_id", type.sub_category_id);
+                              form.setValue(
+                                "sub_category_id",
+                                type.sub_category_id
+                              );
                               form.setValue("category_id", type.category_id);
                             }}
                             className="cursor-pointer"
                           >
                             <div className="flex-1">
-                              <DisplayType 
-                                category={type.category_name} 
-                                sub_category={type.sub_category_name} 
-                                type={type.type_name} 
+                              <DisplayType
+                                category={type.category_name}
+                                sub_category={type.sub_category_name}
+                                type={type.type_name}
                               />
                             </div>
                             <Check

@@ -17,7 +17,7 @@ import { useState } from "react";
 
 export function InsuranceForm() {
   const [open, setOpen] = useState(false);
-  
+
   const form = useForm<Insurance>({
     resolver: zodResolver(InsuranceSchema),
     defaultValues: {
@@ -32,13 +32,13 @@ export function InsuranceForm() {
 
   function onSubmit(values: Insurance) {
     console.log("Insurance submitted:", values);
-    
+
     // Close the popover after successful submission
     setOpen(false);
-    
+
     // Reset the form for next use
     form.reset();
-    
+
     // Optional: Show success message
     // You could also add a toast notification here
   }
@@ -46,8 +46,8 @@ export function InsuranceForm() {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button 
-          variant="ghost" 
+        <Button
+          variant="ghost"
           className="hover:underline"
           onClick={() => setOpen(true)}
         >
@@ -112,7 +112,7 @@ export function InsuranceForm() {
                     Cancel
                   </Button>
                   <Button
-                    className="flex-1 h-10 items-center rounded-md"
+                    className="w-full flex items-center justify-center rounded-md"
                     type="submit"
                     form="insurance-form"
                   >

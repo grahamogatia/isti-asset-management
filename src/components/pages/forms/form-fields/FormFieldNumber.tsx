@@ -32,7 +32,6 @@ function FormFieldNumber({
         <FormItem>
           <FormLabel><IconComponent className="h-4 w-4"/>{label}</FormLabel>
           <FormControl>
-            <div className="flex items-center gap-0 border rounded-md pl-2">
               <Input
                 {...field}
                 type="number"
@@ -41,9 +40,7 @@ function FormFieldNumber({
                   return field.onChange(Number(event.target.value));
                 }}
                 placeholder={placeholder}
-                className="border-none pl-0.5"
               />
-            </div>
           </FormControl>
           <FormMessage />
         </FormItem>

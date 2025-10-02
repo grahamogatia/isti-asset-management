@@ -27,9 +27,9 @@ function AssetForm() {
       brand: "Test",
       specifications: "Test",
       asset_amount: 123,
-      purchase_date: "",  // Changed to empty string
+      purchase_date: "", // Changed to empty string
       warranty_due_date: "", // Changed to empty string
-      notes: "",  // Changed to empty string
+      notes: "", // Changed to empty string
       insurance_id: 1,
       file: undefined, // Changed to null
       sub_category_id: undefined,
@@ -46,12 +46,14 @@ function AssetForm() {
   function onSubmit(values: Asset) {
     console.log("🎉 SUCCESS! Form submitted:", values);
   }
- 
-  const watchCategory = form.watch("category_id") === getIdFromDisplayName("category", "External") as number;
+
+  const watchCategory =
+    form.watch("category_id") ===
+    (getIdFromDisplayName("category", "External") as number);
 
   return (
     <Form {...form}>
-      <form 
+      <form
         id="asset-form"
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-5"
@@ -74,7 +76,7 @@ function AssetForm() {
             name="type_id"
             label="Type"
             assetTypes={asset_types}
-            form={{...form}}
+            form={{ ...form }}
           />
           {watchCategory && (
             <FormFieldText
@@ -112,8 +114,8 @@ function AssetForm() {
             placeholder="Select warranty expiry date"
             minDate={
               form.watch("purchase_date")
-              ? new Date(form.watch("purchase_date"))
-              : new Date()
+                ? new Date(form.watch("purchase_date"))
+                : new Date()
             }
             maxDate={new Date(new Date().getFullYear() + 50, 11, 31)}
           />
@@ -121,11 +123,11 @@ function AssetForm() {
 
         <FormCardContent title="Additional Information">
           <FormFieldInsuranceCombobox
-          control={form.control}
-          name="insurance_id"
-          label="Insurance"
-          insurances={insurances}
-          form={{...form}}
+            control={form.control}
+            name="insurance_id"
+            label="Insurance"
+            insurances={insurances}
+            form={{ ...form }}
           />
           <FormFieldFile
             control={form.control}
@@ -142,11 +144,11 @@ function AssetForm() {
         </FormCardContent>
 
         <div className="pb-6">
-          <Button 
-            className="w-full h-10 items-center rounded-md pb-1" 
+          <Button
+            className="w-full flex items-center justify-center rounded-md"
             type="submit"
             form="asset-form"
-            >
+          >
             <Plus />
             Add Asset
           </Button>

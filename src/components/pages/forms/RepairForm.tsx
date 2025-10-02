@@ -49,7 +49,8 @@ function RepairForm() {
   // Compute asset and minDate before return
   const assetId = form.watch("asset_id");
   const asset = getAsset(assetId);
-  const repairMinDate = asset && asset.purchase_date ? new Date(asset.purchase_date) : undefined;
+  const repairMinDate =
+    asset && asset.purchase_date ? new Date(asset.purchase_date) : undefined;
 
   return (
     <Form {...form}>
@@ -111,12 +112,12 @@ function RepairForm() {
 
         <div className="pb-6">
           <Button
-            className="w-full h-10 items-center rounded-md pb-1"
+            className="w-full flex items-center justify-center rounded-md"
             type="submit"
             form="repair-form"
           >
             <Plus />
-            Report Repair
+            Create Repair Request
           </Button>
         </div>
       </form>

@@ -66,26 +66,26 @@ function BorrowForm() {
         </FormCardContent>
         <FormCardContent title="Record">
           <FormFieldDate
-          control={form.control}
-          name="date_borrowed"
-          label="Date Borrowed"
+            control={form.control}
+            name="date_borrowed"
+            label="Date Borrowed"
           />
           <FormFieldNumber
-          control={form.control}
-          name="duration"
-          label="Duration (days)"
-          placeholder="Enter duration in days"
+            control={form.control}
+            name="duration"
+            label="Duration (days)"
+            placeholder="Enter duration in days"
           />
           <FormFieldTextArea
-          control={form.control}
-          name="remarks"
-          label="Remarks"
-          placeholder="Enter remarks"
+            control={form.control}
+            name="remarks"
+            label="Remarks"
+            placeholder="Enter remarks"
           />
         </FormCardContent>
         <div className="pb-6">
           <Button
-            className="w-full h-10 items-center rounded-md pb-1"
+            className="w-full flex items-center justify-center rounded-md"
             type="submit"
             form="borrow-form"
           >

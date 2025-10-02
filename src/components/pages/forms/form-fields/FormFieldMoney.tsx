@@ -43,7 +43,7 @@ function FormFieldMoney({
                   return field.onChange(Number(event.target.value));
                 }}
                 placeholder={placeholder}
-                className="border-none pl-0.5"
+                className="border-none pl-0.5 focus-visible:ring-0"
               />
             </div>
           </FormControl>

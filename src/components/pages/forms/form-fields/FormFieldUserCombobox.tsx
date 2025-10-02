@@ -130,7 +130,13 @@ function FormFieldUserCombobox({
                               s.unitId))
                           }}
                         />
-                        {displayedEmployees.map((employee) => (
+                        {displayedEmployees
+                        .sort((a, b) => {
+                            const companyCompare = a.company_id - b.company_id
+                            if (companyCompare !== 0) return companyCompare;
+                            return a.name.localeCompare(b.name);
+                        })
+                        .map((employee) => (
                           <CommandItem
                             value={employee.name}
                             key={employee.user_id}

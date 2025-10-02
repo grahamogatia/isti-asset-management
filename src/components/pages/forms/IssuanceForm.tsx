@@ -62,12 +62,12 @@ function IssuanceForm() {
         </FormCardContent>
         <div className="pb-6">
           <Button
-            className="w-full h-10 items-center rounded-md pb-1"
+            className="w-full flex items-center justify-center rounded-md"
             type="submit"
             form="borrow-form"
           >
             <Plus />
-            Record Issuance
+            Create Issuance Request
           </Button>
         </div>
       </form>
