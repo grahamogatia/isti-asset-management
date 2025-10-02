@@ -10,12 +10,16 @@ import FormCardContent from "@/components/layout/FormCardContent";
 import FormFieldTextArea from "./form-fields/FormFieldTextArea";
 import FormFieldDate from "./form-fields/FormFieldDate";
 import FormFieldNumber from "./form-fields/FormFieldNumber";
+import { asset_testcases } from "@/testcases/assets";
+import FormFieldAssetCombobox from "./form-fields/FormFieldAssetCombobox";
+import FormFieldUserCombobox from "./form-fields/FormFieldUserCombobox";
+import { employees } from "@/testcases/foreignkeys";
 
 function BorrowForm() {
   const form = useForm<Borrow>({
     resolver: zodResolver(BorrowSchema),
     defaultValues: {
-      asset_id: 1,
+      asset_id: undefined,
       category_id: 1,
       user_id: 1,
       department_id: 1,
@@ -44,8 +48,21 @@ function BorrowForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-5"
       >
-        <FormCardContent title="Borrow Details">
-          <p>Test</p>
+        <FormCardContent title="Details">
+          <FormFieldAssetCombobox
+            control={form.control}
+            name="asset_id"
+            label="Asset to Borrow"
+            assets={asset_testcases}
+            form={{ ...form }}
+          />
+          <FormFieldUserCombobox
+            control={form.control}
+            name="user_id"
+            label="Borrowed By"
+            employees={employees}
+            form={{ ...form }}
+          />
         </FormCardContent>
         <FormCardContent title="Record">
           <FormFieldDate
@@ -56,14 +73,14 @@ function BorrowForm() {
           <FormFieldNumber
           control={form.control}
           name="duration"
-          label="Duration (days)"
+          label="Loan Duration (days)"
           placeholder="Enter duration in days"
           />
           <FormFieldTextArea
           control={form.control}
           name="remarks"
           label="Remarks"
-          placeholder="Enter Remarks"
+          placeholder="Enter remarks"
           />
         </FormCardContent>
         <div className="pb-6">
