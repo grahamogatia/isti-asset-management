@@ -21,7 +21,7 @@ function BorrowForm() {
     defaultValues: {
       asset_id: undefined,
       category_id: 1,
-      user_id: 1,
+      user_id: undefined,
       department_id: 1,
       date_borrowed: String(new Date()),
       asset_condition_id: 1,

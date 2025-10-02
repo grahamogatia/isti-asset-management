@@ -17,7 +17,7 @@ function IssuanceForm() {
     defaultValues: {
       asset_id: undefined,
       category_id: 1,
-      user_id: 1,
+      user_id: undefined,
       department_id: 1,
       issuance_date: "",
       pullout_date: "",

@@ -53,7 +53,7 @@ function FormFieldTypeCombobox({
               {label}
             </FormLabel>
             <FormControl>
-              <Popover>
+              <Popover modal>
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button

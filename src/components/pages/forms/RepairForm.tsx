@@ -26,7 +26,7 @@ function RepairForm() {
       category_id: 1,
       sub_category_id: 1,
       type_id: 1,
-      user_id: 1,
+      user_id: undefined,
       department_id: 1,
       company_id: 1,
       issue: "",
