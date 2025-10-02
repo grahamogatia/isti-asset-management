@@ -16,6 +16,7 @@ import FormFieldMoney from "./form-fields/FormFieldMoney";
 import FormFieldAssetCombobox from "./form-fields/FormFieldAssetCombobox";
 import { asset_testcases } from "@/testcases/assets";
 import FormFieldUserCombobox from "./form-fields/FormFieldUserCombobox";
+import { getAsset } from "@/lib/lookups";
 
 function RepairForm() {
   const form = useForm<Repair>({
@@ -44,6 +45,11 @@ function RepairForm() {
   function onSubmit(values: Repair) {
     console.log("🎉 SUCCESS! Form submitted:", values);
   }
+
+  // Compute asset and minDate before return
+  const assetId = form.watch("asset_id");
+  const asset = getAsset(assetId);
+  const repairMinDate = asset && asset.purchase_date ? new Date(asset.purchase_date) : undefined;
 
   return (
     <Form {...form}>
@@ -86,6 +92,8 @@ function RepairForm() {
             name="repair_start_date"
             label="Repair Start Date"
             placeholder="Select a date"
+            minDate={repairMinDate}
+            maxDate={new Date(new Date().getFullYear() + 50, 11, 31)}
           />
           <FormFieldMoney
             control={form.control}

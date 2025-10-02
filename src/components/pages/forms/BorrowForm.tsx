@@ -73,7 +73,7 @@ function BorrowForm() {
           <FormFieldNumber
           control={form.control}
           name="duration"
-          label="Loan Duration (days)"
+          label="Duration (days)"
           placeholder="Enter duration in days"
           />
           <FormFieldTextArea

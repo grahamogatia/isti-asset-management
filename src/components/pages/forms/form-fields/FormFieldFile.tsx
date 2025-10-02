@@ -24,10 +24,10 @@ function FormFieldFile({
   control,
   name,
   label,
-  placeholder = "Choose a file",
+  placeholder = "Choose files",
   accept = "image/*",
 }: FormFieldFileProps) {
-  const [fileName, setFileName] = useState<string>("");
+  const [files, setFiles] = useState<File[]>([]);
   const IconComponent = getColumnIcon(name);
 
   return (
@@ -36,20 +36,24 @@ function FormFieldFile({
       name={name}
       render={({ field: { onChange, value, ...field } }) => (
         <FormItem>
-          <FormLabel><IconComponent className="h-4 w-4"/>{label}</FormLabel>
+          <FormLabel className="flex items-center gap-2">
+            <IconComponent className="h-4 w-4"/>
+            {label}
+          </FormLabel>
           <FormControl>
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <Input
+                  multiple
                   type="file"
                   accept={accept}
                   className="hidden"
                   id={`file-input-${name}`}
                   onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      setFileName(file.name);
-                      onChange(file);
+                    const selectedFiles = Array.from(e.target.files || []);
+                    if (selectedFiles.length > 0) {
+                      setFiles(selectedFiles);
+                      onChange(selectedFiles);
                     }
                   }}
                   {...field}
@@ -63,36 +67,48 @@ function FormFieldFile({
                   }
                 >
                   <Upload className="h-4 w-4" />
-                  {fileName ? "Change File" : placeholder}
+                  {files.length > 0 ? `Change Files (${files.length})` : placeholder}
                 </Button>
-
-                {fileName && (
-                  <div className="flex items-center gap-2 px-3 py-1 bg-gray-50 rounded-md">
-                    <File className="h-4 w-4 text-gray-500" />
-                    <span className="text-sm text-gray-700 truncate max-w-48">
-                      {fileName}
-                    </span>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="h-auto p-1"
-                      onClick={() => {
-                        setFileName("");
-                        onChange(null);
-                        const input = document.getElementById(
-                          `file-input-${name}`
-                        ) as HTMLInputElement;
-                        if (input) input.value = "";
-                      }}
-                    >
-                      <X className="h-3 w-3" />
-                    </Button>
-                  </div>
-                )}
               </div>
+
+              {/* Display all selected files */}
+              {files.length > 0 && (
+                <div className="space-y-2">
+                  {files.map((file, index) => (
+                    <div key={index} className="flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-md">
+                      <File className="h-4 w-4 text-gray-500 flex-shrink-0" />
+                      <span className="text-sm text-gray-700 truncate flex-1">
+                        {file.name}
+                      </span>
+                      <span className="text-xs text-gray-500 flex-shrink-0">
+                        {(file.size / 1024 / 1024).toFixed(1)}MB
+                      </span>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="h-auto p-1 flex-shrink-0"
+                        onClick={() => {
+                          const updatedFiles = files.filter((_, i) => i !== index);
+                          setFiles(updatedFiles);
+                          onChange(updatedFiles.length > 0 ? updatedFiles : null);
+                          
+                          // Clear input if no files left
+                          if (updatedFiles.length === 0) {
+                            const input = document.getElementById(`file-input-${name}`) as HTMLInputElement;
+                            if (input) input.value = "";
+                          }
+                        }}
+                      >
+                        <X className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
               <p className="text-xs text-gray-500">
-                Supported formats: JPG, PNG (Max 10MB)
+                Supported formats: JPG, PNG (Max 10MB each)
               </p>
             </div>
           </FormControl>

@@ -51,11 +51,11 @@ function IssuanceForm() {
             form={{ ...form }}
           />
         </FormCardContent>
-        <FormCardContent title="Recipient Informationr">
+        <FormCardContent title="Recipient Information">
           <FormFieldUserCombobox
             control={form.control}
             name="user_id"
-            label="Issued To"
+            label="Issue To"
             employees={employees}
             form={{ ...form }}
           />

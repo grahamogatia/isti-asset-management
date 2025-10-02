@@ -31,7 +31,7 @@ function AssetForm() {
       warranty_due_date: "", // Changed to empty string
       notes: "",  // Changed to empty string
       insurance_id: 1,
-      file: null, // Changed to null
+      file: undefined, // Changed to null
       sub_category_id: undefined,
       type_id: undefined,
       asset_id: 1,
@@ -110,6 +110,12 @@ function AssetForm() {
             name="warranty_due_date"
             label="Warranty Due Date"
             placeholder="Select warranty expiry date"
+            minDate={
+              form.watch("purchase_date")
+              ? new Date(form.watch("purchase_date"))
+              : new Date()
+            }
+            maxDate={new Date(new Date().getFullYear() + 50, 11, 31)}
           />
         </FormCardContent>
 
