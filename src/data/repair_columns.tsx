@@ -2,8 +2,11 @@ import { type ColumnDef } from "@tanstack/react-table";
 import type { Repair } from "./types";
 import { commonColumns } from "./common_columns";
 import { getStatusName, getUrgencyName } from "@/lib/lookups";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, Hammer, RotateCcw } from "lucide-react";
 import { createHeaderWithIcon, createStandardFilterFn } from "@/lib/columnNameUtils";
+import { Button } from "@/components/ui/button";
+import ActionsButtonGroup from "@/components/ui/actions-button-group";
+import CustomToolTip from "@/components/ui/custom-tooltip";
 
 export const repair_columns: ColumnDef<Repair>[] = [
   // Asset identification first
@@ -56,7 +59,20 @@ export const repair_columns: ColumnDef<Repair>[] = [
   commonColumns.department<Repair>(),
   commonColumns.company<Repair>(),
   commonColumns.simpleColumn<Repair>("remarks", "Remarks"),
-  commonColumns.actions<Repair>(),
+
+  {
+    id: "actions",
+    cell: () => {
+      return (
+        <ActionsButtonGroup type="borrow" >
+          <CustomToolTip content="Is Repaired?">
+            <Button variant="outline"><Hammer/></Button>
+          </CustomToolTip>
+        </ActionsButtonGroup>
+      );
+    },
+  },
+
 ];
 
 export const def_repair_columns = [

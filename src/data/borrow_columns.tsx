@@ -2,7 +2,10 @@ import { type ColumnDef } from "@tanstack/react-table";
 import type { Borrow } from "./types";
 import { differenceInDays } from "date-fns";
 import { commonColumns } from "./common_columns";
-import { Clock } from "lucide-react";
+import { Clock, RotateCcw } from "lucide-react";
+import ActionsButtonGroup from "@/components/ui/actions-button-group";
+import CustomToolTip from "@/components/ui/custom-tooltip";
+import { Button } from "@/components/ui/button";
 
 export const borrow_columns: ColumnDef<Borrow>[] = [
   // Asset identification first
@@ -33,7 +36,19 @@ export const borrow_columns: ColumnDef<Borrow>[] = [
   commonColumns.company<Borrow>(),
   commonColumns.condition<Borrow>(),
   commonColumns.simpleColumn("remarks", "Remarks"),
-  commonColumns.actions<Borrow>(),
+  
+  {
+    id: "actions",
+    cell: () => {
+      return (
+        <ActionsButtonGroup type="borrow" >
+          <CustomToolTip content="Is Returned?">
+            <Button variant="outline"><RotateCcw/></Button>
+          </CustomToolTip>
+        </ActionsButtonGroup>
+      );
+    },
+  },
 ];
 
 export const def_borrow_columns = [

@@ -3,7 +3,10 @@ import { differenceInMonths, format } from "date-fns";
 import type { Asset } from "./types";
 import { Button } from "@/components/ui/button";
 import { 
-  MoreHorizontal
+  MoreHorizontal,
+  SquarePen,
+  Trash,
+  Trash2
 } from "lucide-react";
 import {
   getCategoryName,
@@ -15,14 +18,8 @@ import {
 } from "@/lib/lookups";
 import { createHeaderWithIcon, createSortableHeaderWithIcon, createStandardFilterFn } from "@/lib/columnNameUtils";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { ButtonGroup } from "@/components/ui/button-group";
+import ActionsButtonGroup from "@/components/ui/actions-button-group";
 
 export const asset_columns: ColumnDef<Asset>[] = [
   {
@@ -72,12 +69,12 @@ export const asset_columns: ColumnDef<Asset>[] = [
   {
     accessorKey: "condition",
     accessorFn: (row) => {
-      return getConditionName(row.asset_condition_id);
+      return getConditionName(row.asset_condition_id as number);
     },
     header: createHeaderWithIcon("condition", "Condition"),
     cell: ({ row }) => {
       const conditionId = row.original.asset_condition_id;
-      return getConditionName(conditionId);
+      return getConditionName(conditionId as number);
     },
     filterFn: createStandardFilterFn((row) => 
       getConditionName(row.original.asset_condition_id)
@@ -86,12 +83,12 @@ export const asset_columns: ColumnDef<Asset>[] = [
   {
     accessorKey: "status",
     accessorFn: (row) => {
-      return getStatusName(row.status_id);
+      return getStatusName(row.status_id as number);
     },
     header: createHeaderWithIcon("status", "Status"),
     cell: ({ row }) => {
       const statusId = row.original.status_id;
-      return getStatusName(statusId);
+      return getStatusName(statusId as number);
     },
     filterFn: createStandardFilterFn((row) => 
       getStatusName(row.original.status_id)
@@ -199,22 +196,7 @@ export const asset_columns: ColumnDef<Asset>[] = [
     id: "actions",
     cell: () => {
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Update Asset</DropdownMenuItem>
-            <DropdownMenuItem className="text-red-700">
-              Delete Asset
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <ActionsButtonGroup type="asset"/>
       );
     },
   },

@@ -3,6 +3,10 @@ import type { Issuance } from "./types";
 import { commonColumns } from "./common_columns";
 import { getStatusName } from "@/lib/lookups";
 import { createHeaderWithIcon, createStandardFilterFn } from "@/lib/columnNameUtils";
+import ActionsButtonGroup from "@/components/ui/actions-button-group";
+import CustomToolTip from "@/components/ui/custom-tooltip";
+import { Button } from "@/components/ui/button";
+import { ArchiveRestore } from "lucide-react";
 
 export const issuance_columns: ColumnDef<Issuance>[] = [
   // Asset identification first
@@ -31,7 +35,19 @@ export const issuance_columns: ColumnDef<Issuance>[] = [
   commonColumns.department<Issuance>(),
   commonColumns.company<Issuance>(),
   commonColumns.simpleColumn<Issuance>("remarks", "Remarks"),
-  commonColumns.actions<Issuance>(),
+
+  {
+    id: "actions",
+    cell: () => {
+      return (
+        <ActionsButtonGroup type="borrow" >
+          <CustomToolTip content="Is Withdrawn?">
+            <Button variant="outline"><ArchiveRestore/></Button>
+          </CustomToolTip>
+        </ActionsButtonGroup>
+      );
+    },
+  },
 ];
 
 export const def_issuance_columns = [
