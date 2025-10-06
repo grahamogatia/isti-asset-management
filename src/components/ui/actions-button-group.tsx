@@ -16,7 +16,7 @@ function ActionsButtonGroup({ type, children }: ActionsButtonGroupProps) {
         <Button variant="outline"><SquarePen/></Button>
       </CustomToolTip>
       <CustomToolTip content="Delete Asset">
-        <Button variant="outline"><Trash2 className="text-color-red-500"/></Button>
+        <Button variant="outline"><Trash2 className="text-red-700"/></Button>
       </CustomToolTip>
     </ButtonGroup>
   );
