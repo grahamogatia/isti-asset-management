@@ -64,7 +64,7 @@ export const repair_columns: ColumnDef<Repair>[] = [
     id: "actions",
     cell: () => {
       return (
-        <ActionsButtonGroup type="borrow" >
+        <ActionsButtonGroup type="repair" >
           <CustomToolTip content="Is Repaired?">
             <Button variant="outline"><Hammer/></Button>
           </CustomToolTip>

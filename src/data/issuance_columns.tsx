@@ -40,7 +40,7 @@ export const issuance_columns: ColumnDef<Issuance>[] = [
     id: "actions",
     cell: () => {
       return (
-        <ActionsButtonGroup type="borrow" >
+        <ActionsButtonGroup type="issuance" >
           <CustomToolTip content="Is Withdrawn?">
             <Button variant="outline"><ArchiveRestore/></Button>
           </CustomToolTip>

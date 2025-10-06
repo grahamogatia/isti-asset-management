@@ -1,13 +1,6 @@
 import { type ColumnDef } from "@tanstack/react-table";
 import { differenceInMonths, format } from "date-fns";
 import type { Asset } from "./types";
-import { Button } from "@/components/ui/button";
-import { 
-  MoreHorizontal,
-  SquarePen,
-  Trash,
-  Trash2
-} from "lucide-react";
 import {
   getCategoryName,
   getSubCategoryName,
