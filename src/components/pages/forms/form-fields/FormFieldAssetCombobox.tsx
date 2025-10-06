@@ -110,7 +110,11 @@ function FormFieldAssetCombobox({
                       <CommandEmpty>No asset found.</CommandEmpty>
                       <CommandGroup>
                         {assets
-                          .sort((a, b) => (a.asset_name || "").localeCompare(b.asset_name || ""))
+                          .sort((a, b) =>
+                            (a.asset_name || "").localeCompare(
+                              b.asset_name || ""
+                            )
+                          )
                           .map((asset) => (
                             <CommandItem
                               value={asset.asset_name}

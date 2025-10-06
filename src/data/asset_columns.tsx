@@ -9,15 +9,18 @@ import {
   getStatusName,
   getInsuranceName,
 } from "@/lib/lookups";
-import { createHeaderWithIcon, createSortableHeaderWithIcon, createStandardFilterFn } from "@/lib/columnNameUtils";
+import {
+  createHeaderWithIcon,
+  createSortableHeaderWithIcon,
+  createStandardFilterFn,
+} from "@/lib/columnNameUtils";
 
-import { ButtonGroup } from "@/components/ui/button-group";
 import ActionsButtonGroup from "@/components/ui/actions-button-group";
 
 export const asset_columns: ColumnDef<Asset>[] = [
   {
     accessorKey: "asset_id",
-    header: createHeaderWithIcon("asset_id", "Asset ID")
+    header: createHeaderWithIcon("asset_id", "Asset ID"),
   },
   {
     accessorKey: "asset_name",
@@ -69,7 +72,7 @@ export const asset_columns: ColumnDef<Asset>[] = [
       const conditionId = row.original.asset_condition_id;
       return getConditionName(conditionId as number);
     },
-    filterFn: createStandardFilterFn((row) => 
+    filterFn: createStandardFilterFn((row) =>
       getConditionName(row.original.asset_condition_id)
     ),
   },
@@ -83,7 +86,7 @@ export const asset_columns: ColumnDef<Asset>[] = [
       const statusId = row.original.status_id;
       return getStatusName(statusId as number);
     },
-    filterFn: createStandardFilterFn((row) => 
+    filterFn: createStandardFilterFn((row) =>
       getStatusName(row.original.status_id)
     ),
   },
@@ -165,32 +168,30 @@ export const asset_columns: ColumnDef<Asset>[] = [
   },
   {
     accessorKey: "insurance",
-    accessorFn: (row) => { 
+    accessorFn: (row) => {
       if (!row.insurance_id) return;
-      return getInsuranceName(row.insurance_id)
+      return getInsuranceName(row.insurance_id);
     },
     header: createHeaderWithIcon("insurance", "Insurance"),
     cell: ({ row }) => {
       if (!row.original.insurance_id) return;
       return getInsuranceName(row.original.insurance_id);
     },
-    filterFn: createStandardFilterFn((row) => 
-      row.original.insurance_id ? getInsuranceName(row.original.insurance_id) : null
+    filterFn: createStandardFilterFn((row) =>
+      row.original.insurance_id
+        ? getInsuranceName(row.original.insurance_id)
+        : null
     ),
   },
   {
     accessorKey: "location",
     header: createHeaderWithIcon("location", "Location"),
-    filterFn: createStandardFilterFn((row) => 
-      row.original.location
-    )
+    filterFn: createStandardFilterFn((row) => row.original.location),
   },
   {
     id: "actions",
     cell: () => {
-      return (
-        <ActionsButtonGroup type="asset"/>
-      );
+      return <ActionsButtonGroup type="asset" />;
     },
   },
 ];
@@ -211,5 +212,5 @@ export const asset_filters = [
   "asset_amount",
   "purchase_date",
   "insurance",
-  "location"
-]
+  "location",
+];

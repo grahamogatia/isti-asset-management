@@ -1,5 +1,10 @@
 import { faker } from "@faker-js/faker";
-import { asset_conditions, asset_types, insurances, status } from "./foreignkeys";
+import {
+  asset_conditions,
+  asset_types,
+  insurances,
+  status,
+} from "./foreignkeys";
 import type { Asset } from "@/data/types";
 
 faker.seed(12345);

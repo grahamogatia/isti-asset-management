@@ -86,7 +86,7 @@ export const commonColumns = {
     cell: ({ row }) => {
       return getEmployeeName(row.original.user_id);
     },
-    filterFn: createStandardFilterFn((row) => 
+    filterFn: createStandardFilterFn((row) =>
       getEmployeeName(row.original.user_id)
     ),
   }),
@@ -100,7 +100,7 @@ export const commonColumns = {
     cell: ({ row }) => {
       return getDepartmentName(row.original.department_id);
     },
-    filterFn: createStandardFilterFn((row) => 
+    filterFn: createStandardFilterFn((row) =>
       getDepartmentName(row.original.department_id)
     ),
   }),
@@ -114,7 +114,7 @@ export const commonColumns = {
     cell: ({ row }) => {
       return getCompanyName(row.original.company_id);
     },
-    filterFn: createStandardFilterFn((row) => 
+    filterFn: createStandardFilterFn((row) =>
       getCompanyName(row.original.company_id)
     ),
   }),

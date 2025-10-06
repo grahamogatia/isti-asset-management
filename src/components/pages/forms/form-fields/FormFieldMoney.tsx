@@ -31,7 +31,10 @@ function FormFieldMoney({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel><IconComponent className="h-4 w-4"/>{label}</FormLabel>
+          <FormLabel>
+            <IconComponent className="h-4 w-4" />
+            {label}
+          </FormLabel>
           <FormControl>
             <div className="flex items-center gap-0 border rounded-md pl-2">
               <PhilippinePeso className="h-4 w-auto" />

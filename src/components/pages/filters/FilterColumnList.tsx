@@ -6,11 +6,15 @@ import { useState } from "react";
 
 interface FilterColumnListProps {
   filterableColumns: string[];
-  setSelectedColumn: (type: string) => void; 
+  setSelectedColumn: (type: string) => void;
   setCurrentScreen: (type: string) => void;
 }
 
-function FilterColumnList({filterableColumns, setSelectedColumn, setCurrentScreen}: FilterColumnListProps) {
+function FilterColumnList({
+  filterableColumns,
+  setSelectedColumn,
+  setCurrentScreen,
+}: FilterColumnListProps) {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredColumns = filterableColumns.filter((column) =>

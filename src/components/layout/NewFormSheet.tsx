@@ -10,13 +10,7 @@ import {
 import { Plus } from "lucide-react";
 import { HeroHighlightDemo } from "../ui/custom-hero-higlight";
 
-function NewFormSheet({
-  type,
-  form,
-}: {
-  type: string;
-  form: React.ReactNode;
-}) {
+function NewFormSheet({ type, form }: { type: string; form: React.ReactNode }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -26,21 +20,18 @@ function NewFormSheet({
         </Button>
       </SheetTrigger>
       <SheetContent className="max-w-none flex flex-col h-full lg:max-w-[40vw]">
-  <SheetHeader className="flex-shrink-0 pl-6 pr-6 pt-6 pb-2">
-    <SheetTitle className="flex text-xl items-center gap-1">
-      Add a New <HeroHighlightDemo toHighlight={type} />
-    </SheetTitle>
-    <SheetDescription>
-      Fill out the {type} details below and click save to add it to your
-      inventory.
-    </SheetDescription>
-  </SheetHeader>
-  
-  <div className="flex-1 overflow-y-auto px-4 py-">
-    {form}
-  </div>
-  
-</SheetContent>
+        <SheetHeader className="flex-shrink-0 pl-6 pr-6 pt-6 pb-2">
+          <SheetTitle className="flex text-xl items-center gap-1">
+            Add a New <HeroHighlightDemo toHighlight={type} />
+          </SheetTitle>
+          <SheetDescription>
+            Fill out the {type} details below and click save to add it to your
+            inventory.
+          </SheetDescription>
+        </SheetHeader>
+
+        <div className="flex-1 overflow-y-auto px-4 py-">{form}</div>
+      </SheetContent>
     </Sheet>
   );
 }

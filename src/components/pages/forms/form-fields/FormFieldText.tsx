@@ -1,4 +1,10 @@
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { getColumnIcon } from "@/lib/columnNameUtils";
 import type { Control } from "react-hook-form";
@@ -10,8 +16,12 @@ interface FormFieldTextProps {
   placeholder?: string;
 }
 
-function FormFieldText({ control, name, label, placeholder}: FormFieldTextProps) {
-
+function FormFieldText({
+  control,
+  name,
+  label,
+  placeholder,
+}: FormFieldTextProps) {
   const IconComponent = getColumnIcon(name);
 
   return (
@@ -20,7 +30,10 @@ function FormFieldText({ control, name, label, placeholder}: FormFieldTextProps)
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel><IconComponent className="h-4 w-4"/>{label}</FormLabel>
+          <FormLabel>
+            <IconComponent className="h-4 w-4" />
+            {label}
+          </FormLabel>
           <FormControl>
             <Input type="text" placeholder={placeholder} {...field} />
           </FormControl>

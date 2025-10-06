@@ -1,5 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 import {
   FormControl,
   FormField,
@@ -16,7 +23,7 @@ import type { Insurance } from "@/data/types";
 import { getColumnIcon } from "@/lib/columnNameUtils";
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
-import type { Control } from "react-hook-form"; 
+import type { Control } from "react-hook-form";
 import { InsuranceForm } from "../InsuranceForm";
 
 interface FormFieldInsuranceComboboxProps {
@@ -33,7 +40,7 @@ function FormFieldInsuranceCombobox({
   name,
   label,
   insurances,
-  form
+  form,
 }: FormFieldInsuranceComboboxProps) {
   const IconComponent = getColumnIcon(name);
 
@@ -59,46 +66,47 @@ function FormFieldInsuranceCombobox({
                       !field.value && "text-muted-foreground"
                     )}
                   >
-                    {field.value 
-                    ? insurances.find(
-                      (insurance) => insurance.insurance_id === field.value
-                    )?.insurance_name
-                  : "Select Insurance"}
+                    {field.value
+                      ? insurances.find(
+                          (insurance) => insurance.insurance_id === field.value
+                        )?.insurance_name
+                      : "Select Insurance"}
                     <ChevronsUpDown className="opacity-50" />
                   </Button>
                 </FormControl>
               </PopoverTrigger>
               <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
                 <Command>
-                    <CommandInput
-                    placeholder="Search type..."
-                    className="h-9"/>
-                    <CommandList>
-                      <CommandEmpty className="flex justify-center p-4">
-                        <InsuranceForm/>
-                      </CommandEmpty>
-                      <CommandGroup>
-                        {insurances.map((insurance) => (
-                          <CommandItem
+                  <CommandInput placeholder="Search type..." className="h-9" />
+                  <CommandList>
+                    <CommandEmpty className="flex justify-center p-4">
+                      <InsuranceForm />
+                    </CommandEmpty>
+                    <CommandGroup>
+                      {insurances.map((insurance) => (
+                        <CommandItem
                           value={insurance.insurance_name}
                           key={insurance.insurance_id}
                           onSelect={() => {
-                            form.setValue("insurance_id", insurance.insurance_id)
+                            form.setValue(
+                              "insurance_id",
+                              insurance.insurance_id
+                            );
                           }}
-                          >
-                            {insurance.insurance_name}
-                            <Check
+                        >
+                          {insurance.insurance_name}
+                          <Check
                             className={cn(
-                                "ml-auto",
-                                insurance.insurance_id === field.value
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              )}
-                            />
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
+                              "ml-auto",
+                              insurance.insurance_id === field.value
+                                ? "opacity-100"
+                                : "opacity-0"
+                            )}
+                          />
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
                 </Command>
               </PopoverContent>
             </Popover>

@@ -15,19 +15,22 @@ import {
 import { asset_testcases } from "@/testcases/assets";
 
 // Convert arrays into maps for fast lookup
-const categoryMap = new Map(asset_categories.map(c => [c.category_id, c]));
-const subCategoryMap = new Map(asset_sub_categories.map(sc => [sc.sub_category_id, sc]));
-const typeMap = new Map(asset_types.map(t => [t.type_id, t]));
-const conditionMap = new Map(asset_conditions.map(c => [c.asset_condition_id, c]));
-const insuranceMap = new Map(insurances.map(i => [i.insurance_id, i]));
-const statusMap = new Map(status.map(s => [s.status_id, s]));
-const assetMap = new Map(asset_testcases.map(a => [a.asset_id, a]));
-const employeeMap = new Map(employees.map(e => [e.user_id, e]));
-const departmentMap = new Map(departments.map(d => [d.department_id, d]));
-const unitMap = new Map(units.map(u => [u.unit_id, u]));
-const companyMap = new Map(company.map(c => [c.company_id, c]));
-const urgencyMap = new Map(urgency.map(u => [u.urgency_id, u]));
-
+const categoryMap = new Map(asset_categories.map((c) => [c.category_id, c]));
+const subCategoryMap = new Map(
+  asset_sub_categories.map((sc) => [sc.sub_category_id, sc])
+);
+const typeMap = new Map(asset_types.map((t) => [t.type_id, t]));
+const conditionMap = new Map(
+  asset_conditions.map((c) => [c.asset_condition_id, c])
+);
+const insuranceMap = new Map(insurances.map((i) => [i.insurance_id, i]));
+const statusMap = new Map(status.map((s) => [s.status_id, s]));
+const assetMap = new Map(asset_testcases.map((a) => [a.asset_id, a]));
+const employeeMap = new Map(employees.map((e) => [e.user_id, e]));
+const departmentMap = new Map(departments.map((d) => [d.department_id, d]));
+const unitMap = new Map(units.map((u) => [u.unit_id, u]));
+const companyMap = new Map(company.map((c) => [c.company_id, c]));
+const urgencyMap = new Map(urgency.map((u) => [u.urgency_id, u]));
 
 // Export lookup functions (ID → Name)
 export function getCategoryName(id: number): string {
@@ -86,61 +89,67 @@ export function getUrgency(urgency_id: number) {
   return urgencyMap.get(urgency_id);
 }
 
-export function getDisplayNameForColumn(columnName: string, id: number | string): string {
+export function getDisplayNameForColumn(
+  columnName: string,
+  id: number | string
+): string {
   const lookupFunctions: Record<string, (id: any) => string> = {
-    'category_id': getCategoryName,
-    'sub_category_id': getSubCategoryName,
-    'type_id': getTypeName,
-    'asset_condition_id': getConditionName,
-    'insurance_id': getInsuranceName,
-    'status_id': getStatusName,
-    'user_id': getEmployeeName,
-    'employee_id': getEmployeeName,
-    'department_id': getDepartmentName,
-    'company': getCompanyName,
-    'urgency_id': getUrgencyName,
+    category_id: getCategoryName,
+    sub_category_id: getSubCategoryName,
+    type_id: getTypeName,
+    asset_condition_id: getConditionName,
+    insurance_id: getInsuranceName,
+    status_id: getStatusName,
+    user_id: getEmployeeName,
+    employee_id: getEmployeeName,
+    department_id: getDepartmentName,
+    company: getCompanyName,
+    urgency_id: getUrgencyName,
   };
 
   const lookupFunction = lookupFunctions[columnName];
   if (lookupFunction) {
     return lookupFunction(id);
   }
-  
+
   // For non-ID columns, just return the value as string
   return String(id);
 }
 
 export function isLookupColumn(columnName: string): boolean {
   const lookupColumns = [
-    'category_id',
-    'sub_category_id', 
-    'type_id',
-    'asset_condition_id',
-    'insurance_id',
-    'status_id',
-    'user_id',
-    'employee_id',
-    'department_id',
-    'company',
-    'urgency_id'
+    "category_id",
+    "sub_category_id",
+    "type_id",
+    "asset_condition_id",
+    "insurance_id",
+    "status_id",
+    "user_id",
+    "employee_id",
+    "department_id",
+    "company",
+    "urgency_id",
   ];
-  
+
   return lookupColumns.includes(columnName);
 }
 
-export function getIdFromDisplayName(columnName: string, displayName: string): number | string | null {
-  switch(columnName) {
+export function getIdFromDisplayName(
+  columnName: string,
+  displayName: string
+): number | string | null {
+  switch (columnName) {
     case "condition":
       for (const [id, condition] of conditionMap) {
         if (condition.asset_condition_name === displayName) return id;
       }
       break;
-    case "status": 
+    case "status":
       for (const [id, statusItem] of statusMap) {
         if (statusItem.status_name === displayName) return id;
       }
       break;
-    case "insurance": 
+    case "insurance":
       for (const [id, insurance] of insuranceMap) {
         if (insurance.insurance_name === displayName) return id;
       }
@@ -182,10 +191,10 @@ export function getIdFromDisplayName(columnName: string, displayName: string): n
       }
       break;
 
-    default: 
+    default:
       return displayName;
   }
-  
+
   // If no match found, return null
   return null;
 }

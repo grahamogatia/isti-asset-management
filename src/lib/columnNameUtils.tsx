@@ -1,32 +1,35 @@
 import { Button } from "@/components/ui/button";
-import { 
-  Package, 
-  Hash, 
-  Tag, 
-  Layers, 
-  User, 
-  Building2, 
-  Building, 
-  Calendar, 
-  Wrench, 
-  CheckCircle, 
-  AlertTriangle, 
-  Cpu, 
-  Award, 
-  FileImage, 
-  Shield, 
-  MapPin, 
-  ScrollText, 
+import {
+  Package,
+  Hash,
+  Tag,
+  Layers,
+  User,
+  Building2,
+  Building,
+  Calendar,
+  Wrench,
+  CheckCircle,
+  AlertTriangle,
+  Cpu,
+  Award,
+  FileImage,
+  Shield,
+  MapPin,
+  ScrollText,
   Clock,
   TrendingDown,
   ArrowUpDown,
   PhilippinePeso,
   Tally4,
-  Bookmark
+  Bookmark,
 } from "lucide-react";
 
-export function getColumnIcon (column: string) {
-  const columnIcons: Record<string, React.ComponentType<{ className?: string }>> = {
+export function getColumnIcon(column: string) {
+  const columnIcons: Record<
+    string,
+    React.ComponentType<{ className?: string }>
+  > = {
     // Asset columns
     asset_id: Hash,
     asset_name: Package,
@@ -52,7 +55,7 @@ export function getColumnIcon (column: string) {
     insurance_id: Shield,
     location: MapPin,
     condition: Wrench,
-    
+
     // Insurance columns
     insurance_name: Shield,
     insurance_desc: ScrollText,
@@ -65,7 +68,7 @@ export function getColumnIcon (column: string) {
     department_id: Building2,
     company: Building,
     company_id: Building,
-    
+
     // Common date columns
     date_borrowed: Calendar,
     due_date: Calendar,
@@ -75,7 +78,7 @@ export function getColumnIcon (column: string) {
     repair_completion_date: Calendar,
     issuance_date: Calendar,
     pullout_date: Calendar,
-    
+
     // Transaction/Process columns
     borrow_transaction_id: Hash,
     repair_request_id: Hash,
@@ -96,7 +99,7 @@ export function getColumnIcon (column: string) {
 }
 
 export function createHeaderWithIcon(columnName: string, displayName: string) {
-    return () => {
+  return () => {
     const IconComponent = getColumnIcon(columnName);
     return (
       <div className="flex items-center gap-2">
@@ -107,45 +110,49 @@ export function createHeaderWithIcon(columnName: string, displayName: string) {
   };
 }
 
-export const createSortableHeaderWithIcon = (columnName: string, displayName: string) => ({ column }: any) => {
+export const createSortableHeaderWithIcon =
+  (columnName: string, displayName: string) =>
+  ({ column }: any) => {
     const IconComponent = getColumnIcon(columnName);
     return (
-    <Button
-      variant="ghost"
-      onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      className="flex items-center gap-2"
-    >
-      <IconComponent className="h-4 w-4" />
-      {displayName}
-      <ArrowUpDown className="ml-2 h-4 w-4" />
-    </Button>
-  );
-};
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        className="flex items-center gap-2"
+      >
+        <IconComponent className="h-4 w-4" />
+        {displayName}
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    );
+  };
 
 export const formatColumnName = (column: string) => {
-    return column
-      .replace(/_/g, " ") // Replace underscores with spaces
-      .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize first letter of each word
-  };
+  return column
+    .replace(/_/g, " ") // Replace underscores with spaces
+    .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize first letter of each word
+};
 
 export const getActualColumnName = (displayColumnName: string): string => {
-    const columnMapping: Record<string, string> = {
-      category: "category_id",
-      sub_category: "sub_category_id",
-      type: "type_id",
-      condition: "asset_condition_id",
-      department: "department_id",
-      company: "company_id",
-      employee: "user_id",
-      status: "status_id",
-      urgency: "urgency_id",
-      insurance: "insurance_id",
-    };
-    return columnMapping[displayColumnName] || displayColumnName;
+  const columnMapping: Record<string, string> = {
+    category: "category_id",
+    sub_category: "sub_category_id",
+    type: "type_id",
+    condition: "asset_condition_id",
+    department: "department_id",
+    company: "company_id",
+    employee: "user_id",
+    status: "status_id",
+    urgency: "urgency_id",
+    insurance: "insurance_id",
   };
+  return columnMapping[displayColumnName] || displayColumnName;
+};
 
 // Standard filter function for handling multiple filter values
-export const createStandardFilterFn = (getValueFn: (row: any) => string | null | undefined) => {
+export const createStandardFilterFn = (
+  getValueFn: (row: any) => string | null | undefined
+) => {
   return (row: any, _columnId: string, filterValue: any) => {
     const rowValue = getValueFn(row);
     if (Array.isArray(filterValue)) {

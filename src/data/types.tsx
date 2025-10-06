@@ -45,4 +45,3 @@ export type ActiveFilter = {
   values: string[];
   displayLabel: string;
 };
-

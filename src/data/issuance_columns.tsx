@@ -2,7 +2,10 @@ import { type ColumnDef } from "@tanstack/react-table";
 import type { Issuance } from "./types";
 import { commonColumns } from "./common_columns";
 import { getStatusName } from "@/lib/lookups";
-import { createHeaderWithIcon, createStandardFilterFn } from "@/lib/columnNameUtils";
+import {
+  createHeaderWithIcon,
+  createStandardFilterFn,
+} from "@/lib/columnNameUtils";
 import ActionsButtonGroup from "@/components/ui/actions-button-group";
 import CustomToolTip from "@/components/ui/custom-tooltip";
 import { Button } from "@/components/ui/button";
@@ -25,7 +28,7 @@ export const issuance_columns: ColumnDef<Issuance>[] = [
     cell: ({ row }) => {
       return getStatusName(row.original.status_id);
     },
-    filterFn: createStandardFilterFn((row) => 
+    filterFn: createStandardFilterFn((row) =>
       getStatusName(row.original.status_id)
     ),
   },
@@ -40,9 +43,11 @@ export const issuance_columns: ColumnDef<Issuance>[] = [
     id: "actions",
     cell: () => {
       return (
-        <ActionsButtonGroup type="issuance" >
+        <ActionsButtonGroup type="issuance">
           <CustomToolTip content="Is Withdrawn?">
-            <Button variant="outline"><ArchiveRestore/></Button>
+            <Button variant="outline">
+              <ArchiveRestore />
+            </Button>
           </CustomToolTip>
         </ActionsButtonGroup>
       );

@@ -1,10 +1,10 @@
 import { faker } from "@faker-js/faker";
-import { 
-  asset_types, 
-  status, 
+import {
+  asset_types,
+  status,
   company,
   departments,
-  employees
+  employees,
 } from "./foreignkeys";
 import type { Issuance } from "@/data/types";
 
@@ -32,28 +32,32 @@ export function generateIssuances(count = 40): Issuance[] {
     const type = faker.helpers.arrayElement(asset_types);
     const sub_category_id = type.sub_category_id;
     const category_id = type.category_id;
-    
-    const issuanceStatus = faker.helpers.arrayElement(status.filter(s => 
-      ["In Use", "Available", "Borrowed", "Pending Return"].includes(s.status_name)
-    ));
+
+    const issuanceStatus = faker.helpers.arrayElement(
+      status.filter((s) =>
+        ["In Use", "Available", "Borrowed", "Pending Return"].includes(
+          s.status_name
+        )
+      )
+    );
     const comp = faker.helpers.arrayElement(company);
     const department = faker.helpers.arrayElement(departments);
     const employee = faker.helpers.arrayElement(employees);
-    
+
     // Generate issuance dates
     const issuanceDate = randomDate(2024, 2025);
-    
+
     // 60% chance of being pulled out (returned), 40% still issued
     const isPulledOut = faker.datatype.boolean({ probability: 0.6 });
-    
+
     // For issued items, pullout could be 1-12 months later
-    const pulloutDate = isPulledOut 
+    const pulloutDate = isPulledOut
       ? addMonths(issuanceDate, faker.number.int({ min: 1, max: 12 }))
       : issuanceDate; // Use issuance date as placeholder for active issuances
 
     // Convert dates to date strings (consistent with other types)
     const issuanceDateString = issuanceDate.toISOString().split("T")[0];
-    const pulloutDateString = isPulledOut 
+    const pulloutDateString = isPulledOut
       ? pulloutDate.toISOString().split("T")[0]
       : ""; // Empty string for active issuances
 

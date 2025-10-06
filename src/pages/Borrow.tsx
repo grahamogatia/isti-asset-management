@@ -1,6 +1,10 @@
 import BorrowForm from "@/components/pages/forms/BorrowForm";
 import { DataTable } from "@/components/ui/data-table";
-import { borrow_columns, borrow_filters, def_borrow_columns } from "@/data/borrow_columns";
+import {
+  borrow_columns,
+  borrow_filters,
+  def_borrow_columns,
+} from "@/data/borrow_columns";
 import { borrow_testcases } from "@/testcases/borrows";
 
 function Borrow() {
@@ -12,8 +16,8 @@ function Borrow() {
         defaultVisibleColumns={def_borrow_columns}
         filterableColumns={borrow_filters}
         type="Borrow"
-        form={<BorrowForm/>}
-      /> 
+        form={<BorrowForm />}
+      />
     </div>
   );
 }

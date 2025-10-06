@@ -11,13 +11,13 @@ interface FilterBarProps {
   onDeleteFilter: (columnName: string) => void;
 }
 
-function FilterBar({ 
+function FilterBar({
   data,
-  activeFilters, 
-  availableColumns, 
+  activeFilters,
+  availableColumns,
   onFiltersChange,
-  onEditFilter, 
-  onDeleteFilter 
+  onEditFilter,
+  onDeleteFilter,
 }: FilterBarProps) {
   // Don't render if no filters and no available columns
   if (activeFilters.length === 0 && availableColumns.length === 0) {
@@ -27,7 +27,7 @@ function FilterBar({
   return (
     <div className="flex items-center gap-2 py-2">
       {/* Render active filter chips */}
-      {activeFilters.map(filter => (
+      {activeFilters.map((filter) => (
         <FilterChip
           key={filter.id}
           filter={filter}
@@ -35,10 +35,14 @@ function FilterBar({
           onDelete={onDeleteFilter}
         />
       ))}
-      
+
       {/* Add Filter button - only show if there are available columns */}
       {availableColumns.length > 0 && (
-        <Filters filterableColumns={availableColumns} data={data} onFiltersChange={onFiltersChange}/>
+        <Filters
+          filterableColumns={availableColumns}
+          data={data}
+          onFiltersChange={onFiltersChange}
+        />
       )}
     </div>
   );

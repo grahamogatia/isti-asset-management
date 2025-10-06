@@ -30,17 +30,20 @@ function FormFieldNumber({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel><IconComponent className="h-4 w-4"/>{label}</FormLabel>
+          <FormLabel>
+            <IconComponent className="h-4 w-4" />
+            {label}
+          </FormLabel>
           <FormControl>
-              <Input
-                {...field}
-                type="number"
-                min="0"
-                onChange={(event) => {
-                  return field.onChange(Number(event.target.value));
-                }}
-                placeholder={placeholder}
-              />
+            <Input
+              {...field}
+              type="number"
+              min="0"
+              onChange={(event) => {
+                return field.onChange(Number(event.target.value));
+              }}
+              placeholder={placeholder}
+            />
           </FormControl>
           <FormMessage />
         </FormItem>

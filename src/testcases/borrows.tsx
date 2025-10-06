@@ -1,10 +1,10 @@
 import { faker } from "@faker-js/faker";
-import { 
-  asset_conditions, 
-  asset_types, 
+import {
+  asset_conditions,
+  asset_types,
   company,
   departments,
-  employees 
+  employees,
 } from "./foreignkeys";
 import type { Borrow, Company, Department, Employee } from "@/data/types";
 
@@ -32,20 +32,20 @@ export function generateBorrows(count = 50): Borrow[] {
     const type = faker.helpers.arrayElement(asset_types);
     const sub_category_id = type.sub_category_id;
     const category_id = type.category_id;
-    
+
     const condition = faker.helpers.arrayElement(asset_conditions);
     const comp: Company = faker.helpers.arrayElement(company); // Fixed: renamed variable
     const department: Department = faker.helpers.arrayElement(departments);
     const employee: Employee = faker.helpers.arrayElement(employees);
-    
+
     // Generate borrow dates
     const dateBorrowed = randomDate();
     const duration = faker.helpers.arrayElement([7, 14, 30, 60, 90]); // Duration in days
     const dueDate = addDays(dateBorrowed, duration);
-    
+
     // 70% chance of being returned, 30% still borrowed
     const isReturned = faker.datatype.boolean({ probability: 0.7 });
-    const returnDate = isReturned 
+    const returnDate = isReturned
       ? addDays(dateBorrowed, faker.number.int({ min: 1, max: duration + 5 }))
       : null; // Fixed: use null for unreturned items
 
@@ -73,7 +73,7 @@ export function generateBorrows(count = 50): Borrow[] {
         "Conference presentation",
         "Client meeting",
         "System testing",
-        "Emergency replacement"
+        "Emergency replacement",
       ]),
     });
   }

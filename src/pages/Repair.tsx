@@ -16,7 +16,7 @@ function Repair() {
         defaultVisibleColumns={def_repair_columns}
         filterableColumns={repair_filters}
         type="Repair"
-        form={<RepairForm/>}
+        form={<RepairForm />}
       />
     </div>
   );

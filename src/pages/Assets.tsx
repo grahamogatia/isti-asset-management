@@ -25,13 +25,13 @@ function Assets() {
                 </TabsTrigger>
                 {index < asset_categories.length - 1 && (
                   <p className="opacity-25">|</p>
-                )} 
+                )}
               </>
             ))}
           </TabsList>
-          <Separator/>
+          <Separator />
         </div>
-        
+
         {asset_categories.map((cat) => {
           return (
             <TabsContent key={cat.category_id} value={cat.category_name}>

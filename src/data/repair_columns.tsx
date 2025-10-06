@@ -2,7 +2,7 @@ import { type ColumnDef } from "@tanstack/react-table";
 import type { Repair } from "./types";
 import { commonColumns } from "./common_columns";
 import { getStatusName, getUrgencyName } from "@/lib/lookups";
-import { AlertTriangle, Hammer, RotateCcw } from "lucide-react";
+import { AlertTriangle, Hammer } from "lucide-react";
 import { createHeaderWithIcon, createStandardFilterFn } from "@/lib/columnNameUtils";
 import { Button } from "@/components/ui/button";
 import ActionsButtonGroup from "@/components/ui/actions-button-group";

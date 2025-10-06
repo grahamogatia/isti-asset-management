@@ -1,7 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { formatColumnName, getActualColumnName, getColumnIcon } from "@/lib/columnNameUtils";
+import {
+  formatColumnName,
+  getActualColumnName,
+  getColumnIcon,
+} from "@/lib/columnNameUtils";
 import { getDisplayNameForColumn } from "@/lib/lookups";
 import { ArrowLeft, Plus } from "lucide-react";
 import { useState } from "react";
@@ -105,17 +109,16 @@ function FilterValueList({
         disabled={selectedFilters.length === 0}
         variant={selectedFilters.length === 0 ? "outline" : "default"}
       >
-        {selectedFilters.length === 0
-          ? "Select filters"
-          : (
-              <>
-                <Plus />
-                {`Apply ${selectedFilters.length} filter${
-                  selectedFilters.length === 1 ? "" : "s"
-                }`}
-              </>
-            )
-        }
+        {selectedFilters.length === 0 ? (
+          "Select filters"
+        ) : (
+          <>
+            <Plus />
+            {`Apply ${selectedFilters.length} filter${
+              selectedFilters.length === 1 ? "" : "s"
+            }`}
+          </>
+        )}
       </Button>
     </div>
   );

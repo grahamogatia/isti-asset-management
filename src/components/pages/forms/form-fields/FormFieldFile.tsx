@@ -37,7 +37,7 @@ function FormFieldFile({
       render={({ field: { onChange, value, ...field } }) => (
         <FormItem>
           <FormLabel className="flex items-center gap-2">
-            <IconComponent className="h-4 w-4"/>
+            <IconComponent className="h-4 w-4" />
             {label}
           </FormLabel>
           <FormControl>
@@ -67,7 +67,9 @@ function FormFieldFile({
                   }
                 >
                   <Upload className="h-4 w-4" />
-                  {files.length > 0 ? `Change Files (${files.length})` : placeholder}
+                  {files.length > 0
+                    ? `Change Files (${files.length})`
+                    : placeholder}
                 </Button>
               </div>
 
@@ -75,7 +77,10 @@ function FormFieldFile({
               {files.length > 0 && (
                 <div className="space-y-2">
                   {files.map((file, index) => (
-                    <div key={index} className="flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-md">
+                    <div
+                      key={index}
+                      className="flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-md"
+                    >
                       <File className="h-4 w-4 text-gray-500 flex-shrink-0" />
                       <span className="text-sm text-gray-700 truncate flex-1">
                         {file.name}
@@ -89,13 +94,19 @@ function FormFieldFile({
                         size="sm"
                         className="h-auto p-1 flex-shrink-0"
                         onClick={() => {
-                          const updatedFiles = files.filter((_, i) => i !== index);
+                          const updatedFiles = files.filter(
+                            (_, i) => i !== index
+                          );
                           setFiles(updatedFiles);
-                          onChange(updatedFiles.length > 0 ? updatedFiles : null);
-                          
+                          onChange(
+                            updatedFiles.length > 0 ? updatedFiles : null
+                          );
+
                           // Clear input if no files left
                           if (updatedFiles.length === 0) {
-                            const input = document.getElementById(`file-input-${name}`) as HTMLInputElement;
+                            const input = document.getElementById(
+                              `file-input-${name}`
+                            ) as HTMLInputElement;
                             if (input) input.value = "";
                           }
                         }}

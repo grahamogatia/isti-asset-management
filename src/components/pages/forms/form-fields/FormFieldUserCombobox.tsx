@@ -46,8 +46,8 @@ function FormFieldUserCombobox({
   form,
 }: FormFieldUserComboboxProps) {
   const IconComponent = getColumnIcon(name);
-  const [displayedEmployees, setDisplayedEmployees] = useState<Employee[]>(employees);
-
+  const [displayedEmployees, setDisplayedEmployees] =
+    useState<Employee[]>(employees);
 
   const filteredEmployees = (
     prev: Employee[],
@@ -55,17 +55,16 @@ function FormFieldUserCombobox({
     deptId?: number | null,
     unitId?: number | null
   ): Employee[] => {
-    
     if (!compId && !deptId && !unitId) {
       return employees;
     }
 
     return prev.filter((employee) => {
-        if (compId && employee.company_id !== compId) return false
-        if (deptId && employee.department_id !== deptId) return false
-        if (unitId && employee.unit_id !== unitId) return false;
-        return true;
-    })
+      if (compId && employee.company_id !== compId) return false;
+      if (deptId && employee.department_id !== deptId) return false;
+      if (unitId && employee.unit_id !== unitId) return false;
+      return true;
+    });
   };
 
   return (
@@ -97,10 +96,11 @@ function FormFieldUserCombobox({
                     >
                       <div className="flex-1 text-left">
                         {selectedEmployee ? (
-                          <DisplayEmployee employee={selectedEmployee}
-                          />
+                          <DisplayEmployee employee={selectedEmployee} />
                         ) : (
-                          <span className="text-muted-foreground">Select Employee</span>
+                          <span className="text-muted-foreground">
+                            Select Employee
+                          </span>
                         )}
                       </div>
                       <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50 flex-shrink-0" />
@@ -123,41 +123,44 @@ function FormFieldUserCombobox({
                           departments={departments}
                           units={units}
                           onChange={(s) => {
-                            setDisplayedEmployees((prev) => filteredEmployees(
-                              prev,
-                              s.companyId,
-                              s.departmentId,
-                              s.unitId))
+                            setDisplayedEmployees((prev) =>
+                              filteredEmployees(
+                                prev,
+                                s.companyId,
+                                s.departmentId,
+                                s.unitId
+                              )
+                            );
                           }}
                         />
                         {displayedEmployees
-                        .sort((a, b) => {
-                            const companyCompare = a.company_id - b.company_id
+                          .sort((a, b) => {
+                            const companyCompare = a.company_id - b.company_id;
                             if (companyCompare !== 0) return companyCompare;
                             return a.name.localeCompare(b.name);
-                        })
-                        .map((employee) => (
-                          <CommandItem
-                            value={employee.name}
-                            key={employee.user_id}
-                            onSelect={() => {
+                          })
+                          .map((employee) => (
+                            <CommandItem
+                              value={employee.name}
+                              key={employee.user_id}
+                              onSelect={() => {
                                 form.setValue(name, employee.user_id);
-                            }}
-                            className="cursor-pointer"
-                          >
-                            <div className="flex-1">
-                              <DisplayEmployee employee={employee} />
-                            </div>
-                            <Check
-                              className={cn(
-                                "ml-2 h-4 w-4",
-                                employee.user_id === field.value
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              )}
-                            />
-                          </CommandItem>
-                        ))}
+                              }}
+                              className="cursor-pointer"
+                            >
+                              <div className="flex-1">
+                                <DisplayEmployee employee={employee} />
+                              </div>
+                              <Check
+                                className={cn(
+                                  "ml-2 h-4 w-4",
+                                  employee.user_id === field.value
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                )}
+                              />
+                            </CommandItem>
+                          ))}
                       </CommandGroup>
                     </CommandList>
                   </Command>

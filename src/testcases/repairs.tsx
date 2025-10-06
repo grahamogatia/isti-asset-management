@@ -1,11 +1,11 @@
 import { faker } from "@faker-js/faker";
-import { 
-  asset_types, 
-  status, 
+import {
+  asset_types,
+  status,
   company,
   departments,
   employees,
-  urgency
+  urgency,
 } from "./foreignkeys";
 import type { Repair } from "@/data/types";
 
@@ -30,7 +30,7 @@ export function generateRepairs(count = 30): Repair[] {
 
   const commonIssues = [
     "Screen flickering intermittently",
-    "Keyboard keys not responding", 
+    "Keyboard keys not responding",
     "Battery not holding charge",
     "Overheating during operation",
     "Blue screen error on startup",
@@ -48,7 +48,7 @@ export function generateRepairs(count = 30): Repair[] {
     "Printer paper jam",
     "Scanner not detecting documents",
     "Projector lamp replacement needed",
-    "Network cable connection loose"
+    "Network cable connection loose",
   ];
 
   for (let i = 1; i <= count; i++) {
@@ -56,23 +56,30 @@ export function generateRepairs(count = 30): Repair[] {
     const type = faker.helpers.arrayElement(asset_types);
     const sub_category_id = type.sub_category_id;
     const category_id = type.category_id;
-    
+
     const urgencyLevel = faker.helpers.arrayElement(urgency);
-    const repairStatus = faker.helpers.arrayElement(status.filter(s => 
-      ["Under Repair", "Available", "Out of Service", "Maintenance"].includes(s.status_name)
-    ));
+    const repairStatus = faker.helpers.arrayElement(
+      status.filter((s) =>
+        ["Under Repair", "Available", "Out of Service", "Maintenance"].includes(
+          s.status_name
+        )
+      )
+    );
     const comp = faker.helpers.arrayElement(company);
     const department = faker.helpers.arrayElement(departments);
     const employee = faker.helpers.arrayElement(employees);
-    
+
     // Generate repair dates
     const dateReported = randomDate(2024, 2025);
-    const repairStartDate = addDays(dateReported, faker.number.int({ min: 1, max: 7 })); // Start repair 1-7 days after reported
-    
+    const repairStartDate = addDays(
+      dateReported,
+      faker.number.int({ min: 1, max: 7 })
+    ); // Start repair 1-7 days after reported
+
     // 70% chance of being completed, 30% still in progress
     const isCompleted = faker.datatype.boolean({ probability: 0.7 });
     const repairDuration = faker.number.int({ min: 1, max: 14 }); // 1-14 days to complete
-    const repairCompletionDate = isCompleted 
+    const repairCompletionDate = isCompleted
       ? addDays(repairStartDate, repairDuration)
       : repairStartDate; // Use start date as placeholder for incomplete repairs
 
@@ -101,12 +108,12 @@ export function generateRepairs(count = 30): Repair[] {
         "Repair completed successfully",
         "Unable to repair - replacement needed",
         "Software issue resolved",
-        "Hardware component replaced"
+        "Hardware component replaced",
       ]),
       date_reported: dateReported.toISOString().split("T")[0],
       repair_start_date: repairStartDate.toISOString().split("T")[0],
-      repair_completion_date: isCompleted 
-        ? repairCompletionDate.toISOString().split("T")[0] 
+      repair_completion_date: isCompleted
+        ? repairCompletionDate.toISOString().split("T")[0]
         : "",
       repair_cost: repairCost,
     });

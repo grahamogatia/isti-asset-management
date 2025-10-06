@@ -36,11 +36,19 @@ function FormFieldSelect({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel><IconComponent className="h-4 w-4" />{label}</FormLabel>
-          <Select onValueChange={
-            (value) => {field.onChange(Number(value))}
-            // field.onChange
-            } defaultValue={field.value}>
+          <FormLabel>
+            <IconComponent className="h-4 w-4" />
+            {label}
+          </FormLabel>
+          <Select
+            onValueChange={
+              (value) => {
+                field.onChange(Number(value));
+              }
+              // field.onChange
+            }
+            defaultValue={field.value}
+          >
             <FormControl>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder={placeholder} />

@@ -36,14 +36,16 @@ export const borrow_columns: ColumnDef<Borrow>[] = [
   commonColumns.company<Borrow>(),
   commonColumns.condition<Borrow>(),
   commonColumns.simpleColumn("remarks", "Remarks"),
-  
+
   {
     id: "actions",
     cell: () => {
       return (
-        <ActionsButtonGroup type="borrow" >
+        <ActionsButtonGroup type="borrow">
           <CustomToolTip content="Is Returned?">
-            <Button variant="outline"><RotateCcw/></Button>
+            <Button variant="outline">
+              <RotateCcw />
+            </Button>
           </CustomToolTip>
         </ActionsButtonGroup>
       );

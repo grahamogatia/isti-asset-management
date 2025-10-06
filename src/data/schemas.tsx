@@ -87,11 +87,10 @@ export const IssuanceSchema = z.object({
   issuance_id: z.number(),
 });
 
-
 export const CompanySchema = z.object({
   company_id: z.number(),
   name: z.string(),
-  alias: z.string()
+  alias: z.string(),
 });
 
 export const DepartmentSchema = z.object({
@@ -99,15 +98,15 @@ export const DepartmentSchema = z.object({
   name: z.string(),
   alias: z.string(),
   company_id: z.number(),
-})
+});
 
 export const UnitSchema = z.object({
   unit_id: z.number(),
   name: z.string(),
   alias: z.string().nullable(),
   company_id: z.number(),
-  department_id: z.number().optional()
-})
+  department_id: z.number().optional(),
+});
 
 export const EmployeeSchema = z.object({
   user_id: z.number(),
@@ -116,4 +115,4 @@ export const EmployeeSchema = z.object({
   company_id: z.number(),
   department_id: z.number().nullable(),
   unit_id: z.number().nullable(),
-})
+});
