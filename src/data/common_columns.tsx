@@ -124,18 +124,18 @@ export const commonColumns = {
     accessorFn: (row) => {
       const asset = getAsset(row.asset_id);
       if (!asset) return;
-      return getConditionName(asset.asset_condition_id);
+      return getConditionName(asset.asset_condition_id as number);
     },
     header: createHeaderWithIcon("condition", "Condition"),
     cell: ({ row }) => {
       const asset = getAsset(row.original.asset_id);
       if (!asset) return;
-      return getConditionName(asset.asset_condition_id);
+      return getConditionName(asset.asset_condition_id as number);
     },
     filterFn: createStandardFilterFn((row) => {
       const asset = getAsset(row.original.asset_id);
       if (!asset) return null;
-      return getConditionName(asset.asset_condition_id);
+      return getConditionName(asset.asset_condition_id as number);
     }),
   }),
 
@@ -211,7 +211,7 @@ export const commonColumns = {
   // Actions column
   actions: <T extends Record<string, any>>(): ColumnDef<T> => ({
     id: "actions",
-    header: "Actions",
+    header: "",
     cell: () => {
       return (
         <DropdownMenu>
@@ -224,8 +224,10 @@ export const commonColumns = {
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Update</DropdownMenuItem>
-            <DropdownMenuItem className="text-red-700">Delete</DropdownMenuItem>
+            <DropdownMenuItem>Update Asset</DropdownMenuItem>
+            <DropdownMenuItem className="text-red-700">
+              Delete Asset
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

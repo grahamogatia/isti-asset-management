@@ -209,11 +209,7 @@ export function DataTable<TData, TValue>({
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          {/* <Filters
-            filterableColumns={getAvailableColumns()}
-            data={data}
-            onFiltersChange={handleFiltersChange}
-          /> */}
+          
           <FilterBar
             data={data}
             activeFilters={getActiveFiltersForDisplay()}
@@ -250,9 +246,10 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className="group"
                 >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                  {row.getVisibleCells().map((cell, index) => (
+                    <TableCell key={cell.id} className={index === row.getVisibleCells().length - 1 ? "sticky right-0 opacity-0 group-hover:opacity-100": ""}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
