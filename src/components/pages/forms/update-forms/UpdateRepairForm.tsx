@@ -131,20 +131,6 @@ function UpdateRepairForm({ repair, onUpdate }: UpdateRepairFormProps) {
         <div className="pb-6 space-y-2">
   {/* Debug button - remove in production */}
   <Button
-    type="button"
-    variant="outline"
-    onClick={() => {
-      console.log("🐛 DEBUG INFO:");
-      console.log("   Current form values:", form.getValues());
-      console.log("   Form errors:", form.formState.errors);
-      console.log("   Is form valid:", form.formState.isValid);
-      console.log("   Original repair:", repair);
-    }}
-  >
-    Debug Form State
-  </Button>
-
-  <Button
     className="w-full flex items-center justify-center rounded-md"
     type="submit"
     form="update-repair-form"
