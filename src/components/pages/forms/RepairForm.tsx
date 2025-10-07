@@ -34,9 +34,9 @@ function RepairForm() {
       urgency_id: undefined,
       status_id: 1,
       remarks: "",
-      date_reported: "",
-      repair_start_date: "",
-      repair_completion_date: "",
+      date_reported: new Date(),
+      repair_start_date: new Date(),
+      repair_completion_date: undefined,
       repair_cost: 0,
     },
     mode: "all",
@@ -73,6 +73,14 @@ function RepairForm() {
             label="Reported By"
             employees={employees}
             form={{ ...form }}
+          />
+          <FormFieldDate 
+            control={form.control}
+            name="date_reported"
+            label="Date Reported"
+            placeholder="Select a date"
+            minDate={repairMinDate}
+            maxDate={new Date(new Date().getFullYear() + 50, 11, 31)}
           />
         </FormCardContent>
         <FormCardContent title="Request">

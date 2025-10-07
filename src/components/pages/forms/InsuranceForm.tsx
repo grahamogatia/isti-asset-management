@@ -24,8 +24,8 @@ export function InsuranceForm() {
       insurance_id: 1,
       insurance_name: "",
       insurance_coverage: "",
-      insurance_date_from: "",
-      insurance_date_to: "",
+      insurance_date_from: new Date(),
+      insurance_date_to: undefined,
     },
     mode: "all",
   });

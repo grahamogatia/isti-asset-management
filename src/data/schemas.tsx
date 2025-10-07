@@ -15,8 +15,8 @@ export const AssetSchema = z.object({
   specifications: z.string(),
   asset_amount: z.number(),
   warranty_duration: z.number().optional(),
-  warranty_due_date: z.string(),
-  purchase_date: z.string(),
+  warranty_due_date: z.date(),
+  purchase_date: z.date(),
   notes: z.string(),
   file: z.array(z.instanceof(File)).optional(),
   insurance_id: z.number().optional(),
@@ -26,8 +26,8 @@ export const InsuranceSchema = z.object({
   insurance_id: z.number(),
   insurance_name: z.string(),
   insurance_coverage: z.string(),
-  insurance_date_from: z.string(),
-  insurance_date_to: z.string(),
+  insurance_date_from: z.date(),
+  insurance_date_to: z.date(),
 });
 
 export const RepairSchema = z.object({
@@ -44,11 +44,13 @@ export const RepairSchema = z.object({
   urgency_id: z.number(),
   status_id: z.number(),
   repair_request_id: z.number(),
-  remarks: z.string(),
-  date_reported: z.string(),
-  repair_start_date: z.string(),
-  repair_completion_date: z.string(),
+
+  date_reported: z.date(), // Auto: Today
+  repair_start_date: z.date(),
+  repair_completion_date: z.date(),
   repair_cost: z.number(),
+  remarks: z.string(),
+
 });
 
 export const BorrowSchema = z.object({
@@ -61,11 +63,11 @@ export const BorrowSchema = z.object({
   company_id: z.number(),
   department_id: z.number(),
 
-  date_borrowed: z.string(),
+  date_borrowed: z.date(),
   asset_condition_id: z.number(),
   borrow_transaction_id: z.number(),
-  due_date: z.string(),
-  return_date: z.string(),
+  due_date: z.date(),
+  return_date: z.date(),
   duration: z.number(),
   remarks: z.string(),
 });
@@ -80,8 +82,8 @@ export const IssuanceSchema = z.object({
   company_id: z.number(),
   department_id: z.number(),
 
-  issuance_date: z.string(),
-  pullout_date: z.string(),
+  issuance_date: z.date(),
+  pullout_date: z.date(),
   status_id: z.number(),
   remarks: z.string(),
   issuance_id: z.number(),
