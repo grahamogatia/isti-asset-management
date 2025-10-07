@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, Save } from "lucide-react";
 import FormCardContent from "@/components/layout/FormCardContent";
 import FormFieldTextArea from "../fields/FormFieldTextArea";
 import { employees, urgency } from "@/testcases/foreignkeys";
@@ -128,17 +128,16 @@ function UpdateRepairForm({ repair, onUpdate }: UpdateRepairFormProps) {
           />
         </FormCardContent>
 
-        <div className="pb-6 space-y-2">
-  {/* Debug button - remove in production */}
-  <Button
-    className="w-full flex items-center justify-center rounded-md"
-    type="submit"
-    form="update-repair-form"
-  >
-    <Plus className="mr-2 h-4 w-4" />
-    Update Repair Request
-  </Button>
-</div>
+        <div className="pb-6">
+          <Button
+            className="w-full flex items-center justify-center rounded-md"
+            type="submit"
+            form="update-asset-form"
+          >
+            <Save className="mr-2 h-4 w-4" />
+            Update Repair Request
+          </Button>
+        </div>
       </form>
     </Form>
   );
