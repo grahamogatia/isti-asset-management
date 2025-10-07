@@ -39,7 +39,7 @@ function IsRepairedForm({ repair, onRepairCompleted }: isRepairedFormProps) {
       description="Set the completion date and add final remarks for this repair."
       subtitle={
         <>
-          🛠️ Start Date: <span className="font-semibold">{format(new Date(repair.repair_start_date), "MMM dd, yyyy")}</span>
+          🛠️ Start Date: <span className="font-semibold">{format(repair.repair_start_date as Date, "MMM dd, yyyy")}</span>
         </>
       }
       form={form}
@@ -53,7 +53,7 @@ function IsRepairedForm({ repair, onRepairCompleted }: isRepairedFormProps) {
         name="repair_completion_date"
         label="Completion Date"
         placeholder="Select completion date"
-        minDate={new Date(repair.repair_start_date)}
+        minDate={repair.repair_start_date}
         maxDate={new Date(new Date().getFullYear() + 50, 11, 31)}
       />
 
