@@ -7,6 +7,7 @@ import { createHeaderWithIcon, createStandardFilterFn } from "@/lib/columnNameUt
 import { Button } from "@/components/ui/button";
 import ActionsButtonGroup from "@/components/ui/actions-button-group";
 import CustomToolTip from "@/components/ui/custom-tooltip";
+import IsRepairedForm from "@/components/pages/forms/IsRepairedForm";
 
 export const repair_columns: ColumnDef<Repair>[] = [
   // Asset identification first
@@ -62,12 +63,10 @@ export const repair_columns: ColumnDef<Repair>[] = [
 
   {
     id: "actions",
-    cell: () => {
+    cell: ({ row }) => {
       return (
-        <ActionsButtonGroup type="repair" >
-          <CustomToolTip content="Is Repaired?">
-            <Button variant="outline"><Hammer/></Button>
-          </CustomToolTip>
+        <ActionsButtonGroup type="repair">
+          <IsRepairedForm repair={row.original}/>
         </ActionsButtonGroup>
       );
     },

@@ -32,15 +32,8 @@ export function InsuranceForm() {
 
   function onSubmit(values: Insurance) {
     console.log("Insurance submitted:", values);
-
-    // Close the popover after successful submission
     setOpen(false);
-
-    // Reset the form for next use
     form.reset();
-
-    // Optional: Show success message
-    // You could also add a toast notification here
   }
 
   return (
@@ -112,7 +105,7 @@ export function InsuranceForm() {
                     Cancel
                   </Button>
                   <Button
-                    className="w-full flex items-center justify-center rounded-md"
+                    className="flex items-center justify-center rounded-md"
                     type="submit"
                     form="insurance-form"
                   >

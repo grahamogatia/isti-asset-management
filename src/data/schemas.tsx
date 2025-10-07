@@ -45,8 +45,9 @@ export const RepairSchema = z.object({
   status_id: z.number(),
   repair_request_id: z.number(),
 
-  date_reported: z.date(), // Auto: Today
+  date_reported: z.date(), // Default: Today
   repair_start_date: z.date(),
+  
   repair_completion_date: z.date(),
   repair_cost: z.number(),
   remarks: z.string(),
