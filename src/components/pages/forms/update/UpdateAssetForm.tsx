@@ -14,6 +14,13 @@ import { Button } from "@/components/ui/button";
 import { Save } from "lucide-react";
 import FormFieldTypeCombobox from "../fields/FormFieldTypeCombobox";
 import FormFieldInsuranceCombobox from "../fields/FormFieldInsuranceCombobox";
+import DisplayField from "@/components/layout/DisplayField";
+import DisplayAsset from "@/components/ui/display-asset";
+import {
+  getCategoryName,
+  getSubCategoryName,
+  getTypeName,
+} from "@/lib/lookups";
 
 interface UpdateAssetFormProps {
   asset: Asset;
@@ -42,6 +49,16 @@ function UpdateAssetForm({ asset, onUpdate }: UpdateAssetFormProps) {
         className="space-y-5"
       >
         <FormCardContent title="Asset Information">
+          <DisplayField name="asset_name" label="Asset Name">
+            <DisplayAsset
+              asset_name={asset?.asset_name as string}
+              category={getCategoryName(asset?.category_id as number)}
+              sub_category={getSubCategoryName(
+                asset?.sub_category_id as number
+              )}
+              type={getTypeName(asset?.type_id as number)}
+            />
+          </DisplayField>
           <FormFieldText
             control={form.control}
             name="serial_number"

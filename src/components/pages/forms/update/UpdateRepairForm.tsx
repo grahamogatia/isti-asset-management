@@ -24,6 +24,7 @@ import DisplayAsset from "@/components/ui/display-asset";
 import { Label } from "@/components/ui/label";
 import { getColumnIcon } from "@/lib/columnNameUtils";
 import DisplayEmployee from "@/components/ui/display-employee";
+import DisplayField from "@/components/layout/DisplayField";
 
 interface UpdateRepairFormProps {
   repair: Repair;
@@ -64,36 +65,23 @@ function UpdateRepairForm({ repair, onUpdate }: UpdateRepairFormProps) {
         className="space-y-5"
       >
         <FormCardContent title="Details">
-          <div className="space-y-2">
-            <Label className="flex items-center">
-              <IconAssetName className="h-4 w-4" />
-              Asset Name
-            </Label>
-            <div className="border border-[#5d5bd0] bg-[#f1f1fb] rounded-md p-3 ">
-              <DisplayAsset
-                asset_name={asset?.asset_name as string}
-                category={getCategoryName(asset?.category_id as number)}
-                sub_category={getSubCategoryName(
-                  asset?.sub_category_id as number
-                )}
-                type={getTypeName(asset?.type_id as number)}
-              />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label className="flex items-center gap-2">
-              <IconEmployeeName className="h-4 w-4" />
-              Reported By
-            </Label>
-            <div className="border border-[#5d5bd0] bg-[#f1f1fb] rounded-md p-3">
-              {employee ? (
-                <DisplayEmployee employee={employee} />
-              ) : (
-                <span className="text-muted-foreground">Employee not found</span>
+          <DisplayField name="asset_name" label="Asset Name">
+            <DisplayAsset
+              asset_name={asset?.asset_name as string}
+              category={getCategoryName(asset?.category_id as number)}
+              sub_category={getSubCategoryName(
+                asset?.sub_category_id as number
               )}
-            </div>
-          </div>
-        
+              type={getTypeName(asset?.type_id as number)}
+            />
+          </DisplayField>
+
+          <DisplayField name="user_id" label="Reported By">
+            {employee 
+            ? (<DisplayEmployee employee={employee} />) 
+            : (<span className="text-muted-foreground">Employee not found</span>)}
+          </DisplayField>
+
           <FormFieldDate
             control={form.control}
             name="date_reported"
