@@ -10,36 +10,40 @@ import FormCardContent from "@/components/layout/FormCardContent";
 import FormFieldTextArea from "../fields/FormFieldTextArea";
 import FormFieldDate from "../fields/FormFieldDate";
 import FormFieldNumber from "../fields/FormFieldNumber";
-import { asset_testcases } from "@/testcases/assets";
-import FormFieldAssetCombobox from "../fields/FormFieldAssetCombobox";
-import FormFieldUserCombobox from "../fields/FormFieldUserCombobox";
 import { employees } from "@/testcases/foreignkeys";
+import DisplayField from "@/components/layout/DisplayField";
+import DisplayAsset from "@/components/ui/display-asset";
+import DisplayEmployee from "@/components/ui/display-employee";
+import {
+    getAsset,
+  getCategoryName,
+  getSubCategoryName,
+  getTypeName,
+} from "@/lib/lookups";
 
-function UpdateBorrowForm() {
+interface UpdateBorrowFormProps {
+  borrow: Borrow;
+  onUpdate?: (updatedBorrow: Borrow) => void;
+}
+
+function UpdateBorrowForm({ borrow, onUpdate }: UpdateBorrowFormProps) {
   const form = useForm<Borrow>({
     resolver: zodResolver(BorrowSchema),
     defaultValues: {
-      asset_id: undefined,
-      category_id: 1,
-      user_id: undefined,
-      department_id: 1,
-      date_borrowed: new Date(),
-      asset_condition_id: 1,
-      borrow_transaction_id: 1,
-      company_id: 1,
-      sub_category_id: 1,
-      type_id: 1,
-      due_date: undefined,
-      return_date: undefined,
-      duration: undefined,
-      remarks: "",
+      ...borrow,
     },
     mode: "all",
   });
 
   function onSubmit(values: Borrow) {
     console.log("🎉 SUCCESS! Form submitted:", values);
+    onUpdate?.(values);
   }
+
+  const assetId = form.watch("asset_id");
+  const asset = getAsset(assetId);
+  const userId = form.watch("user_id") || borrow.user_id;
+  const employee = employees.find((emp) => emp.user_id === userId);
 
   return (
     <Form {...form}>
@@ -49,20 +53,24 @@ function UpdateBorrowForm() {
         className="space-y-5"
       >
         <FormCardContent title="Details">
-          <FormFieldAssetCombobox
-            control={form.control}
-            name="asset_id"
-            label="Asset to Borrow"
-            assets={asset_testcases}
-            form={{ ...form }}
-          />
-          <FormFieldUserCombobox
-            control={form.control}
-            name="user_id"
-            label="Borrowed By"
-            employees={employees}
-            form={{ ...form }}
-          />
+          <DisplayField name="asset_name" label="Asset Name">
+            <DisplayAsset
+              asset_name={asset?.asset_name as string}
+              category={getCategoryName(asset?.category_id as number)}
+              sub_category={getSubCategoryName(
+                asset?.sub_category_id as number
+              )}
+              type={getTypeName(asset?.type_id as number)}
+            />
+          </DisplayField>
+
+          <DisplayField name="user_id" label="Reported By">
+            {employee ? (
+              <DisplayEmployee employee={employee} />
+            ) : (
+              <span className="text-muted-foreground">Employee not found</span>
+            )}
+          </DisplayField>
         </FormCardContent>
         <FormCardContent title="Record">
           <FormFieldDate

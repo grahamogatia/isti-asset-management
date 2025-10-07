@@ -34,11 +34,11 @@ export function generateBorrows(count = 50): Borrow[] {
     const category_id = type.category_id;
 
     const condition = faker.helpers.arrayElement(asset_conditions);
-    const comp: Company = faker.helpers.arrayElement(company); // Fixed: renamed variable
+    const comp: Company = faker.helpers.arrayElement(company);
     const department: Department = faker.helpers.arrayElement(departments);
     const employee: Employee = faker.helpers.arrayElement(employees);
 
-    // Generate borrow dates
+    // Generate borrow dates as Date objects
     const dateBorrowed = randomDate();
     const duration = faker.helpers.arrayElement([7, 14, 30, 60, 90]); // Duration in days
     const dueDate = addDays(dateBorrowed, duration);
@@ -47,21 +47,21 @@ export function generateBorrows(count = 50): Borrow[] {
     const isReturned = faker.datatype.boolean({ probability: 0.7 });
     const returnDate = isReturned
       ? addDays(dateBorrowed, faker.number.int({ min: 1, max: duration + 5 }))
-      : null; // Fixed: use null for unreturned items
+      : undefined; // Use undefined for unreturned items
 
     borrows.push({
       asset_id: faker.number.int({ min: 1, max: 100 }),
       category_id,
       user_id: employee.user_id,
       department_id: department.department_id,
-      date_borrowed: dateBorrowed.toISOString().split("T")[0],
+      date_borrowed: dateBorrowed, // Fix: Store as Date object
       asset_condition_id: condition.asset_condition_id,
       borrow_transaction_id: i,
-      company_id: comp.company_id, // Fixed: use comp instead of company
+      company_id: comp.company_id,
       sub_category_id,
       type_id: type.type_id || 0,
-      due_date: dueDate.toISOString().split("T")[0],
-      return_date: isReturned ? returnDate!.toISOString().split("T")[0] : "",
+      due_date: dueDate, // Fix: Store as Date object
+      return_date: returnDate, // Fix: Store as Date object or undefined
       duration,
       remarks: faker.helpers.arrayElement([
         "Equipment for project work",

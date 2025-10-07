@@ -5,6 +5,7 @@ import { commonColumns } from "./common_columns";
 import { Clock } from "lucide-react";
 import ActionsButtonGroup from "@/components/ui/actions-button-group";
 import IsReturnedForm from "@/components/pages/forms/sub-forms/IsReturnedForm";
+import UpdateBorrowForm from "@/components/pages/forms/update/UpdateBorrowForm";
 
 export const borrow_columns: ColumnDef<Borrow>[] = [
   // Asset identification first
@@ -40,7 +41,15 @@ export const borrow_columns: ColumnDef<Borrow>[] = [
     id: "actions",
     cell: ({ row }) => {
       return (
-        <ActionsButtonGroup type="borrow">
+        <ActionsButtonGroup type="Borrow" updateForm={
+          <UpdateBorrowForm
+          borrow={row.original}
+          onUpdate={(updatedBorrow: Borrow)=> {
+            console.log("Borrow updated:", updatedBorrow);
+
+          }}
+          />
+        }>
           <IsReturnedForm borrow={row.original} />
         </ActionsButtonGroup>
       );

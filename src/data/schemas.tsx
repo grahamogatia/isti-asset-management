@@ -72,7 +72,7 @@ export const BorrowSchema = z.object({
   date_borrowed: z.date(),
   due_date: z.date(),
 
-  return_date: z.date(),
+  return_date: z.date().optional(),
   remarks: z.string(),
 });
 
@@ -88,7 +88,7 @@ export const IssuanceSchema = z.object({
 
   issuance_date: z.date(),
 
-  pullout_date: z.date(),
+  pullout_date: z.date().optional(),
   status_id: z.number(),
   remarks: z.string(),
   issuance_id: z.number(),
