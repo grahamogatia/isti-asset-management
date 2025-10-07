@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Plus, Save } from "lucide-react";
+import { Save } from "lucide-react";
 import FormCardContent from "@/components/layout/FormCardContent";
 import FormFieldTextArea from "../fields/FormFieldTextArea";
 import { employees, urgency } from "@/testcases/foreignkeys";
@@ -12,17 +12,13 @@ import { SelectItem } from "@/components/ui/select";
 import FormFieldSelect from "../fields/FormFieldSelect";
 import FormFieldDate from "../fields/FormFieldDate";
 import FormFieldMoney from "../fields/FormFieldMoney";
-import FormFieldUserCombobox from "../fields/FormFieldUserCombobox";
 import {
   getAsset,
   getCategoryName,
-  getEmployeeName,
   getSubCategoryName,
   getTypeName,
 } from "@/lib/lookups";
 import DisplayAsset from "@/components/ui/display-asset";
-import { Label } from "@/components/ui/label";
-import { getColumnIcon } from "@/lib/columnNameUtils";
 import DisplayEmployee from "@/components/ui/display-employee";
 import DisplayField from "@/components/layout/DisplayField";
 
@@ -53,9 +49,6 @@ function UpdateRepairForm({ repair, onUpdate }: UpdateRepairFormProps) {
 
   const userId = form.watch("user_id") || repair.user_id;
   const employee = employees.find((emp) => emp.user_id === userId);
-
-  const IconAssetName = getColumnIcon("asset_name");
-  const IconEmployeeName = getColumnIcon("user_id");
 
   return (
     <Form {...form}>
