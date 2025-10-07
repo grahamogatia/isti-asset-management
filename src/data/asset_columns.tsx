@@ -16,6 +16,7 @@ import {
 } from "@/lib/columnNameUtils";
 
 import ActionsButtonGroup from "@/components/ui/actions-button-group";
+import UpdateAssetForm from "@/components/pages/forms/UpdateAssetForm";
 
 export const asset_columns: ColumnDef<Asset>[] = [
   {
@@ -190,8 +191,23 @@ export const asset_columns: ColumnDef<Asset>[] = [
   },
   {
     id: "actions",
-    cell: () => {
-      return <ActionsButtonGroup type="asset" />;
+    cell: ({ row }) => {
+      return (
+        <ActionsButtonGroup
+          type="Asset"
+          rowData={row.original}
+          updateForm={
+              <UpdateAssetForm
+                asset={row.original}
+                onUpdate={(updatedAsset) => {
+                  console.log("Asset updated:", updatedAsset);
+                  // Add your update logic here
+                  // e.g., API call, state update, etc.
+                }}
+              />
+          }
+        />
+      );
     },
   },
 ];
