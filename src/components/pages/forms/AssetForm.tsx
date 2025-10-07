@@ -27,8 +27,8 @@ function AssetForm() {
       brand: "Test",
       specifications: "Test",
       asset_amount: 123,
-      purchase_date: "", // Changed to empty string
-      warranty_due_date: "", // Changed to empty string
+      purchase_date: undefined, // Changed to empty string
+      warranty_due_date: undefined, // Changed to empty string
       notes: "", // Changed to empty string
       insurance_id: 1,
       file: undefined, // Changed to null

@@ -48,7 +48,7 @@ function IsRepairedForm({ repair, onRepairCompleted }: isRepairedFormProps) {
         label="Completion Date"
         placeholder="Select completion date"
         minDate={new Date(repair.repair_start_date)}
-        maxDate={new Date()}
+        maxDate={new Date(new Date().getFullYear() + 50, 11, 31)}
       />
       
       <FormFieldTextArea

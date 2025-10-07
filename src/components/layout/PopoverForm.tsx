@@ -4,7 +4,8 @@ import { Form } from "@/components/ui/form"; // Fix: Import from ui/form, not re
 import { Button } from "../ui/button";
 import type { UseFormReturn, FieldValues } from "react-hook-form";
 
-interface PopoverFormProps<T extends FieldValues> { // Fix: Add extends FieldValues
+interface PopoverFormProps<T extends FieldValues> {
+  // Fix: Add extends FieldValues
   triggerButton: React.ReactNode;
   title: string;
   description: string;
@@ -17,7 +18,8 @@ interface PopoverFormProps<T extends FieldValues> { // Fix: Add extends FieldVal
   formId: string;
 }
 
-function PopoverForm<T extends FieldValues>({ // Fix: Add extends FieldValues
+function PopoverForm<T extends FieldValues>({
+  // Fix: Add extends FieldValues
   triggerButton,
   title,
   description,
@@ -39,9 +41,7 @@ function PopoverForm<T extends FieldValues>({ // Fix: Add extends FieldValues
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        {triggerButton}
-      </PopoverTrigger>
+      <PopoverTrigger asChild>{triggerButton}</PopoverTrigger>
       <PopoverContent className="w-80">
         <div className="grid gap-4">
           <div className="space-y-2">
@@ -54,12 +54,16 @@ function PopoverForm<T extends FieldValues>({ // Fix: Add extends FieldValues
           <div className="grid gap-2">
             <Form {...form}>
               <form
-                onSubmit={form.handleSubmit(handleSubmit)}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation(); // Add this to prevent bubbling
+                  form.handleSubmit(handleSubmit)(e);
+                }}
                 className="space-y-4"
                 id={formId}
               >
                 {children}
-                
+
                 <div className="flex gap-2">
                   <Button
                     type="button"
