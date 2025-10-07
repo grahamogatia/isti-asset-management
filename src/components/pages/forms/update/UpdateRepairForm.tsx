@@ -16,12 +16,14 @@ import FormFieldUserCombobox from "../fields/FormFieldUserCombobox";
 import {
   getAsset,
   getCategoryName,
+  getEmployeeName,
   getSubCategoryName,
   getTypeName,
 } from "@/lib/lookups";
 import DisplayAsset from "@/components/ui/display-asset";
 import { Label } from "@/components/ui/label";
 import { getColumnIcon } from "@/lib/columnNameUtils";
+import DisplayEmployee from "@/components/ui/display-employee";
 
 interface UpdateRepairFormProps {
   repair: Repair;
@@ -48,7 +50,11 @@ function UpdateRepairForm({ repair, onUpdate }: UpdateRepairFormProps) {
   const repairMinDate =
     asset && asset.purchase_date ? new Date(asset.purchase_date) : undefined;
 
-  const IconComponent = getColumnIcon("asset_name");
+  const userId = form.watch("user_id") || repair.user_id;
+  const employee = employees.find((emp) => emp.user_id === userId);
+
+  const IconAssetName = getColumnIcon("asset_name");
+  const IconEmployeeName = getColumnIcon("user_id");
 
   return (
     <Form {...form}>
@@ -60,7 +66,7 @@ function UpdateRepairForm({ repair, onUpdate }: UpdateRepairFormProps) {
         <FormCardContent title="Details">
           <div className="space-y-2">
             <Label className="flex items-center">
-              <IconComponent className="h-4 w-4" />
+              <IconAssetName className="h-4 w-4" />
               Asset Name
             </Label>
             <div className="border border-[#5d5bd0] bg-[#f1f1fb] rounded-md p-3 ">
@@ -74,13 +80,20 @@ function UpdateRepairForm({ repair, onUpdate }: UpdateRepairFormProps) {
               />
             </div>
           </div>
-          <FormFieldUserCombobox
-            control={form.control}
-            name="user_id"
-            label="Reported By"
-            employees={employees}
-            form={{ ...form }}
-          />
+          <div className="space-y-2">
+            <Label className="flex items-center gap-2">
+              <IconEmployeeName className="h-4 w-4" />
+              Reported By
+            </Label>
+            <div className="border border-[#5d5bd0] bg-[#f1f1fb] rounded-md p-3">
+              {employee ? (
+                <DisplayEmployee employee={employee} />
+              ) : (
+                <span className="text-muted-foreground">Employee not found</span>
+              )}
+            </div>
+          </div>
+        
           <FormFieldDate
             control={form.control}
             name="date_reported"
