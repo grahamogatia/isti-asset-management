@@ -41,9 +41,12 @@ export const issuance_columns: ColumnDef<Issuance>[] = [
     id: "actions",
     cell: ({ row }) => {
       return (
-        <ActionsButtonGroup type="issuance">
-          <IsWithdrawnForm issuance={row.original} />
-        </ActionsButtonGroup>
+        <ActionsButtonGroup 
+        type="Issuance"
+        showUpdate={false} 
+      >
+        <IsWithdrawnForm issuance={row.original} />
+      </ActionsButtonGroup>
       );
     },
   },

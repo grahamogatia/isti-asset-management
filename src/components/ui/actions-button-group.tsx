@@ -7,29 +7,34 @@ import FormSheet from "../layout/FormSheet";
 interface ActionsButtonGroupProps {
   type: string;
   children?: React.ReactNode;
-  updateForm?: React.ReactNode; // Add form component prop
+  updateForm?: React.ReactNode;
+  showUpdate?: boolean; // Add this prop
 }
 
 function ActionsButtonGroup({
   type,
   children,
   updateForm,
+  showUpdate = true, // Default to true to maintain existing behavior
 }: ActionsButtonGroupProps) {
   return (
     <ButtonGroup className="hidden sm:flex">
       {/* Additional buttons */}
       {children}
 
-       {/* Update */}
-      <FormSheet 
-      type={type}
-      taskName="Update"
-      button={
-        <Button variant="outline">
-          <SquarePen className="h-4 w-4" />
-        </Button>
-      }
-      form={updateForm} />
+      {/* Update - only show if showUpdate is true */}
+      {showUpdate && (
+        <FormSheet 
+          type={type}
+          taskName="Update"
+          button={
+            <Button variant="outline">
+              <SquarePen className="h-4 w-4" />
+            </Button>
+          }
+          form={updateForm} 
+        />
+      )}
 
       {/* Delete*/}
       <DeleteAlertDialog>
