@@ -195,7 +195,6 @@ export const asset_columns: ColumnDef<Asset>[] = [
       return (
         <ActionsButtonGroup
           type="Asset"
-          rowData={row.original}
           updateForm={
               <UpdateAssetForm
                 asset={row.original}
