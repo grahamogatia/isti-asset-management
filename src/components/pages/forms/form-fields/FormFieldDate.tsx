@@ -78,7 +78,7 @@ function FormFieldDate({
                 selected={field.value ? new Date(field.value) : undefined}
                 onSelect={(date) => {
                   if (date) {
-                    field.onChange(format(date, "yyyy-MM-dd"));
+                    field.onChange(date);
                   } else {
                     field.onChange(null);
                   }
