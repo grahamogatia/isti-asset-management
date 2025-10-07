@@ -69,7 +69,7 @@ export function generateRepairs(count = 30): Repair[] {
     const department = faker.helpers.arrayElement(departments);
     const employee = faker.helpers.arrayElement(employees);
 
-    // Generate repair dates
+    // Generate repair dates as Date objects
     const dateReported = randomDate(2024, 2025);
     const repairStartDate = addDays(
       dateReported,
@@ -81,7 +81,7 @@ export function generateRepairs(count = 30): Repair[] {
     const repairDuration = faker.number.int({ min: 1, max: 14 }); // 1-14 days to complete
     const repairCompletionDate = isCompleted
       ? addDays(repairStartDate, repairDuration)
-      : repairStartDate; // Use start date as placeholder for incomplete repairs
+      : undefined; // Fix: Use undefined instead of repairStartDate for incomplete repairs
 
     const issue = faker.helpers.arrayElement(commonIssues);
     const repairCost = faker.number.int({ min: 500, max: 15000 }); // PHP 500 - 15,000
@@ -110,11 +110,10 @@ export function generateRepairs(count = 30): Repair[] {
         "Software issue resolved",
         "Hardware component replaced",
       ]),
-      date_reported: dateReported.toISOString().split("T")[0],
-      repair_start_date: repairStartDate.toISOString().split("T")[0],
-      repair_completion_date: isCompleted
-        ? repairCompletionDate.toISOString().split("T")[0]
-        : "",
+      // Fix: Store as Date objects, not strings
+      date_reported: dateReported,
+      repair_start_date: repairStartDate,
+      repair_completion_date: repairCompletionDate, // Can be undefined for incomplete repairs
       repair_cost: repairCost,
     });
   }
