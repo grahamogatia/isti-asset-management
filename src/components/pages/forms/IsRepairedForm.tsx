@@ -4,10 +4,10 @@ import { format } from "date-fns/format";
 import { Hammer } from "lucide-react";
 import FormFieldDate from "./form-fields/FormFieldDate";
 import FormFieldTextArea from "./form-fields/FormFieldTextArea";
-import { useForm } from "react-hook-form"; 
-import { zodResolver } from "@hookform/resolvers/zod"; 
-import { RepairSchema } from "@/data/schemas"; 
-import type { Repair } from "@/data/types"; 
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { RepairSchema } from "@/data/schemas";
+import type { Repair } from "@/data/types";
 
 // Missing interface definition
 interface isRepairedFormProps {
@@ -29,13 +29,19 @@ function IsRepairedForm({ repair, onRepairCompleted }: isRepairedFormProps) {
   return (
     <PopoverForm
       triggerButton={
-        <Button variant="outline" size="sm"> {/* Fix: Add size prop */}
-          <Hammer className="h-4 w-4" />
+        <Button variant="outline">
+          {" "}
+          {/* Fix: Add size prop */}
+          <Hammer />
         </Button>
       }
       title="Is Repaired?"
       description="Set the completion date and add final remarks for this repair."
-      subtitle={`Started: ${format(new Date(repair.repair_start_date), "MMM dd, yyyy")}`}
+      subtitle={
+        <>
+          🛠️ Start Date: <span className="font-semibold">{format(new Date(repair.repair_start_date), "MMM dd, yyyy")}</span>
+        </>
+      }
       form={form}
       onSubmit={(values) => onRepairCompleted?.(values)}
       submitButtonText="Complete"
@@ -50,7 +56,7 @@ function IsRepairedForm({ repair, onRepairCompleted }: isRepairedFormProps) {
         minDate={new Date(repair.repair_start_date)}
         maxDate={new Date(new Date().getFullYear() + 50, 11, 31)}
       />
-      
+
       <FormFieldTextArea
         control={form.control}
         name="remarks"
@@ -61,4 +67,4 @@ function IsRepairedForm({ repair, onRepairCompleted }: isRepairedFormProps) {
   );
 }
 
-export default IsRepairedForm; // Missing export
+export default IsRepairedForm;

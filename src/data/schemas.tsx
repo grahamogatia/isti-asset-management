@@ -47,7 +47,7 @@ export const RepairSchema = z.object({
 
   date_reported: z.date(), // Default: Today
   repair_start_date: z.date(),
-  
+
   repair_completion_date: z.date(),
   repair_cost: z.number(),
   remarks: z.string(),
@@ -64,12 +64,15 @@ export const BorrowSchema = z.object({
   company_id: z.number(),
   department_id: z.number(),
 
-  date_borrowed: z.date(),
-  asset_condition_id: z.number(),
   borrow_transaction_id: z.number(),
-  due_date: z.date(),
-  return_date: z.date(),
+  asset_condition_id: z.number(),
   duration: z.number(),
+
+
+  date_borrowed: z.date(),
+  due_date: z.date(),
+
+  return_date: z.date(),
   remarks: z.string(),
 });
 

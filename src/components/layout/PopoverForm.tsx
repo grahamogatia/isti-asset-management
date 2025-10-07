@@ -9,7 +9,7 @@ interface PopoverFormProps<T extends FieldValues> {
   triggerButton: React.ReactNode;
   title: string;
   description: string;
-  subtitle?: string;
+  subtitle?: React.ReactNode;
   form: UseFormReturn<T>;
   onSubmit: (values: T) => void;
   children: React.ReactNode;
@@ -74,7 +74,7 @@ function PopoverForm<T extends FieldValues>({
                     Cancel
                   </Button>
                   <Button
-                    className="flex-1 flex items-center justify-center"
+                    className="flex-1 flex items-center justify-center gap-0"
                     type="submit"
                     form={formId}
                   >

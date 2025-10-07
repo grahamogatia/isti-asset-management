@@ -2,11 +2,9 @@ import { type ColumnDef } from "@tanstack/react-table";
 import type { Repair } from "./types";
 import { commonColumns } from "./common_columns";
 import { getStatusName, getUrgencyName } from "@/lib/lookups";
-import { AlertTriangle, Hammer } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 import { createHeaderWithIcon, createStandardFilterFn } from "@/lib/columnNameUtils";
-import { Button } from "@/components/ui/button";
 import ActionsButtonGroup from "@/components/ui/actions-button-group";
-import CustomToolTip from "@/components/ui/custom-tooltip";
 import IsRepairedForm from "@/components/pages/forms/IsRepairedForm";
 
 export const repair_columns: ColumnDef<Repair>[] = [
