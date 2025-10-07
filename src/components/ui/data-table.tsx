@@ -34,7 +34,8 @@ import { useState, useEffect } from "react";
 import FilterBar from "../pages/filters/FilterBar";
 import { formatColumnName, getColumnIcon } from "@/lib/columnNameUtils";
 import type { ActiveFilter } from "@/data/types";
-import NewFormSheet from "../layout/NewFormSheet";
+import FormSheet from "../layout/FormSheet";
+import { Plus } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -42,8 +43,8 @@ interface DataTableProps<TData, TValue> {
   children?: React.ReactNode;
   defaultVisibleColumns?: string[];
   filterableColumns: string[];
-  type:string,
-  form: React.ReactNode,
+  type: string;
+  form: React.ReactNode;
 }
 
 export function DataTable<TData, TValue>({
@@ -52,7 +53,7 @@ export function DataTable<TData, TValue>({
   children,
   defaultVisibleColumns,
   filterableColumns,
-  type, 
+  type,
   form,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -107,18 +108,19 @@ export function DataTable<TData, TValue>({
   };
 
   const getActiveFiltersForDisplay = (): ActiveFilter[] => {
-    
-    return appliedFilters.map(filter => ({
+    return appliedFilters.map((filter) => ({
       id: filter.columnName,
       columnName: filter.columnName,
       values: filter.values,
-      displayLabel: `${formatColumnName(filter.columnName)}: ${filter.values.join(', ')}`
+      displayLabel: `${formatColumnName(
+        filter.columnName
+      )}: ${filter.values.join(", ")}`,
     }));
   };
 
   const getAvailableColumns = () => {
-    const usedColumns = appliedFilters.map(filter => filter.columnName);
-    return filterableColumns.filter(column => !usedColumns.includes(column));
+    const usedColumns = appliedFilters.map((filter) => filter.columnName);
+    return filterableColumns.filter((column) => !usedColumns.includes(column));
   };
 
   // FilterBar handlers
@@ -180,7 +182,17 @@ export function DataTable<TData, TValue>({
                   Columns
                 </Button>
               </DropdownMenuTrigger>
-              <NewFormSheet type={type} form={form}/>
+              <FormSheet
+                type={type}
+                taskName="Add a New"
+                button={
+                  <Button className="bg-[#4a47c6] text-white hover:bg-[#3d3bb0] gap-0">
+                    <Plus className="mr-1" />
+                    New
+                  </Button>
+                }
+                form={form}
+              />
               <DropdownMenuContent align="end">
                 {table
                   .getAllColumns()
@@ -209,7 +221,7 @@ export function DataTable<TData, TValue>({
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          
+
           <FilterBar
             data={data}
             activeFilters={getActiveFiltersForDisplay()}
@@ -249,7 +261,14 @@ export function DataTable<TData, TValue>({
                   className="group"
                 >
                   {row.getVisibleCells().map((cell, index) => (
-                    <TableCell key={cell.id} className={index === row.getVisibleCells().length - 1 ? "sticky right-0 opacity-0 group-hover:opacity-100": ""}>
+                    <TableCell
+                      key={cell.id}
+                      className={
+                        index === row.getVisibleCells().length - 1
+                          ? "sticky right-0 opacity-0 group-hover:opacity-100"
+                          : ""
+                      }
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
