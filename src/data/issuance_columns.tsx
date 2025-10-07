@@ -7,9 +7,7 @@ import {
   createStandardFilterFn,
 } from "@/lib/columnNameUtils";
 import ActionsButtonGroup from "@/components/ui/actions-button-group";
-import CustomToolTip from "@/components/ui/custom-tooltip";
-import { Button } from "@/components/ui/button";
-import { ArchiveRestore } from "lucide-react";
+import IsWithdrawnForm from "@/components/pages/forms/IsWithdrawn";
 
 export const issuance_columns: ColumnDef<Issuance>[] = [
   // Asset identification first
@@ -41,14 +39,10 @@ export const issuance_columns: ColumnDef<Issuance>[] = [
 
   {
     id: "actions",
-    cell: () => {
+    cell: ({ row }) => {
       return (
         <ActionsButtonGroup type="issuance">
-          <CustomToolTip content="Is Withdrawn?">
-            <Button variant="outline">
-              <ArchiveRestore />
-            </Button>
-          </CustomToolTip>
+          <IsWithdrawnForm issuance={row.original} />
         </ActionsButtonGroup>
       );
     },

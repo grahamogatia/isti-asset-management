@@ -87,6 +87,7 @@ export const IssuanceSchema = z.object({
   department_id: z.number(),
 
   issuance_date: z.date(),
+  
   pullout_date: z.date(),
   status_id: z.number(),
   remarks: z.string(),
