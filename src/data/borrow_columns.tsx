@@ -4,7 +4,7 @@ import { differenceInDays } from "date-fns";
 import { commonColumns } from "./common_columns";
 import { Clock } from "lucide-react";
 import ActionsButtonGroup from "@/components/ui/actions-button-group";
-import IsReturnedForm from "@/components/pages/forms/IsReturnedForm";
+import IsReturnedForm from "@/components/pages/forms/sub-forms/IsReturnedForm";
 
 export const borrow_columns: ColumnDef<Borrow>[] = [
   // Asset identification first

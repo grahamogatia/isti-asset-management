@@ -3,58 +3,41 @@ import type { Asset } from "@/data/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
-
-import FormFieldText from "./form-fields/FormFieldText";
+import FormFieldText from "../form-fields/FormFieldText";
 import { asset_types, insurances } from "@/testcases/foreignkeys";
-import FormFieldTextArea from "./form-fields/FormFieldTextArea";
-import FormFieldMoney from "./form-fields/FormFieldMoney";
-import FormFieldDate from "./form-fields/FormFieldDate";
-import FormFieldFile from "./form-fields/FormFieldFile";
+import FormFieldTextArea from "../form-fields/FormFieldTextArea";
+import FormFieldMoney from "../form-fields/FormFieldMoney";
+import FormFieldDate from "../form-fields/FormFieldDate";
+import FormFieldFile from "../form-fields/FormFieldFile";
 import FormCardContent from "@/components/layout/FormCardContent";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import FormFieldTypeCombobox from "./form-fields/FormFieldTypeCombobox";
-import { getIdFromDisplayName } from "@/lib/lookups";
-import FormFieldInsuranceCombobox from "./form-fields/FormFieldInsuranceCombobox";
+import { Save } from "lucide-react";
+import FormFieldTypeCombobox from "../form-fields/FormFieldTypeCombobox";
+import FormFieldInsuranceCombobox from "../form-fields/FormFieldInsuranceCombobox";
 
-function AssetForm() {
+interface UpdateAssetFormProps {
+  asset: Asset;
+  onUpdate?: (updatedAsset: Asset) => void;
+}
+
+function UpdateAssetForm({ asset, onUpdate }: UpdateAssetFormProps) {
   const form = useForm<Asset>({
     resolver: zodResolver(AssetSchema),
     defaultValues: {
-      serial_number: "Test",
-      category_id: undefined,
-      location: "Test Location", // Changed from "undefined" string
-      brand: "Test",
-      specifications: "Test",
-      asset_amount: 123,
-      purchase_date: undefined, // Changed to empty string
-      warranty_due_date: undefined, // Changed to empty string
-      notes: "", // Changed to empty string
-      insurance_id: 1,
-      file: undefined, // Changed to null
-      sub_category_id: undefined,
-      type_id: undefined,
-      asset_id: 1,
-      asset_name: "Test",
-      asset_condition_id: 1,
-      status_id: 1,
-      warranty_duration: 1,
+      ...asset,
     },
     mode: "all",
   });
 
   function onSubmit(values: Asset) {
-    console.log("🎉 SUCCESS! Form submitted:", values);
+    console.log("🎉 Asset updated:", values);
+    onUpdate?.(values);
   }
-
-  const watchCategory =
-    form.watch("category_id") ===
-    (getIdFromDisplayName("category", "External") as number);
 
   return (
     <Form {...form}>
       <form
-        id="asset-form"
+        id="update-asset-form"
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-5"
       >
@@ -78,14 +61,12 @@ function AssetForm() {
             assetTypes={asset_types}
             form={{ ...form }}
           />
-          {watchCategory && (
-            <FormFieldText
-              control={form.control}
-              name="location"
-              label="Location"
-              placeholder="e.g. Makati, Manila, Pasay"
-            />
-          )}
+          <FormFieldText
+            control={form.control}
+            name="location"
+            label="Location"
+            placeholder="e.g. Makati, Manila, Pasay"
+          />
           <FormFieldTextArea
             control={form.control}
             name="specifications"
@@ -112,12 +93,6 @@ function AssetForm() {
             name="warranty_due_date"
             label="Warranty Due Date"
             placeholder="Select warranty expiry date"
-            minDate={
-              form.watch("purchase_date")
-                ? new Date(form.watch("purchase_date"))
-                : new Date()
-            }
-            maxDate={new Date(new Date().getFullYear() + 50, 11, 31)}
           />
         </FormCardContent>
 
@@ -147,10 +122,10 @@ function AssetForm() {
           <Button
             className="w-full flex items-center justify-center rounded-md"
             type="submit"
-            form="asset-form"
+            form="update-asset-form"
           >
-            <Plus />
-            Add Asset
+            <Save className="mr-2 h-4 w-4" />
+            Update Asset
           </Button>
         </div>
       </form>
@@ -158,4 +133,4 @@ function AssetForm() {
   );
 }
 
-export default AssetForm;
+export default UpdateAssetForm;

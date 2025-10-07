@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import FormFieldText from "./form-fields/FormFieldText";
+import FormFieldText from "../form-fields/FormFieldText";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InsuranceSchema } from "@/data/schemas";
 import type { Insurance } from "@/data/types";
-import FormFieldDate from "./form-fields/FormFieldDate";
-import FormFieldTextArea from "./form-fields/FormFieldTextArea";
+import FormFieldDate from "../form-fields/FormFieldDate";
+import FormFieldTextArea from "../form-fields/FormFieldTextArea";
 import PopoverForm from "@/components/layout/PopoverForm";
 
 export function InsuranceForm() {

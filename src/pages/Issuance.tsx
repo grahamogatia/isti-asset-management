@@ -1,4 +1,4 @@
-import IssuanceForm from "@/components/pages/forms/IssuanceForm";
+import IssuanceForm from "@/components/pages/forms/create-forms/IssuanceForm";
 import { DataTable } from "@/components/ui/data-table";
 import {
   def_issuance_columns,

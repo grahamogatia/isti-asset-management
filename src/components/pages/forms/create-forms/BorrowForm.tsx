@@ -7,12 +7,12 @@ import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import FormCardContent from "@/components/layout/FormCardContent";
-import FormFieldTextArea from "./form-fields/FormFieldTextArea";
-import FormFieldDate from "./form-fields/FormFieldDate";
-import FormFieldNumber from "./form-fields/FormFieldNumber";
+import FormFieldTextArea from "../form-fields/FormFieldTextArea";
+import FormFieldDate from "../form-fields/FormFieldDate";
+import FormFieldNumber from "../form-fields/FormFieldNumber";
 import { asset_testcases } from "@/testcases/assets";
-import FormFieldAssetCombobox from "./form-fields/FormFieldAssetCombobox";
-import FormFieldUserCombobox from "./form-fields/FormFieldUserCombobox";
+import FormFieldAssetCombobox from "../form-fields/FormFieldAssetCombobox";
+import FormFieldUserCombobox from "../form-fields/FormFieldUserCombobox";
 import { employees } from "@/testcases/foreignkeys";
 
 function BorrowForm() {

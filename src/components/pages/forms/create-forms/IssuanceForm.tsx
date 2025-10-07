@@ -8,8 +8,8 @@ import { Plus } from "lucide-react";
 import FormCardContent from "@/components/layout/FormCardContent";
 import { asset_testcases } from "@/testcases/assets";
 import { employees } from "@/testcases/foreignkeys";
-import FormFieldUserCombobox from "./form-fields/FormFieldUserCombobox";
-import FormFieldAssetCombobox from "./form-fields/FormFieldAssetCombobox";
+import FormFieldUserCombobox from "../form-fields/FormFieldUserCombobox";
+import FormFieldAssetCombobox from "../form-fields/FormFieldAssetCombobox";
 
 function IssuanceForm() {
   const form = useForm<Issuance>({

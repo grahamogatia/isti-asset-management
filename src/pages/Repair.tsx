@@ -1,4 +1,4 @@
-import RepairForm from "@/components/pages/forms/RepairForm";
+import RepairForm from "@/components/pages/forms/create-forms/RepairForm";
 import { DataTable } from "@/components/ui/data-table";
 import {
   def_repair_columns,

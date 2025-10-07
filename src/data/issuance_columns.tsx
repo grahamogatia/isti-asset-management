@@ -7,7 +7,7 @@ import {
   createStandardFilterFn,
 } from "@/lib/columnNameUtils";
 import ActionsButtonGroup from "@/components/ui/actions-button-group";
-import IsWithdrawnForm from "@/components/pages/forms/IsWithdrawn";
+import IsWithdrawnForm from "@/components/pages/forms/sub-forms/IsWithdrawn";
 
 export const issuance_columns: ColumnDef<Issuance>[] = [
   // Asset identification first
