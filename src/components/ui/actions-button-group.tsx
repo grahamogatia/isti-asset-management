@@ -37,7 +37,7 @@ function ActionsButtonGroup({
       )}
 
       {/* Delete*/}
-      <DeleteAlertDialog>
+      <DeleteAlertDialog type={type}>
         <Button variant="outline">
           <Trash2 className="text-red-700 h-4 w-4" />
         </Button>

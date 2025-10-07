@@ -1,6 +1,9 @@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./alert-dialog";
 
-function DeleteAlertDialog({ children }: { children: React.ReactNode }) {
+function DeleteAlertDialog({ type, children }: { type: string, children: React.ReactNode }) {
+  
+  const typeLowerCased = type.toLowerCase()
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -10,8 +13,7 @@ function DeleteAlertDialog({ children }: { children: React.ReactNode }) {
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the
-            asset and remove the asset from our servers.
+            This action cannot be undone. This will permanently delete the {typeLowerCased} and remove the {typeLowerCased} from our servers.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
