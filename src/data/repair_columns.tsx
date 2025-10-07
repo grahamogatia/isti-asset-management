@@ -3,9 +3,13 @@ import type { Repair } from "./types";
 import { commonColumns } from "./common_columns";
 import { getStatusName, getUrgencyName } from "@/lib/lookups";
 import { AlertTriangle } from "lucide-react";
-import { createHeaderWithIcon, createStandardFilterFn } from "@/lib/columnNameUtils";
+import {
+  createHeaderWithIcon,
+  createStandardFilterFn,
+} from "@/lib/columnNameUtils";
 import ActionsButtonGroup from "@/components/ui/actions-button-group";
 import IsRepairedForm from "@/components/pages/forms/IsRepairedForm";
+import UpdateRepairForm from "@/components/pages/forms/UpdateRepairForm";
 
 export const repair_columns: ColumnDef<Repair>[] = [
   // Asset identification first
@@ -33,7 +37,7 @@ export const repair_columns: ColumnDef<Repair>[] = [
     cell: ({ row }) => {
       return getUrgencyName(row.original.urgency_id);
     },
-    filterFn: createStandardFilterFn((row) => 
+    filterFn: createStandardFilterFn((row) =>
       getUrgencyName(row.original.urgency_id)
     ),
   },
@@ -46,7 +50,7 @@ export const repair_columns: ColumnDef<Repair>[] = [
     cell: ({ row }) => {
       return getStatusName(row.original.status_id);
     },
-    filterFn: createStandardFilterFn((row) => 
+    filterFn: createStandardFilterFn((row) =>
       getStatusName(row.original.status_id)
     ),
   },
@@ -63,13 +67,24 @@ export const repair_columns: ColumnDef<Repair>[] = [
     id: "actions",
     cell: ({ row }) => {
       return (
-        <ActionsButtonGroup type="repair">
-          <IsRepairedForm repair={row.original}/>
+        <ActionsButtonGroup
+          type="Repair"
+          updateForm={
+            <UpdateRepairForm
+              repair={row.original}
+              onUpdate={(updatedRepair: Repair) => {
+                console.log("Repair updated:", updatedRepair);
+                // Add your update logic here
+                // e.g., API call, state update, etc.
+              }}
+            />
+          }
+        >
+          <IsRepairedForm repair={row.original} />
         </ActionsButtonGroup>
       );
     },
   },
-
 ];
 
 export const def_repair_columns = [
