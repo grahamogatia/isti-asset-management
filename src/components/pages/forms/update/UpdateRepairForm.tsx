@@ -126,7 +126,7 @@ function UpdateRepairForm({ repair, onUpdate }: UpdateRepairFormProps) {
           <Button
             className="w-full flex items-center justify-center rounded-md"
             type="submit"
-            form="update-asset-form"
+            form="update-repair-form"
           >
             <Save className="mr-2 h-4 w-4" />
             Update Repair Request
