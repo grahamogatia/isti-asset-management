@@ -24,7 +24,7 @@ function UpdateAssetForm({ asset, onUpdate }: UpdateAssetFormProps) {
   const form = useForm<Asset>({
     resolver: zodResolver(AssetSchema),
     defaultValues: {
-      ...asset, // Prefill with existing asset data
+      ...asset,
     },
     mode: "all",
   });
