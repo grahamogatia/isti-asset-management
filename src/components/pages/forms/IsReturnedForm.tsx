@@ -18,7 +18,7 @@ interface isReturnedFormProps {
 
 function IsReturnedForm({
   borrow,
-  onReturnCompleted: onRepairCompleted,
+  onReturnCompleted,
 }: isReturnedFormProps) {
   const form = useForm<Borrow>({
     resolver: zodResolver(BorrowSchema),
@@ -46,7 +46,7 @@ function IsReturnedForm({
       title="Is Returned?"
       description="Set the return date and add final remarks for this borrow."
       form={form}
-      onSubmit={(values) => onRepairCompleted?.(values)}
+      onSubmit={(values) => onReturnCompleted?.(values)}
       submitButtonText="Mark as Returned"
       submitButtonIcon={<RotateCcw className="mr-2 h-4 w-4" />}
       formId="complete-repair-form"
