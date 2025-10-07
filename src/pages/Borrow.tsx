@@ -1,4 +1,4 @@
-import BorrowForm from "@/components/pages/forms/create-forms/BorrowForm";
+import BorrowForm from "@/components/pages/forms/create/BorrowForm";
 import { DataTable } from "@/components/ui/data-table";
 import {
   borrow_columns,

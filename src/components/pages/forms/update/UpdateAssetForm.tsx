@@ -3,17 +3,17 @@ import type { Asset } from "@/data/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
-import FormFieldText from "../form-fields/FormFieldText";
+import FormFieldText from "../fields/FormFieldText";
 import { asset_types, insurances } from "@/testcases/foreignkeys";
-import FormFieldTextArea from "../form-fields/FormFieldTextArea";
-import FormFieldMoney from "../form-fields/FormFieldMoney";
-import FormFieldDate from "../form-fields/FormFieldDate";
-import FormFieldFile from "../form-fields/FormFieldFile";
+import FormFieldTextArea from "../fields/FormFieldTextArea";
+import FormFieldMoney from "../fields/FormFieldMoney";
+import FormFieldDate from "../fields/FormFieldDate";
+import FormFieldFile from "../fields/FormFieldFile";
 import FormCardContent from "@/components/layout/FormCardContent";
 import { Button } from "@/components/ui/button";
 import { Save } from "lucide-react";
-import FormFieldTypeCombobox from "../form-fields/FormFieldTypeCombobox";
-import FormFieldInsuranceCombobox from "../form-fields/FormFieldInsuranceCombobox";
+import FormFieldTypeCombobox from "../fields/FormFieldTypeCombobox";
+import FormFieldInsuranceCombobox from "../fields/FormFieldInsuranceCombobox";
 
 interface UpdateAssetFormProps {
   asset: Asset;

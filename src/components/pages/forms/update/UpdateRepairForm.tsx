@@ -3,47 +3,43 @@ import type { Repair } from "@/data/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
-
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import FormCardContent from "@/components/layout/FormCardContent";
-import FormFieldTextArea from "../form-fields/FormFieldTextArea";
+import FormFieldTextArea from "../fields/FormFieldTextArea";
 import { employees, urgency } from "@/testcases/foreignkeys";
 import { SelectItem } from "@/components/ui/select";
-import FormFieldSelect from "../form-fields/FormFieldSelect";
-import FormFieldDate from "../form-fields/FormFieldDate";
-import FormFieldMoney from "../form-fields/FormFieldMoney";
-import FormFieldAssetCombobox from "../form-fields/FormFieldAssetCombobox";
-import { asset_testcases } from "@/testcases/assets";
-import FormFieldUserCombobox from "../form-fields/FormFieldUserCombobox";
-import { getAsset } from "@/lib/lookups";
+import FormFieldSelect from "../fields/FormFieldSelect";
+import FormFieldDate from "../fields/FormFieldDate";
+import FormFieldMoney from "../fields/FormFieldMoney";
+import FormFieldUserCombobox from "../fields/FormFieldUserCombobox";
+import {
+  getAsset,
+  getCategoryName,
+  getSubCategoryName,
+  getTypeName,
+} from "@/lib/lookups";
+import DisplayAsset from "@/components/ui/display-asset";
+import { Label } from "@/components/ui/label";
+import { getColumnIcon } from "@/lib/columnNameUtils";
 
-function RepairForm() {
+interface UpdateRepairFormProps {
+  repair: Repair;
+  onUpdate?: (updatedRepair: Repair) => void;
+}
+
+function UpdateRepairForm({ repair, onUpdate }: UpdateRepairFormProps) {
   const form = useForm<Repair>({
     resolver: zodResolver(RepairSchema),
     defaultValues: {
-      repair_request_id: 1,
-      asset_id: undefined,
-      category_id: 1,
-      sub_category_id: 1,
-      type_id: 1,
-      user_id: undefined,
-      department_id: 1,
-      company_id: 1,
-      issue: "",
-      urgency_id: undefined,
-      status_id: 1,
-      remarks: "",
-      date_reported: new Date(),
-      repair_start_date: new Date(),
-      repair_completion_date: undefined,
-      repair_cost: 0,
+      ...repair,
     },
     mode: "all",
   });
 
   function onSubmit(values: Repair) {
-    console.log("🎉 SUCCESS! Form submitted:", values);
+    console.log("🎉 SUCCESS! Repair updated:", values);
+    onUpdate?.(values);
   }
 
   // Compute asset and minDate before return
@@ -52,21 +48,32 @@ function RepairForm() {
   const repairMinDate =
     asset && asset.purchase_date ? new Date(asset.purchase_date) : undefined;
 
+  const IconComponent = getColumnIcon("asset_name");
+
   return (
     <Form {...form}>
       <form
-        id="repair-form"
+        id="update-repair-form"
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-5"
       >
         <FormCardContent title="Details">
-          <FormFieldAssetCombobox
-            control={form.control}
-            name="asset_id"
-            label="Asset Requiring Repair"
-            assets={asset_testcases}
-            form={{ ...form }}
-          />
+          <div className="space-y-2">
+            <Label className="flex items-center">
+              <IconComponent className="h-4 w-4" />
+              Asset Name
+            </Label>
+            <div className="border border-[#5d5bd0] bg-[#f1f1fb] rounded-md p-3 ">
+              <DisplayAsset
+                asset_name={asset?.asset_name as string}
+                category={getCategoryName(asset?.category_id as number)}
+                sub_category={getSubCategoryName(
+                  asset?.sub_category_id as number
+                )}
+                type={getTypeName(asset?.type_id as number)}
+              />
+            </div>
+          </div>
           <FormFieldUserCombobox
             control={form.control}
             name="user_id"
@@ -74,7 +81,7 @@ function RepairForm() {
             employees={employees}
             form={{ ...form }}
           />
-          <FormFieldDate 
+          <FormFieldDate
             control={form.control}
             name="date_reported"
             label="Date Reported"
@@ -90,9 +97,12 @@ function RepairForm() {
             label="Urgency"
             placeholder="Select urgency level"
           >
-            {urgency.map((urgency) => (
-              <SelectItem value={String(urgency.urgency_id)}>
-                {urgency.urgency_name}
+            {urgency.map((urgencyItem) => (
+              <SelectItem
+                key={urgencyItem.urgency_id}
+                value={String(urgencyItem.urgency_id)}
+              >
+                {urgencyItem.urgency_name}
               </SelectItem>
             ))}
           </FormFieldSelect>
@@ -118,19 +128,20 @@ function RepairForm() {
           />
         </FormCardContent>
 
-        <div className="pb-6">
-          <Button
-            className="w-full flex items-center justify-center rounded-md"
-            type="submit"
-            form="repair-form"
-          >
-            <Plus />
-            Create Repair Request
-          </Button>
-        </div>
+        <div className="pb-6 space-y-2">
+  {/* Debug button - remove in production */}
+  <Button
+    className="w-full flex items-center justify-center rounded-md"
+    type="submit"
+    form="update-repair-form"
+  >
+    <Plus className="mr-2 h-4 w-4" />
+    Update Repair Request
+  </Button>
+</div>
       </form>
     </Form>
   );
 }
 
-export default RepairForm;
+export default UpdateRepairForm;

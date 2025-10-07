@@ -16,7 +16,7 @@ import {
   asset_types,
 } from "@/testcases/foreignkeys";
 import { asset_testcases } from "@/testcases/assets";
-import AssetForm from "../forms/create-forms/AssetForm";
+import AssetForm from "../forms/create/AssetForm";
 
 const ASSET_TESTCASES = asset_testcases;
 

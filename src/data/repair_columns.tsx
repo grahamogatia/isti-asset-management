@@ -9,7 +9,7 @@ import {
 } from "@/lib/columnNameUtils";
 import ActionsButtonGroup from "@/components/ui/actions-button-group";
 import IsRepairedForm from "@/components/pages/forms/sub-forms/IsRepairedForm";
-import UpdateRepairForm from "@/components/pages/forms/update-forms/UpdateRepairForm";
+import UpdateRepairForm from "@/components/pages/forms/update/UpdateRepairForm";
 
 export const repair_columns: ColumnDef<Repair>[] = [
   // Asset identification first

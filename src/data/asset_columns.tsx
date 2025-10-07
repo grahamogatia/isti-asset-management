@@ -16,7 +16,7 @@ import {
 } from "@/lib/columnNameUtils";
 
 import ActionsButtonGroup from "@/components/ui/actions-button-group";
-import UpdateAssetForm from "@/components/pages/forms/update-forms/UpdateAssetForm";
+import UpdateAssetForm from "@/components/pages/forms/update/UpdateAssetForm";
 
 export const asset_columns: ColumnDef<Asset>[] = [
   {
