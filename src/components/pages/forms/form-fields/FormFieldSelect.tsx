@@ -41,13 +41,10 @@ function FormFieldSelect({
             {label}
           </FormLabel>
           <Select
-            onValueChange={
-              (value) => {
-                field.onChange(Number(value));
-              }
-              // field.onChange
-            }
-            defaultValue={field.value}
+            onValueChange={(value) => {
+              field.onChange(Number(value));
+            }}
+            defaultValue={String(field.value)} // Fix: Convert to String
           >
             <FormControl>
               <SelectTrigger className="w-full">
