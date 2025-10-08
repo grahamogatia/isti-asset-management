@@ -546,64 +546,64 @@ export const insurances: Insurance[] = [
     insurance_name: "TechGuard Insurance",
     insurance_coverage:
       "Comprehensive coverage for technology assets including laptops, tablets, and mobile devices",
-    insurance_date_from: "2024-01-01",
-    insurance_date_to: "2024-12-31",
+    insurance_date_from: new Date("2024-01-01"), // Fix: Convert to Date object
+    insurance_date_to: new Date("2024-12-31"),   // Fix: Convert to Date object
   },
   {
     insurance_id: 2,
     insurance_name: "Corporate Asset Shield",
     insurance_coverage:
       "Protection against theft and accidental damage for all business equipment",
-    insurance_date_from: "2024-02-15",
-    insurance_date_to: "2025-02-14",
+    insurance_date_from: new Date("2024-02-15"), // Fix: Convert to Date object
+    insurance_date_to: new Date("2025-02-14"),   // Fix: Convert to Date object
   },
   {
     insurance_id: 3,
     insurance_name: "Business Equipment Insurance",
     insurance_coverage:
       "Specialized coverage for office equipment and peripherals",
-    insurance_date_from: "2024-03-01",
-    insurance_date_to: "2025-02-28",
+    insurance_date_from: new Date("2024-03-01"), // Fix: Convert to Date object
+    insurance_date_to: new Date("2025-02-28"),   // Fix: Convert to Date object
   },
   {
     insurance_id: 4,
     insurance_name: "SecureAsset Insurance",
     insurance_coverage:
       "Full coverage including replacement cost and business interruption",
-    insurance_date_from: "2024-01-15",
-    insurance_date_to: "2025-01-14",
+    insurance_date_from: new Date("2024-01-15"), // Fix: Convert to Date object
+    insurance_date_to: new Date("2025-01-14"),   // Fix: Convert to Date object
   },
   {
     insurance_id: 5,
     insurance_name: "Global Tech Insurance",
     insurance_coverage:
       "Electronics-specific coverage for high-value technology assets",
-    insurance_date_from: "2024-04-01",
-    insurance_date_to: "2025-03-31",
+    insurance_date_from: new Date("2024-04-01"), // Fix: Convert to Date object
+    insurance_date_to: new Date("2025-03-31"),   // Fix: Convert to Date object
   },
   {
     insurance_id: 6,
     insurance_name: "Enterprise Equipment Protect",
     insurance_coverage:
       "Combined liability and asset protection for enterprise-grade equipment",
-    insurance_date_from: "2024-05-01",
-    insurance_date_to: "2025-04-30",
+    insurance_date_from: new Date("2024-05-01"), // Fix: Convert to Date object
+    insurance_date_to: new Date("2025-04-30"),   // Fix: Convert to Date object
   },
   {
     insurance_id: 7,
     insurance_name: "IT Asset Insurance",
     insurance_coverage:
       "Technology-specific coverage with rapid replacement services",
-    insurance_date_from: "2024-06-01",
-    insurance_date_to: "2025-05-31",
+    insurance_date_from: new Date("2024-06-01"), // Fix: Convert to Date object
+    insurance_date_to: new Date("2025-05-31"),   // Fix: Convert to Date object
   },
   {
     insurance_id: 8,
     insurance_name: "Universal Business Cover",
     insurance_coverage:
       "All-risk coverage for business assets including natural disasters and cyber incidents",
-    insurance_date_from: "2024-07-01",
-    insurance_date_to: "2025-06-30",
+    insurance_date_from: new Date("2024-07-01"), // Fix: Convert to Date object
+    insurance_date_to: new Date("2025-06-30"),   // Fix: Convert to Date object
   },
 ];
 
