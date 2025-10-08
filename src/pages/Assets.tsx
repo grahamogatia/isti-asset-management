@@ -1,20 +1,26 @@
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { asset_categories } from "@/testcases/foreignkeys";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AssetSubCategoryTab from "../components/pages/assets/AssetSubCategoryTab";
 import { Separator } from "@/components/ui/separator";
+import { useCategories } from "@/hooks/useCategory";
 
 function Assets() {
-  const [category, setCategory] = useState<string>(
-    asset_categories[0]?.category_name
-  );
+
+  const {data: categories = [], isLoading} = useCategories();
+
+  const [category, setCategory] = useState<string>();
+
+  useEffect(() => {
+    if (!categories && isLoading) return
+    setCategory(categories[0]?.category_name) 
+  }, [categories, isLoading])
 
   return (
     <div className="mx-auto w-full">
       <Tabs value={category} className="gap-0" onValueChange={setCategory}>
         <div className="w-fit p-3 pl-5">
           <TabsList className="bg-transparent p-0 h-auto mb-2 flex items-center gap-2">
-            {asset_categories.map((cat, index) => (
+            {categories.map((cat, index) => (
               <>
                 <TabsTrigger
                   key={cat.category_id}
@@ -23,7 +29,7 @@ function Assets() {
                 >
                   {cat.category_name}
                 </TabsTrigger>
-                {index < asset_categories.length - 1 && (
+                {index < categories.length - 1 && (
                   <p className="opacity-25">|</p>
                 )}
               </>
@@ -32,7 +38,7 @@ function Assets() {
           <Separator />
         </div>
 
-        {asset_categories.map((cat) => {
+        {categories.map((cat) => {
           return (
             <TabsContent key={cat.category_id} value={cat.category_name}>
               <AssetSubCategoryTab category={cat} />
