@@ -8,6 +8,7 @@ import {
   DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
 import type { Asset_Type } from "@/data/types";
+import { ChevronDown } from "lucide-react";
 
 interface AssetTypeDropdownProps {
   assetTypes: Asset_Type[];
@@ -32,9 +33,7 @@ function AssetTypeDropdown({
             : assetTypes.find(
                 (assetType) => selectedType === String(assetType.type_id)
               )?.type_name}
-          <svg className="ml-2 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-            <path d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.06l3.71-3.83a.75.75 0 1 1 1.08 1.04l-4.25 4.39a.75.75 0 0 1-1.08 0L5.21 8.27a.75.75 0 0 1 .02-1.06z" />
-          </svg>
+          <ChevronDown/>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
