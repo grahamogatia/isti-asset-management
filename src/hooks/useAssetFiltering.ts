@@ -6,14 +6,19 @@ import { useCategories, useSubCategories, useTypes } from "./useCategory";
 export const useAssetFiltering = (category: Asset_Category) => {
   const { data: assets, isLoading: isLoadingAssets } = useAssets();
   const { data: categories, isLoading: isLoadingCategories } = useCategories();
-  const { data: subCategories, isLoading: isLoadingSubCategories } = useSubCategories();
+  const { data: subCategories, isLoading: isLoadingSubCategories } =
+    useSubCategories();
   const { data: types, isLoading: isLoadingTypes } = useTypes();
 
-  const isLoading = isLoadingAssets || isLoadingCategories || isLoadingSubCategories || isLoadingTypes;
+  const isLoading =
+    isLoadingAssets ||
+    isLoadingCategories ||
+    isLoadingSubCategories ||
+    isLoadingTypes;
 
   const getFirstSubCategory = (catName: string) => {
     if (!categories) return "";
-    
+
     const cat = categories.find((c) => c.category_name === catName);
     if (!cat || !subCategories) return "";
 
@@ -39,7 +44,9 @@ export const useAssetFiltering = (category: Asset_Category) => {
 
   const subCats = useMemo(() => {
     if (!subCategories) return [];
-    return subCategories.filter((sub) => sub.category_id === category.category_id);
+    return subCategories.filter(
+      (sub) => sub.category_id === category.category_id
+    );
   }, [subCategories, category.category_id]);
 
   const filteredAssets = useMemo(() => {
@@ -49,7 +56,7 @@ export const useAssetFiltering = (category: Asset_Category) => {
     const result1 = categories.find(
       (categoryTest) => categoryTest.category_name === category.category_name
     );
-    
+
     const result2 = subCategories.find(
       (subCategoryTest) =>
         subCategoryTest.sub_category_name === subCategory &&
@@ -67,19 +74,25 @@ export const useAssetFiltering = (category: Asset_Category) => {
   }, [assets, categories, subCategories, category, subCategory]);
 
   const filteredAssetTypes = useMemo<Asset_Type[]>(() => {
-    if (!types || !filteredAssets.length) return [];
+    if (!types || !subCategories || !subCategory) {
+      return [];
+    }
 
-    const uniqueTypeIds = Array.from(
-      new Set(filteredAssets.map((asset) => asset.type_id))
+    // Find the subcategory object
+    const currentSubCategory = subCategories.find(
+      (sub) => sub.sub_category_name === subCategory
     );
 
-    return uniqueTypeIds
-      .filter((id): id is number => typeof id === "number")
-      .flatMap((type_id) => {
-        const assetType = types.find((type) => type.type_id === type_id);
-        return assetType ? [assetType] : [];
-      });
-  }, [types, filteredAssets]);
+    if (!currentSubCategory) {
+      return [];
+    }
+
+    // Get all types that belong to this subcategory
+    const typesForSubCategory = types.filter(
+      (type) => type.sub_category_id === currentSubCategory.sub_category_id
+    );
+    return typesForSubCategory;
+  }, [types, subCategories, subCategory]);
 
   const displayedAssets = useMemo(() => {
     if (selectedType === "All") return filteredAssets;
