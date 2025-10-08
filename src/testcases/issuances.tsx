@@ -56,18 +56,15 @@ export function generateIssuances(count = 40): Issuance[] {
       : issuanceDate; // Use issuance date as placeholder for active issuances
 
     // Convert dates to date strings (consistent with other types)
-    const issuanceDateString = issuanceDate.toISOString().split("T")[0];
-    const pulloutDateString = isPulledOut
-      ? pulloutDate.toISOString().split("T")[0]
-      : ""; // Empty string for active issuances
+   
 
     issuances.push({
       asset_id: faker.number.int({ min: 1, max: 100 }), // Reference to assets
       category_id,
       user_id: employee.user_id,
       department_id: department.department_id,
-      issuance_date: issuanceDateString,
-      pullout_date: pulloutDateString,
+      issuance_date: issuanceDate,
+      pullout_date: pulloutDate,
       status_id: issuanceStatus.status_id,
       remarks: faker.helpers.arrayElement([
         "Long-term assignment to employee",

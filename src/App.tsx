@@ -10,6 +10,7 @@ import { useSidebar } from "./components/ui/sidebar";
 import { cn } from "./lib/utils";
 
 function App() {
+  
   return (
     <>
       <Sidebar>
