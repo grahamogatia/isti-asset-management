@@ -13,7 +13,7 @@ import type {
 
 export type Asset_Category = {
   category_id: number;
-  category_name: "Internal" | "External" | "Events";
+  category_name: string;
 };
 
 export interface Asset_Sub_Category extends Asset_Category {
@@ -33,7 +33,6 @@ export type Insurance = z.infer<typeof InsuranceSchema>;
 export type Repair = z.infer<typeof RepairSchema>;
 export type Borrow = z.infer<typeof BorrowSchema>;
 export type Issuance = z.infer<typeof IssuanceSchema>;
-
 export type Company = z.infer<typeof CompanySchema>;
 export type Department = z.infer<typeof DepartmentSchema>;
 export type Unit = z.infer<typeof UnitSchema>;
