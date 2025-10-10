@@ -2,7 +2,7 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import type { Asset_Category } from "@/data/types";
 import { useAssetFiltering } from "@/hooks/useAssetFiltering";
 import SubCategoryTabs from "./SubCategoryTabs";
-import AssetDataTable from "./AssetDataTable";
+import AssetDataTable from "./AssetDatatable";
 
 interface AssetSubCategoryTabProps {
   category: Asset_Category;

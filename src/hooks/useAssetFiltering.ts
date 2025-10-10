@@ -29,7 +29,6 @@ export const useAssetFiltering = (category: Asset_Category) => {
   const [subCategory, setSubCategory] = useState<string>("");
   const [selectedType, setSelectedType] = useState<string>("All");
 
-  // ✅ Update subCategory when data loads
   useEffect(() => {
     if (categories && subCategories && category) {
       const firstSub = getFirstSubCategory(category.category_name);

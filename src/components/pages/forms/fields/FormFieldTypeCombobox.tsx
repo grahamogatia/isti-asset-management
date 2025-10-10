@@ -99,41 +99,46 @@ function FormFieldTypeCombobox({
                     <CommandList>
                       <CommandEmpty>No type found.</CommandEmpty>
                       <CommandGroup>
-                        {assetTypes
-                          .sort((a, b) =>
-                            a.type_name.localeCompare(b.type_name)
-                          )
-                          .map((type) => (
-                            <CommandItem
-                              value={type.type_name}
-                              key={type.type_id}
-                              onSelect={() => {
-                                form.setValue("type_id", type.type_id);
-                                form.setValue(
-                                  "sub_category_id",
-                                  type.sub_category_id
-                                );
-                                form.setValue("category_id", type.category_id);
-                              }}
-                              className="cursor-pointer"
-                            >
-                              <div className="flex-1">
-                                <DisplayType
-                                  category={type.category_name}
-                                  sub_category={type.sub_category_name}
-                                  type={type.type_name}
+                        {assetTypes.length > 0 &&
+                          assetTypes
+                            .filter((type) => type.type_name)
+                            .sort((a, b) =>
+                              a.type_name.localeCompare(b.type_name)
+                            )
+                            .map((type) => (
+                              <CommandItem
+                                value={type.type_name}
+                                key={type.type_id}
+                                onSelect={() => {
+                                  form.setValue("type_id", type.type_id);
+                                  form.setValue(
+                                    "sub_category_id",
+                                    type.sub_category_id
+                                  );
+                                  form.setValue(
+                                    "category_id",
+                                    type.category_id
+                                  );
+                                }}
+                                className="cursor-pointer"
+                              >
+                                <div className="flex-1">
+                                  <DisplayType
+                                    category={type.category_name}
+                                    sub_category={type.sub_category_name}
+                                    type={type.type_name}
+                                  />
+                                </div>
+                                <Check
+                                  className={cn(
+                                    "ml-2 h-4 w-4",
+                                    type.type_id === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
                                 />
-                              </div>
-                              <Check
-                                className={cn(
-                                  "ml-2 h-4 w-4",
-                                  type.type_id === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              />
-                            </CommandItem>
-                          ))}
+                              </CommandItem>
+                            ))}
                       </CommandGroup>
                     </CommandList>
                   </Command>

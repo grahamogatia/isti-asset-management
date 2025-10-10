@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 
 import FormFieldText from "../fields/FormFieldText";
-import { asset_types, insurances } from "@/testcases/foreignkeys";
 import FormFieldTextArea from "../fields/FormFieldTextArea";
 import FormFieldMoney from "../fields/FormFieldMoney";
 import FormFieldDate from "../fields/FormFieldDate";
@@ -16,6 +15,8 @@ import { Plus } from "lucide-react";
 import FormFieldTypeCombobox from "../fields/FormFieldTypeCombobox";
 import { getIdFromDisplayName } from "@/lib/lookups";
 import FormFieldInsuranceCombobox from "../fields/FormFieldInsuranceCombobox";
+import { useTypes } from "@/hooks/useCategory";
+import { useInsurances } from "@/hooks/useInsurance";
 
 function AssetForm() {
   const form = useForm<Asset>({
@@ -42,6 +43,9 @@ function AssetForm() {
     },
     mode: "all",
   });
+
+  const {data: types} = useTypes();
+  const {data: insurances} = useInsurances();
 
   function onSubmit(values: Asset) {
     console.log("🎉 SUCCESS! Form submitted:", values);
@@ -75,7 +79,7 @@ function AssetForm() {
             control={form.control}
             name="type_id"
             label="Type"
-            assetTypes={asset_types}
+            assetTypes={types ?? []}
             form={{ ...form }}
           />
           {watchCategory && (
@@ -126,7 +130,7 @@ function AssetForm() {
             control={form.control}
             name="insurance_id"
             label="Insurance"
-            insurances={insurances}
+            insurances={insurances ?? []}
             form={{ ...form }}
           />
           <FormFieldFile
