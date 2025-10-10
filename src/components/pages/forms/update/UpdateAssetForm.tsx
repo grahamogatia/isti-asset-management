@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import FormFieldText from "../fields/FormFieldText";
-import { asset_types, insurances } from "@/testcases/foreignkeys";
 import FormFieldTextArea from "../fields/FormFieldTextArea";
 import FormFieldMoney from "../fields/FormFieldMoney";
 import FormFieldDate from "../fields/FormFieldDate";
@@ -17,6 +16,8 @@ import FormFieldInsuranceCombobox from "../fields/FormFieldInsuranceCombobox";
 import DisplayField from "@/components/layout/DisplayField";
 import DisplayAsset from "@/components/ui/display-asset";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
+import { useTypes } from "@/hooks/useCategory";
+import { useInsurances } from "@/hooks/useInsurance";
 
 interface UpdateAssetFormProps {
   asset: Asset;
@@ -31,6 +32,9 @@ function UpdateAssetForm({ asset, onUpdate }: UpdateAssetFormProps) {
     },
     mode: "all",
   });
+
+  const { data: asset_types } = useTypes();
+  const { data: insurances } = useInsurances();
 
   function onSubmit(values: Asset) {
     console.log("🎉 Asset updated:", values);
@@ -73,7 +77,7 @@ function UpdateAssetForm({ asset, onUpdate }: UpdateAssetFormProps) {
             control={form.control}
             name="type_id"
             label="Type"
-            assetTypes={asset_types}
+            assetTypes={asset_types ?? []}
             form={{ ...form }}
           />
           <FormFieldText
@@ -116,7 +120,7 @@ function UpdateAssetForm({ asset, onUpdate }: UpdateAssetFormProps) {
             control={form.control}
             name="insurance_id"
             label="Insurance"
-            insurances={insurances}
+            insurances={insurances ?? []}
             form={{ ...form }}
           />
           <FormFieldFile

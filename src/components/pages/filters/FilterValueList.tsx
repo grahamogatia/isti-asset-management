@@ -6,9 +6,9 @@ import {
   getActualColumnName,
   getColumnIcon,
 } from "@/lib/columnNameUtils";
-import { getDisplayNameForColumn } from "@/lib/lookups";
 import { ArrowLeft, Plus } from "lucide-react";
 import { useState } from "react";
+import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 
 interface FilterValueListProps {
   data: any[];
@@ -23,6 +23,7 @@ function FilterValueList({
   setCurrentScreen,
   onFiltersChange,
 }: FilterValueListProps) {
+  const { getDisplayNameForColumn } = useLookupFunctions();
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const getUniqueValues = (columnName: string) => {
     if (!data || data.length === 0) return;

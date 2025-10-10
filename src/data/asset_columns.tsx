@@ -31,6 +31,16 @@ function AssetTypeCell ({ typeId }: { typeId: number }) {
   return <span>{getTypeName(typeId)}</span>;
 }
 
+function AssetConditionCell ({ conditionId }: { conditionId: number }) {
+  const { getConditionName } = useLookupFunctions();
+  return <span>{getConditionName(conditionId)}</span>
+}
+
+function AssetStatusCell ({ statusId }: {statusId: number}) {
+  const { getStatusName } = useLookupFunctions();
+  return <span>{getStatusName(statusId)}</span>
+}
+
 export const asset_columns: ColumnDef<Asset>[] = [
   {
     accessorKey: "asset_id",
@@ -79,9 +89,8 @@ export const asset_columns: ColumnDef<Asset>[] = [
       return getConditionName(row.asset_condition_id as number);
     },
     header: createHeaderWithIcon("condition", "Condition"),
-    cell: ({ row }) => {
-      const conditionId = row.original.asset_condition_id;
-      return getConditionName(conditionId as number);
+    cell: ({ row }) => {   
+      return <AssetConditionCell conditionId={row.original.asset_condition_id} />;
     },
     filterFn: createStandardFilterFn((row) =>
       getConditionName(row.original.asset_condition_id)
@@ -94,8 +103,7 @@ export const asset_columns: ColumnDef<Asset>[] = [
     },
     header: createHeaderWithIcon("status", "Status"),
     cell: ({ row }) => {
-      const statusId = row.original.status_id;
-      return getStatusName(statusId as number);
+        return <AssetStatusCell statusId={row.original.status_id as number} />;
     },
     filterFn: createStandardFilterFn((row) =>
       getStatusName(row.original.status_id)

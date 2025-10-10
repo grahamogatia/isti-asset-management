@@ -9,6 +9,8 @@ import type {
   CompanySchema,
   UnitSchema,
   EmployeeSchema,
+  ConditionSchema,
+  StatusSchema,
 } from "./schemas";
 
 export type Asset_Category = {
@@ -37,6 +39,8 @@ export type Company = z.infer<typeof CompanySchema>;
 export type Department = z.infer<typeof DepartmentSchema>;
 export type Unit = z.infer<typeof UnitSchema>;
 export type Employee = z.infer<typeof EmployeeSchema>;
+export type Condition = z.infer<typeof ConditionSchema>;
+export type Status = z.infer<typeof StatusSchema>;
 
 export type ActiveFilter = {
   id: string;

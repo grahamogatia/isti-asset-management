@@ -19,7 +19,7 @@ import { useTypes } from "@/hooks/useCategory";
 import { useInsurances } from "@/hooks/useInsurance";
 import { useAddAsset } from "@/hooks/useAsset";
 import { toast } from "sonner";
-import { format } from "date-fns";
+import { differenceInMonths, format } from "date-fns";
 
 function AssetForm() {
   const { mutate } = useAddAsset();
@@ -29,20 +29,18 @@ function AssetForm() {
     defaultValues: {
       serial_number: undefined,
       category_id: undefined,
-      location: "Test Location", // Changed from "undefined" string
-      brand: "Test",
-      specifications: "Test",
-      asset_amount: 123,
+      location: undefined, // Changed from "undefined" string
+      brand: undefined,
+      specifications: undefined,
+      asset_amount: undefined,
       purchase_date: undefined, // Changed to empty string
       warranty_due_date: undefined, // Changed to empty string
-      notes: "", // Changed to empty string
+      notes: undefined, // Changed to empty string
       insurance_id: undefined,
       file: undefined, // Changed to null
       sub_category_id: undefined,
       type_id: undefined,
-      asset_id: 1,
-      asset_name: "Test",
-      asset_condition_id: 1,
+      asset_condition_id: 4, // New
       status_id: 1,
       warranty_duration: 1,
     },
@@ -54,11 +52,16 @@ function AssetForm() {
 
   function onSubmit(values: Asset) {
     console.log("🎉 SUCCESS! Form submitted:", values);
+    const duration = Math.max(
+      0,
+      differenceInMonths(values.warranty_due_date ?? new Date(), new Date())
+    );
     mutate(
       {
         ...values,
         purchase_date: format(values.warranty_due_date, "yyyy-MM-dd"),
         warranty_due_date: format(values.warranty_due_date, "yyyy-MM-dd"),
+        warranty_duration: duration,
       },
       {
         onSuccess: () => {

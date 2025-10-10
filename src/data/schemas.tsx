@@ -4,18 +4,18 @@ import { z } from "zod";
 export const AssetSchema = z.object({
   asset_id: z.number().optional(),
   asset_name: z.string().optional(),
-  category_id: z.number(), // Pool from existing category IDs
+  category_id: z.number(),
   sub_category_id: z.number(),
   type_id: z.number(),
-  asset_condition_id: z.number().optional(),
+  asset_condition_id: z.number(),
   location: z.string().optional(),
   status_id: z.number().optional(),
   serial_number: z.string(),
   brand: z.string(),
   specifications: z.string(),
   asset_amount: z.number(),
-  warranty_duration: z.number().optional(),
   warranty_due_date: z.date(),
+  warranty_duration: z.number().optional(),
   purchase_date: z.date(),
   notes: z.string(),
   file: z.array(z.instanceof(File)).optional(),
@@ -51,7 +51,6 @@ export const RepairSchema = z.object({
   repair_completion_date: z.date().optional(),
   repair_cost: z.number().min(0),
   remarks: z.string().optional(),
-
 });
 
 export const BorrowSchema = z.object({
@@ -67,7 +66,6 @@ export const BorrowSchema = z.object({
   borrow_transaction_id: z.number(),
   asset_condition_id: z.number(),
   duration: z.number(),
-
 
   date_borrowed: z.date(),
   due_date: z.date(),
@@ -122,4 +120,15 @@ export const EmployeeSchema = z.object({
   company_id: z.number(),
   department_id: z.number().nullable(),
   unit_id: z.number().nullable(),
+});
+
+export const ConditionSchema = z.object({
+  asset_condition_id: z.number(),
+  asset_condition_name: z.string(),
+});
+
+export const StatusSchema = z.object({
+  status_id: z.number(),
+  function_id: z.number().optional(),
+  status_name: z.string(),
 });
