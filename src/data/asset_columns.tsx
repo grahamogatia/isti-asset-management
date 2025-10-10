@@ -1,11 +1,9 @@
+// TODO Add Insurance
+import { /* useMemo removed */ } from "react";
 import { type ColumnDef } from "@tanstack/react-table";
 import { differenceInMonths, format } from "date-fns";
 import type { Asset } from "./types";
-import {
-  getConditionName,
-  getStatusName,
-  getInsuranceName,
-} from "@/lib/lookups";
+// removed direct lookups imports
 import {
   createHeaderWithIcon,
   createSortableHeaderWithIcon,
@@ -16,219 +14,200 @@ import ActionsButtonGroup from "@/components/ui/actions-button-group";
 import UpdateAssetForm from "@/components/pages/forms/update/UpdateAssetForm";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 
-function AssetCategoryCell ({ categoryId }: { categoryId: number }) {
-  const { getCategoryName } = useLookupFunctions();
-  return <span>{getCategoryName(categoryId)}</span>;
-}
+export function useAssetColumns(): ColumnDef<Asset>[] {
+  const {
+    getCategoryName,
+    getSubCategoryName,
+    getTypeName,
+    getConditionName,
+    getStatusName,
+  } = useLookupFunctions();
 
-function AssetSubCategoryCell ({ subCategoryId }: { subCategoryId: number }) {
-  const { getSubCategoryName } = useLookupFunctions();
-  return <span>{getSubCategoryName(subCategoryId)}</span>;
-}
+  return [
+    {
+      accessorKey: "asset_id",
+      header: createHeaderWithIcon("asset_id", "Asset ID"),
+    },
+    {
+      accessorKey: "asset_name",
+      header: createSortableHeaderWithIcon("asset_name", "Asset Name"),
+    },
+    {
+      accessorKey: "category",
+      header: createHeaderWithIcon("category", "Category"),
+      cell: ({ row }) => {
+        return <span>{getCategoryName(row.original.category_id)}</span>;
+      },
+      filterFn: createStandardFilterFn((row) =>
+        getCategoryName(row.original.category_id)
+      ),
+    },
+    {
+      accessorKey: "sub_category",
+      header: createHeaderWithIcon("sub_category", "Sub Category"),
+      cell: ({ row }) => {
+        return <span>{getSubCategoryName(row.original.sub_category_id)}</span>;
+      },
+      filterFn: createStandardFilterFn((row) =>
+        getSubCategoryName(row.original.sub_category_id)
+      ),
+    },
+    {
+      accessorKey: "type",
+      header: createHeaderWithIcon("type", "Type"),
+      cell: ({ row }) => {
+        return row.original.type_id ? (
+          <span>{getTypeName(row.original.type_id)}</span>
+        ) : (
+          <span>-</span>
+        );
+      },
+      filterFn: createStandardFilterFn((row) =>
+        row.original.type_id ? getTypeName(row.original.type_id) : null
+      ),
+    },
+    {
+      accessorKey: "serial_number",
+      header: createHeaderWithIcon("serial_number", "Serial Number"),
+    },
+    {
+      accessorKey: "file",
+      header: createHeaderWithIcon("file", "File"),
+    },
+    {
+      accessorKey: "brand",
+      header: createHeaderWithIcon("brand", "Brand"),
+    },
+    {
+      accessorKey: "condition",
+      accessorFn: (row) =>
+        row.asset_condition_id ? getConditionName(row.asset_condition_id) : null,
+      header: createHeaderWithIcon("condition", "Condition"),
+      cell: ({ row }) => {
+        return <span>{getConditionName(row.original.asset_condition_id)}</span>;
+      },
+      filterFn: createStandardFilterFn((row) =>
+        row.original.asset_condition_id ? getConditionName(row.original.asset_condition_id) : null
+      ),
+    },
+    {
+      accessorKey: "status",
+      accessorFn: (row) => (row.status_id ? getStatusName(row.status_id) : null),
+      header: createHeaderWithIcon("status", "Status"),
+      cell: ({ row }) => {
+        return <span>{getStatusName(row.original.status_id as number)}</span>;
+      },
+      filterFn: createStandardFilterFn((row) =>
+        row.original.status_id ? getStatusName(row.original.status_id) : null
+      ),
+    },
+    {
+      accessorKey: "specifications",
+      header: createHeaderWithIcon("specifications", "Specifications"),
+    },
+    {
+      accessorKey: "asset_amount",
+      header: createHeaderWithIcon("asset_amount", "Amount"),
+      cell: ({ row }) => {
+        const value = row.original.asset_amount ?? 0;
+        return new Intl.NumberFormat("en-PH", {
+          style: "currency",
+          currency: "PHP",
+        }).format(value);
+      },
+    },
+    {
+      accessorKey: "warranty_duration",
+      header: createHeaderWithIcon("warranty_duration", "Warranty Remaining"),
+      cell: ({ row }) => {
+        const due = row.original.warranty_due_date;
+        if (!due) return "No warranty date";
+        const result = differenceInMonths(new Date(due), new Date());
+        return result <= 0 ? "Warranty Void" : result + " months";
+      },
+    },
+    {
+      accessorKey: "warranty_due_date",
+      header: createHeaderWithIcon("warranty_due_date", "Warranty Due Date"),
+      cell: ({ row }) => {
+        if (!row.original.warranty_due_date) return "-";
+        return format(new Date(row.original.warranty_due_date), "PP");
+      },
+    },
+    {
+      accessorKey: "purchase_date",
+      header: createHeaderWithIcon("purchase_date", "Purchase Date"),
+      cell: ({ row }) => {
+        if (!row.original.purchase_date) return "-";
+        return format(new Date(row.original.purchase_date), "PP");
+      },
+    },
+    {
+      id: "aging",
+      header: createHeaderWithIcon("aging", "Age"),
+      cell: ({ row }) => {
+        const purchaseDate = row.original.purchase_date;
+        if (!purchaseDate) return "-";
+        const purchase = new Date(purchaseDate);
+        return differenceInMonths(new Date(), purchase) + " months";
+      },
+      filterFn: createStandardFilterFn((row) =>
+        row.original.purchase_date ? String(row.original.purchase_date) : null
+      ),
+    },
+    {
+      id: "asset_value",
+      header: createHeaderWithIcon("asset_value", "Asset Value"),
+      cell: ({ row }) => {
+        const LAPTOP_SAMPLE_DEPRECIATION = 60; // months
+        const purchaseDate = row.original.purchase_date;
+        const amt = row.original.asset_amount ?? 0;
 
-function AssetTypeCell ({ typeId }: { typeId: number }) {
-  const { getTypeName } = useLookupFunctions();
-  return <span>{getTypeName(typeId)}</span>;
-}
+        if (!purchaseDate) return "-";
+        const purchase = new Date(purchaseDate);
+        const age = differenceInMonths(new Date(), purchase);
 
-function AssetConditionCell ({ conditionId }: { conditionId: number }) {
-  const { getConditionName } = useLookupFunctions();
-  return <span>{getConditionName(conditionId)}</span>
-}
-
-function AssetStatusCell ({ statusId }: {statusId: number}) {
-  const { getStatusName } = useLookupFunctions();
-  return <span>{getStatusName(statusId)}</span>
-}
-
-export const asset_columns: ColumnDef<Asset>[] = [
-  {
-    accessorKey: "asset_id",
-    header: createHeaderWithIcon("asset_id", "Asset ID"),
-  },
-  {
-    accessorKey: "asset_name",
-    header: createSortableHeaderWithIcon("asset_name", "Asset Name"),
-  },
-  {
-    accessorKey: "category",
-    header: createHeaderWithIcon("catgory", "Category"),
-    cell: ({ row }) => {
-      return <AssetCategoryCell categoryId={row.original.category_id} />;
+        const value =
+          age > LAPTOP_SAMPLE_DEPRECIATION
+            ? 0
+            : amt - (amt / LAPTOP_SAMPLE_DEPRECIATION) * age;
+        return new Intl.NumberFormat("en-PH", {
+          style: "currency",
+          currency: "PHP",
+        }).format(value);
+      },
     },
-  },
-  {
-    accessorKey: "sub_category",
-    header: createHeaderWithIcon("sub_category", "Sub Category"),
-    cell: ({ row }) => {
-      return <AssetSubCategoryCell subCategoryId={row.original.sub_category_id} />;
+    {
+      accessorKey: "notes",
+      header: createHeaderWithIcon("notes", "Notes"),
     },
-  },
-  {
-    accessorKey: "type",
-    header: createHeaderWithIcon("type", "Type"),
-    cell: ({ row }) => {
-      return <AssetTypeCell typeId={row.original.type_id} />;
+    {
+      accessorKey: "location",
+      header: createHeaderWithIcon("location", "Location"),
+      filterFn: createStandardFilterFn((row) => row.original.location),
     },
-  },
-  {
-    accessorKey: "serial_number",
-    header: createHeaderWithIcon("serial_number", "Serial Number"),
-  },
-  {
-    accessorKey: "file",
-    header: createHeaderWithIcon("file", "File"),
-  },
-  {
-    accessorKey: "brand",
-    header: createHeaderWithIcon("brand", "Brand"),
-  },
-  {
-    accessorKey: "condition",
-    accessorFn: (row) => {
-      return getConditionName(row.asset_condition_id as number);
-    },
-    header: createHeaderWithIcon("condition", "Condition"),
-    cell: ({ row }) => {   
-      return <AssetConditionCell conditionId={row.original.asset_condition_id} />;
-    },
-    filterFn: createStandardFilterFn((row) =>
-      getConditionName(row.original.asset_condition_id)
-    ),
-  },
-  {
-    accessorKey: "status",
-    accessorFn: (row) => {
-      return getStatusName(row.status_id as number);
-    },
-    header: createHeaderWithIcon("status", "Status"),
-    cell: ({ row }) => {
-        return <AssetStatusCell statusId={row.original.status_id as number} />;
-    },
-    filterFn: createStandardFilterFn((row) =>
-      getStatusName(row.original.status_id)
-    ),
-  },
-  {
-    accessorKey: "specifications",
-    header: createHeaderWithIcon("specifications", "Specifications"),
-  },
-  {
-    accessorKey: "asset_amount",
-    header: createHeaderWithIcon("asset_amount", "Amount"),
-    cell: ({ row }) => {
-      const value = row.original.asset_amount;
-      return new Intl.NumberFormat("en-PH", {
-        style: "currency",
-        currency: "PHP",
-      }).format(value);
-    },
-  },
-  {
-    accessorKey: "warranty_duration",
-    header: createHeaderWithIcon("warranty_duration", "Warranty Remaining"),
-    cell: ({ row }) => {
-      const result = differenceInMonths(
-        row.original.warranty_due_date,
-        new Date()
-      );
-      return result <= 0 ? "Warranty Void" : result + " months";
-    },
-  },
-  {
-    accessorKey: "warranty_due_date",
-    header: createHeaderWithIcon("warranty_due_date", "Warranty Due Date"),
-    cell: ({ row }) => {
-      return format(new Date(row.original.warranty_due_date), "PP");
-    },
-  },
-  {
-    accessorKey: "purchase_date",
-    header: createHeaderWithIcon("purchase_date", "Purchase Date"),
-    cell: ({ row }) => {
-      return format(new Date(row.original.purchase_date), "PP");
-    },
-  },
-  {
-    id: "aging",
-    header: createHeaderWithIcon("aging", "Age"),
-    cell: ({ row }) => {
-      const purchaseDate = row.original.purchase_date;
-      if (!purchaseDate) return "-";
-      const purchase = new Date(purchaseDate);
-      return differenceInMonths(new Date(), purchase) + " months";
-    },
-  },
-  {
-    id: "asset_value",
-    header: createHeaderWithIcon("asset_value", "Asset Value"),
-    cell: ({ row }) => {
-      const LAPTOP_SAMPLE_DEPRECIATION = 60; //60 months === depriciated
-      const purchaseDate = row.original.purchase_date;
-      const amt = row.original.asset_amount;
-
-      if (!purchaseDate) return "-";
-      const purchase = new Date(purchaseDate);
-      const age = differenceInMonths(new Date(), purchase);
-
-      const value =
-        age > LAPTOP_SAMPLE_DEPRECIATION
-          ? 0
-          : amt - (amt / LAPTOP_SAMPLE_DEPRECIATION) * age;
-      return new Intl.NumberFormat("en-PH", {
-        style: "currency",
-        currency: "PHP",
-      }).format(value);
-    },
-  },
-  {
-    accessorKey: "notes",
-    header: createHeaderWithIcon("notes", "Notes"),
-  },
-  {
-    accessorKey: "insurance",
-    accessorFn: (row) => {
-      if (!row.insurance_id) return;
-      return getInsuranceName(row.insurance_id);
-    },
-    header: createHeaderWithIcon("insurance", "Insurance"),
-    cell: ({ row }) => {
-      if (!row.original.insurance_id) return;
-      return getInsuranceName(row.original.insurance_id);
-    },
-    filterFn: createStandardFilterFn((row) =>
-      row.original.insurance_id
-        ? getInsuranceName(row.original.insurance_id)
-        : null
-    ),
-  },
-  {
-    accessorKey: "location",
-    header: createHeaderWithIcon("location", "Location"),
-    filterFn: createStandardFilterFn((row) => row.original.location),
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      return (
-        <ActionsButtonGroup
-          type="Asset"
-          updateForm={
+    {
+      id: "actions",
+      cell: ({ row }) => {
+        return (
+          <ActionsButtonGroup
+            type="Asset"
+            updateForm={
               <UpdateAssetForm
                 asset={row.original}
                 onUpdate={(updatedAsset) => {
                   console.log("Asset updated:", updatedAsset);
-                  // Add your update logic here
-                  // e.g., API call, state update, etc.
+                  // Add your update logic here (API call / state update)
                 }}
               />
-          }
-        />
-      );
+            }
+          />
+        );
+      },
     },
-  },
-];
-
+  ];
+}
+// ...existing code...
 export const def_asset_columns = [
   "asset_name",
   "serial_number",

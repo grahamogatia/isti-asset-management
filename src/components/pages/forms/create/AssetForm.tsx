@@ -13,16 +13,17 @@ import FormCardContent from "@/components/layout/FormCardContent";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import FormFieldTypeCombobox from "../fields/FormFieldTypeCombobox";
-import { getIdFromDisplayName } from "@/lib/lookups";
 import FormFieldInsuranceCombobox from "../fields/FormFieldInsuranceCombobox";
 import { useTypes } from "@/hooks/useCategory";
 import { useInsurances } from "@/hooks/useInsurance";
 import { useAddAsset } from "@/hooks/useAsset";
 import { toast } from "sonner";
 import { differenceInMonths, format } from "date-fns";
+import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 
 function AssetForm() {
   const { mutate } = useAddAsset();
+  const { getIdFromDisplayName } = useLookupFunctions();
 
   const form = useForm<Asset>({
     resolver: zodResolver(AssetSchema),

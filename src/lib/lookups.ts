@@ -71,3 +71,4 @@ export function getUrgencyName(urgency_id: number): string {
 
 export function getUrgency(urgency_id: number) {
   return urgencyMap.get(urgency_id);
+}

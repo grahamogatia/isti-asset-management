@@ -22,9 +22,9 @@ export const useLookupMaps = () => {
       conditionMap: new Map(conditions?.map((c) => [c.asset_condition_id, c]) || []),
       statusMap: new Map(statuses?.map((s) => [s.status_id, s]) || []),
     };
-  }, [assets, categories, subCategories, types]);
+  }, [assets, categories, subCategories, types, conditions, statuses]);
 
-  const isLoading = !assets || !categories || !subCategories || !types;
+  const isLoading = !assets || !categories || !subCategories || !types || !conditions || !statuses;
 
   return {
     ...lookupMaps,

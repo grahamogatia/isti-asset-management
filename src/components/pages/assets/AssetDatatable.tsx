@@ -1,8 +1,8 @@
 import { DataTable } from "@/components/ui/data-table";
 import {
-  asset_columns,
   asset_filters,
   def_asset_columns,
+  useAssetColumns,
 } from "@/data/asset_columns";
 import { useMemo } from "react";
 import type { Asset, Asset_Category, Asset_Type } from "@/data/types";
@@ -32,9 +32,12 @@ function AssetDataTable({
     return [...baseColumns, "actions"];
   }, [category.category_name]);
 
+  const columns = useAssetColumns();
+  console.log(columns)
+
   return (
     <DataTable
-      columns={asset_columns}
+      columns={columns}
       data={assets}
       defaultVisibleColumns={dynamicDefaultColumns}
       filterableColumns={asset_filters}
