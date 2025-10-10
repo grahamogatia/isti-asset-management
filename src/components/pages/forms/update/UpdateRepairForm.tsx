@@ -12,15 +12,11 @@ import { SelectItem } from "@/components/ui/select";
 import FormFieldSelect from "../fields/FormFieldSelect";
 import FormFieldDate from "../fields/FormFieldDate";
 import FormFieldMoney from "../fields/FormFieldMoney";
-import {
-  getAsset,
-  getCategoryName,
-  getSubCategoryName,
-  getTypeName,
-} from "@/lib/lookups";
+
 import DisplayAsset from "@/components/ui/display-asset";
 import DisplayEmployee from "@/components/ui/display-employee";
 import DisplayField from "@/components/layout/DisplayField";
+import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 
 interface UpdateRepairFormProps {
   repair: Repair;
@@ -42,6 +38,7 @@ function UpdateRepairForm({ repair, onUpdate }: UpdateRepairFormProps) {
   }
 
   // Compute asset and minDate before return
+  const { getAsset, getCategoryName, getSubCategoryName, getTypeName } = useLookupFunctions();
   const assetId = form.watch("asset_id");
   const asset = getAsset(assetId);
   const repairMinDate =

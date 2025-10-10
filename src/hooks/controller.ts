@@ -1,4 +1,6 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "./api/config";
+import { toast } from "sonner";
 
 export async function getAll<T>(endpoint: string): Promise<T> {
     const response = await api.get("index.php", {
@@ -19,7 +21,10 @@ export async function getOne<T>(endpoint: string, id: number): Promise<T> {
     return response.data;
 }
 
-export const catchError = (error: any) => {
-    console.error('API Error:', error);
+export const catchError = (error: unknown) => {
+    if (error instanceof Error) {
+        toast.error(error.message)
+    }
     throw error;
 }
+

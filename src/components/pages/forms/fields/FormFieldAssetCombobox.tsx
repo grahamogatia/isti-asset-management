@@ -21,12 +21,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import type { Asset } from "@/data/types";
+import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { getColumnIcon } from "@/lib/columnNameUtils";
-import {
-  getCategoryName,
-  getSubCategoryName,
-  getTypeName,
-} from "@/lib/lookups";
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 import type { Control } from "react-hook-form";
@@ -48,6 +44,8 @@ function FormFieldAssetCombobox({
   form,
 }: FormFieldAssetComboboxProps) {
   const IconComponent = getColumnIcon("asset_name");
+
+  const { getCategoryName, getSubCategoryName, getTypeName } = useLookupFunctions();
 
   return (
     <FormField

@@ -16,11 +16,7 @@ import FormFieldTypeCombobox from "../fields/FormFieldTypeCombobox";
 import FormFieldInsuranceCombobox from "../fields/FormFieldInsuranceCombobox";
 import DisplayField from "@/components/layout/DisplayField";
 import DisplayAsset from "@/components/ui/display-asset";
-import {
-  getCategoryName,
-  getSubCategoryName,
-  getTypeName,
-} from "@/lib/lookups";
+import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 
 interface UpdateAssetFormProps {
   asset: Asset;
@@ -40,6 +36,8 @@ function UpdateAssetForm({ asset, onUpdate }: UpdateAssetFormProps) {
     console.log("🎉 Asset updated:", values);
     onUpdate?.(values);
   }
+
+  const {getCategoryName, getSubCategoryName, getTypeName} = useLookupFunctions();
 
   return (
     <Form {...form}>

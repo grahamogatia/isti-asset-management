@@ -11,13 +11,10 @@ import {
 import { MoreHorizontal, Hash } from "lucide-react";
 import {
   getAsset,
-  getCategoryName,
   getCompanyName,
   getConditionName,
   getDepartmentName,
   getEmployeeName,
-  getSubCategoryName,
-  getTypeName,
 } from "@/lib/lookups";
 import { format } from "date-fns";
 import {

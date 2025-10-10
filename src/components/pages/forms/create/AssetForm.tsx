@@ -17,12 +17,17 @@ import { getIdFromDisplayName } from "@/lib/lookups";
 import FormFieldInsuranceCombobox from "../fields/FormFieldInsuranceCombobox";
 import { useTypes } from "@/hooks/useCategory";
 import { useInsurances } from "@/hooks/useInsurance";
+import { useAddAsset } from "@/hooks/useAsset";
+import { toast } from "sonner";
+import { format } from "date-fns";
 
 function AssetForm() {
+  const { mutate } = useAddAsset();
+
   const form = useForm<Asset>({
     resolver: zodResolver(AssetSchema),
     defaultValues: {
-      serial_number: "Test",
+      serial_number: undefined,
       category_id: undefined,
       location: "Test Location", // Changed from "undefined" string
       brand: "Test",
@@ -31,7 +36,7 @@ function AssetForm() {
       purchase_date: undefined, // Changed to empty string
       warranty_due_date: undefined, // Changed to empty string
       notes: "", // Changed to empty string
-      insurance_id: 1,
+      insurance_id: undefined,
       file: undefined, // Changed to null
       sub_category_id: undefined,
       type_id: undefined,
@@ -44,11 +49,23 @@ function AssetForm() {
     mode: "all",
   });
 
-  const {data: types} = useTypes();
-  const {data: insurances} = useInsurances();
+  const { data: types } = useTypes();
+  const { data: insurances } = useInsurances();
 
   function onSubmit(values: Asset) {
     console.log("🎉 SUCCESS! Form submitted:", values);
+    mutate(
+      {
+        ...values,
+        purchase_date: format(values.warranty_due_date, "yyyy-MM-dd"),
+        warranty_due_date: format(values.warranty_due_date, "yyyy-MM-dd"),
+      },
+      {
+        onSuccess: () => {
+          toast.success("Successfully added new Asset?!");
+        },
+      }
+    );
   }
 
   const watchCategory =

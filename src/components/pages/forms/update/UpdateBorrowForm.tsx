@@ -14,12 +14,7 @@ import { employees } from "@/testcases/foreignkeys";
 import DisplayField from "@/components/layout/DisplayField";
 import DisplayAsset from "@/components/ui/display-asset";
 import DisplayEmployee from "@/components/ui/display-employee";
-import {
-    getAsset,
-  getCategoryName,
-  getSubCategoryName,
-  getTypeName,
-} from "@/lib/lookups";
+import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 
 interface UpdateBorrowFormProps {
   borrow: Borrow;
@@ -39,7 +34,8 @@ function UpdateBorrowForm({ borrow, onUpdate }: UpdateBorrowFormProps) {
     console.log("🎉 SUCCESS! Form submitted:", values);
     onUpdate?.(values);
   }
-
+  
+  const { getAsset, getCategoryName, getSubCategoryName, getTypeName } = useLookupFunctions();
   const assetId = form.watch("asset_id");
   const asset = getAsset(assetId);
   const userId = form.watch("user_id") || borrow.user_id;

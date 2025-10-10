@@ -14,12 +14,9 @@ import {
 } from "@/testcases/foreignkeys";
 import { asset_testcases } from "@/testcases/assets";
 
+
 // Convert arrays into maps for fast lookup
-const categoryMap = new Map(asset_categories.map((c) => [c.category_id, c]));
-const subCategoryMap = new Map(
-  asset_sub_categories.map((sc) => [sc.sub_category_id, sc])
-);
-const typeMap = new Map(asset_types.map((t) => [t.type_id, t]));
+
 const conditionMap = new Map(
   asset_conditions.map((c) => [c.asset_condition_id, c])
 );
@@ -33,17 +30,7 @@ const companyMap = new Map(company.map((c) => [c.company_id, c]));
 const urgencyMap = new Map(urgency.map((u) => [u.urgency_id, u]));
 
 // Export lookup functions (ID → Name)
-export function getCategoryName(id: number): string {
-  return categoryMap.get(id)?.category_name ?? "Unknown Category";
-}
 
-export function getSubCategoryName(id: number): string {
-  return subCategoryMap.get(id)?.sub_category_name ?? "Unknown Subcategory";
-}
-
-export function getTypeName(id: number): string {
-  return typeMap.get(id)?.type_name ?? "Unknown Type";
-}
 
 export function getConditionName(id: number): string {
   return conditionMap.get(id)?.asset_condition_name ?? "Unknown Condition";
@@ -94,9 +81,6 @@ export function getDisplayNameForColumn(
   id: number | string
 ): string {
   const lookupFunctions: Record<string, (id: any) => string> = {
-    category_id: getCategoryName,
-    sub_category_id: getSubCategoryName,
-    type_id: getTypeName,
     asset_condition_id: getConditionName,
     insurance_id: getInsuranceName,
     status_id: getStatusName,
@@ -154,24 +138,9 @@ export function getIdFromDisplayName(
         if (insurance.insurance_name === displayName) return id;
       }
       break;
-    case "category":
-      for (const [id, category] of categoryMap) {
-        if (category.category_name === displayName) return id;
-      }
-      break;
     case "department":
       for (const [id, department] of departmentMap) {
         if (department.name === displayName) return id;
-      }
-      break;
-    case "sub_category":
-      for (const [id, subCategory] of subCategoryMap) {
-        if (subCategory.sub_category_name === displayName) return id;
-      }
-      break;
-    case "type":
-      for (const [id, type] of typeMap) {
-        if (type.type_name === displayName) return id as number;
       }
       break;
     case "urgency":

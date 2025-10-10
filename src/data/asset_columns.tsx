@@ -2,9 +2,6 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { differenceInMonths, format } from "date-fns";
 import type { Asset } from "./types";
 import {
-  getCategoryName,
-  getSubCategoryName,
-  getTypeName,
   getConditionName,
   getStatusName,
   getInsuranceName,
@@ -17,6 +14,22 @@ import {
 
 import ActionsButtonGroup from "@/components/ui/actions-button-group";
 import UpdateAssetForm from "@/components/pages/forms/update/UpdateAssetForm";
+import { useLookupFunctions } from "@/hooks/useLookupFunctions";
+
+function AssetCategoryCell ({ categoryId }: { categoryId: number }) {
+  const { getCategoryName } = useLookupFunctions();
+  return <span>{getCategoryName(categoryId)}</span>;
+}
+
+function AssetSubCategoryCell ({ subCategoryId }: { subCategoryId: number }) {
+  const { getSubCategoryName } = useLookupFunctions();
+  return <span>{getSubCategoryName(subCategoryId)}</span>;
+}
+
+function AssetTypeCell ({ typeId }: { typeId: number }) {
+  const { getTypeName } = useLookupFunctions();
+  return <span>{getTypeName(typeId)}</span>;
+}
 
 export const asset_columns: ColumnDef<Asset>[] = [
   {
@@ -31,24 +44,21 @@ export const asset_columns: ColumnDef<Asset>[] = [
     accessorKey: "category",
     header: createHeaderWithIcon("catgory", "Category"),
     cell: ({ row }) => {
-      const categoryId = row.original.category_id;
-      return getCategoryName(categoryId);
+      return <AssetCategoryCell categoryId={row.original.category_id} />;
     },
   },
   {
     accessorKey: "sub_category",
     header: createHeaderWithIcon("sub_category", "Sub Category"),
     cell: ({ row }) => {
-      const subCategoryId = row.original.sub_category_id;
-      return getSubCategoryName(subCategoryId);
+      return <AssetSubCategoryCell subCategoryId={row.original.sub_category_id} />;
     },
   },
   {
     accessorKey: "type",
     header: createHeaderWithIcon("type", "Type"),
     cell: ({ row }) => {
-      const typeId = row.original.type_id;
-      return typeId ? getTypeName(typeId) : "-";
+      return <AssetTypeCell typeId={row.original.type_id} />;
     },
   },
   {
