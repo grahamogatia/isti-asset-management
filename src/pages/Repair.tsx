@@ -5,14 +5,16 @@ import {
   repair_columns,
   repair_filters,
 } from "@/data/repair_columns";
-import { repair_testcases } from "@/testcases/repairs";
+import { useRepairs } from "@/hooks/useRepair";
 
 function Repair() {
+  const {data: repairs, isLoading} = useRepairs(); 
+  console.log("Console Log", repairs);
   return (
     <div className="mx-auto w-full border rounded-xl py-3.5 p-5">
       <DataTable
         columns={repair_columns}
-        data={repair_testcases}
+        data={repairs ?? []}
         defaultVisibleColumns={def_repair_columns}
         filterableColumns={repair_filters}
         type="Repair"
