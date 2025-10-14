@@ -1,14 +1,5 @@
 import { type ColumnDef } from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuItem,
-} from "@radix-ui/react-dropdown-menu";
-import { MoreHorizontal, Hash } from "lucide-react";
+import { Hash } from "lucide-react";
 import { format } from "date-fns";
 import {
   createHeaderWithIcon,
@@ -209,33 +200,6 @@ export function useCommonColumns<T extends CommonFields>() {
       },
     }),
 
-    // Actions column
-    actions: (): ColumnDef<T> => ({
-      id: "actions",
-      header: "",
-      cell: () => {
-        return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Update Asset</DropdownMenuItem>
-              <DropdownMenuItem className="text-red-700">
-                Delete Asset
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        );
-      },
-    }),
-
-    // Simple column helper - just accessorKey and header
     simpleColumn: (
       accessorKey: keyof T,
       header: string
