@@ -48,10 +48,10 @@ export const useLookupFunctions = () => {
     return statuses.filter((s) => s.function_id === functionId);
   };
 
-  const getStatusIdGivenStatusName = (functionName: string, statusName: string): Status | undefined => {
+  const getStatusIdGivenStatusName = (functionName: string, statusName: string): number | undefined => {
     const functionStatuses = getStatuses(functionName);
     const status = functionStatuses.find(s => s.status_name === statusName);
-    return status;
+    return status?.status_id;
   }
 
   const getDisplayNameForColumn = (columnName: string, id: number | string): string => {

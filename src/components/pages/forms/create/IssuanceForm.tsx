@@ -36,9 +36,10 @@ function IssuanceForm() {
   const { mutate } = useAddIssuance();
   const { data: assets } = useAssets();
   const issuedAssetIds = useIssuedAssetIds();
-  const { getCategoryName, getStatusIdGivenStatusName } = useLookupFunctions();
+  const { getCategoryName, getStatuses } = useLookupFunctions();
 
   // Issuable assets must be: Not yet issued && Internal
+  const statuses = getStatuses("Issuance");
   const issuableAssets =
     (assets ?? []).filter((a) => {
       const notIssued = !issuedAssetIds.includes(a.asset_id as number);
@@ -54,7 +55,7 @@ function IssuanceForm() {
     mutate(
       {
         ...values,
-        status_id: getStatusIdGivenStatusName("Issuance", "Issued"),
+        status_id: statuses.find(s => s.status_name === "Issued"),
         issuance_date: format(new Date(), "yyyy-MM-dd"),
       }
     )
