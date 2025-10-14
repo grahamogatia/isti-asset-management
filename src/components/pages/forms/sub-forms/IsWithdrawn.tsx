@@ -43,7 +43,9 @@ function IsWithdrawnForm({ issuance, onIssueCompleted }: isWtihdrawnFormProps) {
         <>
           📦 Issued On:{" "}
           <span className="font-semibold">
-            {format(new Date(issuance.issuance_date), "MMM dd, yyyy")}
+            {issuance.issuance_date
+              ? format(new Date(issuance.issuance_date), "MMM dd, yyyy")
+              : "N/A"}
           </span>
         </>
       }
@@ -53,7 +55,7 @@ function IsWithdrawnForm({ issuance, onIssueCompleted }: isWtihdrawnFormProps) {
         name="pullout_date"
         label="Pullout Date"
         placeholder="Select pullout date"
-        minDate={new Date(issuance.issuance_date)}
+        minDate={issuance.issuance_date ? new Date(issuance.issuance_date) : undefined}
         maxDate={new Date(new Date().getFullYear() + 50, 11, 31)}
       />
 
