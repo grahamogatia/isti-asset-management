@@ -5,14 +5,16 @@ import {
   issuance_columns,
   issuance_filters,
 } from "@/data/issuance_columns";
-import { issuance_testcases } from "@/testcases/issuances";
+import { useIssuances } from "@/hooks/useIssuance";
 
 function Issuance() {
+  const { data: issuances } = useIssuances();
+
   return (
     <div className="mx-auto w-full border rounded-xl py-3.5 p-5">
       <DataTable
         columns={issuance_columns}
-        data={issuance_testcases}
+        data={issuances ?? []}
         defaultVisibleColumns={def_issuance_columns}
         filterableColumns={issuance_filters}
         type="Issuance"
