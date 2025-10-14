@@ -22,9 +22,6 @@ import { differenceInMonths, format } from "date-fns";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 
 function AssetForm() {
-  const { mutate } = useAddAsset();
-  const { getIdFromDisplayName } = useLookupFunctions();
-
   const form = useForm<Asset>({
     resolver: zodResolver(AssetSchema),
     defaultValues: {
@@ -47,7 +44,8 @@ function AssetForm() {
     },
     mode: "all",
   });
-
+  const { mutate } = useAddAsset();
+  const { getIdFromDisplayName } = useLookupFunctions();
   const { data: types } = useTypes();
   const { data: insurances } = useInsurances();
 

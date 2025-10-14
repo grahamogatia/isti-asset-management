@@ -27,7 +27,6 @@ import {
 type CommonFields = {
   asset_id: number;
   user_id: number;
-  department_id: number;
   company_id: number;
 };
 

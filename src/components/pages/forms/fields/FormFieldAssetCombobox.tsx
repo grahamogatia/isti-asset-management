@@ -119,12 +119,11 @@ function FormFieldAssetCombobox({
                               key={asset.asset_id}
                               onSelect={() => {
                                 field.onChange(asset.asset_id);
-                                form.setValue("type_id", asset.type_id);
-                                form.setValue(
-                                  "sub_category_id",
-                                  asset.sub_category_id
-                                );
-                                form.setValue("category_id", asset.category_id);
+
+                                form.setValue("type_id", asset.type_id, { shouldValidate: true });
+                                form.setValue("sub_category_id", asset.sub_category_id, { shouldValidate: true });
+                                form.setValue("category_id", asset.category_id, { shouldValidate: true });
+
                               }}
                               className="cursor-pointer"
                             >

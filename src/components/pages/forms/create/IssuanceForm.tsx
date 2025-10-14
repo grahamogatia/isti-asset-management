@@ -6,39 +6,66 @@ import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import FormCardContent from "@/components/layout/FormCardContent";
-import { asset_testcases } from "@/testcases/assets";
 import { employees } from "@/testcases/foreignkeys";
 import FormFieldUserCombobox from "../fields/FormFieldUserCombobox";
 import FormFieldAssetCombobox from "../fields/FormFieldAssetCombobox";
+import { useAddIssuance, useIssuedAssetIds } from "@/hooks/useIssuance";
+import { useAssets } from "@/hooks/useAsset";
+import { useLookupFunctions } from "@/hooks/useLookupFunctions";
+import { asset_testcases } from "@/testcases/assets";
+import { format } from "date-fns";
 
 function IssuanceForm() {
   const form = useForm<Issuance>({
     resolver: zodResolver(IssuanceSchema),
     defaultValues: {
       asset_id: undefined,
-      category_id: 1,
+      category_id: undefined,
       user_id: undefined,
-      department_id: 1,
+      department_id: undefined,
       issuance_date: undefined,
       pullout_date: undefined,
-      status_id: 1,
+      status_id: undefined,
       remarks: undefined,
-      issuance_id: 1,
-      sub_category_id: 1,
-      type_id: 1,
-      company_id: 1,
+      issuance_id: undefined,
+      sub_category_id: undefined,
+      type_id: undefined,
+      company_id: undefined,
     },
     mode: "all",
   });
+  const { mutate } = useAddIssuance();
+  const { data: assets } = useAssets();
+  const issuedAssetIds = useIssuedAssetIds();
+  const { getCategoryName, getStatuses } = useLookupFunctions();
+  const statuses = getStatuses("Issuance");
 
+  // Issuable assets must be: Not yet issued && Internal
+  const issuableAssets =
+    (assets ?? []).filter((a) => {
+      const notIssued = !issuedAssetIds.includes(a.asset_id as number);
+      const isInternal = a.category_id ? getCategoryName(a.category_id) : "";
+      return notIssued && isInternal;
+    }) ?? [];
+
+
+  // Set status to Issued
   function onSubmit(values: Issuance) {
     console.log("🎉 SUCCESS! Form submitted:", values);
+
+    mutate(
+      {
+        ...values,
+        status_id: statuses.find(s => s.status_name === "Issued")?.status_id,
+        issuance_date: format(new Date(), "yyyy-MM-dd"),
+      }
+    )
   }
 
   return (
     <Form {...form}>
       <form
-        id="borrow-form"
+        id="issuance-form"
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-5"
       >
@@ -47,8 +74,8 @@ function IssuanceForm() {
             control={form.control}
             name="asset_id"
             label="Asset to Issue"
-            assets={asset_testcases}
-            form={{ ...form }}
+            assets={issuableAssets}
+            form={{...form}}
           />
         </FormCardContent>
         <FormCardContent title="Recipient Information">
@@ -57,14 +84,17 @@ function IssuanceForm() {
             name="user_id"
             label="Issue To"
             employees={employees}
-            form={{ ...form }}
+            form={{...form}}
           />
         </FormCardContent>
         <div className="pb-6">
           <Button
             className="w-full flex items-center justify-center rounded-md"
             type="submit"
-            form="borrow-form"
+            form="issuance-form"
+            // onClick={() =>
+            //   console.log("Issuance form values:", form.getValues())
+            // }
           >
             <Plus />
             Create Issuance Request

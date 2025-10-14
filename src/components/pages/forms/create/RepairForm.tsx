@@ -8,15 +8,16 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import FormCardContent from "@/components/layout/FormCardContent";
 import FormFieldTextArea from "../fields/FormFieldTextArea";
-import { employees, urgency } from "@/testcases/foreignkeys";
 import { SelectItem } from "@/components/ui/select";
 import FormFieldSelect from "../fields/FormFieldSelect";
 import FormFieldDate from "../fields/FormFieldDate";
 import FormFieldMoney from "../fields/FormFieldMoney";
 import FormFieldAssetCombobox from "../fields/FormFieldAssetCombobox";
-import { asset_testcases } from "@/testcases/assets";
 import FormFieldUserCombobox from "../fields/FormFieldUserCombobox";
 import { getAsset } from "@/lib/lookups";
+import { useAssets } from "@/hooks/useAsset";
+import { employees } from "@/testcases/foreignkeys";
+import { useUrgencies } from "@/hooks/useUrgency";
 
 function RepairForm() {
   const form = useForm<Repair>({
@@ -47,6 +48,8 @@ function RepairForm() {
   }
 
   // Compute asset and minDate before return
+  const { data: assets } = useAssets();
+  const { data: urgencies } = useUrgencies();
   const assetId = form.watch("asset_id");
   const asset = getAsset(assetId);
   const repairMinDate =
@@ -60,13 +63,6 @@ function RepairForm() {
         className="space-y-5"
       >
         <FormCardContent title="Details">
-          <FormFieldAssetCombobox
-            control={form.control}
-            name="asset_id"
-            label="Asset Requiring Repair"
-            assets={asset_testcases}
-            form={{ ...form }}
-          />
           <FormFieldUserCombobox
             control={form.control}
             name="user_id"
@@ -74,7 +70,14 @@ function RepairForm() {
             employees={employees}
             form={{ ...form }}
           />
-          <FormFieldDate 
+          <FormFieldAssetCombobox
+            control={form.control}
+            name="asset_id"
+            label="Asset Requiring Repair"
+            assets={assets ?? []}
+            form={{ ...form }}
+          />
+          <FormFieldDate
             control={form.control}
             name="date_reported"
             label="Date Reported"
@@ -90,11 +93,12 @@ function RepairForm() {
             label="Urgency"
             placeholder="Select urgency level"
           >
-            {urgency.map((urgency) => (
-              <SelectItem value={String(urgency.urgency_id)}>
-                {urgency.urgency_name}
-              </SelectItem>
-            ))}
+            {urgencies &&
+              urgencies.map((urgency) => (
+                <SelectItem value={String(urgency.urgency_id)}>
+                  {urgency.urgency_level}
+                </SelectItem>
+              ))}
           </FormFieldSelect>
           <FormFieldDate
             control={form.control}

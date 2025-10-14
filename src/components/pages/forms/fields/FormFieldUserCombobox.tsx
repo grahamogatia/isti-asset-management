@@ -144,7 +144,20 @@ function FormFieldUserCombobox({
                               value={employee.name}
                               key={employee.user_id}
                               onSelect={() => {
-                                form.setValue(name, employee.user_id);
+                                field.onChange(employee.user_id);
+
+                                form.setValue(
+                                  "company_id",
+                                  employee.company_id,
+                                  { shouldValidate: true }
+                                );
+                                if (employee.department_id) {
+                                  form.setValue(
+                                    "department_id",
+                                    employee.department_id,
+                                    { shouldValidate: true }
+                                  );
+                                }
                               }}
                               className="cursor-pointer"
                             >

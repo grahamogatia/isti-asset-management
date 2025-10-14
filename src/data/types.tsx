@@ -42,6 +42,16 @@ export type Employee = z.infer<typeof EmployeeSchema>;
 export type Condition = z.infer<typeof ConditionSchema>;
 export type Status = z.infer<typeof StatusSchema>;
 
+export type Urgency = {
+  urgency_id: number,
+  urgency_level: string,
+}
+
+export type FunctionITAM = {
+  function_id: number,
+  function_name: string,
+}
+
 export type ActiveFilter = {
   id: string;
   columnName: string;

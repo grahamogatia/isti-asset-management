@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { catchError, getAll, getOne } from "./controller"
 import type { Issuance } from "@/data/types"
 import api from "./api/config"
+import { useMemo } from "react"
 
 const ISSUANCE = "issuance"
 
@@ -37,5 +38,16 @@ export const useAddIssuance = <TData = unknown>() => {
         },
         onError: catchError,
     });
+}
+
+export const useIssuedAssetIds = (): number[] => {
+    const { data } = useIssuances();
+
+    return useMemo(() => {
+        if (!data) return [];
+        return data
+            .map((i) => i.asset_id)
+            .filter((id): id is number => typeof id === "number");
+    }, [data]);
 }
 

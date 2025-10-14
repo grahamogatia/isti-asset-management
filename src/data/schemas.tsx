@@ -76,20 +76,20 @@ export const BorrowSchema = z.object({
 
 export const IssuanceSchema = z.object({
   asset_id: z.number(),
+  category_id: z.number(),
   sub_category_id: z.number(),
   type_id: z.number(),
-  category_id: z.number(),
 
   user_id: z.number(),
   company_id: z.number(),
-  department_id: z.number(),
+  department_id: z.number().optional(),
 
-  issuance_date: z.date(),
-
+  issuance_date: z.date().optional(),
   pullout_date: z.date().optional(),
-  status_id: z.number(),
-  remarks: z.string(),
-  issuance_id: z.number(),
+
+  status_id: z.number().optional(),
+  remarks: z.string().optional(),
+  issuance_id: z.number().optional(),
 });
 
 export const CompanySchema = z.object({

@@ -1,7 +1,10 @@
+import type { Status } from "@/data/types";
 import { useLookupMaps } from "./useLookupMaps";
+import { useStatuses } from "./useStatus";
 
 export const useLookupFunctions = () => {
-  const { assetMap, categoryMap, subCategoryMap, typeMap, conditionMap, statusMap, isLoading } = useLookupMaps();
+  const { assetMap, categoryMap, subCategoryMap, typeMap, conditionMap, statusMap, functionITAMMap, isLoading } = useLookupMaps();
+  const { data: statuses } = useStatuses();
 
   const getAsset = (asset_id: number) => {
     return assetMap.get(asset_id);
@@ -25,6 +28,21 @@ export const useLookupFunctions = () => {
   const getStatusName = (id: number): string => {
     return statusMap.get(id)?.status_name ?? "Unknown Status";
   }
+
+  const getStatuses = (functionName: string): Status[] => {
+    if (!functionName || !functionITAMMap) return [];
+    const target = functionName.trim();
+    let functionId: number | null = null;
+    for (const [id, fn] of functionITAMMap) {
+      const name = String((fn as any)?.function_name ?? "").trim();
+      if (name === target) {
+        functionId = Number(id);
+        break;
+      }
+    }
+    if (functionId == null || !Array.isArray(statuses)) return [];
+    return statuses.filter((s) => s.function_id === functionId);
+  };
 
   const getDisplayNameForColumn = (columnName: string, id: number | string): string => {
     if (isLoading) return "Loading...";
@@ -112,6 +130,7 @@ export const useLookupFunctions = () => {
     getTypeName,
     getConditionName,
     getStatusName,
+    getStatuses,
 
     getDisplayNameForColumn,
     getIdFromDisplayName,
