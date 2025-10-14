@@ -5,14 +5,17 @@ import {
   borrow_filters,
   def_borrow_columns,
 } from "@/data/borrow_columns";
-import { borrow_testcases } from "@/testcases/borrows";
+import { useBorrows } from "@/hooks/useBorrow";
 
 function Borrow() {
+
+  const {data: borrows} = useBorrows();
+
   return (
     <div className="mx-auto w-full border rounded-xl py-3.5 p-5">
       <DataTable
         columns={borrow_columns}
-        data={borrow_testcases}
+        data={borrows ?? []}
         defaultVisibleColumns={def_borrow_columns}
         filterableColumns={borrow_filters}
         type="Borrow"

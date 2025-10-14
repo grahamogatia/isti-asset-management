@@ -1,6 +1,6 @@
 import PopoverForm from "@/components/layout/PopoverForm";
 import { Button } from "@/components/ui/button";
-import { format } from "date-fns/format";
+import { format, isValid, differenceInDays, isAfter } from "date-fns";
 import { RotateCcw } from "lucide-react";
 import FormFieldDate from "../fields/FormFieldDate";
 import FormFieldTextArea from "../fields/FormFieldTextArea";
@@ -8,33 +8,36 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BorrowSchema } from "@/data/schemas";
 import type { Borrow } from "@/data/types";
-import { differenceInDays } from "date-fns/differenceInDays";
-import { isAfter } from "date-fns/isAfter";
 
-interface isReturnedFormProps {
+interface IsReturnedFormProps {
   borrow: Borrow;
   onReturnCompleted?: (updatedBorrow: Borrow) => void;
 }
 
-function IsReturnedForm({
-  borrow,
-  onReturnCompleted,
-}: isReturnedFormProps) {
+const toValidDate = (d: unknown): Date | undefined => {
+  if (d === null || d === undefined || d === "") return undefined;
+  const dt = new Date(d as any);
+  return isValid(dt) ? dt : undefined;
+};
+
+function IsReturnedForm({ borrow, onReturnCompleted }: IsReturnedFormProps) {
+  const defaultReturnDate = toValidDate(borrow.return_date) ?? new Date();
+  const dateBorrowed = toValidDate(borrow.date_borrowed);
+  const dueDate = toValidDate(borrow.due_date);
+
   const form = useForm<Borrow>({
     resolver: zodResolver(BorrowSchema),
     defaultValues: {
       ...borrow,
-      return_date: new Date(),
-      remarks: "",
-    },
+      return_date: defaultReturnDate,
+      remarks: (borrow as Partial<Borrow>).remarks ?? "",
+    } as Borrow,
     mode: "all",
   });
 
-  const dueDate = new Date(borrow.due_date);
   const today = new Date();
-
-  const overdue = isAfter(today, dueDate);
-  const daysDiff = Math.abs(differenceInDays(today, dueDate));
+  const overdue = dueDate ? isAfter(today, dueDate) : false;
+  const daysDiff = dueDate ? Math.abs(differenceInDays(today, dueDate)) : 0;
 
   return (
     <PopoverForm
@@ -49,19 +52,21 @@ function IsReturnedForm({
       onSubmit={(values) => onReturnCompleted?.(values)}
       submitButtonText="Mark as Returned"
       submitButtonIcon={<RotateCcw className="mr-2 h-4 w-4" />}
-      formId="complete-repair-form"
+      formId="complete-return-form"
       subtitle={
-        overdue ? (
-          <span className="text-red-600 font-semibold">
-            ⏰ Overdue by {daysDiff} {daysDiff === 1 ? "day" : "days"}
-          </span>
-        ) : (
-          <>
-            📅 Due On:{" "}
-            <span className="font-semibold">
-              {format(dueDate, "MMM dd, yyyy")}
+        dueDate ? (
+          overdue ? (
+            <span className="text-red-600 font-semibold">
+              ⏰ Overdue by {daysDiff} {daysDiff === 1 ? "day" : "days"}
             </span>
-          </>
+          ) : (
+            <>
+              📅 Due On:{" "}
+              <span className="font-semibold">{format(dueDate, "MMM dd, yyyy")}</span>
+            </>
+          )
+        ) : (
+          <span className="font-semibold">Due date unknown</span>
         )
       }
     >
@@ -70,7 +75,7 @@ function IsReturnedForm({
         name="return_date"
         label="Return Date"
         placeholder="Select return date"
-        minDate={new Date(borrow.date_borrowed)}
+        minDate={dateBorrowed}
         maxDate={new Date(new Date().getFullYear() + 50, 11, 31)}
       />
 
@@ -84,4 +89,4 @@ function IsReturnedForm({
   );
 }
 
-export default IsReturnedForm; 
+export default IsReturnedForm;
