@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IssuanceSchema } from "@/data/schemas";
 import type { Issuance } from "@/data/types";
+import { isValid } from "date-fns";
 
 interface isWtihdrawnFormProps {
   issuance: Issuance;
@@ -24,6 +25,13 @@ function IsWithdrawnForm({ issuance, onIssueCompleted }: isWtihdrawnFormProps) {
     },
     mode: "all",
   });
+
+  const issuanceDate = issuance.issuance_date 
+    ? new Date(issuance.issuance_date) 
+    : undefined;  
+  const validIssuanceDate = issuanceDate && isValid(issuanceDate) 
+    ? issuanceDate 
+    : undefined;
 
   return (
     <PopoverForm
@@ -55,8 +63,8 @@ function IsWithdrawnForm({ issuance, onIssueCompleted }: isWtihdrawnFormProps) {
         name="pullout_date"
         label="Pullout Date"
         placeholder="Select pullout date"
-        minDate={issuance.issuance_date ? new Date(issuance.issuance_date) : undefined}
-        maxDate={new Date(new Date().getFullYear() + 50, 11, 31)}
+        minDate={validIssuanceDate}
+        maxDate={new Date()}
       />
 
       <FormFieldTextArea
