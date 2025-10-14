@@ -2,12 +2,13 @@ import IssuanceForm from "@/components/pages/forms/create/IssuanceForm";
 import { DataTable } from "@/components/ui/data-table";
 import {
   def_issuance_columns,
-  issuance_columns,
   issuance_filters,
+  useIssuanceColumns,
 } from "@/data/issuance_columns";
 import { useIssuances } from "@/hooks/useIssuance";
 
 function Issuance() {
+  const { issuance_columns } = useIssuanceColumns();
   const { data: issuances } = useIssuances();
 
   return (

@@ -4,6 +4,7 @@ import { useCategories, useSubCategories, useTypes } from "./useCategory";
 import { useConditions } from "./useCondition";
 import { useStatuses } from "./useStatus";
 import { useFunctionsITAM } from "./useFunctionITAM";
+import { useUrgencies } from "./useUrgency";
 
 export const useLookupMaps = () => {
   const { data: assets } = useAssets();
@@ -13,6 +14,7 @@ export const useLookupMaps = () => {
   const { data: conditions } = useConditions();
   const { data: statuses } = useStatuses();
   const { data: functions } = useFunctionsITAM();
+  const { data: urgencies } = useUrgencies();
   
 
   const lookupMaps = useMemo(() => {
@@ -24,10 +26,11 @@ export const useLookupMaps = () => {
       conditionMap: new Map(conditions?.map((c) => [c.asset_condition_id, c]) || []),
       statusMap: new Map(statuses?.map((s) => [s.status_id, s]) || []),
       functionITAMMap: new Map(functions?.map((f) => [f.function_id, f]) || []),
+      urgencyMap: new Map(urgencies?.map((u) => [u.urgency_id, u]) || [])
     };
   }, [assets, categories, subCategories, types, conditions, statuses, functions]);
 
-  const isLoading = !assets || !categories || !subCategories || !types || !conditions || !statuses || !functions;
+  const isLoading = !assets || !categories || !subCategories || !types || !conditions || !statuses || !functions || !urgencies;
 
   return {
     ...lookupMaps,

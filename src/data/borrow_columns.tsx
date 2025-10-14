@@ -1,65 +1,69 @@
 import { type ColumnDef } from "@tanstack/react-table";
 import type { Borrow } from "./types";
 import { differenceInDays } from "date-fns";
-import { commonColumns } from "./common_columns";
+import { useCommonColumns } from "./common_columns";
 import { Clock } from "lucide-react";
 import ActionsButtonGroup from "@/components/ui/actions-button-group";
 import IsReturnedForm from "@/components/pages/forms/sub-forms/IsReturnedForm";
 import UpdateBorrowForm from "@/components/pages/forms/update/UpdateBorrowForm";
 
-export const borrow_columns: ColumnDef<Borrow>[] = [
-  // Asset identification first
-  commonColumns.asset_name<Borrow>(),
-  commonColumns.serial_number<Borrow>(),
-  commonColumns.category<Borrow>(),
-  commonColumns.sub_category<Borrow>(),
-  commonColumns.type<Borrow>(),
-  commonColumns.simpleColumn("borrow_transaction_id", "Borrow Transaction ID"),
-  commonColumns.dateColumn<Borrow>("date_borrowed", "Date Borrowed"),
-  commonColumns.dateColumn<Borrow>("due_date", "Due Date"),
-  commonColumns.dateColumn<Borrow>("return_date", "Return Date"),
-  {
-    accessorKey: "duration",
-    header: () => (
-      <div className="flex items-center gap-2">
-        <Clock className="h-4 w-4" />
-        Status
-      </div>
-    ),
-    cell: ({ row }) => {
-      const result = differenceInDays(row.original.due_date, new Date());
-      return result <= 0 ? "Overdue" : result + " days remaining";
-    },
-  },
-  commonColumns.employee<Borrow>(),
-  commonColumns.department<Borrow>(),
-  commonColumns.company<Borrow>(),
-  commonColumns.condition<Borrow>(),
-  commonColumns.simpleColumn("remarks", "Remarks"),
+export function useBorrowColumns() {
+  const commonColumns = useCommonColumns<Borrow>();
 
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      return (
-        <ActionsButtonGroup type="Borrow" updateForm={
-          <UpdateBorrowForm
-          borrow={row.original}
-          onUpdate={(updatedBorrow: Borrow)=> {
-            console.log("Borrow updated:", updatedBorrow);
-
-          }}
-          />
-        }>
-          <IsReturnedForm borrow={row.original} />
-        </ActionsButtonGroup>
-      );
+  const borrow_columns: ColumnDef<Borrow>[] = [
+    // Asset identification first
+    commonColumns.asset_name(),
+    commonColumns.serial_number(),
+    commonColumns.category(),
+    commonColumns.sub_category(),
+    commonColumns.type(),
+    commonColumns.simpleColumn("borrow_transaction_id", "Borrow Transaction ID"),
+    commonColumns.dateColumn("date_borrowed", "Date Borrowed"),
+    commonColumns.dateColumn("due_date", "Due Date"),
+    commonColumns.dateColumn("return_date", "Return Date"),
+    {
+      accessorKey: "duration",
+      header: () => (
+        <div className="flex items-center gap-2">
+          <Clock className="h-4 w-4" />
+          Status
+        </div>
+      ),
+      cell: ({ row }) => {
+        const result = differenceInDays(row.original.due_date, new Date());
+        return result <= 0 ? "Overdue" : result + " days remaining";
+      },
     },
-  },
-];
+    commonColumns.employee(),
+    commonColumns.department(),
+    commonColumns.company(),
+    commonColumns.condition(),
+    commonColumns.simpleColumn("remarks", "Remarks"),
+    {
+      id: "actions",
+      cell: ({ row }) => {
+        return (
+          <ActionsButtonGroup type="Borrow" updateForm={
+            <UpdateBorrowForm
+              borrow={row.original}
+              onUpdate={(updatedBorrow: Borrow) => {
+                console.log("Borrow updated:", updatedBorrow);
+              }}
+            />
+          }>
+            <IsReturnedForm borrow={row.original} />
+          </ActionsButtonGroup>
+        );
+      },
+    },
+  ];
+
+  return { borrow_columns };
+}
 
 export const def_borrow_columns = [
   "asset_name",
-  "serial_number",
+  "serial_number", 
   "date_borrowed",
   "return_date",
   "employee",
@@ -69,7 +73,7 @@ export const def_borrow_columns = [
 
 export const borrow_filters = [
   "category",
-  "company",
+  "company", 
   "department",
   "status",
   "sub_category",

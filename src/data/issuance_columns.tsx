@@ -1,56 +1,62 @@
 import { type ColumnDef } from "@tanstack/react-table";
 import type { Issuance } from "./types";
-import { commonColumns } from "./common_columns";
-import { getStatusName } from "@/lib/lookups";
+import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import {
   createHeaderWithIcon,
   createStandardFilterFn,
 } from "@/lib/columnNameUtils";
 import ActionsButtonGroup from "@/components/ui/actions-button-group";
 import IsWithdrawnForm from "@/components/pages/forms/sub-forms/IsWithdrawn";
+import { useCommonColumns } from "./common_columns";
 
-export const issuance_columns: ColumnDef<Issuance>[] = [
-  // Asset identification first
-  commonColumns.asset_name<Issuance>(),
-  commonColumns.employee<Issuance>(),
-  commonColumns.serial_number<Issuance>(),
-  commonColumns.category<Issuance>(),
-  commonColumns.sub_category<Issuance>(),
-  commonColumns.type<Issuance>(),
-  commonColumns.simpleColumn("issuance_id", "Issuance ID"),
-  {
-    accessorKey: "status",
-    accessorFn: (row) => {
-      return getStatusName(row.status_id as number);
-    },
-    header: createHeaderWithIcon("status", "Status"),
-    cell: ({ row }) => {
-      return getStatusName(row.original.status_id as number);
-    },
-    filterFn: createStandardFilterFn((row) =>
-      getStatusName(row.original.status_id)
-    ),
-  },
-  commonColumns.dateColumn<Issuance>("issuance_date", "Issuance Date"),
-  commonColumns.dateColumn<Issuance>("pullout_date", "Pullout Date"),
-  commonColumns.department<Issuance>(),
-  commonColumns.company<Issuance>(),
-  commonColumns.simpleColumn<Issuance>("remarks", "Remarks"),
+export function useIssuanceColumns() {
+  const commonColumns = useCommonColumns<Issuance>();
+  const { getStatusName } = useLookupFunctions();
 
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      return (
-        <ActionsButtonGroup 
-        type="Issuance"
-        showUpdate={false} 
-      >
-        <IsWithdrawnForm issuance={row.original} />
-      </ActionsButtonGroup>
-      );
+  const issuance_columns: ColumnDef<Issuance>[] = [
+    // Asset identification first
+    commonColumns.asset_name(),
+    commonColumns.employee(),
+    commonColumns.serial_number(),
+    commonColumns.category(),
+    commonColumns.sub_category(),
+    commonColumns.type(),
+    commonColumns.simpleColumn("issuance_id", "Issuance ID"),
+    {
+      accessorKey: "status",
+      accessorFn: (row) => {
+        return getStatusName(row.status_id as number);
+      },
+      header: createHeaderWithIcon("status", "Status"),
+      cell: ({ row }) => {
+        return getStatusName(row.original.status_id as number);
+      },
+      filterFn: createStandardFilterFn((row) =>
+        getStatusName(row.original.status_id)
+      ),
     },
-  },
-];
+    commonColumns.dateColumn("issuance_date", "Issuance Date"),
+    commonColumns.dateColumn("pullout_date", "Pullout Date"),
+    commonColumns.department(),
+    commonColumns.company(),
+    commonColumns.simpleColumn("remarks", "Remarks"),
+    {
+      id: "actions",
+      cell: ({ row }) => {
+        return (
+          <ActionsButtonGroup 
+            type="Issuance"
+            showUpdate={false} 
+          >
+            <IsWithdrawnForm issuance={row.original} />
+          </ActionsButtonGroup>
+        );
+      },
+    },
+  ];
+
+  return { issuance_columns };
+}
 
 export const def_issuance_columns = [
   "asset_name",

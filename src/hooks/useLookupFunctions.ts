@@ -3,7 +3,7 @@ import { useLookupMaps } from "./useLookupMaps";
 import { useStatuses } from "./useStatus";
 
 export const useLookupFunctions = () => {
-  const { assetMap, categoryMap, subCategoryMap, typeMap, conditionMap, statusMap, functionITAMMap, isLoading } = useLookupMaps();
+  const { assetMap, categoryMap, subCategoryMap, typeMap, conditionMap, statusMap, functionITAMMap, urgencyMap, isLoading } = useLookupMaps();
   const { data: statuses } = useStatuses();
 
   const getAsset = (asset_id: number) => {
@@ -27,6 +27,10 @@ export const useLookupFunctions = () => {
 
   const getStatusName = (id: number): string => {
     return statusMap.get(id)?.status_name ?? "Unknown Status";
+  }
+
+  const getUrgencyName = (id: number): string => {
+    return urgencyMap.get(id)?.urgency_level ?? "Unknown Urgency";
   }
 
   const getStatuses = (functionName: string): Status[] => {
@@ -130,6 +134,7 @@ export const useLookupFunctions = () => {
     getTypeName,
     getConditionName,
     getStatusName,
+    getUrgencyName,
     getStatuses,
 
     getDisplayNameForColumn,

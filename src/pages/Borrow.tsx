@@ -1,15 +1,16 @@
 import BorrowForm from "@/components/pages/forms/create/BorrowForm";
 import { DataTable } from "@/components/ui/data-table";
 import {
-  borrow_columns,
   borrow_filters,
   def_borrow_columns,
+  useBorrowColumns,
 } from "@/data/borrow_columns";
 import { useBorrows } from "@/hooks/useBorrow";
 
 function Borrow() {
 
-  const {data: borrows} = useBorrows();
+  const { borrow_columns } = useBorrowColumns();
+  const { data: borrows } = useBorrows();
 
   return (
     <div className="mx-auto w-full border rounded-xl py-3.5 p-5">

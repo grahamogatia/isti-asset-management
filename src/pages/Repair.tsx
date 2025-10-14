@@ -2,14 +2,15 @@ import RepairForm from "@/components/pages/forms/create/RepairForm";
 import { DataTable } from "@/components/ui/data-table";
 import {
   def_repair_columns,
-  repair_columns,
   repair_filters,
+  useRepairColumns,
 } from "@/data/repair_columns";
 import { useRepairs } from "@/hooks/useRepair";
 
 function Repair() {
-  const {data: repairs} = useRepairs(); 
-  console.log("Console Log", repairs);
+  const { data: repairs } = useRepairs(); 
+  const { repair_columns } = useRepairColumns();
+
   return (
     <div className="mx-auto w-full border rounded-xl py-3.5 p-5">
       <DataTable
