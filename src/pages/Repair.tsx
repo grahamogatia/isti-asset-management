@@ -8,7 +8,7 @@ import {
 import { useRepairs } from "@/hooks/useRepair";
 
 function Repair() {
-  const {data: repairs, isLoading} = useRepairs(); 
+  const {data: repairs} = useRepairs(); 
   console.log("Console Log", repairs);
   return (
     <div className="mx-auto w-full border rounded-xl py-3.5 p-5">
