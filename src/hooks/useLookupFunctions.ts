@@ -48,6 +48,12 @@ export const useLookupFunctions = () => {
     return statuses.filter((s) => s.function_id === functionId);
   };
 
+  const getStatusIdGivenStatusName = (functionName: string, statusName: string): Status | undefined => {
+    const functionStatuses = getStatuses(functionName);
+    const status = functionStatuses.find(s => s.status_name === statusName);
+    return status;
+  }
+
   const getDisplayNameForColumn = (columnName: string, id: number | string): string => {
     if (isLoading) return "Loading...";
 
@@ -137,6 +143,7 @@ export const useLookupFunctions = () => {
     getUrgencyName,
     getStatuses,
 
+    getStatusIdGivenStatusName,
     getDisplayNameForColumn,
     getIdFromDisplayName,
     isLookupColumn,
