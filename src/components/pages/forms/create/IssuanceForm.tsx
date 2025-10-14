@@ -12,7 +12,6 @@ import FormFieldAssetCombobox from "../fields/FormFieldAssetCombobox";
 import { useAddIssuance, useIssuedAssetIds } from "@/hooks/useIssuance";
 import { useAssets } from "@/hooks/useAsset";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
-import { asset_testcases } from "@/testcases/assets";
 import { format } from "date-fns";
 
 function IssuanceForm() {

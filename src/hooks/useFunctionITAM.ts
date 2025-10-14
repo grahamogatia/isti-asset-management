@@ -1,4 +1,4 @@
-import type { FunctionITAM, Status } from "@/data/types";
+import type { FunctionITAM } from "@/data/types";
 import { useQuery } from "@tanstack/react-query";
 import { getAll, getOne } from "./controller";
 
