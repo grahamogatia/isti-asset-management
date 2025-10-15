@@ -29,8 +29,13 @@ export function useRepairColumns() {
       filterFn: createStandardFilterFn((row) =>
         getStatusName(row.original.status_id)
       ),
+      sortingFn: (rowA, rowB) => {
+        const statusA = rowA.original.status_id as number;
+        const statusB = rowB.original.status_id as number;
+        return statusA - statusB;
+      },
     },
-        {
+    {
       accessorKey: "urgency",
       accessorFn: (row) => {
         return getUrgencyName(row.urgency_id);
@@ -42,6 +47,11 @@ export function useRepairColumns() {
       filterFn: createStandardFilterFn((row) =>
         getUrgencyName(row.original.urgency_id)
       ),
+      sortingFn: (rowA, rowB) => {
+        const urgencyA = rowA.original.urgency_id as number;
+        const urgencyB = rowB.original.urgency_id as number;
+        return urgencyA - urgencyB;
+      },
     },
     commonColumns.asset_name(),
     commonColumns.serial_number(),
