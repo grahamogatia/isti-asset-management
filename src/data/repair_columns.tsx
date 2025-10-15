@@ -17,6 +17,32 @@ export function useRepairColumns() {
 
   const repair_columns: ColumnDef<Repair>[] = [
     // Asset identification first
+    {
+      accessorKey: "status",
+      accessorFn: (row) => {
+        return getStatusName(row.status_id as number);
+      },
+      header: createHeaderWithIcon("status", "Status"),
+      cell: ({ row }) => {
+        return getStatusName(row.original.status_id as number);
+      },
+      filterFn: createStandardFilterFn((row) =>
+        getStatusName(row.original.status_id)
+      ),
+    },
+        {
+      accessorKey: "urgency",
+      accessorFn: (row) => {
+        return getUrgencyName(row.urgency_id);
+      },
+      header: createHeaderWithIcon("urgency", "Urgency"),
+      cell: ({ row }) => {
+        return getUrgencyName(row.original.urgency_id);
+      },
+      filterFn: createStandardFilterFn((row) =>
+        getUrgencyName(row.original.urgency_id)
+      ),
+    },
     commonColumns.asset_name(),
     commonColumns.serial_number(),
     commonColumns.category(),
@@ -30,32 +56,6 @@ export function useRepairColumns() {
           <AlertTriangle className="h-4 w-4" />
           Issue
         </div>
-      ),
-    },
-    {
-      accessorKey: "urgency",
-      accessorFn: (row) => {
-        return getUrgencyName(row.urgency_id);
-      },
-      header: createHeaderWithIcon("urgency", "Urgency"),
-      cell: ({ row }) => {
-        return getUrgencyName(row.original.urgency_id);
-      },
-      filterFn: createStandardFilterFn((row) =>
-        getUrgencyName(row.original.urgency_id)
-      ),
-    },
-    {
-      accessorKey: "status",
-      accessorFn: (row) => {
-        return getStatusName(row.status_id);
-      },
-      header: createHeaderWithIcon("status", "Status"),
-      cell: ({ row }) => {
-        return getStatusName(row.original.status_id);
-      },
-      filterFn: createStandardFilterFn((row) =>
-        getStatusName(row.original.status_id)
       ),
     },
     commonColumns.dateColumn("date_reported", "Date Reported"),
