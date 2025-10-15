@@ -53,7 +53,7 @@ function RepairForm() {
   const { data: repairs } = useRepairs();
   const { data: issuances } = useIssuances();
   const { data: urgencies } = useUrgencies();
-  const { getStatuses, getStatusName } = useLookupFunctions();
+  const { getStatuses } = useLookupFunctions();
 
   const selectedUserId = form.watch("user_id");
   const assetId = form.watch("asset_id");
@@ -179,9 +179,9 @@ function RepairForm() {
             className="w-full flex items-center justify-center rounded-md"
             type="submit"
             form="repair-form"
-            onClick={() => 
-              console.log("Repair form values:", form.getValues())
-            }
+            // onClick={() => 
+            //   console.log("Repair form values:", form.getValues())
+            // }
           >
             <Plus />
             Create Repair Request
