@@ -18,23 +18,28 @@ import { getAsset } from "@/lib/lookups";
 import { useAssets } from "@/hooks/useAsset";
 import { employees } from "@/testcases/foreignkeys";
 import { useUrgencies } from "@/hooks/useUrgency";
+import { useAddRepair } from "@/hooks/useRepair";
+import { useLookupFunctions } from "@/hooks/useLookupFunctions";
+import { useIssuances } from "@/hooks/useIssuance";
+import { useMemo } from "react";
+import { format } from "date-fns";
 
 function RepairForm() {
   const form = useForm<Repair>({
     resolver: zodResolver(RepairSchema),
     defaultValues: {
-      repair_request_id: 1,
+      repair_request_id: undefined,
       asset_id: undefined,
-      category_id: 1,
-      sub_category_id: 1,
-      type_id: 1,
+      category_id: undefined,
+      sub_category_id: undefined,
+      type_id: undefined,
       user_id: undefined,
-      department_id: 1,
-      company_id: 1,
-      issue: "",
+      department_id: undefined,
+      company_id: undefined,
+      issue: undefined,
       urgency_id: undefined,
-      status_id: 1,
-      remarks: "",
+      status_id: undefined,
+      remarks: undefined,
       date_reported: new Date(),
       repair_start_date: new Date(),
       repair_completion_date: undefined,
@@ -43,17 +48,44 @@ function RepairForm() {
     mode: "all",
   });
 
-  function onSubmit(values: Repair) {
-    console.log("🎉 SUCCESS! Form submitted:", values);
-  }
-
-  // Compute asset and minDate before return
+  const { mutate } = useAddRepair();
   const { data: assets } = useAssets();
+  const { data: issuances } = useIssuances();
   const { data: urgencies } = useUrgencies();
+  const { getStatuses } = useLookupFunctions();
+
+  const selectedUserId = form.watch("user_id");
   const assetId = form.watch("asset_id");
   const asset = getAsset(assetId);
+  const statuses = getStatuses("Repair")
   const repairMinDate =
     asset && asset.purchase_date ? new Date(asset.purchase_date) : undefined;
+
+  const userAssets = useMemo(() => {
+    if (!selectedUserId || !assets || !issuances) return [];
+
+    const userAssetIds = issuances
+      .filter(
+        (issuance) =>
+          issuance.user_id === selectedUserId
+      )
+      .map((issuance) => issuance.asset_id);
+
+    return assets.filter((asset) =>
+      userAssetIds.includes(asset.asset_id as number)
+    );
+  }, [selectedUserId, assets, issuances]);
+
+  function onSubmit(values: Repair) {
+    console.log("🎉 SUCCESS! Form submitted:", values);
+
+    mutate({
+      ...values,
+      status_id: statuses.find(s => s.status_name === "Under Repair")?.status_id,
+      date_reported: format(values.date_reported, "yyy-MM-dd"),
+      repair_start_date: format(values.repair_start_date, "yyy-MM-dd"),
+    });
+  }
 
   return (
     <Form {...form}>
@@ -68,14 +100,14 @@ function RepairForm() {
             name="user_id"
             label="Reported By"
             employees={employees}
-            form={{ ...form }}
+            form={form}
           />
-          <FormFieldAssetCombobox
+          <FormFieldAssetCombobox // Display only user's issued items
             control={form.control}
             name="asset_id"
             label="Asset Requiring Repair"
-            assets={assets ?? []}
-            form={{ ...form }}
+            assets={userAssets}
+            form={form}
           />
           <FormFieldDate
             control={form.control}
@@ -127,6 +159,9 @@ function RepairForm() {
             className="w-full flex items-center justify-center rounded-md"
             type="submit"
             form="repair-form"
+            onClick={() => 
+              console.log("Repair form values:", form.getValues())
+            }
           >
             <Plus />
             Create Repair Request
