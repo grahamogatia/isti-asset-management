@@ -1,4 +1,4 @@
-import type { Status } from "@/data/types";
+import type { Asset_Category, Condition, Status } from "@/data/types";
 import { useLookupMaps } from "./useLookupMaps";
 import { useStatuses } from "./useStatus";
 
@@ -31,6 +31,14 @@ export const useLookupFunctions = () => {
 
   const getUrgencyName = (id: number): string => {
     return urgencyMap.get(id)?.urgency_level ?? "Unknown Urgency";
+  }
+
+  const getCategories = (): Asset_Category[] => {
+    return Array.from(categoryMap.values());
+  }
+
+  const getConditions = (): Condition[] => {
+    return Array.from(conditionMap.values());
   }
 
   const getStatuses = (functionName: string): Status[] => {
@@ -141,6 +149,8 @@ export const useLookupFunctions = () => {
     getConditionName,
     getStatusName,
     getUrgencyName,
+    getCategories,
+    getConditions,
     getStatuses,
 
     getStatusIdGivenStatusName,
