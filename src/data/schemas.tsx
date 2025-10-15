@@ -61,17 +61,17 @@ export const BorrowSchema = z.object({
 
   user_id: z.number(),
   company_id: z.number(),
-  department_id: z.number(),
+  department_id: z.number().optional(),
 
-  borrow_transaction_id: z.number(),
-  asset_condition_id: z.number(),
   duration: z.number(),
-
   date_borrowed: z.date(),
-  due_date: z.date(),
+
+  borrow_transaction_id: z.number().optional(),
+  asset_condition_id: z.number().optional(),
+  due_date: z.date().optional(),
 
   return_date: z.date().optional(),
-  remarks: z.string(),
+  remarks: z.string().optional(),
 });
 
 export const IssuanceSchema = z.object({
