@@ -10,35 +10,93 @@ import FormCardContent from "@/components/layout/FormCardContent";
 import FormFieldTextArea from "../fields/FormFieldTextArea";
 import FormFieldDate from "../fields/FormFieldDate";
 import FormFieldNumber from "../fields/FormFieldNumber";
-import { asset_testcases } from "@/testcases/assets";
 import FormFieldAssetCombobox from "../fields/FormFieldAssetCombobox";
 import FormFieldUserCombobox from "../fields/FormFieldUserCombobox";
 import { employees } from "@/testcases/foreignkeys";
+import { useAssets } from "@/hooks/useAsset";
+import { useLookupFunctions } from "@/hooks/useLookupFunctions";
+import { useMemo } from "react";
+import { useAddBorrow, useBorrows } from "@/hooks/useBorrow";
+import { addMonths, format } from "date-fns";
 
 function BorrowForm() {
   const form = useForm<Borrow>({
     resolver: zodResolver(BorrowSchema),
     defaultValues: {
       asset_id: undefined,
-      category_id: 1,
+      category_id: undefined,
       user_id: undefined,
-      department_id: 1,
+      department_id: undefined,
       date_borrowed: new Date(),
-      asset_condition_id: 1,
-      borrow_transaction_id: 1,
-      company_id: 1,
-      sub_category_id: 1,
-      type_id: 1,
-      due_date: undefined,
+      asset_condition_id: undefined,
+      borrow_transaction_id: undefined,
+      company_id: undefined,
+      sub_category_id: undefined,
+      type_id: undefined,
+      due_date: undefined, // Computed
       return_date: undefined,
-      duration: undefined,
-      remarks: "",
+      duration: undefined, // Is set
+      remarks: undefined,
     },
     mode: "all",
   });
 
+  const { mutate } = useAddBorrow();
+  const { data: assets } = useAssets();
+  const { data: borrows } = useBorrows();
+  const {
+    getConditionName,
+    getCategoryName,
+    getStatuses,
+    getAsset,
+  } = useLookupFunctions();
+
+  const statuses = getStatuses("Asset Inventory"); // Since the Assets can use the Borrow Status !!!!!
+  const borrowableAssets = useMemo(() => {
+    if (!assets || !borrows) return [];
+
+    const borrowedAssetIds = new Set(
+      (borrows ?? [])
+        .filter((b) => !b.return_date) // Currently borrowed
+        .map((b) => b.asset_id)
+    );
+
+    return (assets ?? []).filter((asset) => {
+      const condition = getConditionName(asset.asset_condition_id);
+      const category = getCategoryName(asset.category_id);
+      return (
+        !borrowedAssetIds.has(asset.asset_id as number) && // Not currently borrowed
+        (condition === "New" || condition === "Good") &&
+        category !== "External"
+      );
+    });
+  }, [assets, borrows]);
+
   function onSubmit(values: Borrow) {
-    console.log("🎉 SUCCESS! Form submitted:", values);
+    const dueDate =
+      values.duration && values.date_borrowed
+        ? addMonths(new Date(values.date_borrowed), values.duration)
+        : undefined;
+    const conditionId = getAsset(values.asset_id)?.asset_condition_id;
+
+    mutate(
+      {
+        ...values,
+        status_id: statuses.find((s) => s.status_name === "Borrowed")
+          ?.status_id,
+        date_borrowed: format(values.date_borrowed, "yyy-MM-dd"),
+        due_date: format(dueDate as Date, "yyy-MM-dd"),
+        asset_condition_id: conditionId,
+      },
+      {
+        onSuccess: () => {
+          form.reset();
+        },
+        onError: (error) => {
+          console.error("Failed to create borrow request:", error);
+        },
+      }
+    );
   }
 
   return (
@@ -53,15 +111,15 @@ function BorrowForm() {
             control={form.control}
             name="asset_id"
             label="Asset to Borrow"
-            assets={asset_testcases}
-            form={{ ...form }}
+            assets={borrowableAssets}
+            form={form}
           />
           <FormFieldUserCombobox
             control={form.control}
             name="user_id"
             label="Borrowed By"
             employees={employees}
-            form={{ ...form }}
+            form={form}
           />
         </FormCardContent>
         <FormCardContent title="Record">
@@ -73,8 +131,8 @@ function BorrowForm() {
           <FormFieldNumber
             control={form.control}
             name="duration"
-            label="Duration (days)"
-            placeholder="Enter duration in days"
+            label="Duration (Months)"
+            placeholder="Enter duration in Months"
           />
           <FormFieldTextArea
             control={form.control}
@@ -88,6 +146,9 @@ function BorrowForm() {
             className="w-full flex items-center justify-center rounded-md"
             type="submit"
             form="borrow-form"
+            // onClick={() =>
+            //   console.log("Borrow form values:", form.getValues())
+            // }
           >
             <Plus />
             Create Borrow Request

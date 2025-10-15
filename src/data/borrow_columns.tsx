@@ -30,7 +30,7 @@ export function useBorrowColumns() {
         </div>
       ),
       cell: ({ row }) => {
-        const result = differenceInDays(row.original.due_date, new Date());
+        const result = differenceInDays(row.original.due_date as Date, new Date());
         return result <= 0 ? "Overdue" : result + " days remaining";
       },
     },
