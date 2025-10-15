@@ -28,7 +28,7 @@ export const useLookupMaps = () => {
       functionITAMMap: new Map(functions?.map((f) => [f.function_id, f]) || []),
       urgencyMap: new Map(urgencies?.map((u) => [u.urgency_id, u]) || [])
     };
-  }, [assets, categories, subCategories, types, conditions, statuses, functions]);
+  }, [assets, categories, subCategories, types, conditions, statuses, functions, urgencies]);
 
   const isLoading = !assets || !categories || !subCategories || !types || !conditions || !statuses || !functions || !urgencies;
 
