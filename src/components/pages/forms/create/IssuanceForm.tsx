@@ -55,7 +55,7 @@ function IssuanceForm() {
     mutate(
       {
         ...values,
-        status_id: statuses.find(s => s.status_name === "Issued"),
+        status_id: statuses.find(s => s.status_name === "Issued")?.status_id,
         issuance_date: format(new Date(), "yyyy-MM-dd"),
       }
     )
