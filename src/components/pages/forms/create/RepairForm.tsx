@@ -18,7 +18,7 @@ import { getAsset } from "@/lib/lookups";
 import { useAssets } from "@/hooks/useAsset";
 import { employees } from "@/testcases/foreignkeys";
 import { useUrgencies } from "@/hooks/useUrgency";
-import { useAddRepair } from "@/hooks/useRepair";
+import { useAddRepair, useRepairs } from "@/hooks/useRepair";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { useIssuances } from "@/hooks/useIssuance";
 import { useMemo } from "react";
@@ -50,9 +50,10 @@ function RepairForm() {
 
   const { mutate } = useAddRepair();
   const { data: assets } = useAssets();
+  const { data: repairs } = useRepairs();
   const { data: issuances } = useIssuances();
   const { data: urgencies } = useUrgencies();
-  const { getStatuses } = useLookupFunctions();
+  const { getStatuses, getStatusName } = useLookupFunctions();
 
   const selectedUserId = form.watch("user_id");
   const assetId = form.watch("asset_id");
@@ -64,17 +65,36 @@ function RepairForm() {
   const userAssets = useMemo(() => {
     if (!selectedUserId || !assets || !issuances) return [];
 
-    const userAssetIds = issuances
-      .filter(
-        (issuance) =>
-          issuance.user_id === selectedUserId
-      )
-      .map((issuance) => issuance.asset_id);
-
-    return assets.filter((asset) =>
-      userAssetIds.includes(asset.asset_id as number)
+    // Blocklist status ids for Repair
+    const blockedStatusIds = new Set(
+      (statuses ?? [])
+        .filter((s) =>
+          ["Under Repair", "On Hold", "Rejected"].includes(s.status_name)
+        )
+        .map((s) => s.status_id)
     );
-  }, [selectedUserId, assets, issuances]);
+    const uid = Number(selectedUserId);
+
+    // All asset ids issued to the selected user
+    const userAssetIds = (issuances ?? [])
+      .filter((iss) => Number(iss.user_id) === uid)
+      .map((iss) => iss.asset_id)
+      .filter((id): id is number => typeof id === "number");
+
+    // Helper: is this asset currently repairable?
+    const isRepairable = (assetId: number) => {
+      const entries = (repairs ?? []).filter((r) => r.asset_id === assetId);
+      if (entries.length === 0) return true; // no repair entries yet
+      // include only if NONE of the entries have a blocked status
+      return entries.every((r) => !blockedStatusIds.has(r.status_id as number));
+    };
+
+    const allowedIds = new Set(userAssetIds.filter(isRepairable));
+
+    // Return asset objects for the combobox
+    return (assets ?? []).filter((a) => allowedIds.has(a.asset_id as number));
+  }, [selectedUserId, assets, issuances, repairs, statuses]);
+  
 
   function onSubmit(values: Repair) {
     console.log("🎉 SUCCESS! Form submitted:", values);
