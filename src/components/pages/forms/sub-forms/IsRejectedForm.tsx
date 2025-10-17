@@ -20,7 +20,6 @@ function IsRejectedForm({ repair }: isRejectedFormProps) {
     resolver: zodResolver(RepairSchema),
     defaultValues: {
       ...repair,
-      repair_completion_date: new Date(),
       remarks: repair.remarks || "", // Fix: Keep existing remarks or empty string
     },
     mode: "all",
@@ -52,8 +51,6 @@ function IsRejectedForm({ repair }: isRejectedFormProps) {
     <PopoverForm
       triggerButton={
         <Button variant="outline">
-          {" "}
-          {/* Fix: Add size prop */}
           <Ban />
         </Button>
       }
