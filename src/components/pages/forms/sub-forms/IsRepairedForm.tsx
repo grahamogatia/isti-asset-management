@@ -1,7 +1,7 @@
 import PopoverForm from "@/components/layout/PopoverForm";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
-import { Ban, Hammer } from "lucide-react";
+import { Hammer } from "lucide-react";
 import FormFieldDate from "../fields/FormFieldDate";
 import FormFieldTextArea from "../fields/FormFieldTextArea";
 import { useForm } from "react-hook-form";
@@ -12,7 +12,6 @@ import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { toast } from "sonner";
 import { useUpdateRepair } from "@/hooks/useRepair";
 
-// Missing interface definition
 interface isRepairedFormProps {
   repair: Repair;
 }
