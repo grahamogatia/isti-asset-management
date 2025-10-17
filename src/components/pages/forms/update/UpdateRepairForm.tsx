@@ -20,6 +20,7 @@ import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { useUpdateRepair } from "@/hooks/useRepair";
 import { compareObjects } from "@/lib/utils";
 import { useUrgencies } from "@/hooks/useUrgency";
+import { toast } from "sonner";
 
 interface UpdateRepairFormProps {
   repair: Repair;
@@ -30,35 +31,40 @@ function UpdateRepairForm({ repair }: UpdateRepairFormProps) {
     resolver: zodResolver(RepairSchema),
     defaultValues: {
       ...repair,
-      date_reported: new Date(repair.date_reported),
-      repair_start_date: new Date(repair.repair_start_date),
-      repair_completion_date: null,
     },
     mode: "all",
   });
-  
+
   // Compute asset and minDate before return
   const { mutate } = useUpdateRepair();
   const { data: urgencies } = useUrgencies();
-  const { getAsset, getCategoryName, getSubCategoryName, getTypeName } = useLookupFunctions();
+  const { getAsset, getCategoryName, getSubCategoryName, getTypeName } =
+    useLookupFunctions();
   const assetId = form.watch("asset_id");
   const asset = getAsset(assetId);
-  
+
   const userId = form.watch("user_id") || repair.user_id;
   const employee = employees.find((emp) => emp.user_id === userId);
   const dateReported = form.watch("date_reported");
   const minRepairStartDate = dateReported ? new Date(dateReported) : undefined;
-  
+
   function onSubmit(values: Repair) {
-    
     const changed = compareObjects(repair, values);
-    
-    
     console.log("🎉 SUCCESS! Repair updated:", repair, values, changed);
-    mutate({
-      id: values.repair_request_id as number,
-      data: changed,
-    })
+
+    if (Object.values(changed).length === 0) return;
+
+    mutate(
+      {
+        id: values.repair_request_id as number,
+        data: changed,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Successfully added new Repair Request");
+        },
+      }
+    );
   }
 
   return (
@@ -81,9 +87,11 @@ function UpdateRepairForm({ repair }: UpdateRepairFormProps) {
           </DisplayField>
 
           <DisplayField name="user_id" label="Reported By">
-            {employee 
-            ? (<DisplayEmployee employee={employee} />) 
-            : (<span className="text-muted-foreground">Employee not found</span>)}
+            {employee ? (
+              <DisplayEmployee employee={employee} />
+            ) : (
+              <span className="text-muted-foreground">Employee not found</span>
+            )}
           </DisplayField>
 
           <FormFieldDate
@@ -137,7 +145,7 @@ function UpdateRepairForm({ repair }: UpdateRepairFormProps) {
             className="w-full flex items-center justify-center rounded-md"
             type="submit"
             form="update-repair-form"
-            // onClick={() => 
+            // onClick={() =>
             //   console.log("Form errors:", form.formState.errors)
             // }
           >
