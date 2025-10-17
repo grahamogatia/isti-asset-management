@@ -15,7 +15,13 @@ interface PopoverFormProps<T extends FieldValues> {
   children: React.ReactNode;
   submitButtonText: string;
   submitButtonIcon?: React.ReactNode;
-  submitButtonVariant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+  submitButtonVariant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link";
   formId: string;
   onReject?: (values: T) => void;
   rejectButtonText?: string;
@@ -61,10 +67,14 @@ function PopoverForm<T extends FieldValues>({
               <div className="flex-1">
                 <h4 className="leading-none font-medium">{title}</h4>
                 {description && (
-                  <p className="text-muted-foreground text-sm mt-2">{description}</p>
+                  <p className="text-muted-foreground text-sm mt-2">
+                    {description}
+                  </p>
                 )}
                 {subtitle && (
-                  <p className="text-muted-foreground text-sm mt-2">{subtitle}</p>
+                  <p className="text-muted-foreground text-sm mt-2">
+                    {subtitle}
+                  </p>
                 )}
               </div>
               <Button
@@ -107,6 +117,9 @@ function PopoverForm<T extends FieldValues>({
                     variant={submitButtonVariant}
                     type="submit"
                     form={formId}
+                    // onClick={() =>
+                    //   console.log("Form errors:", form.formState.errors)
+                    // }
                   >
                     {submitButtonIcon}
                     {submitButtonText}
