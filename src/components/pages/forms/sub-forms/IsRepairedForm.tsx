@@ -59,7 +59,6 @@ function IsRepairedForm({ repair }: isRepairedFormProps) {
         </Button>
       }
       title="Is Repaired?"
-      description="Set the completion date and add final remarks for this repair."
       subtitle={
         <>
           🛠️ Start Date: <span className="font-semibold">{format(repair.repair_start_date as Date, "MMM dd, yyyy")}</span>
