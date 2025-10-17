@@ -46,9 +46,6 @@ export function useBorrowColumns() {
           <ActionsButtonGroup type="Borrow" updateForm={
             <UpdateBorrowForm
               borrow={row.original}
-              onUpdate={(updatedBorrow: Borrow) => {
-                console.log("Borrow updated:", updatedBorrow);
-              }}
             />
           }>
             <IsReturnedForm borrow={row.original} />

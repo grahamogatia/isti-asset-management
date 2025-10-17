@@ -15,13 +15,15 @@ import DisplayField from "@/components/layout/DisplayField";
 import DisplayAsset from "@/components/ui/display-asset";
 import DisplayEmployee from "@/components/ui/display-employee";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
+import { useUpdateBorrow } from "@/hooks/useBorrow";
+import { compareObjects } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface UpdateBorrowFormProps {
   borrow: Borrow;
-  onUpdate?: (updatedBorrow: Borrow) => void;
 }
 
-function UpdateBorrowForm({ borrow, onUpdate }: UpdateBorrowFormProps) {
+function UpdateBorrowForm({ borrow }: UpdateBorrowFormProps) {
   const form = useForm<Borrow>({
     resolver: zodResolver(BorrowSchema),
     defaultValues: {
@@ -29,17 +31,36 @@ function UpdateBorrowForm({ borrow, onUpdate }: UpdateBorrowFormProps) {
     },
     mode: "all",
   });
-
-  function onSubmit(values: Borrow) {
-    console.log("🎉 SUCCESS! Form submitted:", values);
-    onUpdate?.(values);
-  }
   
+  const { mutate } = useUpdateBorrow();
   const { getAsset, getCategoryName, getSubCategoryName, getTypeName } = useLookupFunctions();
   const assetId = form.watch("asset_id");
   const asset = getAsset(assetId);
   const userId = form.watch("user_id") || borrow.user_id;
   const employee = employees.find((emp) => emp.user_id === userId);
+
+  function onSubmit(values: Borrow) {
+    const changed = compareObjects(borrow, values);
+
+    if (Object.values(changed).length === 0) {
+      toast.info("No changes detected. Please make edits to update.");
+      return;
+    }
+
+    console.log(changed);
+    mutate(
+      {
+        id: values.borrow_transaction_id as number,
+        data: changed,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Successfully updated borrow transaction.");
+        },
+      }
+    );
+    console.log("🎉 SUCCESS! Form submitted:", values);
+  }
 
   return (
     <Form {...form}>
