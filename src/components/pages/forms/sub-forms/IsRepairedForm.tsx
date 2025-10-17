@@ -71,9 +71,6 @@ function IsRepairedForm({ repair }: isRepairedFormProps) {
       submitButtonText="Complete"
       submitButtonIcon={<Hammer className="mr-2 h-4 w-4" />}
       formId="complete-repair-form"
-      onReject={() => {}}
-      rejectButtonIcon={<Ban className="mr-2 h-4 w-4" />}
-      rejectButtonText="Reject"
     >
       <FormFieldDate
         control={form.control}
