@@ -3,6 +3,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Form } from "@/components/ui/form"; // Fix: Import from ui/form, not react-router-dom
 import { Button } from "../ui/button";
 import type { UseFormReturn, FieldValues } from "react-hook-form";
+import { X } from "lucide-react";
 
 interface PopoverFormProps<T extends FieldValues> {
   // Fix: Add extends FieldValues
@@ -19,7 +20,6 @@ interface PopoverFormProps<T extends FieldValues> {
 }
 
 function PopoverForm<T extends FieldValues>({
-  // Fix: Add extends FieldValues
   triggerButton,
   title,
   description,
@@ -45,11 +45,24 @@ function PopoverForm<T extends FieldValues>({
       <PopoverContent className="w-80">
         <div className="grid gap-4">
           <div className="space-y-2">
-            <h4 className="leading-none font-medium">{title}</h4>
-            <p className="text-muted-foreground text-sm">{description}</p>
-            {subtitle && (
-              <p className="text-muted-foreground text-sm">{subtitle}</p>
-            )}
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <h4 className="leading-none font-medium">{title}</h4>
+                <p className="text-muted-foreground text-sm mt-2">{description}</p>
+                {subtitle && (
+                  <p className="text-muted-foreground text-sm mt-2">{subtitle}</p>
+                )}
+              </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-6 w-6 -mt-1 -mr-2"
+                onClick={() => setOpen(false)}
+              >
+                <X className="h-4 w-4" />
+                <span className="sr-only">Close</span>
+              </Button>
+            </div>
           </div>
           <div className="grid gap-2">
             <Form {...form}>

@@ -22,7 +22,7 @@ import { useAddRepair, useRepairs } from "@/hooks/useRepair";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { useIssuances } from "@/hooks/useIssuance";
 import { useMemo } from "react";
-import { format, isValid } from "date-fns";
+import { format } from "date-fns";
 
 function RepairForm() {
   const form = useForm<Repair>({

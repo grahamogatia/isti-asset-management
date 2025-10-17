@@ -1,21 +1,23 @@
 import PopoverForm from "@/components/layout/PopoverForm";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
-import { Hammer } from "lucide-react";
+import { Ban, Hammer } from "lucide-react";
 import FormFieldDate from "../fields/FormFieldDate";
 import FormFieldTextArea from "../fields/FormFieldTextArea";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RepairSchema } from "@/data/schemas";
 import type { Repair } from "@/data/types";
+import { useLookupFunctions } from "@/hooks/useLookupFunctions";
+import { toast } from "sonner";
+import { useUpdateRepair } from "@/hooks/useRepair";
 
 // Missing interface definition
 interface isRepairedFormProps {
   repair: Repair;
-  onRepairCompleted?: (updatedRepair: Repair) => void;
 }
 
-function IsRepairedForm({ repair, onRepairCompleted }: isRepairedFormProps) {
+function IsRepairedForm({ repair }: isRepairedFormProps) {
   const form = useForm<Repair>({
     resolver: zodResolver(RepairSchema),
     defaultValues: {
@@ -25,6 +27,28 @@ function IsRepairedForm({ repair, onRepairCompleted }: isRepairedFormProps) {
     },
     mode: "all",
   });
+
+  const { mutate } = useUpdateRepair();
+  const { getStatuses } = useLookupFunctions();
+  const statuses = getStatuses("Repair");
+
+  function onRepairCompleted(values: Repair) {
+    mutate(
+      {
+        id: values.repair_request_id as number,
+        data: { 
+          status_id: statuses.find((s) => s.status_name === "Completed")?.status_id,
+          repair_completion_date: values.repair_completion_date, 
+          remarks: values.remarks
+        },
+      },
+      {
+        onSuccess: () => {
+          toast.success("Successfully updated repair request.");
+        },
+      }
+    )
+  }
 
   return (
     <PopoverForm
@@ -43,10 +67,13 @@ function IsRepairedForm({ repair, onRepairCompleted }: isRepairedFormProps) {
         </>
       }
       form={form}
-      onSubmit={(values) => onRepairCompleted?.(values)}
+      onSubmit={onRepairCompleted}
       submitButtonText="Complete"
       submitButtonIcon={<Hammer className="mr-2 h-4 w-4" />}
       formId="complete-repair-form"
+      onReject={() => {}}
+      rejectButtonIcon={<Ban className="mr-2 h-4 w-4" />}
+      rejectButtonText="Reject"
     >
       <FormFieldDate
         control={form.control}

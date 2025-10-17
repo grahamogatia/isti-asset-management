@@ -18,8 +18,8 @@ export const AssetSchema = z.object({
   warranty_duration: z.number().optional(),
   purchase_date: z.date(),
   notes: z.string(),
-  file: z.array(z.instanceof(File)).optional(),
-  insurance_id: z.number().optional(),
+  file: z.array(z.string()).optional(),
+  insurance_id: z.number().nullable().optional(),
 });
 
 export const InsuranceSchema = z.object({
