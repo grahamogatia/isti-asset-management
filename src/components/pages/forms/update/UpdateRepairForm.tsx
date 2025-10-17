@@ -50,9 +50,11 @@ function UpdateRepairForm({ repair }: UpdateRepairFormProps) {
 
   function onSubmit(values: Repair) {
     const changed = compareObjects(repair, values);
-    console.log("🎉 SUCCESS! Repair updated:", repair, values, changed);
 
-    if (Object.values(changed).length === 0) return;
+    if (Object.values(changed).length === 0) {
+      toast.info("No changes detected. Please make edits to update.");
+      return;
+    }
 
     mutate(
       {
@@ -61,10 +63,12 @@ function UpdateRepairForm({ repair }: UpdateRepairFormProps) {
       },
       {
         onSuccess: () => {
-          toast.success("Successfully added new Repair Request");
+          toast.success("Successfully updated repair request.");
         },
       }
     );
+    console.log("🎉 SUCCESS! Repair updated:", repair, values, changed);
+
   }
 
   return (
