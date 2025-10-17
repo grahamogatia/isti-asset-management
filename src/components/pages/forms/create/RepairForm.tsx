@@ -22,7 +22,7 @@ import { useAddRepair, useRepairs } from "@/hooks/useRepair";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { useIssuances } from "@/hooks/useIssuance";
 import { useMemo } from "react";
-import { format } from "date-fns";
+import { format, isValid } from "date-fns";
 
 function RepairForm() {
   const form = useForm<Repair>({
@@ -58,7 +58,7 @@ function RepairForm() {
   const selectedUserId = form.watch("user_id");
   const assetId = form.watch("asset_id");
   const asset = getAsset(assetId);
-  const statuses = getStatuses("Repair")
+  const statuses = getStatuses("Repair");
   const repairMinDate =
     asset && asset.purchase_date ? new Date(asset.purchase_date) : undefined;
 
@@ -94,16 +94,16 @@ function RepairForm() {
     // Return asset objects for the combobox
     return (assets ?? []).filter((a) => allowedIds.has(a.asset_id as number));
   }, [selectedUserId, assets, issuances, repairs, statuses]);
-  
 
   function onSubmit(values: Repair) {
     console.log("🎉 SUCCESS! Form submitted:", values);
 
     mutate({
       ...values,
-      status_id: statuses.find(s => s.status_name === "Under Repair")?.status_id,
-      date_reported: format(values.date_reported, "yyy-MM-dd"),
-      repair_start_date: format(values.repair_start_date, "yyy-MM-dd"),
+      status_id: statuses.find((s) => s.status_name === "Under Repair")
+        ?.status_id,
+      date_reported: format(values.date_reported, "yyyy-MM-dd"),
+      repair_start_date: format(values.repair_start_date, "yyyy-MM-dd"),
     });
   }
 
@@ -179,7 +179,7 @@ function RepairForm() {
             className="w-full flex items-center justify-center rounded-md"
             type="submit"
             form="repair-form"
-            // onClick={() => 
+            // onClick={() =>
             //   console.log("Repair form values:", form.getValues())
             // }
           >

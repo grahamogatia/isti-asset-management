@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Save } from "lucide-react";
 import FormCardContent from "@/components/layout/FormCardContent";
 import FormFieldTextArea from "../fields/FormFieldTextArea";
-import { employees, urgency } from "@/testcases/foreignkeys";
+import { employees } from "@/testcases/foreignkeys";
 import { SelectItem } from "@/components/ui/select";
 import FormFieldSelect from "../fields/FormFieldSelect";
 import FormFieldDate from "../fields/FormFieldDate";
@@ -17,35 +17,49 @@ import DisplayAsset from "@/components/ui/display-asset";
 import DisplayEmployee from "@/components/ui/display-employee";
 import DisplayField from "@/components/layout/DisplayField";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
+import { useUpdateRepair } from "@/hooks/useRepair";
+import { compareObjects } from "@/lib/utils";
+import { useUrgencies } from "@/hooks/useUrgency";
 
 interface UpdateRepairFormProps {
   repair: Repair;
-  onUpdate?: (updatedRepair: Repair) => void;
 }
 
-function UpdateRepairForm({ repair, onUpdate }: UpdateRepairFormProps) {
+function UpdateRepairForm({ repair }: UpdateRepairFormProps) {
   const form = useForm<Repair>({
     resolver: zodResolver(RepairSchema),
     defaultValues: {
       ...repair,
+      date_reported: new Date(repair.date_reported),
+      repair_start_date: new Date(repair.repair_start_date),
+      repair_completion_date: null,
     },
     mode: "all",
   });
-
-  function onSubmit(values: Repair) {
-    console.log("🎉 SUCCESS! Repair updated:", values);
-    onUpdate?.(values);
-  }
-
+  
   // Compute asset and minDate before return
+  const { mutate } = useUpdateRepair();
+  const { data: urgencies } = useUrgencies();
   const { getAsset, getCategoryName, getSubCategoryName, getTypeName } = useLookupFunctions();
   const assetId = form.watch("asset_id");
   const asset = getAsset(assetId);
-  const repairMinDate =
-    asset && asset.purchase_date ? new Date(asset.purchase_date) : undefined;
-
+  
   const userId = form.watch("user_id") || repair.user_id;
   const employee = employees.find((emp) => emp.user_id === userId);
+  const dateReported = form.watch("date_reported");
+  const minRepairStartDate = dateReported ? new Date(dateReported) : undefined;
+  
+  function onSubmit(values: Repair) {
+    
+    const changed = compareObjects(repair, values);
+    
+    
+    console.log("🎉 SUCCESS! Repair updated:", repair, values, changed);
+    mutate({
+      id: values.repair_request_id as number,
+      data: changed,
+    })
+  }
 
   return (
     <Form {...form}>
@@ -77,8 +91,7 @@ function UpdateRepairForm({ repair, onUpdate }: UpdateRepairFormProps) {
             name="date_reported"
             label="Date Reported"
             placeholder="Select a date"
-            minDate={repairMinDate}
-            maxDate={new Date(new Date().getFullYear() + 50, 11, 31)}
+            maxDate={new Date()}
           />
         </FormCardContent>
         <FormCardContent title="Request">
@@ -88,12 +101,12 @@ function UpdateRepairForm({ repair, onUpdate }: UpdateRepairFormProps) {
             label="Urgency"
             placeholder="Select urgency level"
           >
-            {urgency.map((urgencyItem) => (
+            {urgencies?.map((urgencyItem) => (
               <SelectItem
                 key={urgencyItem.urgency_id}
                 value={String(urgencyItem.urgency_id)}
               >
-                {urgencyItem.urgency_name}
+                {urgencyItem.urgency_level}
               </SelectItem>
             ))}
           </FormFieldSelect>
@@ -102,8 +115,8 @@ function UpdateRepairForm({ repair, onUpdate }: UpdateRepairFormProps) {
             name="repair_start_date"
             label="Repair Start Date"
             placeholder="Select a date"
-            minDate={repairMinDate}
-            maxDate={new Date(new Date().getFullYear() + 50, 11, 31)}
+            minDate={minRepairStartDate}
+            maxDate={new Date()}
           />
           <FormFieldMoney
             control={form.control}
@@ -124,6 +137,9 @@ function UpdateRepairForm({ repair, onUpdate }: UpdateRepairFormProps) {
             className="w-full flex items-center justify-center rounded-md"
             type="submit"
             form="update-repair-form"
+            // onClick={() => 
+            //   console.log("Form errors:", form.formState.errors)
+            // }
           >
             <Save className="mr-2 h-4 w-4" />
             Update Repair Request

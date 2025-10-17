@@ -82,14 +82,7 @@ export function useRepairColumns() {
         return (
           <ActionsButtonGroup
             type="Repair"
-            updateForm={
-              <UpdateRepairForm
-                repair={row.original}
-                onUpdate={(updatedRepair: Repair) => {
-                  console.log("Repair updated:", updatedRepair);
-                }}
-              />
-            }
+            updateForm={<UpdateRepairForm repair={row.original} />}
           >
             <IsRepairedForm repair={row.original} />
           </ActionsButtonGroup>
