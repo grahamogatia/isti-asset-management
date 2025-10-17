@@ -12,6 +12,7 @@ import IsRepairedForm from "@/components/pages/forms/sub-forms/IsRepairedForm";
 import UpdateRepairForm from "@/components/pages/forms/update/UpdateRepairForm";
 import IsRejectedForm from "@/components/pages/forms/sub-forms/IsRejectedForm";
 import IsOnHoldForm from "@/components/pages/forms/sub-forms/IsOnHoldForm";
+import IsRepairContinuedForm from "@/components/pages/forms/sub-forms/IsRepairContinuedForm";
 
 export function useRepairColumns() {
   const commonColumns = useCommonColumns<Repair>();
@@ -81,14 +82,24 @@ export function useRepairColumns() {
     {
       id: "actions",
       cell: ({ row }) => {
+        const statusName = getStatusName(row.original.status_id as number);
+        const isUnderRepair = statusName === "Under Repair";
+        const isOnHold = statusName === "On Hold";
+
         return (
           <ActionsButtonGroup
             type="Repair"
             updateForm={<UpdateRepairForm repair={row.original} />}
           >
-            <IsRejectedForm repair={row.original} />
-            <IsOnHoldForm repair={row.original} />
-            <IsRepairedForm repair={row.original} />
+            {isUnderRepair && (
+              <>
+                <IsRejectedForm repair={row.original} />
+                <IsOnHoldForm repair={row.original} />
+                <IsRepairedForm repair={row.original} />
+              </>
+            )}
+
+            {isOnHold && <IsRepairContinuedForm repair={row.original} />}
           </ActionsButtonGroup>
         );
       },
