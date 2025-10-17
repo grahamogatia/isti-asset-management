@@ -10,6 +10,8 @@ import {
 import ActionsButtonGroup from "@/components/ui/actions-button-group";
 import IsRepairedForm from "@/components/pages/forms/sub-forms/IsRepairedForm";
 import UpdateRepairForm from "@/components/pages/forms/update/UpdateRepairForm";
+import IsRejectedForm from "@/components/pages/forms/sub-forms/IsRejectedForm";
+import IsOnHoldForm from "@/components/pages/forms/sub-forms/IsOnHoldForm";
 
 export function useRepairColumns() {
   const commonColumns = useCommonColumns<Repair>();
@@ -84,6 +86,8 @@ export function useRepairColumns() {
             type="Repair"
             updateForm={<UpdateRepairForm repair={row.original} />}
           >
+            <IsRejectedForm repair={row.original} />
+            <IsOnHoldForm repair={row.original} />
             <IsRepairedForm repair={row.original} />
           </ActionsButtonGroup>
         );

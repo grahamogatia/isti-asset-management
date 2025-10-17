@@ -1,22 +1,24 @@
 import { useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Form } from "@/components/ui/form"; // Fix: Import from ui/form, not react-router-dom
+import { Form } from "@/components/ui/form";
 import { Button } from "../ui/button";
 import type { UseFormReturn, FieldValues } from "react-hook-form";
 import { X } from "lucide-react";
 
 interface PopoverFormProps<T extends FieldValues> {
-  // Fix: Add extends FieldValues
   triggerButton: React.ReactNode;
   title: string;
-  description: string;
+  description?: string;
   subtitle?: React.ReactNode;
   form: UseFormReturn<T>;
   onSubmit: (values: T) => void;
   children: React.ReactNode;
   submitButtonText: string;
   submitButtonIcon?: React.ReactNode;
+  submitButtonVariant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
   formId: string;
+  onReject?: (values: T) => void;
+  rejectButtonText?: string;
 }
 
 function PopoverForm<T extends FieldValues>({
@@ -29,12 +31,22 @@ function PopoverForm<T extends FieldValues>({
   children,
   submitButtonText,
   submitButtonIcon,
+  submitButtonVariant = "default",
   formId,
+  onReject,
+  rejectButtonText = "Reject",
 }: PopoverFormProps<T>) {
   const [open, setOpen] = useState(false);
 
   const handleSubmit = (values: T) => {
     onSubmit(values);
+    setOpen(false);
+    form.reset();
+  };
+
+  const handleReject = () => {
+    const values = form.getValues();
+    onReject?.(values);
     setOpen(false);
     form.reset();
   };
@@ -48,7 +60,9 @@ function PopoverForm<T extends FieldValues>({
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <h4 className="leading-none font-medium">{title}</h4>
-                <p className="text-muted-foreground text-sm mt-2">{description}</p>
+                {description && (
+                  <p className="text-muted-foreground text-sm mt-2">{description}</p>
+                )}
                 {subtitle && (
                   <p className="text-muted-foreground text-sm mt-2">{subtitle}</p>
                 )}
@@ -69,7 +83,7 @@ function PopoverForm<T extends FieldValues>({
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  e.stopPropagation(); // Add this to prevent bubbling
+                  e.stopPropagation();
                   form.handleSubmit(handleSubmit)(e);
                 }}
                 className="space-y-4"
@@ -78,16 +92,19 @@ function PopoverForm<T extends FieldValues>({
                 {children}
 
                 <div className="flex gap-2">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="flex-1"
-                    onClick={() => setOpen(false)}
-                  >
-                    Cancel
-                  </Button>
+                  {onReject && (
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      className="flex-1"
+                      onClick={handleReject}
+                    >
+                      {rejectButtonText}
+                    </Button>
+                  )}
                   <Button
                     className="flex-1 flex items-center justify-center gap-0"
+                    variant={submitButtonVariant}
                     type="submit"
                     form={formId}
                   >
