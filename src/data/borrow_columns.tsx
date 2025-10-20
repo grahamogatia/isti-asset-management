@@ -2,9 +2,12 @@ import { type ColumnDef } from "@tanstack/react-table";
 import type { Borrow } from "./types";
 import { differenceInDays } from "date-fns";
 import { useCommonColumns } from "./common_columns";
-import { Clock } from "lucide-react";
+import { Clock, SquarePen } from "lucide-react";
 import ActionsButtonGroup from "@/components/ui/actions-button-group";
 import IsReturnedForm from "@/components/pages/forms/sub-forms/IsReturnedForm";
+import FormSheet from "@/components/layout/FormSheet";
+import { Button } from "@/components/ui/button";
+import UpdateBorrowForm from "@/components/pages/forms/update/UpdateBorrowForm";
 
 export function useBorrowColumns() {
   const commonColumns = useCommonColumns<Borrow>();
@@ -16,7 +19,10 @@ export function useBorrowColumns() {
     commonColumns.category(),
     commonColumns.sub_category(),
     commonColumns.type(),
-    commonColumns.simpleColumn("borrow_transaction_id", "Borrow Transaction ID"),
+    commonColumns.simpleColumn(
+      "borrow_transaction_id",
+      "Borrow Transaction ID"
+    ),
     commonColumns.dateColumn("date_borrowed", "Date Borrowed"),
     commonColumns.dateColumn("due_date", "Due Date"),
     commonColumns.dateColumn("return_date", "Return Date"),
@@ -29,7 +35,10 @@ export function useBorrowColumns() {
         </div>
       ),
       cell: ({ row }) => {
-        const result = differenceInDays(row.original.due_date as Date, new Date());
+        const result = differenceInDays(
+          row.original.due_date as Date,
+          new Date()
+        );
         return result <= 0 ? "Overdue" : result + " days remaining";
       },
     },
@@ -41,9 +50,26 @@ export function useBorrowColumns() {
     {
       id: "actions",
       cell: ({ row }) => {
+        const isReturned = row.original.return_date != null;
+
         return (
           <ActionsButtonGroup type="Borrow">
-            <IsReturnedForm borrow={row.original} />
+            {!isReturned && (
+              <>
+                <IsReturnedForm borrow={row.original} />
+
+                <FormSheet
+                  type={"Borrow"}
+                  taskName="Update"
+                  button={
+                    <Button variant="outline">
+                      <SquarePen className="h-4 w-4" />
+                    </Button>
+                  }
+                  form={<UpdateBorrowForm borrow={row.original} />}
+                />
+              </>
+            )}
           </ActionsButtonGroup>
         );
       },
@@ -55,7 +81,7 @@ export function useBorrowColumns() {
 
 export const def_borrow_columns = [
   "asset_name",
-  "serial_number", 
+  "serial_number",
   "date_borrowed",
   "return_date",
   "employee",
@@ -65,7 +91,7 @@ export const def_borrow_columns = [
 
 export const borrow_filters = [
   "category",
-  "company", 
+  "company",
   "department",
   "status",
   "sub_category",

@@ -127,6 +127,7 @@ function BorrowForm() {
             control={form.control}
             name="date_borrowed"
             label="Date Borrowed"
+            maxDate={new Date()}
           />
           <FormFieldNumber
             control={form.control}
