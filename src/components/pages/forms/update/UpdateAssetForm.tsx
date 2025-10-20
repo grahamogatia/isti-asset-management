@@ -18,13 +18,16 @@ import DisplayAsset from "@/components/ui/display-asset";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { useTypes } from "@/hooks/useCategory";
 import { useInsurances } from "@/hooks/useInsurance";
+import { compareObjects } from "@/lib/utils";
+import { toast } from "sonner";
+import { useState } from "react";
+import { useUpdateRepair } from "@/hooks/useRepair";
 
 interface UpdateAssetFormProps {
   asset: Asset;
-  onUpdate?: (updatedAsset: Asset) => void;
 }
 
-function UpdateAssetForm({ asset, onUpdate }: UpdateAssetFormProps) {
+function UpdateAssetForm({ asset }: UpdateAssetFormProps) {
   const form = useForm<Asset>({
     resolver: zodResolver(AssetSchema),
     defaultValues: {
@@ -33,15 +36,28 @@ function UpdateAssetForm({ asset, onUpdate }: UpdateAssetFormProps) {
     mode: "all",
   });
 
+  const { mutate } = useUpdateRepair();
   const { data: asset_types } = useTypes();
   const { data: insurances } = useInsurances();
+  const { getCategoryName, getSubCategoryName, getTypeName } =
+    useLookupFunctions();
+  const [files, setFiles] = useState<File[]>([]);
+  
 
   function onSubmit(values: Asset) {
-    console.log("🎉 Asset updated:", values);
-    onUpdate?.(values);
-  }
+    const changed = compareObjects(asset, values);
 
-  const {getCategoryName, getSubCategoryName, getTypeName} = useLookupFunctions();
+    if (Object.values(changed).length === 0) {
+      toast.info("No changes detected. Please make edits to update.");
+      return;
+    }
+
+    mutate({
+      id: values.asset_id as number,
+      data: changed,
+    });
+    console.log("🎉 Asset updated:", values);
+  }
 
   return (
     <Form {...form}>
@@ -128,6 +144,8 @@ function UpdateAssetForm({ asset, onUpdate }: UpdateAssetFormProps) {
             name="file"
             label="Asset Document"
             placeholder="Upload asset document"
+            files={files}
+            setFiles={setFiles}
           />
           <FormFieldTextArea
             control={form.control}
@@ -142,6 +160,9 @@ function UpdateAssetForm({ asset, onUpdate }: UpdateAssetFormProps) {
             className="w-full flex items-center justify-center rounded-md"
             type="submit"
             form="update-asset-form"
+            onClick={() =>
+              console.log(asset)
+            }
           >
             <Save className="mr-2 h-4 w-4" />
             Update Asset

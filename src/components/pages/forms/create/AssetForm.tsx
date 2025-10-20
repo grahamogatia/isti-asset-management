@@ -20,6 +20,7 @@ import { useAddAsset } from "@/hooks/useAsset";
 import { toast } from "sonner";
 import { differenceInMonths, format } from "date-fns";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
+import { useState } from "react";
 
 function AssetForm() {
   const form = useForm<Asset>({
@@ -48,6 +49,8 @@ function AssetForm() {
   const { getIdFromDisplayName } = useLookupFunctions();
   const { data: types } = useTypes();
   const { data: insurances } = useInsurances();
+  const [files, setFiles] = useState<File[]>([]);
+  
 
   function onSubmit(values: Asset) {
     console.log("🎉 SUCCESS! Form submitted:", values);
@@ -64,7 +67,7 @@ function AssetForm() {
       },
       {
         onSuccess: () => {
-          toast.success("Successfully added new Asset?!");
+          toast.success("Successfully added new Asset");
         },
       }
     );
@@ -157,6 +160,8 @@ function AssetForm() {
             name="file"
             label="Asset Document"
             placeholder="Upload asset document"
+            files={files}
+            setFiles={setFiles}
           />
           <FormFieldTextArea
             control={form.control}

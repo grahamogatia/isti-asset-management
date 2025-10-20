@@ -8,7 +8,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Upload, X, File } from "lucide-react";
-import { useState } from "react";
 import type { Control } from "react-hook-form";
 import { getColumnIcon } from "@/lib/columnNameUtils";
 
@@ -18,6 +17,8 @@ interface FormFieldFileProps {
   label: string;
   placeholder?: string;
   accept?: string;
+  files: File[];
+  setFiles: (files: File[]) => void;
 }
 
 function FormFieldFile({
@@ -26,8 +27,9 @@ function FormFieldFile({
   label,
   placeholder = "Choose files",
   accept = "image/*",
+  files,
+  setFiles,
 }: FormFieldFileProps) {
-  const [files, setFiles] = useState<File[]>([]);
   const IconComponent = getColumnIcon(name);
 
   return (
@@ -53,7 +55,7 @@ function FormFieldFile({
                     const selectedFiles = Array.from(e.target.files || []);
                     if (selectedFiles.length > 0) {
                       setFiles(selectedFiles);
-                      onChange(selectedFiles);
+                      onChange(selectedFiles.map((file) => file.name));
                     }
                   }}
                   {...field}
