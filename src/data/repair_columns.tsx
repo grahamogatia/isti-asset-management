@@ -2,7 +2,7 @@ import { type ColumnDef } from "@tanstack/react-table";
 import type { Repair } from "./types";
 import { useCommonColumns } from "./common_columns";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, SquarePen } from "lucide-react";
 import {
   createHeaderWithIcon,
   createStandardFilterFn,
@@ -13,6 +13,8 @@ import UpdateRepairForm from "@/components/pages/forms/update/UpdateRepairForm";
 import IsRejectedForm from "@/components/pages/forms/sub-forms/IsRejectedForm";
 import IsOnHoldForm from "@/components/pages/forms/sub-forms/IsOnHoldForm";
 import IsRepairContinuedForm from "@/components/pages/forms/sub-forms/IsRepairContinuedForm";
+import FormSheet from "@/components/layout/FormSheet";
+import { Button } from "@/components/ui/button";
 
 export function useRepairColumns() {
   const commonColumns = useCommonColumns<Repair>();
@@ -85,18 +87,30 @@ export function useRepairColumns() {
         const statusName = getStatusName(row.original.status_id as number);
         const isUnderRepair = statusName === "Under Repair";
         const isOnHold = statusName === "On Hold";
+        const isCompleted = statusName === "Completed";
 
         return (
-          <ActionsButtonGroup
-            type="Repair"
-            updateForm={<UpdateRepairForm repair={row.original} />}
-          >
+          <ActionsButtonGroup type="Repair">
             {isUnderRepair && (
               <>
                 <IsRejectedForm repair={row.original} />
                 <IsOnHoldForm repair={row.original} />
                 <IsRepairedForm repair={row.original} />
               </>
+            )}
+
+            {/* Update */}
+            {(isUnderRepair || isCompleted) && (
+              <FormSheet
+                type={"Repair"}
+                taskName="Update"
+                button={
+                  <Button variant="outline">
+                    <SquarePen className="h-4 w-4" />
+                  </Button>
+                }
+                form={<UpdateRepairForm repair={row.original} />}
+              />
             )}
 
             {isOnHold && <IsRepairContinuedForm repair={row.original} />}

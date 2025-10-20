@@ -1,40 +1,22 @@
-import { SquarePen, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { Button } from "./button";
 import { ButtonGroup } from "./button-group";
 import DeleteAlertDialog from "./delete-alert-dialog";
-import FormSheet from "../layout/FormSheet";
 
 interface ActionsButtonGroupProps {
   type: string;
   children?: React.ReactNode;
-  updateForm?: React.ReactNode;
-  showUpdate?: boolean; // Add this prop
 }
 
 function ActionsButtonGroup({
   type,
-  children,
-  updateForm,
-  showUpdate = true, // Default to true to maintain existing behavior
+  children
 }: ActionsButtonGroupProps) {
   return (
     <ButtonGroup className="hidden sm:flex">
       {/* Additional buttons */}
       {children}
 
-      {/* Update - only show if showUpdate is true */}
-      {showUpdate && (
-        <FormSheet 
-          type={type}
-          taskName="Update"
-          button={
-            <Button variant="outline">
-              <SquarePen className="h-4 w-4" />
-            </Button>
-          }
-          form={updateForm} 
-        />
-      )}
 
       {/* Delete*/}
       <DeleteAlertDialog type={type}>

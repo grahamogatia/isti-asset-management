@@ -58,7 +58,7 @@ function IsRepairContinuedForm({ repair }: IsRepairContinuedFormProps) {
       title="Continue Repair?"
       form={form}
       onSubmit={onReparContinued}
-      submitButtonText="Put On Hold"
+      submitButtonText="Continue Repair"
       submitButtonIcon={<Play className="mr-2 h-4 w-4" />}
       formId="continue-repair-form"
     >
