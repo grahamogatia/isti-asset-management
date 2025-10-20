@@ -43,11 +43,10 @@ export function useIssuanceColumns() {
     {
       id: "actions",
       cell: ({ row }) => {
+        const isPulledOut = row.original.pullout_date != null;
         return (
-          <ActionsButtonGroup 
-            type="Issuance"
-          >
-            <IsWithdrawnForm issuance={row.original} />
+          <ActionsButtonGroup type="Issuance">
+            {!isPulledOut && <IsWithdrawnForm issuance={row.original} />}
           </ActionsButtonGroup>
         );
       },

@@ -36,17 +36,15 @@ function IssuanceForm() {
   });
   const { mutate } = useAddIssuance();
   const { data: assets } = useAssets();
-  const issuedAssetIds = useIssuedAssetIds();
-  const { getCategoryName, getStatuses } = useLookupFunctions();
+  const { getCategoryName, getStatuses, getStatusIdGivenStatusName } = useLookupFunctions();
 
   // Issuable assets must be: (Not yet issued || Status is "Pulled Out") && Internal
-  const statuses = getStatuses("Issuance");
+  const statuses = getStatuses("Issuance")
   const issuableAssets =
     (assets ?? []).filter((a) => {
-      const notIssued = !issuedAssetIds.includes(a.asset_id as number);
-      const isPulledOut = a.status_id === statuses.find(s => s.status_name === "Pulled Out")?.status_id;
+      const isAvailable = a.status_id === getStatusIdGivenStatusName("Asset Inventory", "Available") ;
       const isInternal = a.category_id ? getCategoryName(a.category_id) : "";
-      return (notIssued || isPulledOut) && isInternal;
+      return isAvailable && isInternal;
     }) ?? [];
 
 
