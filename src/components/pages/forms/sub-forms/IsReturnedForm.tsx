@@ -9,7 +9,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { BorrowSchema } from "@/data/schemas";
 import type { Borrow } from "@/data/types";
 import { useUpdateBorrow } from "@/hooks/useBorrow";
-import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { toast } from "sonner";
 
 interface IsReturnedFormProps {
