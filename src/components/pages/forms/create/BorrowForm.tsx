@@ -146,9 +146,9 @@ function BorrowForm() {
             className="w-full flex items-center justify-center rounded-md"
             type="submit"
             form="borrow-form"
-            // onClick={() =>
-            //   console.log("Borrow form values:", form.getValues())
-            // }
+            onClick={() =>
+              console.log("Borrow form values:", form.getValues())
+            }
           >
             <Plus />
             Create Borrow Request

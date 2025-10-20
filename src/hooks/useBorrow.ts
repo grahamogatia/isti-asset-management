@@ -16,7 +16,7 @@ export const useBorrows = () => {
           ...item,
           date_borrowed: new Date(item.date_borrowed),
           due_date: new Date(item.due_date as Date),
-          return_date: new Date(item.return_date as Date),
+          return_date: item.return_date ? new Date(item.return_date as Date) : undefined,
         };
       });
     },
