@@ -5,7 +5,6 @@ import { useCommonColumns } from "./common_columns";
 import { Clock } from "lucide-react";
 import ActionsButtonGroup from "@/components/ui/actions-button-group";
 import IsReturnedForm from "@/components/pages/forms/sub-forms/IsReturnedForm";
-import UpdateBorrowForm from "@/components/pages/forms/update/UpdateBorrowForm";
 
 export function useBorrowColumns() {
   const commonColumns = useCommonColumns<Borrow>();

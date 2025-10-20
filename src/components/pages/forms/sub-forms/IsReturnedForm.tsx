@@ -8,10 +8,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BorrowSchema } from "@/data/schemas";
 import type { Borrow } from "@/data/types";
+import { useUpdateBorrow } from "@/hooks/useBorrow";
+import { useLookupFunctions } from "@/hooks/useLookupFunctions";
+import { toast } from "sonner";
 
 interface IsReturnedFormProps {
   borrow: Borrow;
-  onReturnCompleted?: (updatedBorrow: Borrow) => void;
 }
 
 const toValidDate = (d: unknown): Date | undefined => {
@@ -20,7 +22,7 @@ const toValidDate = (d: unknown): Date | undefined => {
   return isValid(dt) ? dt : undefined;
 };
 
-function IsReturnedForm({ borrow, onReturnCompleted }: IsReturnedFormProps) {
+function IsReturnedForm({ borrow }: IsReturnedFormProps) {
   const defaultReturnDate = toValidDate(borrow.return_date) ?? new Date();
   const dateBorrowed = toValidDate(borrow.date_borrowed);
   const dueDate = toValidDate(borrow.due_date);
@@ -35,9 +37,29 @@ function IsReturnedForm({ borrow, onReturnCompleted }: IsReturnedFormProps) {
     mode: "all",
   });
 
+
+  const { mutate } = useUpdateBorrow();
+
   const today = new Date();
   const overdue = dueDate ? isAfter(today, dueDate) : false;
   const daysDiff = dueDate ? Math.abs(differenceInDays(today, dueDate)) : 0;
+
+  function onReturnCompleted(values: Borrow) {
+    mutate(
+      {
+        id: values.borrow_transaction_id as number,
+        data: {
+          return_date: values.return_date,
+          remarks: values.remarks
+        }
+      },
+      {
+        onSuccess: () => {
+          toast.success("Successfully returned asset")
+        } 
+      },
+    )
+  }
 
   return (
     <PopoverForm
@@ -49,7 +71,7 @@ function IsReturnedForm({ borrow, onReturnCompleted }: IsReturnedFormProps) {
       title="Is Returned?"
       description="Set the return date and add final remarks for this borrow."
       form={form}
-      onSubmit={(values) => onReturnCompleted?.(values)}
+      onSubmit={onReturnCompleted}
       submitButtonText="Mark as Returned"
       submitButtonIcon={<RotateCcw className="mr-2 h-4 w-4" />}
       formId="complete-return-form"

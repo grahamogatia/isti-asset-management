@@ -43,7 +43,7 @@ function IsRepairedForm({ repair }: isRepairedFormProps) {
       },
       {
         onSuccess: () => {
-          toast.success("Successfully updated repair request.");
+          toast.success("Successfully updated repair request");
         },
       }
     )
