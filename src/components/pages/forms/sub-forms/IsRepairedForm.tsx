@@ -53,8 +53,6 @@ function IsRepairedForm({ repair }: isRepairedFormProps) {
     <PopoverForm
       triggerButton={
         <Button variant="outline">
-          {" "}
-          {/* Fix: Add size prop */}
           <Hammer />
         </Button>
       }
