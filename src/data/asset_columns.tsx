@@ -192,15 +192,7 @@ export function useAssetColumns(): ColumnDef<Asset>[] {
         return (
           <ActionsButtonGroup
             type="Asset"
-            updateForm={
-              <UpdateAssetForm
-                asset={row.original}
-                onUpdate={(updatedAsset) => {
-                  console.log("Asset updated:", updatedAsset);
-                  // Add your update logic here (API call / state update)
-                }}
-              />
-            }
+      
           />
         );
       },

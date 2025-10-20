@@ -46,7 +46,6 @@ export function useIssuanceColumns() {
         return (
           <ActionsButtonGroup 
             type="Issuance"
-            showUpdate={false} 
           >
             <IsWithdrawnForm issuance={row.original} />
           </ActionsButtonGroup>

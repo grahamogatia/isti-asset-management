@@ -43,11 +43,7 @@ export function useBorrowColumns() {
       id: "actions",
       cell: ({ row }) => {
         return (
-          <ActionsButtonGroup type="Borrow" updateForm={
-            <UpdateBorrowForm
-              borrow={row.original}
-            />
-          }>
+          <ActionsButtonGroup type="Borrow">
             <IsReturnedForm borrow={row.original} />
           </ActionsButtonGroup>
         );
