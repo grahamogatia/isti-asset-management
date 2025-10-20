@@ -51,7 +51,6 @@ export function useBorrowColumns() {
       id: "actions",
       cell: ({ row }) => {
         const isReturned = row.original.return_date != null;
-
         return (
           <ActionsButtonGroup type="Borrow">
             {!isReturned && (
