@@ -9,13 +9,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { IssuanceSchema } from "@/data/schemas";
 import type { Issuance } from "@/data/types";
 import { isValid } from "date-fns";
+import { useUpdateIssuance } from "@/hooks/useIssuance";
+import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 
 interface isWtihdrawnFormProps {
   issuance: Issuance;
-  onIssueCompleted?: (updatedIssuance: Issuance) => void;
 }
 
-function IsWithdrawnForm({ issuance, onIssueCompleted }: isWtihdrawnFormProps) {
+function IsWithdrawnForm({ issuance }: isWtihdrawnFormProps) {
   const form = useForm<Issuance>({
     resolver: zodResolver(IssuanceSchema),
     defaultValues: {
@@ -26,12 +27,25 @@ function IsWithdrawnForm({ issuance, onIssueCompleted }: isWtihdrawnFormProps) {
     mode: "all",
   });
 
-  const issuanceDate = issuance.issuance_date 
-    ? new Date(issuance.issuance_date) 
-    : undefined;  
-  const validIssuanceDate = issuanceDate && isValid(issuanceDate) 
-    ? issuanceDate 
-    : undefined;
+  const { mutate } = useUpdateIssuance();
+  const { getStatuses } = useLookupFunctions();
+
+  const statuses = getStatuses("Issuance");
+  const issuanceDate = issuance.issuance_date  ? new Date(issuance.issuance_date) : undefined;  
+  const validIssuanceDate = issuanceDate && isValid(issuanceDate) ? issuanceDate : undefined;
+
+  function onIssueCompleted(values: Issuance) {
+    mutate(
+      {
+        id: values.issuance_id as number,
+        data: {
+          pullout_date: values.pullout_date,
+          remarks: values.remarks,
+          status_id: statuses.find(s => s.status_name === "Pulled Out")?.status_id,
+        }
+      }
+    )
+  }
 
   return (
     <PopoverForm

@@ -13,6 +13,7 @@ import { useAddIssuance, useIssuedAssetIds } from "@/hooks/useIssuance";
 import { useAssets } from "@/hooks/useAsset";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { format } from "date-fns";
+import { toast } from "sonner";
 
 function IssuanceForm() {
   const form = useForm<Issuance>({
@@ -36,16 +37,14 @@ function IssuanceForm() {
   const { mutate } = useAddIssuance();
   const { data: assets } = useAssets();
   const issuedAssetIds = useIssuedAssetIds();
-  const { getCategoryName, getStatuses, getStatusName } = useLookupFunctions();
+  const { getCategoryName, getStatuses } = useLookupFunctions();
 
   // Issuable assets must be: (Not yet issued || Status is "Pulled Out") && Internal
   const statuses = getStatuses("Issuance");
   const issuableAssets =
     (assets ?? []).filter((a) => {
-      console.log("Asset: ", a.asset_name);
       const notIssued = !issuedAssetIds.includes(a.asset_id as number);
       const isPulledOut = a.status_id === statuses.find(s => s.status_name === "Pulled Out")?.status_id;
-      console.log(getStatusName(a.status_id as number))
       const isInternal = a.category_id ? getCategoryName(a.category_id) : "";
       return (notIssued || isPulledOut) && isInternal;
     }) ?? [];
@@ -60,7 +59,12 @@ function IssuanceForm() {
         ...values,
         status_id: statuses.find(s => s.status_name === "Issued")?.status_id,
         issuance_date: format(new Date(), "yyyy-MM-dd"),
-      }
+      },
+      {
+        onSuccess: () => {
+          toast.success("Successfully added new issuance")
+        }
+      },
     )
   }
 
