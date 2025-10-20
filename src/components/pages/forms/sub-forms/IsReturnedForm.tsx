@@ -76,7 +76,7 @@ function IsReturnedForm({ borrow, onReturnCompleted }: IsReturnedFormProps) {
         label="Return Date"
         placeholder="Select return date"
         minDate={dateBorrowed}
-        maxDate={new Date(new Date().getFullYear() + 50, 11, 31)}
+        maxDate={new Date()}
       />
 
       <FormFieldTextArea
