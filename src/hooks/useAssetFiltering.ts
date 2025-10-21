@@ -16,6 +16,9 @@ export const useAssetFiltering = (category: Asset_Category) => {
     isLoadingSubCategories ||
     isLoadingTypes;
 
+  const [subCategory, setSubCategory] = useState<string>("");
+  const [selectedType, setSelectedType] = useState<string>("All");
+
   const getFirstSubCategory = (catName: string) => {
     if (!categories) return "";
 
@@ -25,9 +28,6 @@ export const useAssetFiltering = (category: Asset_Category) => {
     const sub = subCategories.find((s) => s.category_id === cat.category_id);
     return sub?.sub_category_name || "";
   };
-
-  const [subCategory, setSubCategory] = useState<string>("");
-  const [selectedType, setSelectedType] = useState<string>("All");
 
   useEffect(() => {
     if (categories && subCategories && category) {
@@ -49,7 +49,6 @@ export const useAssetFiltering = (category: Asset_Category) => {
   }, [subCategories, category.category_id]);
 
   const filteredAssets = useMemo(() => {
-    // ✅ Guard against undefined data
     if (!assets || !categories || !subCategories || !subCategory) return [];
 
     const result1 = categories.find(
