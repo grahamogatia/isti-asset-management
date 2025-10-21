@@ -39,22 +39,14 @@ function Repair() {
       setSelectedStatus={setSelectedStatus}
       tabs={REPAIR_TABS}
     >
-      {REPAIR_TABS.map((t) => (
-        <TabsContent
-          key={t.value}
-          value={t.value}
-          className="mx-auto w-full border rounded-xl py-3.5 p-5"
-        >
-          <DataTable
-            columns={repair_columns}
-            data={displayedRepairs ?? []}
-            defaultVisibleColumns={def_repair_columns}
-            filterableColumns={repair_filters}
-            type="Repair"
-            form={<RepairForm />}
-          />
-        </TabsContent>
-      ))}
+      <DataTable
+        columns={repair_columns}
+        data={displayedRepairs ?? []}
+        defaultVisibleColumns={def_repair_columns}
+        filterableColumns={repair_filters}
+        type="Repair"
+        form={<RepairForm />}
+      />
     </DisplayTabsByStatus>
   );
 }
