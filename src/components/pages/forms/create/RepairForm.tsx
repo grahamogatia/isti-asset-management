@@ -14,7 +14,6 @@ import FormFieldDate from "../fields/FormFieldDate";
 import FormFieldMoney from "../fields/FormFieldMoney";
 import FormFieldAssetCombobox from "../fields/FormFieldAssetCombobox";
 import FormFieldUserCombobox from "../fields/FormFieldUserCombobox";
-import { getAsset } from "@/lib/lookups";
 import { useAssets } from "@/hooks/useAsset";
 import { employees } from "@/testcases/foreignkeys";
 import { useUrgencies } from "@/hooks/useUrgency";
@@ -53,7 +52,7 @@ function RepairForm() {
   const { data: repairs } = useRepairs();
   const { data: issuances } = useIssuances();
   const { data: urgencies } = useUrgencies();
-  const { getStatuses } = useLookupFunctions();
+  const { getStatuses, getStatusIdGivenStatusName, getAsset } = useLookupFunctions();
 
   const selectedUserId = form.watch("user_id");
   const assetId = form.watch("asset_id");
@@ -74,6 +73,7 @@ function RepairForm() {
         .map((s) => s.status_id)
     );
     const uid = Number(selectedUserId);
+    const deletedStatusId = getStatusIdGivenStatusName("Asset Inventory", "Deleted");
 
     // All asset ids issued to the selected user
     const userAssetIds = (issuances ?? [])
@@ -92,7 +92,10 @@ function RepairForm() {
     const allowedIds = new Set(userAssetIds.filter(isRepairable));
 
     // Return asset objects for the combobox
-    return (assets ?? []).filter((a) => allowedIds.has(a.asset_id as number));
+    return (assets ?? []).filter((a) => 
+    allowedIds.has(a.asset_id as number) && 
+    a.status_id !== deletedStatusId
+  );
   }, [selectedUserId, assets, issuances, repairs, statuses]);
 
   function onSubmit(values: Repair) {

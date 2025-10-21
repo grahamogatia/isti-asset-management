@@ -36,17 +36,22 @@ function IssuanceForm() {
   });
   const { mutate } = useAddIssuance();
   const { data: assets } = useAssets();
-  const { getCategoryName, getStatuses, getStatusIdGivenStatusName } = useLookupFunctions();
+  const { getCategoryName, getStatuses, getStatusIdGivenStatusName } =
+    useLookupFunctions();
 
   // Issuable assets must be: (Not yet issued || Status is "Pulled Out") && Internal
-  const statuses = getStatuses("Issuance")
+  const statuses = getStatuses("Issuance");
   const issuableAssets =
     (assets ?? []).filter((a) => {
-      const isAvailable = a.status_id === getStatusIdGivenStatusName("Asset Inventory", "Available") ;
+      const isAvailable =
+        a.status_id ===
+        getStatusIdGivenStatusName("Asset Inventory", "Available");
+      const isDeleted = 
+        a.status_id ===
+        getStatusIdGivenStatusName("Asset Inventory", "Deleted");
       const isInternal = a.category_id ? getCategoryName(a.category_id) : "";
-      return isAvailable && isInternal;
+      return isAvailable && isInternal && !isDeleted;
     }) ?? [];
-
 
   // Set status to Issued
   function onSubmit(values: Issuance) {
@@ -55,15 +60,15 @@ function IssuanceForm() {
     mutate(
       {
         ...values,
-        status_id: statuses.find(s => s.status_name === "Issued")?.status_id,
+        status_id: statuses.find((s) => s.status_name === "Issued")?.status_id,
         issuance_date: format(new Date(), "yyyy-MM-dd"),
       },
       {
         onSuccess: () => {
-          toast.success("Successfully added new issuance")
-        }
-      },
-    )
+          toast.success("Successfully added new issuance");
+        },
+      }
+    );
   }
 
   return (
@@ -79,7 +84,7 @@ function IssuanceForm() {
             name="asset_id"
             label="Asset to Issue"
             assets={issuableAssets}
-            form={{...form}}
+            form={{ ...form }}
           />
         </FormCardContent>
         <FormCardContent title="Recipient Information">
@@ -88,7 +93,7 @@ function IssuanceForm() {
             name="user_id"
             label="Issue To"
             employees={employees}
-            form={{...form}}
+            form={{ ...form }}
           />
         </FormCardContent>
         <div className="pb-6">

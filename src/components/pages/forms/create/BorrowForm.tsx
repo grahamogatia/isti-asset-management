@@ -44,7 +44,7 @@ function BorrowForm() {
   const { mutate } = useAddBorrow();
   const { data: assets } = useAssets();
   const { data: borrows } = useBorrows();
-  const { getConditionName, getCategoryName, getStatuses, getAsset } =
+  const { getConditionName, getCategoryName, getStatuses, getAsset, getStatusIdGivenStatusName } =
     useLookupFunctions();
 
   const statuses = getStatuses("Asset Inventory"); // Since the Assets can use the Borrow Status !!!!!
@@ -60,9 +60,11 @@ function BorrowForm() {
     return (assets ?? []).filter((asset) => {
       const condition = getConditionName(asset.asset_condition_id);
       const category = getCategoryName(asset.category_id);
+      const isDeleted = asset.status_id === getStatusIdGivenStatusName("Asset Inventory", "Deleted");
+
       return (
         !borrowedAssetIds.has(asset.asset_id as number) && // Not currently borrowed
-        (condition === "New" || condition === "Good") &&
+        (condition === "New" || condition === "Good") && !isDeleted &&
         category !== "External"
       );
     });
