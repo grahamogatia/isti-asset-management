@@ -58,3 +58,8 @@ export type ActiveFilter = {
   values: string[];
   displayLabel: string;
 };
+
+export type Tab = {
+  label: string;
+  value: string;
+}

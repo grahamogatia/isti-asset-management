@@ -7,9 +7,15 @@ import {
   repair_filters,
   useRepairColumns,
 } from "@/data/repair_columns";
+import type { Tab } from "@/data/types";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { useRepairs } from "@/hooks/useRepair";
 import { useMemo, useState } from "react";
+
+const REPAIR_TABS: Tab[] = [
+  { label: "All", value: "All" },
+  { label: "Completed", value: "Completed" },
+];
 
 function Repair() {
   const [selectedStatus, setSelectedStatus] = useState<string>("All");
@@ -17,14 +23,6 @@ function Repair() {
   const { repair_columns } = useRepairColumns();
   const { getStatusIdGivenStatusName } = useLookupFunctions();
   const completedId = getStatusIdGivenStatusName("Repair", "Completed");
-
-  const tabs = useMemo(
-    () => [
-      { label: "All", value: "All" },
-      { label: "Completed", value: "Completed" },
-    ],
-    []
-  );
 
   const displayedRepairs = useMemo(() => {
     if (selectedStatus === "Completed") {
@@ -39,16 +37,9 @@ function Repair() {
     <DisplayTabsByStatus
       selectedStatus={selectedStatus}
       setSelectedStatus={setSelectedStatus}
-      trigger={tabs.map((t) => (
-        <TabsTrigger
-          key={t.value}
-          value={t.value}
-          className="whitespace-nowrap flex-shrink-0 data-[state=active]:font-bold"
-        >
-          {t.label}
-        </TabsTrigger>
-      ))}
-      content={tabs.map((t) => (
+      tabs={REPAIR_TABS}
+    >
+      {REPAIR_TABS.map((t) => (
         <TabsContent
           key={t.value}
           value={t.value}
@@ -64,7 +55,7 @@ function Repair() {
           />
         </TabsContent>
       ))}
-    ></DisplayTabsByStatus>
+    </DisplayTabsByStatus>
   );
 }
 
