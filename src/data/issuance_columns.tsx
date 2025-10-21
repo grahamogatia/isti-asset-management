@@ -44,11 +44,18 @@ export function useIssuanceColumns() {
     {
       id: "actions",
       cell: ({ row }) => {
+        const { getAsset, getStatusIdGivenStatusName } = useLookupFunctions();
+        const asset = getAsset(row.original.asset_id);
+        const isDeleted =
+          asset?.status_id ===
+          getStatusIdGivenStatusName("Asset Inventory", "Deleted");
         const isPulledOut = row.original.pullout_date != null;
         return (
           <ButtonGroup className="hidden sm:flex">
-            {!isPulledOut && <IsWithdrawnForm issuance={row.original} />}
-            <DeleteIssuanceForm issuance={row.original}/>
+            {!isPulledOut && !isDeleted && (
+              <IsWithdrawnForm issuance={row.original} />
+            )}
+            <DeleteIssuanceForm issuance={row.original} />
           </ButtonGroup>
         );
       },

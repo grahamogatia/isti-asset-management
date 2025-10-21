@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import UpdateBorrowForm from "@/components/pages/forms/update/UpdateBorrowForm";
 import { ButtonGroup } from "@/components/ui/button-group";
 import DeleteBorrowForm from "@/components/pages/forms/delete/DeleteBorrowForm";
+import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 
 export function useBorrowColumns() {
   const commonColumns = useCommonColumns<Borrow>();
@@ -51,10 +52,15 @@ export function useBorrowColumns() {
     {
       id: "actions",
       cell: ({ row }) => {
+        const { getAsset, getStatusIdGivenStatusName } = useLookupFunctions();
+        const asset = getAsset(row.original.asset_id);
         const isReturned = row.original.return_date != null;
+        const isDeleted = asset?.status_id === getStatusIdGivenStatusName("Asset Inventory", "Deleted")
+
+
         return (
           <ButtonGroup className="hidden sm:flex">
-            {!isReturned && (
+            {!isReturned && !isDeleted && (
               <>
                 <IsReturnedForm borrow={row.original} />
 

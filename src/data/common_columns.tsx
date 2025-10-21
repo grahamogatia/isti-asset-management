@@ -7,7 +7,11 @@ import {
   createStandardFilterFn,
 } from "@/lib/columnNameUtils";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
-import { getCompanyName, getDepartmentName, getEmployeeName } from "@/lib/lookups";
+import {
+  getCompanyName,
+  getDepartmentName,
+  getEmployeeName,
+} from "@/lib/lookups";
 
 // Generic type that covers common fields across Borrow, Repair, and Issuance
 type CommonFields = {
@@ -34,7 +38,14 @@ export function useCommonColumns<T extends CommonFields>() {
       },
       header: createSortableHeaderWithIcon("asset_name", "Asset Name"),
       cell: ({ row }) => {
-        return getAsset(row.original.asset_id)?.asset_name;
+        const asset = getAsset(row.original.asset_id);
+        const isDisposed = asset?.status_id === 14;
+
+        return (
+          <span className={isDisposed ? "text-red-700/80 font-semibold" : ""}>
+            {asset?.asset_name}
+          </span>
+        );
       },
     }),
 
@@ -90,7 +101,9 @@ export function useCommonColumns<T extends CommonFields>() {
       },
       header: createHeaderWithIcon("department", "Department"),
       cell: ({ row }) => {
-        return <span>{getDepartmentName(row.original.department_id as number)}</span>;
+        return (
+          <span>{getDepartmentName(row.original.department_id as number)}</span>
+        );
       },
       filterFn: createStandardFilterFn((row) =>
         getDepartmentName(row.original.department_id)
@@ -172,10 +185,7 @@ export function useCommonColumns<T extends CommonFields>() {
     }),
 
     // Date formatter utility
-    dateColumn: (
-      accessorKey: keyof T,
-      header: string
-    ): ColumnDef<T> => ({
+    dateColumn: (accessorKey: keyof T, header: string): ColumnDef<T> => ({
       accessorKey: accessorKey as string,
       header: createHeaderWithIcon(accessorKey as string, header),
       cell: ({ row }) => {
@@ -185,10 +195,7 @@ export function useCommonColumns<T extends CommonFields>() {
       },
     }),
 
-    moneyColumn: (
-      accessorKey: keyof T,
-      header: string
-    ): ColumnDef<T> => ({
+    moneyColumn: (accessorKey: keyof T, header: string): ColumnDef<T> => ({
       accessorKey: accessorKey as string,
       header: createHeaderWithIcon(accessorKey as string, header),
       cell: ({ row }) => {
@@ -200,10 +207,7 @@ export function useCommonColumns<T extends CommonFields>() {
       },
     }),
 
-    simpleColumn: (
-      accessorKey: keyof T,
-      header: string
-    ): ColumnDef<T> => ({
+    simpleColumn: (accessorKey: keyof T, header: string): ColumnDef<T> => ({
       accessorKey: accessorKey as string,
       header: () => (
         <div className="flex items-center gap-2">

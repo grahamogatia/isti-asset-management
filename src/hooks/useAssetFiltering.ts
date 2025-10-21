@@ -67,7 +67,8 @@ export const useAssetFiltering = (category: Asset_Category) => {
     return assets.filter(
       (assetTest) =>
         assetTest.category_id === result1.category_id &&
-        assetTest.sub_category_id === result2.sub_category_id
+        assetTest.sub_category_id === result2.sub_category_id &&
+        assetTest.status_id !== 14
     );
   }, [assets, categories, subCategories, category, subCategory]);
 

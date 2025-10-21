@@ -85,6 +85,13 @@ export function useRepairColumns() {
     {
       id: "actions",
       cell: ({ row }) => {
+
+        const { getAsset, getStatusIdGivenStatusName } = useLookupFunctions();
+        const asset = getAsset(row.original.asset_id);
+        const isDeleted =
+          asset?.status_id ===
+          getStatusIdGivenStatusName("Asset Inventory", "Deleted");
+        
         const statusName = getStatusName(row.original.status_id as number);
         const isUnderRepair = statusName === "Under Repair";
         const isOnHold = statusName === "On Hold";
@@ -92,7 +99,7 @@ export function useRepairColumns() {
 
         return (
           <ButtonGroup className="hidden sm:flex">
-            {isUnderRepair && (
+            {isUnderRepair && !isDeleted && (
               <>
                 <IsRejectedForm repair={row.original} />
                 <IsOnHoldForm repair={row.original} />
@@ -101,7 +108,7 @@ export function useRepairColumns() {
             )}
 
             {/* Update */}
-            {(isUnderRepair || isCompleted) && (
+            {(isUnderRepair || isCompleted) && !isDeleted && (
               <FormSheet
                 type={"Repair"}
                 taskName="Update"
