@@ -1,7 +1,6 @@
 import DisplayTabsByStatus from "@/components/layout/DisplayTabsByStatus";
 import BorrowForm from "@/components/pages/forms/create/BorrowForm";
 import { DataTable } from "@/components/ui/data-table";
-import { TabsContent } from "@/components/ui/tabs";
 import {
   borrow_filters,
   def_borrow_columns,
@@ -35,22 +34,14 @@ function Borrow() {
       setSelectedStatus={setSelectedStatus}
       tabs={BORROW_TABS}
     >
-      {BORROW_TABS.map((t) => (
-        <TabsContent
-          key={t.value}
-          value={t.value}
-          className="mx-auto w-full border rounded-xl py-3.5 p-5"
-        >
-          <DataTable
-            columns={borrow_columns}
-            data={displayedBorrows ?? []}
-            defaultVisibleColumns={def_borrow_columns}
-            filterableColumns={borrow_filters}
-            type="Borrow"
-            form={<BorrowForm />}
-          />
-        </TabsContent>
-      ))}
+      <DataTable
+        columns={borrow_columns}
+        data={displayedBorrows ?? []}
+        defaultVisibleColumns={def_borrow_columns}
+        filterableColumns={borrow_filters}
+        type="Borrow"
+        form={<BorrowForm />}
+      />
     </DisplayTabsByStatus>
   );
 }
