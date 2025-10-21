@@ -9,7 +9,7 @@ import FormCardContent from "@/components/layout/FormCardContent";
 import { employees } from "@/testcases/foreignkeys";
 import FormFieldUserCombobox from "../fields/FormFieldUserCombobox";
 import FormFieldAssetCombobox from "../fields/FormFieldAssetCombobox";
-import { useAddIssuance, useIssuedAssetIds } from "@/hooks/useIssuance";
+import { useAddIssuance } from "@/hooks/useIssuance";
 import { useAssets } from "@/hooks/useAsset";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { format } from "date-fns";

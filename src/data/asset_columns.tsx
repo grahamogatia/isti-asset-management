@@ -11,7 +11,6 @@ import {
 } from "@/lib/columnNameUtils";
 
 import ActionsButtonGroup from "@/components/ui/actions-button-group";
-import UpdateAssetForm from "@/components/pages/forms/update/UpdateAssetForm";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 
 export function useAssetColumns(): ColumnDef<Asset>[] {

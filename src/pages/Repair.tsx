@@ -1,7 +1,7 @@
 import DisplayTabsByStatus from "@/components/layout/DisplayTabsByStatus";
 import RepairForm from "@/components/pages/forms/create/RepairForm";
 import { DataTable } from "@/components/ui/data-table";
-import { TabsContent, TabsTrigger } from "@/components/ui/tabs";
+import { TabsContent } from "@/components/ui/tabs";
 import {
   def_repair_columns,
   repair_filters,

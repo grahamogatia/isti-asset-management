@@ -1,7 +1,7 @@
 import DisplayTabsByStatus from "@/components/layout/DisplayTabsByStatus";
 import BorrowForm from "@/components/pages/forms/create/BorrowForm";
 import { DataTable } from "@/components/ui/data-table";
-import { TabsContent, TabsTrigger } from "@/components/ui/tabs";
+import { TabsContent } from "@/components/ui/tabs";
 import {
   borrow_filters,
   def_borrow_columns,
