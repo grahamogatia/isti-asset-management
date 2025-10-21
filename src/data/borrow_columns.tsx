@@ -8,6 +8,7 @@ import FormSheet from "@/components/layout/FormSheet";
 import { Button } from "@/components/ui/button";
 import UpdateBorrowForm from "@/components/pages/forms/update/UpdateBorrowForm";
 import { ButtonGroup } from "@/components/ui/button-group";
+import DeleteBorrowForm from "@/components/pages/forms/delete/DeleteBorrowForm";
 
 export function useBorrowColumns() {
   const commonColumns = useCommonColumns<Borrow>();
@@ -69,7 +70,7 @@ export function useBorrowColumns() {
                 />
               </>
             )}
-            
+            <DeleteBorrowForm borrow={row.original}/>
           </ButtonGroup>
         );
       },

@@ -36,7 +36,7 @@ function BorrowForm() {
       due_date: undefined, // Computed
       return_date: undefined,
       duration: undefined, // Is set
-      remarks: undefined,
+      remarks: "",
     },
     mode: "all",
   });
@@ -44,12 +44,8 @@ function BorrowForm() {
   const { mutate } = useAddBorrow();
   const { data: assets } = useAssets();
   const { data: borrows } = useBorrows();
-  const {
-    getConditionName,
-    getCategoryName,
-    getStatuses,
-    getAsset,
-  } = useLookupFunctions();
+  const { getConditionName, getCategoryName, getStatuses, getAsset } =
+    useLookupFunctions();
 
   const statuses = getStatuses("Asset Inventory"); // Since the Assets can use the Borrow Status !!!!!
   const borrowableAssets = useMemo(() => {
@@ -73,6 +69,7 @@ function BorrowForm() {
   }, [assets, borrows]);
 
   function onSubmit(values: Borrow) {
+    console.log("Yay")
     const dueDate =
       values.duration && values.date_borrowed
         ? addMonths(new Date(values.date_borrowed), values.duration)
@@ -147,9 +144,11 @@ function BorrowForm() {
             className="w-full flex items-center justify-center rounded-md"
             type="submit"
             form="borrow-form"
-            onClick={() =>
-              console.log("Borrow form values:", form.getValues())
-            }
+            onClick={() => {
+              console.log("Borrow form values:", form.getValues());
+              console.log("Form values:", form.getValues());
+              console.log("Form errors:", form.formState.errors);
+            }}
           >
             <Plus />
             Create Borrow Request
