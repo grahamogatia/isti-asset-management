@@ -1,11 +1,10 @@
 import type { Tab } from "@/data/types";
-import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
-
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
 interface DisplayTabsByStatusProps {
   selectedStatus: string;
   setSelectedStatus: (status: string) => void;
-  tabs: Tab[],
+  tabs: Tab[];
   children: React.ReactNode;
 }
 
@@ -22,17 +21,25 @@ function DisplayTabsByStatus({
       className="p-5"
     >
       <TabsList className="gap-2 overflow-x-auto max-w-full">
-        {tabs.map(t => (
-        <TabsTrigger
+        {tabs.map((t) => (
+          <TabsTrigger
+            key={t.value}
+            value={t.value}
+            className="whitespace-nowrap flex-shrink-0 data-[state=active]:font-bold"
+          >
+            {t.label}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+      {tabs.map((t) => (
+        <TabsContent
           key={t.value}
           value={t.value}
-          className="whitespace-nowrap flex-shrink-0 data-[state=active]:font-bold"
+          className="mx-auto w-full border rounded-xl py-3.5 p-5"
         >
-          {t.label}
-        </TabsTrigger>
+          {children}
+        </TabsContent>
       ))}
-      </TabsList>
-      {children}
     </Tabs>
   );
 }
