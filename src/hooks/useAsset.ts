@@ -81,3 +81,23 @@ export const useUpdateAsset = <TData extends {}>() => {
     onError: catchError,
   });
 };
+
+export const useDeleteAsset = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: number) => {
+      const response = await api.delete(`index.php?resource=asset`, {
+        params: {
+          id: id,
+        },
+      });
+
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: [ASSET] });
+    },
+    onError: catchError,
+  });
+};

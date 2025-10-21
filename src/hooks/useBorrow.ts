@@ -83,3 +83,23 @@ export const useUpdateBorrow = <TData extends {}>() => {
     onError: catchError,
   });
 };
+
+export const useDeleteBorrow = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: number) => {
+      const response = await api.delete(`index.php?resource=borrow`, {
+        params: {
+          id: id,
+        },
+      });
+
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: [BORROW] });
+    },
+    onError: catchError,
+  });
+};

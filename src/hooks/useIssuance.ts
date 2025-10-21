@@ -102,3 +102,23 @@ export const useUpdateIssuance = <TData extends {}>() => {
     onError: catchError,
   });
 };
+
+export const useDeleteIssuance = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: number) => {
+      const response = await api.delete(`index.php?resource=issuance`, {
+        params: {
+          id: id,
+        },
+      });
+
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: [ISSUANCE] });
+    },
+    onError: catchError,
+  });
+};
