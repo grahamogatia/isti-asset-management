@@ -81,3 +81,23 @@ export const useUpdateRepair = <TData extends {}>() => {
     onError: catchError,
   });
 };
+
+export const useDeleteRepair = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: number) => {
+      const response = await api.delete(`index.php?resource=repair`, {
+        params: {
+          id: id,
+        },
+      });
+
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: [REPAIR] });
+    },
+    onError: catchError,
+  });
+};
