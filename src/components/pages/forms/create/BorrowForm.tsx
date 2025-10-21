@@ -60,11 +60,11 @@ function BorrowForm() {
     return (assets ?? []).filter((asset) => {
       const condition = getConditionName(asset.asset_condition_id);
       const category = getCategoryName(asset.category_id);
-      const isDeleted = asset.status_id === getStatusIdGivenStatusName("Asset Inventory", "Deleted");
+      const isAvailable = asset.status_id === getStatusIdGivenStatusName("Asset Inventory", "Available");
 
       return (
         !borrowedAssetIds.has(asset.asset_id as number) && // Not currently borrowed
-        (condition === "New" || condition === "Good") && !isDeleted &&
+        (condition === "New" || condition === "Good") && isAvailable &&
         category !== "External"
       );
     });
