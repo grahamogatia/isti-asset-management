@@ -8,6 +8,7 @@ import {
 import IsWithdrawnForm from "@/components/pages/forms/sub-forms/IsWithdrawn";
 import { useCommonColumns } from "./common_columns";
 import { ButtonGroup } from "@/components/ui/button-group";
+import DeleteIssuanceForm from "@/components/pages/forms/delete/DeleteIssuanceForm";
 
 export function useIssuanceColumns() {
   const commonColumns = useCommonColumns<Issuance>();
@@ -47,6 +48,7 @@ export function useIssuanceColumns() {
         return (
           <ButtonGroup className="hidden sm:flex">
             {!isPulledOut && <IsWithdrawnForm issuance={row.original} />}
+            <DeleteIssuanceForm issuance={row.original}/>
           </ButtonGroup>
         );
       },

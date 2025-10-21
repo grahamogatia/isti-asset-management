@@ -12,6 +12,7 @@ import {
 
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { ButtonGroup } from "@/components/ui/button-group";
+import DeleteAssetForm from "@/components/pages/forms/delete/DeleteAssetForm";
 
 export function useAssetColumns(): ColumnDef<Asset>[] {
   const {
@@ -190,7 +191,7 @@ export function useAssetColumns(): ColumnDef<Asset>[] {
       cell: ({ row }) => {
         return (
           <ButtonGroup className="hidden sm:flex">
-            
+            <DeleteAssetForm asset={row.original}/>
           </ButtonGroup>
         );
       },

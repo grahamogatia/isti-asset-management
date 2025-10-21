@@ -13,7 +13,7 @@ function DeleteAssetForm({ asset }: DeleteAssetFormProps) {
   const handleDeleteAsset = () => {
     mutate(asset.asset_id as number, {
       onSuccess: () => {
-        toast.info("Asset deleted successfully");
+        toast.info("Asset delete successfully");
       },
       onError: () => {
         toast.error("Failed to delete asset");
