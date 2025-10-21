@@ -7,7 +7,6 @@ import {
   createHeaderWithIcon,
   createStandardFilterFn,
 } from "@/lib/columnNameUtils";
-import ActionsButtonGroup from "@/components/ui/actions-button-group";
 import IsRepairedForm from "@/components/pages/forms/sub-forms/IsRepairedForm";
 import UpdateRepairForm from "@/components/pages/forms/update/UpdateRepairForm";
 import IsRejectedForm from "@/components/pages/forms/sub-forms/IsRejectedForm";
@@ -16,6 +15,7 @@ import IsRepairContinuedForm from "@/components/pages/forms/sub-forms/IsRepairCo
 import FormSheet from "@/components/layout/FormSheet";
 import { Button } from "@/components/ui/button";
 import DeleteRepairForm from "@/components/pages/forms/delete/DeleteRepairForm";
+import { ButtonGroup } from "@/components/ui/button-group";
 
 export function useRepairColumns() {
   const commonColumns = useCommonColumns<Repair>();
@@ -91,7 +91,7 @@ export function useRepairColumns() {
         const isCompleted = statusName === "Completed";
 
         return (
-          <ActionsButtonGroup type="Repair">
+          <ButtonGroup className="hidden sm:flex">
             {isUnderRepair && (
               <>
                 <IsRejectedForm repair={row.original} />
@@ -116,7 +116,7 @@ export function useRepairColumns() {
 
             {isOnHold && <IsRepairContinuedForm repair={row.original} />}
             <DeleteRepairForm repair={row.original} />
-          </ActionsButtonGroup>
+          </ButtonGroup>
         );
       },
     },

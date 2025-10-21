@@ -5,9 +5,9 @@ import {
   createHeaderWithIcon,
   createStandardFilterFn,
 } from "@/lib/columnNameUtils";
-import ActionsButtonGroup from "@/components/ui/actions-button-group";
 import IsWithdrawnForm from "@/components/pages/forms/sub-forms/IsWithdrawn";
 import { useCommonColumns } from "./common_columns";
+import { ButtonGroup } from "@/components/ui/button-group";
 
 export function useIssuanceColumns() {
   const commonColumns = useCommonColumns<Issuance>();
@@ -45,9 +45,9 @@ export function useIssuanceColumns() {
       cell: ({ row }) => {
         const isPulledOut = row.original.pullout_date != null;
         return (
-          <ActionsButtonGroup type="Issuance">
+          <ButtonGroup className="hidden sm:flex">
             {!isPulledOut && <IsWithdrawnForm issuance={row.original} />}
-          </ActionsButtonGroup>
+          </ButtonGroup>
         );
       },
     },

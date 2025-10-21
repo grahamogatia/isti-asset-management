@@ -10,8 +10,8 @@ import {
   createStandardFilterFn,
 } from "@/lib/columnNameUtils";
 
-import ActionsButtonGroup from "@/components/ui/actions-button-group";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
+import { ButtonGroup } from "@/components/ui/button-group";
 
 export function useAssetColumns(): ColumnDef<Asset>[] {
   const {
@@ -189,10 +189,9 @@ export function useAssetColumns(): ColumnDef<Asset>[] {
       id: "actions",
       cell: ({ row }) => {
         return (
-          <ActionsButtonGroup
-            type="Asset"
-      
-          />
+          <ButtonGroup className="hidden sm:flex">
+            
+          </ButtonGroup>
         );
       },
     },
