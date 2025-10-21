@@ -8,6 +8,7 @@ import IsReturnedForm from "@/components/pages/forms/sub-forms/IsReturnedForm";
 import FormSheet from "@/components/layout/FormSheet";
 import { Button } from "@/components/ui/button";
 import UpdateBorrowForm from "@/components/pages/forms/update/UpdateBorrowForm";
+import { ButtonGroup } from "@/components/ui/button-group";
 
 export function useBorrowColumns() {
   const commonColumns = useCommonColumns<Borrow>();
@@ -52,7 +53,7 @@ export function useBorrowColumns() {
       cell: ({ row }) => {
         const isReturned = row.original.return_date != null;
         return (
-          <ActionsButtonGroup type="Borrow">
+          <ButtonGroup className="hidden sm:flex">
             {!isReturned && (
               <>
                 <IsReturnedForm borrow={row.original} />
@@ -69,8 +70,8 @@ export function useBorrowColumns() {
                 />
               </>
             )}
-            
-          </ActionsButtonGroup>
+
+          </ButtonGroup>
         );
       },
     },

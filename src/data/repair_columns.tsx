@@ -15,6 +15,7 @@ import IsOnHoldForm from "@/components/pages/forms/sub-forms/IsOnHoldForm";
 import IsRepairContinuedForm from "@/components/pages/forms/sub-forms/IsRepairContinuedForm";
 import FormSheet from "@/components/layout/FormSheet";
 import { Button } from "@/components/ui/button";
+import DeleteRepairForm from "@/components/pages/forms/delete/DeleteRepairForm";
 
 export function useRepairColumns() {
   const commonColumns = useCommonColumns<Repair>();
@@ -114,6 +115,7 @@ export function useRepairColumns() {
             )}
 
             {isOnHold && <IsRepairContinuedForm repair={row.original} />}
+            <DeleteRepairForm repair={row.original} />
           </ActionsButtonGroup>
         );
       },

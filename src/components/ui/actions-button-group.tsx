@@ -1,7 +1,5 @@
-import { Trash2 } from "lucide-react";
-import { Button } from "./button";
+
 import { ButtonGroup } from "./button-group";
-import DeleteAlertDialog from "./delete-alert-dialog";
 
 interface ActionsButtonGroupProps {
   type: string;
@@ -9,7 +7,6 @@ interface ActionsButtonGroupProps {
 }
 
 function ActionsButtonGroup({
-  type,
   children
 }: ActionsButtonGroupProps) {
   return (
@@ -18,12 +15,7 @@ function ActionsButtonGroup({
       {children}
 
 
-      {/* Delete*/}
-      <DeleteAlertDialog type={type}>
-        <Button variant="outline">
-          <Trash2 className="text-red-700 h-4 w-4" />
-        </Button>
-      </DeleteAlertDialog>
+      
     </ButtonGroup>
   );
 }
