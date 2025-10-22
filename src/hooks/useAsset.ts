@@ -42,9 +42,12 @@ export const useAddAsset = <TData = unknown>() => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: TData) => {
+    mutationFn: async ({data, file}: {data: TData, file: File[]}) => {
       const formdata = new FormData();
       formdata.append("data", JSON.stringify(data));
+      file.forEach(f => {
+        formdata.append("file[]",f);
+      })
       const response = await api.post(`index.php?resource=asset`, formdata);
 
       return response.data;

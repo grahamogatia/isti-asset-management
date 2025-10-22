@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Upload, X, File } from "lucide-react";
 import type { Control } from "react-hook-form";
 import { getColumnIcon } from "@/lib/columnNameUtils";
+import { useState } from "react";
 
 interface FormFieldFileProps {
   control: Control<any>;
@@ -31,6 +32,8 @@ function FormFieldFile({
   setFiles,
 }: FormFieldFileProps) {
   const IconComponent = getColumnIcon(name);
+
+  const [images, setImages] = useState<string[]>([]);
 
   return (
     <FormField
@@ -55,6 +58,9 @@ function FormFieldFile({
                     const selectedFiles = Array.from(e.target.files || []);
                     if (selectedFiles.length > 0) {
                       setFiles(selectedFiles);
+                      setImages(
+                        selectedFiles.map((file) => URL.createObjectURL(file))
+                      );
                       onChange(selectedFiles.map((file) => file.name));
                     }
                   }}
@@ -74,9 +80,49 @@ function FormFieldFile({
                     : placeholder}
                 </Button>
               </div>
+              <div className="flex flex-wrap gap-4">
+                {images.map((image, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="flex items-center gap-2  rounded-md"
+                    >
+                      <img src={image} className="max-w-20" />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="h-auto p-1 flex-shrink-0"
+                        onClick={() => {
+                          const updatedFiles = files.filter(
+                            (_, i) => i !== index
+                          );
+                          setImages((prev) => {
+                            return prev.filter((_, i) => i !== index);
+                          });
+                          setFiles(updatedFiles);
+                          onChange(
+                            updatedFiles.length > 0 ? updatedFiles : null
+                          );
+
+                          // Clear input if no files left
+                          if (updatedFiles.length === 0) {
+                            const input = document.getElementById(
+                              `file-input-${name}`
+                            ) as HTMLInputElement;
+                            if (input) input.value = "";
+                          }
+                        }}
+                      >
+                        <X className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  );
+                })}
+              </div>
 
               {/* Display all selected files */}
-              {files.length > 0 && (
+              {/* {files.length > 0 && (
                 <div className="space-y-2">
                   {files.map((file, index) => (
                     <div
@@ -118,7 +164,7 @@ function FormFieldFile({
                     </div>
                   ))}
                 </div>
-              )}
+              )} */}
 
               <p className="text-xs text-gray-500">
                 Supported formats: JPG, PNG (Max 10MB each)

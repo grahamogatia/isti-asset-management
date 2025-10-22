@@ -13,6 +13,7 @@ import {
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { ButtonGroup } from "@/components/ui/button-group";
 import DeleteAssetForm from "@/components/pages/forms/delete/DeleteAssetForm";
+import ImageDialog from "@/components/ui/image-dialog";
 
 export function useAssetColumns(): ColumnDef<Asset>[] {
   const {
@@ -72,7 +73,16 @@ export function useAssetColumns(): ColumnDef<Asset>[] {
     },
     {
       accessorKey: "file",
-      header: createHeaderWithIcon("file", "File"),
+      header: createHeaderWithIcon("file", "Image"),
+      cell: ({ row }) => {
+        const imageString: string = row.getValue("file");
+
+        if (!imageString) {
+          return "---"
+        }
+        const images = imageString.split(",").map(img => img.trim());
+        return <ImageDialog asset_id={row.original.asset_id as number} images={images}/>
+      }
     },
     {
       accessorKey: "brand",

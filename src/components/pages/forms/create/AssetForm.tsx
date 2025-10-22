@@ -50,7 +50,6 @@ function AssetForm() {
   const { data: types } = useTypes();
   const { data: insurances } = useInsurances();
   const [files, setFiles] = useState<File[]>([]);
-  
 
   function onSubmit(values: Asset) {
     console.log("🎉 SUCCESS! Form submitted:", values);
@@ -58,12 +57,17 @@ function AssetForm() {
       0,
       differenceInMonths(values.warranty_due_date ?? new Date(), new Date())
     );
+    
     mutate(
       {
-        ...values,
-        purchase_date: format(values.warranty_due_date, "yyyy-MM-dd"),
-        warranty_due_date: format(values.warranty_due_date, "yyyy-MM-dd"),
-        warranty_duration: duration,
+        data: {
+          ...values,
+          purchase_date: format(values.warranty_due_date, "yyyy-MM-dd"),
+          warranty_due_date: format(values.warranty_due_date, "yyyy-MM-dd"),
+          warranty_duration: duration,
+          location: values.location ?? null,
+        },
+        file: files,
       },
       {
         onSuccess: () => {
@@ -83,6 +87,7 @@ function AssetForm() {
         id="asset-form"
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-5"
+        encType="multipart/form-data"
       >
         <FormCardContent title="Asset Information">
           <FormFieldText
