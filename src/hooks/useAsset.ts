@@ -9,13 +9,14 @@ const ASSET = "asset";
 export const useAssets = () => {
   return useQuery({
     queryKey: [ASSET],
-    queryFn: () => getAll<Asset[]>(ASSET),
+    queryFn: () => getAll<(Omit<Asset,"file"> & {file:string})[]>(ASSET),
     select: (data) => {
       return data.map((item) => {
         return {
           ...item,
           warranty_due_date: new Date(item.warranty_due_date),
           purchase_date: new Date(item.purchase_date),
+          file: item.file ? item.file.split(",").map((img) => img.trim()) : []
         };
       });
     },

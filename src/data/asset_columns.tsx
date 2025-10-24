@@ -1,5 +1,5 @@
 // TODO Add Insurance
-import { /* useMemo removed */ } from "react";
+import /* useMemo removed */ "react";
 import { type ColumnDef } from "@tanstack/react-table";
 import { differenceInMonths, format } from "date-fns";
 import type { Asset } from "./types";
@@ -14,6 +14,10 @@ import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { ButtonGroup } from "@/components/ui/button-group";
 import DeleteAssetForm from "@/components/pages/forms/delete/DeleteAssetForm";
 import ImageDialog from "@/components/ui/image-dialog";
+import UpdateAssetForm from "@/components/pages/forms/update/UpdateAssetForm";
+import FormSheet from "@/components/layout/FormSheet";
+import { Button } from "@/components/ui/button";
+import { SquarePen } from "lucide-react";
 
 export function useAssetColumns(): ColumnDef<Asset>[] {
   const {
@@ -75,14 +79,19 @@ export function useAssetColumns(): ColumnDef<Asset>[] {
       accessorKey: "file",
       header: createHeaderWithIcon("file", "Image"),
       cell: ({ row }) => {
-        const imageString: string = row.getValue("file");
+        const images: string[] = row.getValue("file");
 
-        if (!imageString) {
-          return "---"
+        if (!images) {
+          return "---";
         }
-        const images = imageString.split(",").map(img => img.trim());
-        return <ImageDialog asset_id={row.original.asset_id as number} images={images}/>
-      }
+        
+        return (
+          <ImageDialog
+            asset_id={row.original.asset_id as number}
+            images={images}
+          />
+        );
+      },
     },
     {
       accessorKey: "brand",
@@ -91,18 +100,23 @@ export function useAssetColumns(): ColumnDef<Asset>[] {
     {
       accessorKey: "condition",
       accessorFn: (row) =>
-        row.asset_condition_id ? getConditionName(row.asset_condition_id) : null,
+        row.asset_condition_id
+          ? getConditionName(row.asset_condition_id)
+          : null,
       header: createHeaderWithIcon("condition", "Condition"),
       cell: ({ row }) => {
         return <span>{getConditionName(row.original.asset_condition_id)}</span>;
       },
       filterFn: createStandardFilterFn((row) =>
-        row.original.asset_condition_id ? getConditionName(row.original.asset_condition_id) : null
+        row.original.asset_condition_id
+          ? getConditionName(row.original.asset_condition_id)
+          : null
       ),
     },
     {
       accessorKey: "status",
-      accessorFn: (row) => (row.status_id ? getStatusName(row.status_id) : null),
+      accessorFn: (row) =>
+        row.status_id ? getStatusName(row.status_id) : null,
       header: createHeaderWithIcon("status", "Status"),
       cell: ({ row }) => {
         return <span>{getStatusName(row.original.status_id as number)}</span>;
@@ -201,7 +215,18 @@ export function useAssetColumns(): ColumnDef<Asset>[] {
       cell: ({ row }) => {
         return (
           <ButtonGroup className="hidden sm:flex">
-            <DeleteAssetForm asset={row.original}/>
+            <FormSheet
+              type={"Asset Inventory"}
+              taskName="Update"
+              button={
+                <Button variant="outline">
+                  <SquarePen className="h-4 w-4" />
+                </Button>
+              }
+              form={<UpdateAssetForm asset={row.original} />}
+            />
+
+            <DeleteAssetForm asset={row.original} />
           </ButtonGroup>
         );
       },

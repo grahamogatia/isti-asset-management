@@ -7,7 +7,6 @@ import FormFieldText from "../fields/FormFieldText";
 import FormFieldTextArea from "../fields/FormFieldTextArea";
 import FormFieldMoney from "../fields/FormFieldMoney";
 import FormFieldDate from "../fields/FormFieldDate";
-import FormFieldFile from "../fields/FormFieldFile";
 import FormCardContent from "@/components/layout/FormCardContent";
 import { Button } from "@/components/ui/button";
 import { Save } from "lucide-react";
@@ -20,8 +19,7 @@ import { useTypes } from "@/hooks/useCategory";
 import { useInsurances } from "@/hooks/useInsurance";
 import { compareObjects } from "@/lib/utils";
 import { toast } from "sonner";
-import { useState } from "react";
-import { useUpdateRepair } from "@/hooks/useRepair";
+import { useUpdateAsset } from "@/hooks/useAsset";
 
 interface UpdateAssetFormProps {
   asset: Asset;
@@ -36,13 +34,19 @@ function UpdateAssetForm({ asset }: UpdateAssetFormProps) {
     mode: "all",
   });
 
-  const { mutate } = useUpdateRepair();
+  const { mutate } = useUpdateAsset();
   const { data: asset_types } = useTypes();
   const { data: insurances } = useInsurances();
-  const { getCategoryName, getSubCategoryName, getTypeName } =
-    useLookupFunctions();
-  const [files, setFiles] = useState<File[]>([]);
-  
+  const {
+    getCategoryName,
+    getSubCategoryName,
+    getTypeName,
+    getIdFromDisplayName,
+  } = useLookupFunctions();
+  const watchCategory =
+    form.watch("category_id") ===
+    (getIdFromDisplayName("category", "External") as number);
+
 
   function onSubmit(values: Asset) {
     const changed = compareObjects(asset, values);
@@ -52,10 +56,18 @@ function UpdateAssetForm({ asset }: UpdateAssetFormProps) {
       return;
     }
 
-    mutate({
-      id: values.asset_id as number,
-      data: changed,
-    });
+    mutate(
+      {
+        id: values.asset_id as number,
+        data: changed,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Sucessfully updated Asset");
+        },
+      }
+    );
+
     console.log("🎉 Asset updated:", values);
   }
 
@@ -65,6 +77,7 @@ function UpdateAssetForm({ asset }: UpdateAssetFormProps) {
         id="update-asset-form"
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-5"
+        encType="multipart-form-data"
       >
         <FormCardContent title="Asset Information">
           <DisplayField name="asset_name" label="Asset Name">
@@ -96,12 +109,14 @@ function UpdateAssetForm({ asset }: UpdateAssetFormProps) {
             assetTypes={asset_types ?? []}
             form={{ ...form }}
           />
-          <FormFieldText
-            control={form.control}
-            name="location"
-            label="Location"
-            placeholder="e.g. Makati, Manila, Pasay"
-          />
+          {watchCategory && (
+            <FormFieldText
+              control={form.control}
+              name="location"
+              label="Location"
+              placeholder="e.g. Makati, Manila, Pasay"
+            />
+          )}
           <FormFieldTextArea
             control={form.control}
             name="specifications"
@@ -139,14 +154,6 @@ function UpdateAssetForm({ asset }: UpdateAssetFormProps) {
             insurances={insurances ?? []}
             form={{ ...form }}
           />
-          <FormFieldFile
-            control={form.control}
-            name="file"
-            label="Asset Document"
-            placeholder="Upload asset document"
-            files={files}
-            setFiles={setFiles}
-          />
           <FormFieldTextArea
             control={form.control}
             name="notes"
@@ -160,9 +167,10 @@ function UpdateAssetForm({ asset }: UpdateAssetFormProps) {
             className="w-full flex items-center justify-center rounded-md"
             type="submit"
             form="update-asset-form"
-            onClick={() =>
-              console.log(asset)
-            }
+            onClick={() => {
+              console.log(asset);
+              console.log(form.formState.errors);
+            }}
           >
             <Save className="mr-2 h-4 w-4" />
             Update Asset

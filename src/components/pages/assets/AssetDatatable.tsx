@@ -33,7 +33,6 @@ function AssetDataTable({
   }, [category.category_name]);
 
   const columns = useAssetColumns();
-  console.log(columns)
 
   return (
     <DataTable

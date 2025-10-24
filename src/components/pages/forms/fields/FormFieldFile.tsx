@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Upload, X, File } from "lucide-react";
+import { Upload, X } from "lucide-react";
 import type { Control } from "react-hook-form";
 import { getColumnIcon } from "@/lib/columnNameUtils";
 import { useState } from "react";
