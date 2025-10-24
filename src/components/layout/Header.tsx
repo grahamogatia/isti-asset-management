@@ -12,6 +12,7 @@ function Header() {
     if (pathname.includes("repair")) return "Repair";
     if (pathname.includes("borrow")) return "Borrow";
     if (pathname.includes("issuance")) return "Issuance";
+    if (pathname.includes("settings")) return "Settings";
 
     return "Dashboard";
   };

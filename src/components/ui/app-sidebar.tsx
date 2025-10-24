@@ -14,11 +14,13 @@ import {
   CalendarSync,
   LayoutDashboard,
   MonitorUp,
+  Settings,
   Wrench,
 } from "lucide-react";
 import un_logo from "@/assets/un_logo.png";
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router-dom";
+import { Separator } from "./separator";
 
 const items = [
   {
@@ -47,6 +49,12 @@ const items = [
     icon: MonitorUp,
   },
 ];
+
+const settings = {
+  title: "Settings",
+  url: "settings",
+  icon: Settings,
+};
 
 export function AppSidebar() {
   const { state } = useSidebar();
@@ -92,16 +100,34 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={isActiveItem(item.url)}>
-                    <Link to={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              <div>
+                {items.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isActiveItem(item.url)}
+                    >
+                      <Link to={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </div>
+              <Separator className="my-2"/>
+              <SidebarMenuItem key={settings.title}>
+                <SidebarMenuButton
+                  asChild
+                  isActive={isActiveItem(settings.url)}
+                >
+                  <Link to={settings.url}>
+                    <settings.icon />
+                    <span>{settings.title}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

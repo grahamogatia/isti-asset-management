@@ -8,6 +8,7 @@ import Issuance from "./pages/Issuance";
 import Repair from "./pages/Repair";
 import { useSidebar } from "./components/ui/sidebar";
 import { cn } from "./lib/utils";
+import Settings from "./pages/Settings";
 
 function App() {
   
@@ -40,6 +41,7 @@ function AppRoutes() {
           <Route path="borrow" element={<Borrow />} />
           <Route path="issuance" element={<Issuance />} />
           <Route path="repair" element={<Repair />} />
+          <Route path="settings" element={<Settings />} /> 
         </Routes>
       </div>
     </>
