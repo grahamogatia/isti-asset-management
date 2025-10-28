@@ -18,7 +18,7 @@ function DisplayTabsByStatus({
     <Tabs
       value={selectedStatus}
       onValueChange={setSelectedStatus}
-      className="p-5"
+      className="p-4 pt-2"
     >
       <TabsList className="gap-2 overflow-x-auto max-w-full">
         {tabs.map((t) => (

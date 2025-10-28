@@ -88,7 +88,7 @@ export function AppSidebar() {
             <h1
               className={cn(
                 state === "collapsed" ? "hidden" : "text-left font-semibold",
-                "leading-tight"
+                "leading-tight pt-0.5"
               )}
             >
               ISTI Asset
@@ -106,6 +106,7 @@ export function AppSidebar() {
                     <SidebarMenuButton
                       asChild
                       isActive={isActiveItem(item.url)}
+                      className="hover:bg-zinc-200 hover:text-zinc-950 transition-all active:bg-zinc-200"
                     >
                       <Link to={item.url}>
                         <item.icon />
@@ -115,11 +116,12 @@ export function AppSidebar() {
                   </SidebarMenuItem>
                 ))}
               </div>
-              <Separator className="my-2"/>
+              <Separator className="my-2" />
               <SidebarMenuItem key={settings.title}>
                 <SidebarMenuButton
                   asChild
                   isActive={isActiveItem(settings.url)}
+                  className="hover:bg-zinc-200 hover:text-zinc-950 transition-all"
                 >
                   <Link to={settings.url}>
                     <settings.icon />
@@ -127,7 +129,6 @@ export function AppSidebar() {
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

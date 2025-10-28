@@ -20,61 +20,9 @@ import { Button } from "@/components/ui/button";
 import { SquarePen } from "lucide-react";
 
 export function useAssetColumns(): ColumnDef<Asset>[] {
-  const {
-    getCategoryName,
-    getSubCategoryName,
-    getTypeName,
-    getConditionName,
-    getStatusName,
-  } = useLookupFunctions();
+  const { getConditionName, getStatusName } = useLookupFunctions();
 
   return [
-    {
-      accessorKey: "asset_id",
-      header: createHeaderWithIcon("asset_id", "Asset ID"),
-    },
-    {
-      accessorKey: "asset_name",
-      header: createSortableHeaderWithIcon("asset_name", "Asset Name"),
-    },
-    {
-      accessorKey: "category",
-      header: createHeaderWithIcon("category", "Category"),
-      cell: ({ row }) => {
-        return <span>{getCategoryName(row.original.category_id)}</span>;
-      },
-      filterFn: createStandardFilterFn((row) =>
-        getCategoryName(row.original.category_id)
-      ),
-    },
-    {
-      accessorKey: "sub_category",
-      header: createHeaderWithIcon("sub_category", "Sub Category"),
-      cell: ({ row }) => {
-        return <span>{getSubCategoryName(row.original.sub_category_id)}</span>;
-      },
-      filterFn: createStandardFilterFn((row) =>
-        getSubCategoryName(row.original.sub_category_id)
-      ),
-    },
-    {
-      accessorKey: "type",
-      header: createHeaderWithIcon("type", "Type"),
-      cell: ({ row }) => {
-        return row.original.type_id ? (
-          <span>{getTypeName(row.original.type_id)}</span>
-        ) : (
-          <span>-</span>
-        );
-      },
-      filterFn: createStandardFilterFn((row) =>
-        row.original.type_id ? getTypeName(row.original.type_id) : null
-      ),
-    },
-    {
-      accessorKey: "serial_number",
-      header: createHeaderWithIcon("serial_number", "Serial Number"),
-    },
     {
       accessorKey: "file",
       header: createHeaderWithIcon("file", "Image"),
@@ -84,7 +32,7 @@ export function useAssetColumns(): ColumnDef<Asset>[] {
         if (!images) {
           return "---";
         }
-        
+
         return (
           <ImageDialog
             asset_id={row.original.asset_id as number}
@@ -92,6 +40,14 @@ export function useAssetColumns(): ColumnDef<Asset>[] {
           />
         );
       },
+    },
+    {
+      accessorKey: "asset_name",
+      header: createSortableHeaderWithIcon("asset_name", "Name"),
+    },
+    {
+      accessorKey: "serial_number",
+      header: createHeaderWithIcon("serial_number", "Serial Number"),
     },
     {
       accessorKey: "brand",

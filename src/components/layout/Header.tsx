@@ -1,3 +1,4 @@
+import { Separator } from "../ui/separator";
 import { SidebarTrigger } from "../ui/sidebar";
 import { useLocation } from "react-router-dom";
 
@@ -18,9 +19,10 @@ function Header() {
   };
 
   return (
-    <div className="flex h-16 items-center top-0 sticky bg-white border  z-50">
+    <div className="flex h-12 p-4 items-center top-0 sticky bg-white z-50 justify-start">
       <SidebarTrigger />
-      <p className="font-semibold text-lg ml-4">{getPageTitle()}</p>
+      <Separator  className="h-10 mx-4" orientation="vertical"/>
+      <p className="font-semibold">{getPageTitle()}</p>
     </div>
   );
 }

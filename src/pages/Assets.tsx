@@ -5,20 +5,20 @@ import { Separator } from "@/components/ui/separator";
 import { useCategories } from "@/hooks/useCategory";
 
 function Assets() {
-
-  const {data: categories = [], isLoading} = useCategories();
+  const { data: categories = [], isLoading } = useCategories();
 
   const [category, setCategory] = useState<string>();
 
+
   useEffect(() => {
-    if (!categories && isLoading) return
-    setCategory(categories[0]?.category_name) 
-  }, [categories, isLoading])
+    if (!categories && isLoading) return;
+    setCategory(categories[0]?.category_name);
+  }, [categories, isLoading]);
 
   return (
     <div className="mx-auto w-full">
       <Tabs value={category} className="gap-0" onValueChange={setCategory}>
-        <div className="w-fit p-3 pl-5">
+        <div className="w-fit p-3 pt-2 pl-5">
           <TabsList className="bg-transparent p-0 h-auto mb-2 flex items-center gap-2">
             {categories.map((cat, index) => (
               <>
