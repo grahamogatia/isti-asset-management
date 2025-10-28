@@ -4,6 +4,7 @@ import type { Issuance } from "@/data/types";
 import api from "./api/config";
 import { useMemo } from "react";
 import { format, isDate } from "date-fns";
+import { toast } from "sonner";
 
 const ISSUANCE = "issuance";
 
@@ -58,8 +59,13 @@ export const useAddIssuance = <TData = unknown>() => {
 
       return response.data;
     },
-    onSuccess: () => {
-      queryClient.refetchQueries({ queryKey: [ISSUANCE] });
+    onSuccess: (data) => {
+      if (typeof data === "object") {
+        queryClient.refetchQueries({ queryKey: [ISSUANCE] });
+        toast.success("Successfully added new Issuance");
+      } else {
+        throw new Error("Failed to add new Issuance");
+      }
     },
     onError: catchError,
   });
@@ -75,7 +81,6 @@ export const useIssuedAssetIds = (): number[] => {
       .filter((id): id is number => typeof id === "number");
   }, [data]);
 };
-
 
 export const useUpdateIssuance = <TData extends {}>() => {
   const queryClient = useQueryClient();

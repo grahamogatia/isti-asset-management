@@ -56,8 +56,8 @@ export const useAddAsset = <TData = unknown>() => {
     },
     onSuccess: (data) => {
       if (typeof data === "object") {
-        toast.success("Successfully added new Asset");
         queryClient.refetchQueries({ queryKey: [ASSET] });
+        toast.success("Successfully added new Asset");
       } else {
         throw new Error("Failed to add new Asset");
       }

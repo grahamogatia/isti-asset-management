@@ -3,6 +3,7 @@ import { catchError, getAll, getOne } from "./controller";
 import type { Borrow } from "@/data/types";
 import api from "./api/config";
 import { format, isDate } from "date-fns";
+import { toast } from "sonner";
 
 const BORROW = "borrow";
 
@@ -16,7 +17,9 @@ export const useBorrows = () => {
           ...item,
           date_borrowed: new Date(item.date_borrowed),
           due_date: new Date(item.due_date as Date),
-          return_date: item.return_date ? new Date(item.return_date as Date) : undefined,
+          return_date: item.return_date
+            ? new Date(item.return_date as Date)
+            : undefined,
         };
       });
     },
@@ -51,8 +54,13 @@ export const useAddBorrow = <TData = unknown>() => {
 
       return response.data;
     },
-    onSuccess: () => {
-      queryClient.refetchQueries({ queryKey: [BORROW] });
+    onSuccess: (data) => {
+      if (typeof data === "object") {
+        queryClient.refetchQueries({ queryKey: [BORROW] });
+        toast.success("Successfully added new Borrow");
+      } else {
+        throw new Error("Failed to add new Borrow");
+      }
     },
     onError: catchError,
   });

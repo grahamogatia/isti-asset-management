@@ -3,6 +3,7 @@ import { catchError, getAll, getOne } from "./controller";
 import type { Repair } from "@/data/types";
 import api from "./api/config";
 import { format, isDate } from "date-fns";
+import { toast } from "sonner";
 
 const REPAIR = "repair";
 
@@ -49,8 +50,13 @@ export const useAddRepair = <TData = unknown>() => {
 
       return response.data;
     },
-    onSuccess: () => {
-      queryClient.refetchQueries({ queryKey: [REPAIR] });
+    onSuccess: (data) => {
+      if (typeof data === "object") {
+        queryClient.refetchQueries({ queryKey: [REPAIR] });
+        toast.success("Successfully added new Repair");
+      } else {
+        throw new Error("Failed to add new Repair");
+      }
     },
     onError: catchError,
   });
