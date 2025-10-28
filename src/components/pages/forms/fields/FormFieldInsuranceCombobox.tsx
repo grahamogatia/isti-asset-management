@@ -70,7 +70,7 @@ function FormFieldInsuranceCombobox({
                       ? insurances.find(
                           (insurance) => insurance.insurance_id === field.value
                         )?.insurance_name
-                      : "Select Insurance"}
+                      : "Select insurance provider"}
                     <ChevronsUpDown className="opacity-50" />
                   </Button>
                 </FormControl>

@@ -6,18 +6,24 @@ export const AssetSchema = z.object({
   asset_name: z.string().optional(),
   category_id: z.number(),
   sub_category_id: z.number(),
-  type_id: z.number(),
+  type_id: z.number({ message: "Type is required" }),
   asset_condition_id: z.number(),
   location: z.string().nullable().optional(),
   status_id: z.number().optional(),
-  serial_number: z.string(),
-  brand: z.string(),
-  specifications: z.string(),
-  asset_amount: z.number(),
-  warranty_due_date: z.date(),
+  serial_number: z.string({ message: "Serial number is required" }),
+  brand: z.string({ message: "Brand is required "}),
+  specifications: z
+    .string({ message: "Specifications is required" })
+    .min(5, "Specifications must be at least 5 characters")
+    .max(100, "Specifications must be at most 100 characters."),
+  asset_amount: z.number({ message: "Amount is required "}),
+  warranty_due_date: z.date({ message: "Warranty Due Date is required" }),
   warranty_duration: z.number().optional(),
-  purchase_date: z.date(),
-  notes: z.string(),
+  purchase_date: z.date({ message: "Purchase Date is required" }),
+  notes: z
+    .string({ message: "Notes is required" })
+    .min(5, "Notes must be at least 5 characters")
+    .max(100, "Notes must be at most 100 characters."),
   file: z.array(z.string()).optional(),
   insurance_id: z.number().nullable().optional(),
 });
@@ -48,7 +54,7 @@ export const RepairSchema = z.object({
   repair_start_date: z.date(),
   repair_cost: z.number().min(0),
   issue: z.string().optional(),
-  
+
   repair_completion_date: z.date().nullable().optional(),
   remarks: z.string().optional(),
 });

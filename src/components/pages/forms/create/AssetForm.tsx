@@ -93,19 +93,19 @@ function AssetForm() {
           <FormFieldText
             control={form.control}
             name="serial_number"
-            label="Serial Number"
-            placeholder="e.g. ABC123456789"
+            label="Serial Number *"
+            placeholder="e.g. SN-2025-000123"
           />
           <FormFieldText
             control={form.control}
             name="brand"
-            label="Brand"
+            label="Brand *"
             placeholder="e.g. Dell, HP, Apple"
           />
           <FormFieldTypeCombobox
             control={form.control}
             name="type_id"
-            label="Type"
+            label="Type *"
             assetTypes={types ?? []}
             form={{ ...form }}
           />
@@ -120,8 +120,8 @@ function AssetForm() {
           <FormFieldTextArea
             control={form.control}
             name="specifications"
-            label="Specifications"
-            placeholder="e.g. Intel i7 processor, 16GB RAM, 512GB SSD..."
+            label="Specifications *"
+            placeholder="List key specs i.e. CPU, RAM, storage, display..."
           />
         </FormCardContent>
 
@@ -129,19 +129,19 @@ function AssetForm() {
           <FormFieldMoney
             control={form.control}
             name="asset_amount"
-            label="Amount"
+            label="Amount *"
             placeholder="0.00"
           />
           <FormFieldDate
             control={form.control}
             name="purchase_date"
-            label="Purchase Date"
+            label="Purchase Date *"
             placeholder="Select purchase date"
           />
           <FormFieldDate
             control={form.control}
             name="warranty_due_date"
-            label="Warranty Due Date"
+            label="Warranty Due Date *"
             placeholder="Select warranty expiry date"
             minDate={
               form.watch("purchase_date")
@@ -163,16 +163,16 @@ function AssetForm() {
           <FormFieldFile
             control={form.control}
             name="file"
-            label="Asset Document"
-            placeholder="Upload asset document"
+            label="Images"
+            placeholder="Upload images"
             files={files}
             setFiles={setFiles}
           />
           <FormFieldTextArea
             control={form.control}
             name="notes"
-            label="Notes"
-            placeholder="Enter notes"
+            label="Notes *"
+            placeholder="Add asset's condition, accessories, or special handling..."
           />
         </FormCardContent>
 

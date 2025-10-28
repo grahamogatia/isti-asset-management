@@ -5,7 +5,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+  InputGroupTextarea,
+} from "@/components/ui/input-group";
 import { getColumnIcon } from "@/lib/columnNameUtils";
 import type { Control } from "react-hook-form";
 
@@ -34,11 +39,24 @@ function FormFieldTextArea({
             {label}
           </FormLabel>
           <FormControl>
-            <Textarea
+            <InputGroup>
+              <InputGroupTextarea
+                {...field}
+                placeholder={placeholder}
+                rows={6}
+                className="min-h-24 resize-none"
+              />
+              <InputGroupAddon align="block-end">
+                <InputGroupText className="tabular-nums">
+                  {(field.value || "").length}/255 characters{" "}
+                </InputGroupText>
+              </InputGroupAddon>
+            </InputGroup>
+            {/* <Textarea
               placeholder={placeholder}
               className="resize-none"
               {...field}
-            />
+            /> */}
           </FormControl>
           <FormMessage />
         </FormItem>
