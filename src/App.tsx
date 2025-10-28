@@ -22,7 +22,7 @@ function App() {
 }
 
 function AppRoutes() {
-  const { state } = useSidebar();
+  const { state, isMobile } = useSidebar();
 
   return (
     <div className="p-2 pl-0 bg-[oklch(0.97_0_0)] h-screen">
@@ -31,10 +31,11 @@ function AppRoutes() {
         <Separator/>
         <div
           className={cn(
-            "p-2 pl-0 min-h-0 flex-1",
+            "p-2 px-0 min-h-0 flex-1",
+            !isMobile ?
             state === "collapsed"
               ? "max-w-[calc(100vw-3rem)]"
-              : "max-w-[calc(100vw-14rem)]"
+              : "max-w-[calc(100vw-14rem)]" : ""
           )}
         >
           <Routes>

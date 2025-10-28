@@ -12,6 +12,7 @@ const api = axios.create({ baseURL: url, timeout: 60000 })
 
 api.interceptors.response.use((res) => res, (error: AxiosError) => {
     toast.error(error.message === "Network Error" ? "The host cannot connect to the server ..." : error.message)
+    
     return Promise.reject(error.message)
 })
 

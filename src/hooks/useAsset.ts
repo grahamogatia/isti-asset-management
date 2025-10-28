@@ -3,20 +3,21 @@ import { catchError, getAll, getOne } from "./controller";
 import type { Asset } from "@/data/types";
 import api from "./api/config";
 import { format, isDate } from "date-fns";
+import { toast } from "sonner";
 
 const ASSET = "asset";
 
 export const useAssets = () => {
   return useQuery({
     queryKey: [ASSET],
-    queryFn: () => getAll<(Omit<Asset,"file"> & {file:string})[]>(ASSET),
+    queryFn: () => getAll<(Omit<Asset, "file"> & { file: string })[]>(ASSET),
     select: (data) => {
       return data.map((item) => {
         return {
           ...item,
           warranty_due_date: new Date(item.warranty_due_date),
           purchase_date: new Date(item.purchase_date),
-          file: item.file ? item.file.split(",").map((img) => img.trim()) : []
+          file: item.file ? item.file.split(",").map((img) => img.trim()) : [],
         };
       });
     },
@@ -43,18 +44,23 @@ export const useAddAsset = <TData = unknown>() => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({data, file}: {data: TData, file: File[]}) => {
+    mutationFn: async ({ data, file }: { data: TData; file: File[] }) => {
       const formdata = new FormData();
       formdata.append("data", JSON.stringify(data));
-      file.forEach(f => {
-        formdata.append("file[]",f);
-      })
+      file.forEach((f) => {
+        formdata.append("file[]", f);
+      });
       const response = await api.post(`index.php?resource=asset`, formdata);
 
       return response.data;
     },
-    onSuccess: () => {
-      queryClient.refetchQueries({ queryKey: [ASSET] });
+    onSuccess: (data) => {
+      if (typeof data === "object") {
+        toast.success("Successfully added new Asset");
+        queryClient.refetchQueries({ queryKey: [ASSET] });
+      } else {
+        throw new Error("Failed to add new Asset");
+      }
     },
     onError: catchError,
   });

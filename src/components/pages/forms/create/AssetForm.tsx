@@ -57,24 +57,17 @@ function AssetForm() {
       0,
       differenceInMonths(values.warranty_due_date ?? new Date(), new Date())
     );
-    
-    mutate(
-      {
-        data: {
-          ...values,
-          purchase_date: format(values.warranty_due_date, "yyyy-MM-dd"),
-          warranty_due_date: format(values.warranty_due_date, "yyyy-MM-dd"),
-          warranty_duration: duration,
-          location: values.location ?? null,
-        },
-        file: files,
+
+    mutate({
+      data: {
+        ...values,
+        purchase_date: format(values.warranty_due_date, "yyyy-MM-dd"),
+        warranty_due_date: format(values.warranty_due_date, "yyyy-MM-dd"),
+        warranty_duration: duration,
+        location: values.location ?? null,
       },
-      {
-        onSuccess: () => {
-          toast.success("Successfully added new Asset");
-        },
-      }
-    );
+      file: files,
+    });
   }
 
   const watchCategory =
