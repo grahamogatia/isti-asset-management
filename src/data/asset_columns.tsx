@@ -80,7 +80,7 @@ export function useAssetColumns(showLocation = true): ColumnDef<Asset>[] {
         return (
           <Badge
             className={`flex items-center gap-1 px-2 py-1`}
-            variant="secondary"
+            variant="outline"
           >
             <Icon className="h-3.5 w-3.5" />
             <span className="text-xs font-medium">{conditionName}</span>
