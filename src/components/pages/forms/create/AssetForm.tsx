@@ -3,7 +3,6 @@ import type { Asset } from "@/data/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
-
 import FormFieldText from "../fields/FormFieldText";
 import FormFieldTextArea from "../fields/FormFieldTextArea";
 import FormFieldMoney from "../fields/FormFieldMoney";
@@ -21,7 +20,11 @@ import { differenceInMonths, format } from "date-fns";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { useState } from "react";
 
-function AssetForm() {
+interface AssetFormProps {
+  onSuccess?: () => void;
+}
+
+function AssetForm({ onSuccess }: AssetFormProps) {
   const form = useForm<Asset>({
     resolver: zodResolver(AssetSchema),
     defaultValues: {
@@ -57,16 +60,24 @@ function AssetForm() {
       differenceInMonths(values.warranty_due_date ?? new Date(), new Date())
     );
 
-    mutate({
-      data: {
-        ...values,
-        purchase_date: format(values.warranty_due_date, "yyyy-MM-dd"),
-        warranty_due_date: format(values.warranty_due_date, "yyyy-MM-dd"),
-        warranty_duration: duration,
-        location: values.location ?? null,
+    mutate(
+      {
+        data: {
+          ...values,
+          purchase_date: format(values.warranty_due_date, "yyyy-MM-dd"),
+          warranty_due_date: format(values.warranty_due_date, "yyyy-MM-dd"),
+          warranty_duration: duration,
+          location: values.location ?? null,
+        },
+        file: files,
       },
-      file: files,
-    });
+      {
+        onSuccess: () => {
+          onSuccess?.();
+          form.reset();
+        },
+      }
+    );
   }
 
   const watchCategory =
