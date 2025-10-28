@@ -23,7 +23,11 @@ import { useIssuances } from "@/hooks/useIssuance";
 import { useMemo } from "react";
 import { format } from "date-fns";
 
-function RepairForm() {
+interface RepairFormProps {
+  onSuccess?: () => void;
+}
+
+function RepairForm({ onSuccess }: RepairFormProps) { // FIX: correct prop typing and return type
   const form = useForm<Repair>({
     resolver: zodResolver(RepairSchema),
     defaultValues: {
@@ -36,13 +40,13 @@ function RepairForm() {
       department_id: undefined,
       company_id: undefined,
       issue: undefined,
-      urgency_id: undefined,
+      urgency_id: 4,
       status_id: undefined,
       remarks: undefined,
       date_reported: new Date(),
       repair_start_date: new Date(),
       repair_completion_date: undefined,
-      repair_cost: 0,
+      repair_cost: undefined,
     },
     mode: "all",
   });
@@ -52,7 +56,8 @@ function RepairForm() {
   const { data: repairs } = useRepairs();
   const { data: issuances } = useIssuances();
   const { data: urgencies } = useUrgencies();
-  const { getStatuses, getStatusIdGivenStatusName, getAsset } = useLookupFunctions();
+  const { getStatuses, getStatusIdGivenStatusName, getAsset } =
+    useLookupFunctions();
 
   const selectedUserId = form.watch("user_id");
   const assetId = form.watch("asset_id");
@@ -63,8 +68,6 @@ function RepairForm() {
 
   const userAssets = useMemo(() => {
     if (!selectedUserId || !assets || !issuances) return [];
-
-    // Blocklist status ids for Repair
     const blockedStatusIds = new Set(
       (statuses ?? [])
         .filter((s) =>
@@ -73,92 +76,98 @@ function RepairForm() {
         .map((s) => s.status_id)
     );
     const uid = Number(selectedUserId);
-    const deletedStatusId = getStatusIdGivenStatusName("Asset Inventory", "Deleted");
-
-    // All asset ids issued to the selected user
+    const deletedStatusId = getStatusIdGivenStatusName(
+      "Asset Inventory",
+      "Deleted"
+    );
     const userAssetIds = (issuances ?? [])
       .filter((iss) => Number(iss.user_id) === uid)
       .map((iss) => iss.asset_id)
       .filter((id): id is number => typeof id === "number");
-
-    // Helper: is this asset currently repairable?
     const isRepairable = (assetId: number) => {
       const entries = (repairs ?? []).filter((r) => r.asset_id === assetId);
-      if (entries.length === 0) return true; // no repair entries yet
-      // include only if NONE of the entries have a blocked status
+      if (entries.length === 0) return true;
       return entries.every((r) => !blockedStatusIds.has(r.status_id as number));
     };
-
     const allowedIds = new Set(userAssetIds.filter(isRepairable));
-
-    // Return asset objects for the combobox
-    return (assets ?? []).filter((a) => 
-    allowedIds.has(a.asset_id as number) && 
-    a.status_id !== deletedStatusId
-  );
+    return (assets ?? []).filter(
+      (a) =>
+        allowedIds.has(a.asset_id as number) && a.status_id !== deletedStatusId
+    );
   }, [selectedUserId, assets, issuances, repairs, statuses]);
 
   function onSubmit(values: Repair) {
-    console.log("🎉 SUCCESS! Form submitted:", values);
-
-    mutate({
-      ...values,
-      status_id: statuses.find((s) => s.status_name === "Under Repair")
-        ?.status_id,
-      date_reported: format(values.date_reported, "yyyy-MM-dd"),
-      repair_start_date: format(values.repair_start_date, "yyyy-MM-dd"),
-    });
+    mutate(
+      {
+        ...values,
+        // ensure numbers if your selects return strings:
+        asset_id: values.asset_id ? Number(values.asset_id) : undefined,
+        user_id: values.user_id ? Number(values.user_id) : undefined,
+        urgency_id: values.urgency_id ? Number(values.urgency_id) : undefined,
+        status_id: statuses.find((s) => s.status_name === "Under Repair")
+          ?.status_id,
+        date_reported: format(values.date_reported, "yyyy-MM-dd"),
+        repair_start_date: format(values.repair_start_date, "yyyy-MM-dd"),
+      },
+      {
+        onSuccess: () => {
+          onSuccess?.();
+          form.reset();
+        },
+      }
+    );
   }
 
   return (
     <Form {...form}>
-      <form
-        id="repair-form"
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-5"
-      >
+      <form id="repair-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
         <FormCardContent title="Details">
           <FormFieldUserCombobox
             control={form.control}
             name="user_id"
-            label="Reported By"
+            label="Reported By *"
             employees={employees}
             form={form}
           />
-          <FormFieldAssetCombobox // Display only user's issued items
+          <FormFieldAssetCombobox
             control={form.control}
             name="asset_id"
-            label="Asset Requiring Repair"
+            label="Asset Requiring Repair *"
             assets={userAssets}
             form={form}
           />
           <FormFieldDate
             control={form.control}
             name="date_reported"
-            label="Date Reported"
+            label="Date Reported *"
             placeholder="Select a date"
             minDate={repairMinDate}
             maxDate={new Date(new Date().getFullYear() + 50, 11, 31)}
           />
         </FormCardContent>
+
         <FormCardContent title="Request">
           <FormFieldSelect
             control={form.control}
             name="urgency_id"
-            label="Urgency"
+            label="Urgency *"
             placeholder="Select urgency level"
           >
-            {urgencies &&
-              urgencies.map((urgency) => (
-                <SelectItem value={String(urgency.urgency_id)}>
-                  {urgency.urgency_level}
-                </SelectItem>
-              ))}
+
+            {urgencies?.map((urgency) => (
+              <SelectItem
+                key={urgency.urgency_id} // FIX: add key
+                value={String(urgency.urgency_id)} // if your component emits strings
+              >
+                {urgency.urgency_level}
+              </SelectItem>
+            ))}
           </FormFieldSelect>
+
           <FormFieldDate
             control={form.control}
             name="repair_start_date"
-            label="Repair Start Date"
+            label="Repair Start Date *"
             placeholder="Select a date"
             minDate={repairMinDate}
             maxDate={new Date(new Date().getFullYear() + 50, 11, 31)}
@@ -166,7 +175,7 @@ function RepairForm() {
           <FormFieldMoney
             control={form.control}
             name="repair_cost"
-            label="Repair Cost"
+            label="Repair Cost *"
             placeholder="0.00"
           />
           <FormFieldTextArea
@@ -178,14 +187,7 @@ function RepairForm() {
         </FormCardContent>
 
         <div className="pb-6">
-          <Button
-            className="w-full flex items-center justify-center rounded-md"
-            type="submit"
-            form="repair-form"
-            // onClick={() =>
-            //   console.log("Repair form values:", form.getValues())
-            // }
-          >
+          <Button className="w-full flex items-center justify-center rounded-md" type="submit" form="repair-form">
             <Plus />
             Create Repair Request
           </Button>

@@ -1,5 +1,5 @@
 import { type ColumnDef } from "@tanstack/react-table";
-import { Hash } from "lucide-react";
+import { AlertTriangle, Hash } from "lucide-react";
 import { format } from "date-fns";
 import {
   createHeaderWithIcon,
@@ -12,6 +12,8 @@ import {
   getDepartmentName,
   getEmployeeName,
 } from "@/lib/lookups";
+import { conditionConfig } from "@/lib/statusStyles";
+import { Badge } from "@/components/ui/badge";
 
 // Generic type that covers common fields across Borrow, Repair, and Issuance
 type CommonFields = {
@@ -134,8 +136,27 @@ export function useCommonColumns<T extends CommonFields>() {
       header: createHeaderWithIcon("condition", "Condition"),
       cell: ({ row }) => {
         const asset = getAsset(row.original.asset_id);
-        if (!asset?.asset_condition_id) return;
-        return <span>{getConditionName(asset.asset_condition_id)}</span>;
+        const conditionName = getConditionName(
+          asset?.asset_condition_id as number
+        );
+
+        const key = conditionName as keyof typeof conditionConfig;
+
+        const config = conditionConfig[key] ?? {
+          icon: AlertTriangle,
+          color: "bg-gray-100 text-gray-600",
+        };
+        const Icon = config.icon;
+
+        return (
+          <Badge
+            className={`flex items-center gap-1 px-2 py-1`}
+            variant="secondary"
+          >
+            <Icon className="h-3.5 w-3.5" />
+            <span className="text-xs font-medium">{conditionName}</span>
+          </Badge>
+        );
       },
       filterFn: createStandardFilterFn((row) => {
         const asset = getAsset(row.original.asset_id);

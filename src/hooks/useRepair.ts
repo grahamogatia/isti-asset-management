@@ -48,15 +48,14 @@ export const useAddRepair = <TData = unknown>() => {
       formdata.append("data", JSON.stringify(data));
       const response = await api.post(`index.php?resource=repair`, formdata);
 
-      return response.data;
+      const payload = response.data;
+
+
+      return payload;
     },
-    onSuccess: (data) => {
-      if (typeof data === "object") {
-        queryClient.refetchQueries({ queryKey: [REPAIR] });
-        toast.success("Successfully added new Repair");
-      } else {
-        throw new Error("Failed to add new Repair");
-      }
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: [REPAIR] });
+      toast.success("Successfully added new Repair");
     },
     onError: catchError,
   });

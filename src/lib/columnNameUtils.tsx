@@ -23,6 +23,7 @@ import {
   PhilippinePeso,
   Tally4,
   Bookmark,
+  AlarmClock,
 } from "lucide-react";
 
 export function getColumnIcon(column: string) {
@@ -84,8 +85,8 @@ export function getColumnIcon(column: string) {
     repair_request_id: Hash,
     issuance_id: Hash,
     issue: AlertTriangle,
-    urgency: AlertTriangle,
-    urgency_id: AlertTriangle,
+    urgency: AlarmClock,
+    urgency_id: AlarmClock,
     status: AlertTriangle,
     repair_cost: PhilippinePeso,
     duration: Clock,

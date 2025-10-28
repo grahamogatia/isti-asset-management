@@ -31,7 +31,7 @@ export function useAssetColumns(showLocation = true): ColumnDef<Asset>[] {
       cell: ({ row }) => {
         const images: string[] = row.getValue("file");
 
-        console.log(images)
+        console.log(images);
 
         if (images.length === 0) {
           return (
@@ -67,21 +67,26 @@ export function useAssetColumns(showLocation = true): ColumnDef<Asset>[] {
           : null,
       header: createHeaderWithIcon("condition", "Condition"),
       cell: ({ row }) => {
-    const conditionName = getConditionName(row.original.asset_condition_id as number);
-    const key = conditionName as keyof typeof conditionConfig;
-    const config = conditionConfig[key] ?? {
-      icon: AlertTriangle,
-      color: "bg-gray-100 text-gray-600",
-    };
-    const Icon = config.icon;
+        const conditionName = getConditionName(
+          row.original.asset_condition_id as number
+        );
+        const key = conditionName as keyof typeof conditionConfig;
+        const config = conditionConfig[key] ?? {
+          icon: AlertTriangle,
+          color: "bg-gray-100 text-gray-600",
+        };
+        const Icon = config.icon;
 
-    return (
-      <Badge className={`flex items-center gap-1 px-2 py-1`} variant="secondary">
-        <Icon className="h-3.5 w-3.5" />
-        <span className="text-xs font-medium">{conditionName}</span>
-      </Badge>
-    );
-  },
+        return (
+          <Badge
+            className={`flex items-center gap-1 px-2 py-1`}
+            variant="secondary"
+          >
+            <Icon className="h-3.5 w-3.5" />
+            <span className="text-xs font-medium">{conditionName}</span>
+          </Badge>
+        );
+      },
       filterFn: createStandardFilterFn((row) =>
         row.original.asset_condition_id
           ? getConditionName(row.original.asset_condition_id)

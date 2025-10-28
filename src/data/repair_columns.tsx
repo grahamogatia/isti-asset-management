@@ -2,7 +2,7 @@ import { type ColumnDef } from "@tanstack/react-table";
 import type { Repair } from "./types";
 import { useCommonColumns } from "./common_columns";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
-import { AlertTriangle, SquarePen } from "lucide-react";
+import { AlertTriangle, CircleX, SquarePen } from "lucide-react";
 import {
   createHeaderWithIcon,
   createStandardFilterFn,
@@ -16,13 +16,14 @@ import FormSheet from "@/components/layout/FormSheet";
 import { Button } from "@/components/ui/button";
 import DeleteRepairForm from "@/components/pages/forms/delete/DeleteRepairForm";
 import { ButtonGroup } from "@/components/ui/button-group";
+import { statusConfig, urgencyConfig } from "@/lib/statusStyles";
+import { Badge } from "@/components/ui/badge";
 
 export function useRepairColumns() {
   const commonColumns = useCommonColumns<Repair>();
   const { getStatusName, getUrgencyName } = useLookupFunctions();
 
   const repair_columns: ColumnDef<Repair>[] = [
-    // Asset identification first
     {
       accessorKey: "status",
       accessorFn: (row) => {
@@ -30,7 +31,22 @@ export function useRepairColumns() {
       },
       header: createHeaderWithIcon("status", "Status"),
       cell: ({ row }) => {
-        return getStatusName(row.original.status_id as number);
+        const statusName = getStatusName(row.original.status_id as number);
+        const key = statusName as keyof typeof statusConfig;
+        const config = statusConfig[key] ?? {
+          icon: CircleX,
+          color: "bg-gray-100 text-gray-600",
+        };
+        const Icon = config.icon;
+
+        return (
+          <Badge
+            className={`flex items-center gap-1 px-2 py-1 ${config.color}`}
+          >
+            <Icon className="h-3.5 w-3.5" />
+            <span className="text-xs font-medium">{statusName}</span>
+          </Badge>
+        );
       },
       filterFn: createStandardFilterFn((row) =>
         getStatusName(row.original.status_id)
@@ -48,7 +64,22 @@ export function useRepairColumns() {
       },
       header: createHeaderWithIcon("urgency", "Urgency"),
       cell: ({ row }) => {
-        return getUrgencyName(row.original.urgency_id);
+        const urgencyName = getUrgencyName(row.original.urgency_id as number);
+        const key = urgencyName as keyof typeof urgencyConfig;
+        const config = urgencyConfig[key] ?? {
+          icon: CircleX,
+          color: "bg-gray-100 text-gray-600",
+        };
+        const Icon = config.icon;
+
+        return (
+          <Badge
+            className={`flex items-center gap-1 px-2 py-1 ${config.color}`} variant="outline"
+          >
+            <Icon className="h-3.5 w-3.5" />
+            <span className="text-xs font-medium">{urgencyName}</span>
+          </Badge>
+        );
       },
       filterFn: createStandardFilterFn((row) =>
         getUrgencyName(row.original.urgency_id)
@@ -64,7 +95,6 @@ export function useRepairColumns() {
     commonColumns.category(),
     commonColumns.sub_category(),
     commonColumns.type(),
-    commonColumns.simpleColumn("repair_request_id", "Repair Request ID"),
     {
       accessorKey: "issue",
       header: () => (
@@ -85,13 +115,12 @@ export function useRepairColumns() {
     {
       id: "actions",
       cell: ({ row }) => {
-
         const { getAsset, getStatusIdGivenStatusName } = useLookupFunctions();
         const asset = getAsset(row.original.asset_id);
         const isDeleted =
           asset?.status_id ===
           getStatusIdGivenStatusName("Asset Inventory", "Deleted");
-        
+
         const statusName = getStatusName(row.original.status_id as number);
         const isUnderRepair = statusName === "Under Repair";
         const isOnHold = statusName === "On Hold";

@@ -11,12 +11,12 @@ export const AssetSchema = z.object({
   location: z.string().nullable().optional(),
   status_id: z.number().optional(),
   serial_number: z.string({ message: "Serial number is required" }),
-  brand: z.string({ message: "Brand is required "}),
+  brand: z.string({ message: "Brand is required " }),
   specifications: z
     .string({ message: "Specifications is required" })
     .min(5, "Specifications must be at least 5 characters")
     .max(100, "Specifications must be at most 100 characters."),
-  asset_amount: z.number({ message: "Amount is required "}),
+  asset_amount: z.number({ message: "Amount is required " }),
   warranty_due_date: z.date({ message: "Warranty Due Date is required" }),
   warranty_duration: z.number().optional(),
   purchase_date: z.date({ message: "Purchase Date is required" }),
@@ -37,23 +37,27 @@ export const InsuranceSchema = z.object({
 });
 
 export const RepairSchema = z.object({
-  asset_id: z.number(),
+  asset_id: z.number({ message: "Asset is required" }),
   category_id: z.number(),
   sub_category_id: z.number(),
   type_id: z.number(),
 
-  user_id: z.number(),
+  user_id: z.number({ message: "User is required" }),
   company_id: z.number(),
   department_id: z.number().optional(),
 
   status_id: z.number().optional(),
   repair_request_id: z.number().optional(),
 
-  date_reported: z.date(), // Default: Today
-  urgency_id: z.number(),
-  repair_start_date: z.date(),
-  repair_cost: z.number().min(0),
-  issue: z.string().optional(),
+  date_reported: z.date({ message: "Date reported is required"} ), // Default: Today
+  urgency_id: z.number({ message: "Urgency is required"} ),
+  repair_start_date: z.date({ message: "Repair start date is required"} ),
+  repair_cost: z.number({ message: "Repair cost is required" }).min(0),
+  issue: z
+    .string()
+    .min(5, "Notes must be at least 5 characters")
+    .max(100, "Notes must be at most 100 characters.")
+    .optional(),
 
   repair_completion_date: z.date().nullable().optional(),
   remarks: z.string().optional(),
