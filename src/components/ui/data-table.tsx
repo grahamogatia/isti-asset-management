@@ -45,38 +45,22 @@ interface DataTableProps<TData, TValue> {
   filterableColumns: string[];
   type: string;
   form: React.ReactNode;
+  columnVisibility?: VisibilityState;
+  onColumnVisibilityChange?: React.Dispatch<React.SetStateAction<VisibilityState>>;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   children,
-  defaultVisibleColumns,
   filterableColumns,
   type,
   form,
+  columnVisibility,
+  onColumnVisibilityChange,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>(() => {
-      if (!defaultVisibleColumns) {
-        return {};
-      }
-
-      const initialVisibility: VisibilityState = {};
-      columns.forEach((column: any) => {
-        const columnKey = column.accessorKey || column.id;
-        if (columnKey) {
-          initialVisibility[columnKey] =
-            defaultVisibleColumns.includes(columnKey);
-        }
-      });
-
-      return initialVisibility;
-    });
-
   const [rowSelection, setRowSelection] = useState({});
   const [globalFilter, setGlobalFilter] = useState("");
   const [appliedFilters, setAppliedFilters] = useState<
@@ -135,7 +119,7 @@ export function DataTable<TData, TValue>({
   useEffect(() => {
     const convertedFilters = appliedFilters.map((filter) => {
       return {
-        id: filter.columnName, // No conversion needed!
+        id: filter.columnName,
         value: filter.values,
       };
     });
@@ -151,10 +135,9 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     onGlobalFilterChange: setGlobalFilter,
-
+    onColumnVisibilityChange,
     state: {
       sorting,
       columnFilters,
@@ -182,17 +165,6 @@ export function DataTable<TData, TValue>({
                   Columns
                 </Button>
               </DropdownMenuTrigger>
-              <FormSheet
-                type={type}
-                taskName="Add a New"
-                button={
-                  <Button className="bg-[#4a47c6] text-white hover:bg-[#3d3bb0] gap-0">
-                    <Plus className="mr-1" />
-                    New
-                  </Button>
-                }
-                form={form}
-              />
               <DropdownMenuContent align="end">
                 {table
                   .getAllColumns()
@@ -220,6 +192,17 @@ export function DataTable<TData, TValue>({
                   })}
               </DropdownMenuContent>
             </DropdownMenu>
+            <FormSheet
+              type={type}
+              taskName="Add a New"
+              button={
+                <Button className="bg-[#4a47c6] text-white hover:bg-[#3d3bb0] gap-0">
+                  <Plus className="mr-1" />
+                  New
+                </Button>
+              }
+              form={form}
+            />
           </div>
 
           <FilterBar

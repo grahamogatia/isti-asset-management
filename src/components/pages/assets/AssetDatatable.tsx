@@ -4,10 +4,11 @@ import {
   def_asset_columns,
   useAssetColumns,
 } from "@/data/asset_columns";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Asset, Asset_Category, Asset_Type } from "@/data/types";
 import AssetTypeDropdown from "./AssetTypeDropdown";
 import AssetForm from "../forms/create/AssetForm";
+import type { VisibilityState } from "@tanstack/react-table";
 
 interface AssetDataTableProps {
   assets: Asset[];
@@ -17,13 +18,15 @@ interface AssetDataTableProps {
   setSelectedType: (type: string) => void;
 }
 
-function AssetDataTable({ 
-  assets, 
-  category, 
-  assetTypes, 
-  selectedType, 
-  setSelectedType 
+function AssetDataTable({
+  assets,
+  category,
+  assetTypes,
+  selectedType,
+  setSelectedType,
 }: AssetDataTableProps) {
+  const columns = useAssetColumns();
+
   const dynamicDefaultColumns = useMemo(() => {
     const baseColumns = def_asset_columns;
     if (category.category_name === "External") {
@@ -32,7 +35,37 @@ function AssetDataTable({
     return [...baseColumns, "actions"];
   }, [category.category_name]);
 
-  const columns = useAssetColumns();
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+    () => {
+      const saved = localStorage.getItem(
+        `assets-column-visibility-${category.category_name}`
+      );
+      
+      if (saved) {
+        return JSON.parse(saved);
+      }
+      
+      // Create initial visibility from dynamicDefaultColumns
+      const initialVisibility: VisibilityState = {};
+      
+      columns.forEach((column: any) => {
+        const columnKey = column.accessorKey || column.id;
+        if (columnKey) {
+          initialVisibility[columnKey] = dynamicDefaultColumns.includes(columnKey);
+        }
+      });
+      
+      return initialVisibility;
+    }
+  );
+
+  // Save to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem(
+      `assets-column-visibility-${category.category_name}`,
+      JSON.stringify(columnVisibility)
+    );
+  }, [columnVisibility, category.category_name]);
 
   return (
     <DataTable
@@ -42,6 +75,8 @@ function AssetDataTable({
       filterableColumns={asset_filters}
       type="Asset"
       form={<AssetForm />}
+      columnVisibility={columnVisibility}
+      onColumnVisibilityChange={setColumnVisibility}
     >
       <AssetTypeDropdown
         assetTypes={assetTypes}
