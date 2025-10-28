@@ -25,36 +25,40 @@ function AssetDataTable({
   selectedType,
   setSelectedType,
 }: AssetDataTableProps) {
-  const columns = useAssetColumns();
+  const isExternal = category.category_name === "External";
+  const columns = useAssetColumns(isExternal);
 
   const dynamicDefaultColumns = useMemo(() => {
     const baseColumns = def_asset_columns;
-    if (category.category_name === "External") {
-      return [...baseColumns, "location"];
-    }
-    return [...baseColumns, "actions"];
-  }, [category.category_name]);
+    return isExternal ? [...baseColumns, "location"] : [...baseColumns];
+  }, [isExternal]);
+
+  const filterable = useMemo(
+    () => (isExternal ? asset_filters : asset_filters.filter((c) => c !== "location")),
+    [isExternal]
+  );
 
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
     () => {
       const saved = localStorage.getItem(
         `assets-column-visibility-${category.category_name}`
       );
-      
+
       if (saved) {
         return JSON.parse(saved);
       }
-      
+
       // Create initial visibility from dynamicDefaultColumns
       const initialVisibility: VisibilityState = {};
-      
+
       columns.forEach((column: any) => {
         const columnKey = column.accessorKey || column.id;
         if (columnKey) {
-          initialVisibility[columnKey] = dynamicDefaultColumns.includes(columnKey);
+          initialVisibility[columnKey] =
+            dynamicDefaultColumns.includes(columnKey);
         }
       });
-      
+
       return initialVisibility;
     }
   );
@@ -72,7 +76,7 @@ function AssetDataTable({
       columns={columns}
       data={assets}
       defaultVisibleColumns={dynamicDefaultColumns}
-      filterableColumns={asset_filters}
+      filterableColumns={filterable}
       type="Asset"
       form={<AssetForm />}
       columnVisibility={columnVisibility}

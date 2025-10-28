@@ -17,20 +17,26 @@ import ImageDialog from "@/components/ui/image-dialog";
 import UpdateAssetForm from "@/components/pages/forms/update/UpdateAssetForm";
 import FormSheet from "@/components/layout/FormSheet";
 import { Button } from "@/components/ui/button";
-import { SquarePen } from "lucide-react";
+import { SquarePen, CircleX, AlertTriangle, ImageOff } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { conditionConfig, statusConfig } from "@/lib/statusStyles";
 
-export function useAssetColumns(): ColumnDef<Asset>[] {
+export function useAssetColumns(showLocation = true): ColumnDef<Asset>[] {
   const { getConditionName, getStatusName } = useLookupFunctions();
 
-  return [
+  const columns: ColumnDef<Asset>[] = [
     {
       accessorKey: "file",
       header: createHeaderWithIcon("file", "Image"),
       cell: ({ row }) => {
         const images: string[] = row.getValue("file");
 
-        if (!images) {
-          return "---";
+        console.log(images)
+
+        if (images.length === 0) {
+          return (
+            <ImageOff className="h-6 text-muted-foreground flex justify-center items-center w-full" />
+          );
         }
 
         return (
@@ -61,8 +67,21 @@ export function useAssetColumns(): ColumnDef<Asset>[] {
           : null,
       header: createHeaderWithIcon("condition", "Condition"),
       cell: ({ row }) => {
-        return <span>{getConditionName(row.original.asset_condition_id)}</span>;
-      },
+    const conditionName = getConditionName(row.original.asset_condition_id as number);
+    const key = conditionName as keyof typeof conditionConfig;
+    const config = conditionConfig[key] ?? {
+      icon: AlertTriangle,
+      color: "bg-gray-100 text-gray-600",
+    };
+    const Icon = config.icon;
+
+    return (
+      <Badge className={`flex items-center gap-1 px-2 py-1`} variant="secondary">
+        <Icon className="h-3.5 w-3.5" />
+        <span className="text-xs font-medium">{conditionName}</span>
+      </Badge>
+    );
+  },
       filterFn: createStandardFilterFn((row) =>
         row.original.asset_condition_id
           ? getConditionName(row.original.asset_condition_id)
@@ -75,7 +94,22 @@ export function useAssetColumns(): ColumnDef<Asset>[] {
         row.status_id ? getStatusName(row.status_id) : null,
       header: createHeaderWithIcon("status", "Status"),
       cell: ({ row }) => {
-        return <span>{getStatusName(row.original.status_id as number)}</span>;
+        const statusName = getStatusName(row.original.status_id as number);
+        const key = statusName as keyof typeof statusConfig;
+        const config = statusConfig[key] ?? {
+          icon: CircleX,
+          color: "bg-gray-100 text-gray-600",
+        };
+        const Icon = config.icon;
+
+        return (
+          <Badge
+            className={`flex items-center gap-1 px-2 py-1 ${config.color}`}
+          >
+            <Icon className="h-3.5 w-3.5" />
+            <span className="text-xs font-medium">{statusName}</span>
+          </Badge>
+        );
       },
       filterFn: createStandardFilterFn((row) =>
         row.original.status_id ? getStatusName(row.original.status_id) : null
@@ -103,7 +137,19 @@ export function useAssetColumns(): ColumnDef<Asset>[] {
         const due = row.original.warranty_due_date;
         if (!due) return "No warranty date";
         const result = differenceInMonths(new Date(due), new Date());
-        return result <= 0 ? "Warranty Void" : result + " months";
+        if (result <= 0) {
+          return (
+            <Badge
+              variant="destructive"
+              className="flex items-center gap-1 px-2 py-1"
+            >
+              <CircleX className="h-3.5 w-3.5" />
+              <span className="text-xs font-medium">Warranty Void</span>
+            </Badge>
+          );
+        }
+
+        return result + " months";
       },
     },
     {
@@ -161,33 +207,37 @@ export function useAssetColumns(): ColumnDef<Asset>[] {
       accessorKey: "notes",
       header: createHeaderWithIcon("notes", "Notes"),
     },
-    {
+  ];
+  if (showLocation) {
+    columns.push({
       accessorKey: "location",
       header: createHeaderWithIcon("location", "Location"),
       filterFn: createStandardFilterFn((row) => row.original.location),
-    },
-    {
-      id: "actions",
-      cell: ({ row }) => {
-        return (
-          <ButtonGroup className="hidden sm:flex">
-            <FormSheet
-              type={"Asset Inventory"}
-              taskName="Update"
-              button={
-                <Button variant="outline">
-                  <SquarePen className="h-4 w-4" />
-                </Button>
-              }
-              form={<UpdateAssetForm asset={row.original} />}
-            />
+    });
+  }
 
-            <DeleteAssetForm asset={row.original} />
-          </ButtonGroup>
-        );
-      },
+  columns.push({
+    id: "actions",
+    cell: ({ row }) => {
+      return (
+        <ButtonGroup className="hidden sm:flex">
+          <FormSheet
+            type={"Asset Inventory"}
+            taskName="Update"
+            button={
+              <Button variant="outline">
+                <SquarePen className="h-4 w-4" />
+              </Button>
+            }
+            form={<UpdateAssetForm asset={row.original} />}
+          />
+          <DeleteAssetForm asset={row.original} />
+        </ButtonGroup>
+      );
     },
-  ];
+  });
+
+  return columns;
 }
 // ...existing code...
 export const def_asset_columns = [
