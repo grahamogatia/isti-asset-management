@@ -6,7 +6,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from "@/components/ui/sidebar";
 import { Factory, Layers, Recycle, Settings2 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";

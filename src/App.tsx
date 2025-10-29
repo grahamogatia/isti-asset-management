@@ -28,14 +28,14 @@ function AppRoutes() {
     <div className="p-2 pl-0 bg-[oklch(0.97_0_0)] h-screen">
       <div className="bg-white rounded-md h-full flex-col overflow-y-auto">
         <Header />
-        <Separator/>
         <div
           className={cn(
             "p-2 px-0 min-h-0 flex-1",
-            !isMobile ?
-            state === "collapsed"
-              ? "max-w-[calc(100vw-3rem)]"
-              : "max-w-[calc(100vw-14rem)]" : ""
+            !isMobile
+              ? state === "collapsed"
+                ? "max-w-[calc(100vw-3rem)]"
+                : "max-w-[calc(100vw-14rem)]"
+              : ""
           )}
         >
           <Routes>
@@ -44,7 +44,12 @@ function AppRoutes() {
             <Route path="borrow" element={<Borrow />} />
             <Route path="issuance" element={<Issuance />} />
             <Route path="repair" element={<Repair />} />
-            <Route path="settings" element={<Settings />} />
+            <Route path="settings" element={<Settings />}>
+              <Route path="categories" element={<div>Categories</div>} />
+              <Route path="asset_config" element={<div>Asset Configurations</div>} />
+              <Route path="recycle_bin" element={<div>Recycle Bin</div>} />
+              <Route path="factory_reset" element={<div>Factory Reset</div>} />
+            </Route>
           </Routes>
         </div>
       </div>

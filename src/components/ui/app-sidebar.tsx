@@ -106,7 +106,12 @@ export function AppSidebar() {
                     <SidebarMenuButton
                       asChild
                       isActive={isActiveItem(item.url)}
-                      className="hover:bg-zinc-200 hover:text-zinc-950 transition-all active:bg-zinc-200"
+                      className={cn(
+                        "hover:bg-zinc-200 hover:text-zinc-950 transition-all active:bg-zinc-200",
+                        isActiveItem(item.url)
+                          ? "!text-zinc-50 !bg-zinc-950"
+                          : "text-zinc-950"
+                      )}
                     >
                       <Link to={item.url}>
                         <item.icon />
@@ -121,7 +126,12 @@ export function AppSidebar() {
                 <SidebarMenuButton
                   asChild
                   isActive={isActiveItem(settings.url)}
-                  className="hover:bg-zinc-200 hover:text-zinc-950 transition-all"
+                  className={cn(
+                    "hover:bg-zinc-200 hover:text-zinc-950 transition-all active:bg-zinc-200",
+                    isActiveItem(settings.url)
+                      ? "!text-zinc-50 !bg-zinc-950"
+                      : "text-zinc-950"
+                  )}
                 >
                   <Link to={settings.url}>
                     <settings.icon />
