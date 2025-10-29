@@ -4,11 +4,11 @@ import {
   def_asset_columns,
   useAssetColumns,
 } from "@/data/asset_columns";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import type { Asset, Asset_Category, Asset_Type } from "@/data/types";
 import AssetTypeDropdown from "./AssetTypeDropdown";
 import AssetForm from "../forms/create/AssetForm";
-import type { VisibilityState } from "@tanstack/react-table";
+import { useColumnVisibility } from "@/hooks/useColumnVisibility";
 
 interface AssetDataTableProps {
   assets: Asset[];
@@ -34,42 +34,18 @@ function AssetDataTable({
   }, [isExternal]);
 
   const filterable = useMemo(
-    () => (isExternal ? asset_filters : asset_filters.filter((c) => c !== "location")),
+    () =>
+      isExternal
+        ? asset_filters
+        : asset_filters.filter((c) => c !== "location"),
     [isExternal]
   );
 
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
-    () => {
-      const saved = localStorage.getItem(
-        `assets-column-visibility-${category.category_name}`
-      );
-
-      if (saved) {
-        return JSON.parse(saved);
-      }
-
-      // Create initial visibility from dynamicDefaultColumns
-      const initialVisibility: VisibilityState = {};
-
-      columns.forEach((column: any) => {
-        const columnKey = column.accessorKey || column.id;
-        if (columnKey) {
-          initialVisibility[columnKey] =
-            dynamicDefaultColumns.includes(columnKey);
-        }
-      });
-
-      return initialVisibility;
-    }
+  const [columnVisibility, setColumnVisibility] = useColumnVisibility(
+    "asset-column-visibility",
+    columns,
+    def_asset_columns
   );
-
-  // Save to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem(
-      `assets-column-visibility-${category.category_name}`,
-      JSON.stringify(columnVisibility)
-    );
-  }, [columnVisibility, category.category_name]);
 
   return (
     <DataTable
