@@ -24,7 +24,7 @@ function AppRoutes() {
   const { state, isMobile } = useSidebar();
 
   return (
-    <div className="p-2 pl-0 bg-[oklch(0.97_0_0)] h-screen">
+    <div className="p-4 pl-0 bg-zinc-100 h-screen">
       <div className="bg-white rounded-md h-full flex-col overflow-y-auto">
         <Header />
         <div
@@ -45,7 +45,7 @@ function AppRoutes() {
             <Route path="repair" element={<Repair />} />
             <Route path="settings" element={<Settings />}>
               <Route path="categories" element={<div>Categories</div>} />
-              <Route path="asset_config" element={<div>Asset Configurations</div>} />
+              <Route path="config" element={<div>Asset Configurations</div>} />
               <Route path="recycle_bin" element={<div>Recycle Bin</div>} />
               <Route path="factory_reset" element={<div>Factory Reset</div>} />
             </Route>

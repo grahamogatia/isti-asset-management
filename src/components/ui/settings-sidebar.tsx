@@ -20,7 +20,7 @@ export function SettingsSidebar({settingsMenu}: {settingsMenu: AppRoutes[]}) {
   };
 
   return (
-    <Sidebar collapsible="none" className="bg-white border-r text-zinc-500">
+    <Sidebar collapsible="none" className="bg-white text-zinc-500">
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>

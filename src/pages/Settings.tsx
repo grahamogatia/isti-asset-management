@@ -1,3 +1,4 @@
+import { Separator } from "@/components/ui/separator";
 import { SettingsSidebar } from "@/components/ui/settings-sidebar";
 import type { AppRoutes } from "@/data/types";
 import { Layers, Settings2, Recycle, Factory } from "lucide-react";
@@ -11,8 +12,8 @@ const settingsMenu: AppRoutes[] = [
     icon: Layers,
   },
   {
-    title: "Asset Configurations",
-    url: "asset_config",
+    title: "Configurations",
+    url: "config",
     icon: Settings2,
   },
   {
@@ -32,17 +33,17 @@ function Settings() {
   const location = useLocation();
 
   useEffect(() => {
-    // If at /settings (not a sub-route), redirect to first item
     if (location.pathname === "/settings") {
-      navigate(`/settings/${settingsMenu[0]}`, { replace: true });
+      navigate(`/settings/${settingsMenu[0].url}`, { replace: true });
     }
   }, [location.pathname, navigate]);
   return (
     <div className="flex h-screen">
-      <div className="w-auto-full" id="sidebar">
+      <div className="w-auto-full pr-4" id="sidebar">
         <SettingsSidebar settingsMenu={settingsMenu}/>
       </div>
-      <div className="flex-1 pl-2" id="content">
+      <Separator orientation="vertical" />
+      <div className="flex-1 pl-5 pt-3" id="content">
         <Outlet />
       </div>
     </div>

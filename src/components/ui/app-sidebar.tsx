@@ -69,8 +69,8 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar collapsible="icon">
-      <SidebarContent className={cn(state === "collapsed" ? "" : "p-2")}>
+    <Sidebar collapsible="icon" className="!bg-zinc-200">
+      <SidebarContent className={cn(state === "collapsed" ? "" : "p-2", "!bg-zinc-100")}>
         <SidebarHeader>
           <div
             className={cn(
