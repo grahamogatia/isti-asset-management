@@ -7,6 +7,7 @@ import {
   useIssuanceColumns,
 } from "@/data/issuance_columns";
 import type { Tab } from "@/data/types";
+import { useColumnVisibility } from "@/hooks/useColumnVisibility";
 import { useIssuances } from "@/hooks/useIssuance";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { useMemo, useState } from "react";
@@ -22,6 +23,12 @@ function Issuance() {
   const { data: issuances } = useIssuances();
   const { getStatusIdGivenStatusName } = useLookupFunctions();
   const pulledOutId = getStatusIdGivenStatusName("Issuance", "Pulled Out");
+
+  const [columnVisibility, setColumnVisibility] = useColumnVisibility(
+    "issuance-column-visibility",
+    issuance_columns,
+    def_issuance_columns
+  )
 
   const displayedIssuances = useMemo(() => {
     if (selectedStatus === "Pulled Out") {
@@ -46,6 +53,8 @@ function Issuance() {
         filterableColumns={issuance_filters}
         type="Issuance"
         form={<IssuanceForm />}
+        columnVisibility={columnVisibility}
+        onColumnVisibilityChange={setColumnVisibility}
       />
     </DisplayTabsByStatus>
   );

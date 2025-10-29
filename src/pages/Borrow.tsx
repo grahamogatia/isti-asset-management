@@ -8,7 +8,9 @@ import {
 } from "@/data/borrow_columns";
 import type { Tab } from "@/data/types";
 import { useBorrows } from "@/hooks/useBorrow";
-import { useMemo, useState } from "react";
+import { useColumnVisibility } from "@/hooks/useColumnVisibility";
+import type { VisibilityState } from "@tanstack/react-table";
+import { useEffect, useMemo, useState } from "react";
 
 const BORROW_TABS: Tab[] = [
   { label: "All", value: "All" },
@@ -20,6 +22,12 @@ function Borrow() {
   const { borrow_columns } = useBorrowColumns();
   const { data: borrows } = useBorrows();
 
+  const [columnVisibility, setColumnVisibility] = useColumnVisibility(
+    "borrow-column-visibility",
+    borrow_columns,
+    def_borrow_columns
+  )
+
   const displayedBorrows = useMemo(() => {
     if (selectedStatus === "Returned") {
       return borrows?.filter((borrow) => borrow.return_date != null);
@@ -28,6 +36,7 @@ function Borrow() {
     }
   }, [borrows, selectedStatus]);
 
+ 
   return (
     <DisplayTabsByStatus
       selectedStatus={selectedStatus}
@@ -41,6 +50,8 @@ function Borrow() {
         filterableColumns={borrow_filters}
         type="Borrow"
         form={<BorrowForm />}
+        columnVisibility={columnVisibility}
+        onColumnVisibilityChange={setColumnVisibility}
       />
     </DisplayTabsByStatus>
   );

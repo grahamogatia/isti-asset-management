@@ -7,6 +7,7 @@ import {
   useRepairColumns,
 } from "@/data/repair_columns";
 import type { Tab } from "@/data/types";
+import { useColumnVisibility } from "@/hooks/useColumnVisibility";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { useRepairs } from "@/hooks/useRepair";
 import type { VisibilityState } from "@tanstack/react-table";
@@ -24,6 +25,12 @@ function Repair() {
   const { getStatusIdGivenStatusName } = useLookupFunctions();
   const completedId = getStatusIdGivenStatusName("Repair", "Completed");
 
+  const [columnVisibility, setColumnVisibility] = useColumnVisibility(
+    "repair-column-visibility",
+    repair_columns,
+    def_repair_columns
+  )
+
   const displayedRepairs = useMemo(() => {
     if (selectedStatus === "Completed") {
       return repairs?.filter((repair) => repair.status_id === completedId);
@@ -33,28 +40,6 @@ function Repair() {
     }
   }, [repairs, selectedStatus, completedId]);
 
-  const defaultVisibleColumns = def_repair_columns;
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
-    () => {
-      const saved = localStorage.getItem("repair-column-visibility");
-      if (saved) return JSON.parse(saved);
-
-      // Create initial visibility from defaultVisibleColumns
-      const initial: VisibilityState = {};
-      repair_columns.forEach((col: any) => {
-        const key = col.accessorKey || col.id;
-        if (key) initial[key] = defaultVisibleColumns.includes(key);
-      });
-      return initial;
-    }
-  );
-
-  useEffect(() => {
-    localStorage.setItem(
-      "repair-column-visibility",
-      JSON.stringify(columnVisibility)
-    );
-  }, [columnVisibility]);
 
   return (
     <DisplayTabsByStatus
