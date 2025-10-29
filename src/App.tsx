@@ -9,6 +9,7 @@ import Repair from "./pages/Repair";
 import { useSidebar } from "./components/ui/sidebar";
 import { cn } from "./lib/utils";
 import Settings from "./pages/Settings";
+import CategoriesPage from "./components/pages/settings/CategoriesPage";
 
 function App() {
   return (
@@ -44,7 +45,7 @@ function AppRoutes() {
             <Route path="issuance" element={<Issuance />} />
             <Route path="repair" element={<Repair />} />
             <Route path="settings" element={<Settings />}>
-              <Route path="categories" element={<div>Categories</div>} />
+              <Route path="categories" element={<CategoriesPage />} />
               <Route path="config" element={<div>Asset Configurations</div>} />
               <Route path="recycle_bin" element={<div>Recycle Bin</div>} />
               <Route path="factory_reset" element={<div>Factory Reset</div>} />

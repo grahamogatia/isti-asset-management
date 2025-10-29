@@ -43,7 +43,7 @@ function Settings() {
         <SettingsSidebar settingsMenu={settingsMenu}/>
       </div>
       <Separator orientation="vertical" />
-      <div className="flex-1 pl-5 pt-3" id="content">
+      <div className="flex-1 p-5 pt-3" id="content">
         <Outlet />
       </div>
     </div>
