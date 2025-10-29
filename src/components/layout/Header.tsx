@@ -19,10 +19,13 @@ function Header() {
   };
 
   return (
-    <div className="flex h-12 p-4 items-center top-0 sticky bg-white z-50 justify-start">
-      <SidebarTrigger />
-      <Separator  className="h-10 mx-4" orientation="vertical"/>
-      <p className="font-semibold">{getPageTitle()}</p>
+    <div className="top-0 sticky bg-white z-50">
+      <div className="flex h-12 p-4 items-center justify-start">
+        <SidebarTrigger />
+        <Separator className="h-10 mx-4" orientation="vertical" />
+        <p className="font-semibold">{getPageTitle()}</p>
+      </div>
+      <Separator />
     </div>
   );
 }
