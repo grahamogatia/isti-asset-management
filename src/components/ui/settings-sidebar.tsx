@@ -7,34 +7,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Factory, Layers, Recycle, Settings2 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import type { AppRoutes } from "@/data/types";
 
-const settingsMenu = [
-  {
-    title: "Categories",
-    url: "categories",
-    icon: Layers,
-  },
-  {
-    title: "Asset Configurations",
-    url: "asset_config",
-    icon: Settings2,
-  },
-  {
-    title: "Recycle Bin",
-    url: "recycle_bin",
-    icon: Recycle,
-  },
-  {
-    title: "Factory Reset",
-    url: "factory_reset",
-    icon: Factory,
-  },
-];
 
-export function SettingsSidebar() {
+export function SettingsSidebar({settingsMenu}: {settingsMenu: AppRoutes[]}) {
   const location = useLocation();
 
   const isActiveItem = (url: string) => {

@@ -63,3 +63,9 @@ export type Tab = {
   label: string;
   value: string;
 }
+
+export type AppRoutes = {
+  title: string,
+  url: string,
+  icon: React.ElementType
+}
