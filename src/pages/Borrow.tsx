@@ -9,8 +9,7 @@ import {
 import type { Tab } from "@/data/types";
 import { useBorrows } from "@/hooks/useBorrow";
 import { useColumnVisibility } from "@/hooks/useColumnVisibility";
-import type { VisibilityState } from "@tanstack/react-table";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 const BORROW_TABS: Tab[] = [
   { label: "All", value: "All" },
