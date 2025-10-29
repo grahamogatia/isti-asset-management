@@ -10,8 +10,7 @@ import type { Tab } from "@/data/types";
 import { useColumnVisibility } from "@/hooks/useColumnVisibility";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { useRepairs } from "@/hooks/useRepair";
-import type { VisibilityState } from "@tanstack/react-table";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 const REPAIR_TABS: Tab[] = [
   { label: "All", value: "All" },

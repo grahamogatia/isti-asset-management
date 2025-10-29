@@ -9,7 +9,6 @@ import Repair from "./pages/Repair";
 import { useSidebar } from "./components/ui/sidebar";
 import { cn } from "./lib/utils";
 import Settings from "./pages/Settings";
-import { Separator } from "./components/ui/separator";
 
 function App() {
   return (
