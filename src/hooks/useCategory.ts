@@ -112,16 +112,16 @@ export const useAddType = <TData = unknown>() => {
     mutationFn: async (data: TData) => {
       const formdata = new FormData();
       formdata.append("data", JSON.stringify(data));
-      const response = await api.post(`index.php?resource=type`, formdata);
+      const response = await api.post(`index.php?resource=types`, formdata);
 
       return response.data;
     },
     onSuccess: (data) => {
       if (typeof data === "object") {
         queryClient.refetchQueries({ queryKey: [TYPE] });
-        toast.success("Successfully added new Sub Category");
+        toast.success("Successfully added new Type");
       } else {
-        throw new Error("Failed to add new Sub Category");
+        throw new Error("Failed to add new Type");
       }
     },
     onError: catchError,
