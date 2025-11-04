@@ -13,11 +13,10 @@ import SubCategoriesCollapsible from "./SubCategoriesCollapsible";
 function CategoriesPage() {
   const { data: categories } = useCategories();
 
-  function onAddCategory() {}
 
-  function onAddSubCategory() {}
-
-  function onAddType() {}
+  function onAddCategory() {
+    
+  }
 
   return (
     <>
@@ -50,6 +49,7 @@ function CategoriesPage() {
         >
           <Button
             className="px-4 py-3 w-full gap-2 text-zinc-500 justify-start"
+            type="submit"
             variant="ghost"
             style={{ background: "transparent" }}
           >

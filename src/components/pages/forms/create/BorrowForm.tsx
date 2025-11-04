@@ -153,7 +153,7 @@ function BorrowForm() {
             }}
           >
             <Plus />
-            Create Borrow Request
+            Borrow Request
           </Button>
         </div>
       </form>
