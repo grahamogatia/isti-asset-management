@@ -145,5 +145,18 @@ export const StatusSchema = z.object({
 
 export const AssetCategorySchema = z.object({
   category_id: z.number().optional(),
-  category_name: z.string(),
+  category_name: z.string({ message: "Category name is required"}),
 })
+
+export const AssetSubCategorySchema = AssetCategorySchema.extend({
+  sub_category_id: z.number().optional(),
+  sub_category_name: z.string({ message: "Sub category name is required"}),
+  code: z.string({ message: "Code is required" }),
+})
+
+export const AssetTypeSchema = AssetSubCategorySchema.extend({
+  type_id: z.number().optional(),
+  type_name: z.string({ message: "Type name is required "}),
+  type_code: z.string({ message: "Code is required" }),
+})
+

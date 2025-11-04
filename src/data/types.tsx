@@ -12,21 +12,9 @@ import type {
   ConditionSchema,
   StatusSchema,
   AssetCategorySchema,
+  AssetSubCategorySchema,
+  AssetTypeSchema,
 } from "./schemas";
-
-
-
-export interface Asset_Sub_Category extends Asset_Category {
-  sub_category_id: number;
-  sub_category_name: string;
-  code: string;
-}
-
-export interface Asset_Type extends Asset_Sub_Category {
-  type_id: number;
-  type_name: string;
-  type_code: number;
-}
 
 export type Asset = z.infer<typeof AssetSchema>;
 export type Insurance = z.infer<typeof InsuranceSchema>;
@@ -40,6 +28,9 @@ export type Employee = z.infer<typeof EmployeeSchema>;
 export type Condition = z.infer<typeof ConditionSchema>;
 export type Status = z.infer<typeof StatusSchema>;
 export type Asset_Category = z.infer<typeof AssetCategorySchema>;
+export type Asset_Sub_Category = z.infer<typeof AssetSubCategorySchema>;
+export type Asset_Type = z.infer<typeof AssetTypeSchema>;
+
 
 export type Urgency = {
   urgency_id: number,
