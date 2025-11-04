@@ -23,6 +23,18 @@ function CategoriesPage() {
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   }
 
+  function onAddCategory() {
+
+  }
+
+  function onAddSubCategory() {
+
+  }
+
+  function onAddType() {
+    
+  }
+
   return (
     <Accordion
       type="single"
