@@ -10,6 +10,8 @@ import { useSidebar } from "./components/ui/sidebar";
 import { cn } from "./lib/utils";
 import Settings from "./pages/Settings";
 import CategoriesPage from "./components/pages/settings/CategoriesPage";
+import AssetConfigPage from "./components/pages/settings/AssetConfigPage";
+import RecycleBinPage from "./components/pages/settings/RecycleBinPage";
 
 function App() {
   return (
@@ -46,9 +48,8 @@ function AppRoutes() {
             <Route path="repair" element={<Repair />} />
             <Route path="settings" element={<Settings />}>
               <Route path="categories" element={<CategoriesPage />} />
-              <Route path="config" element={<div>Asset Configurations</div>} />
-              <Route path="recycle_bin" element={<div>Recycle Bin</div>} />
-              <Route path="factory_reset" element={<div>Factory Reset</div>} />
+              <Route path="config" element={<AssetConfigPage />} />
+              <Route path="recycle_bin" element={<RecycleBinPage/>} />
             </Route>
           </Routes>
         </div>

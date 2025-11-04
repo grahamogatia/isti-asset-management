@@ -1,7 +1,6 @@
-import { Separator } from "@/components/ui/separator";
 import { SettingsSidebar } from "@/components/ui/settings-sidebar";
 import type { AppRoutes } from "@/data/types";
-import { Layers, Settings2, Recycle, Factory } from "lucide-react";
+import { Layers, Settings2, Recycle } from "lucide-react";
 import { useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
@@ -21,11 +20,6 @@ const settingsMenu: AppRoutes[] = [
     url: "recycle_bin",
     icon: Recycle,
   },
-  {
-    title: "Factory Reset",
-    url: "factory_reset",
-    icon: Factory,
-  },
 ];
 
 function Settings() {
@@ -42,7 +36,6 @@ function Settings() {
       <div className="w-auto-full pr-4" id="sidebar">
         <SettingsSidebar settingsMenu={settingsMenu}/>
       </div>
-      <Separator orientation="vertical" />
       <div className="flex-1 p-5 pt-3" id="content">
         <Outlet />
       </div>
