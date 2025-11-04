@@ -186,7 +186,7 @@ function AssetForm({ onSuccess }: AssetFormProps) {
             form="asset-form"
           >
             <Plus />
-            Add Asset
+            Asset
           </Button>
         </div>
       </form>

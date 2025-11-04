@@ -46,7 +46,7 @@ function IssuanceForm() {
       const isAvailable =
         a.status_id ===
         getStatusIdGivenStatusName("Asset Inventory", "Available");
-      const isDeleted = 
+      const isDeleted =
         a.status_id ===
         getStatusIdGivenStatusName("Asset Inventory", "Deleted");
       const isInternal = a.category_id ? getCategoryName(a.category_id) : "";
@@ -106,7 +106,7 @@ function IssuanceForm() {
             // }
           >
             <Plus />
-            Create Issuance Request
+            Issuance Request
           </Button>
         </div>
       </form>

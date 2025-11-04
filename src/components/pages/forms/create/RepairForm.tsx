@@ -27,7 +27,8 @@ interface RepairFormProps {
   onSuccess?: () => void;
 }
 
-function RepairForm({ onSuccess }: RepairFormProps) { // FIX: correct prop typing and return type
+function RepairForm({ onSuccess }: RepairFormProps) {
+  // FIX: correct prop typing and return type
   const form = useForm<Repair>({
     resolver: zodResolver(RepairSchema),
     defaultValues: {
@@ -120,7 +121,11 @@ function RepairForm({ onSuccess }: RepairFormProps) { // FIX: correct prop typin
 
   return (
     <Form {...form}>
-      <form id="repair-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+      <form
+        id="repair-form"
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-5"
+      >
         <FormCardContent title="Details">
           <FormFieldUserCombobox
             control={form.control}
@@ -153,7 +158,6 @@ function RepairForm({ onSuccess }: RepairFormProps) { // FIX: correct prop typin
             label="Urgency *"
             placeholder="Select urgency level"
           >
-
             {urgencies?.map((urgency) => (
               <SelectItem
                 key={urgency.urgency_id} // FIX: add key
@@ -187,9 +191,13 @@ function RepairForm({ onSuccess }: RepairFormProps) { // FIX: correct prop typin
         </FormCardContent>
 
         <div className="pb-6">
-          <Button className="w-full flex items-center justify-center rounded-md" type="submit" form="repair-form">
+          <Button
+            className="w-full flex items-center justify-center rounded-md"
+            type="submit"
+            form="repair-form"
+          >
             <Plus />
-            Create Repair Request
+            Repair Request
           </Button>
         </div>
       </form>
