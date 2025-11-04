@@ -5,7 +5,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import type { Asset_Category, Asset_Sub_Category } from "@/data/types";
-import { useSubCategories } from "@/hooks/useCategory";
+import { useAddSubCategory, useSubCategories } from "@/hooks/useCategory";
 import { ChevronDown, Plus } from "lucide-react";
 import TypesCollapsible from "./TypesCollapsible";
 import { AssetSubCategorySchema } from "@/data/schemas";
@@ -18,14 +18,19 @@ function SubCategoriesCollapsible({ category }: { category: Asset_Category }) {
   const form = useForm<Asset_Sub_Category>({
     resolver: zodResolver(AssetSubCategorySchema),
     defaultValues: {
+      category_id: category.category_id,
+      category_name: category.category_name,
       sub_category_name: undefined,
       code: undefined,
     },
   });
 
   const { data: subCategories } = useSubCategories();
+  const { mutate } = useAddSubCategory();
 
-  function onAddSubCategory() {}
+  function onAddSubCategory(values: Asset_Sub_Category) {
+    mutate(values);
+  }
 
   return (
     <div className="pl-3 pb-3">
