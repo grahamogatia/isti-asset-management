@@ -9,7 +9,7 @@ import Repair from "./pages/Repair";
 import { useSidebar } from "./components/ui/sidebar";
 import { cn } from "./lib/utils";
 import Settings from "./pages/Settings";
-import CategoriesPage from "./components/pages/settings/CategoriesPage";
+import CategoriesPage from "./components/pages/settings/categories/CategoriesPage";
 import AssetConfigPage from "./components/pages/settings/AssetConfigPage";
 import RecycleBinPage from "./components/pages/settings/RecycleBinPage";
 
