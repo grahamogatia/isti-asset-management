@@ -6,17 +6,26 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 
-import { useCategories} from "@/hooks/useCategory";
+import { useCategories } from "@/hooks/useCategory";
 import { Plus } from "lucide-react";
 import SubCategoriesCollapsible from "./SubCategoriesCollapsible";
+import PopoverForm from "@/components/layout/PopoverForm";
+import type { Asset_Category } from "@/data/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AssetCategorySchema } from "@/data/schemas";
+import { useForm } from "react-hook-form";
+import FormFieldText from "../../forms/fields/FormFieldText";
 
 function CategoriesPage() {
+  const form = useForm<Asset_Category>({
+    resolver: zodResolver(AssetCategorySchema),
+    defaultValues: {
+      category_name: undefined,
+    }
+  })
   const { data: categories } = useCategories();
 
-
-  function onAddCategory() {
-    
-  }
+  function onAddCategory() {}
 
   return (
     <>
@@ -47,15 +56,33 @@ function CategoriesPage() {
           value="Add Button"
           className="overflow-hidden border bg-background first:rounded-t-lg last:rounded-b-lg last:border-b pl-1"
         >
-          <Button
-            className="px-4 py-3 w-full gap-2 text-zinc-500 justify-start"
-            type="submit"
-            variant="ghost"
-            style={{ background: "transparent" }}
+          <PopoverForm
+            triggerButton={
+              <Button
+                className="px-4 py-3 w-full gap-2 text-zinc-500 justify-start"
+                type="submit"
+                variant="ghost"
+                style={{ background: "transparent" }}
+              >
+                <Plus />
+                Category
+              </Button>
+            }
+            title="Categories"
+            description="Add a new category to organize your assets."
+            form={form}
+            onSubmit={onAddCategory}
+            submitButtonText="Add"
+            submitButtonIcon={<Plus className="mr-2 h-4 w-4" />}
+            formId="category-form"
           >
-            <Plus />
-            Category
-          </Button>
+            <FormFieldText
+            control={form.control}
+            name="category_name"
+            label="Category Name"
+            placeholder="Enter Category Name"
+            />
+          </PopoverForm>
         </AccordionItem>
       </Accordion>
     </>

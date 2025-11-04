@@ -142,3 +142,8 @@ export const StatusSchema = z.object({
   function_id: z.number().optional(),
   status_name: z.string(),
 });
+
+export const AssetCategorySchema = z.object({
+  category_id: z.number().optional(),
+  category_name: z.string(),
+})

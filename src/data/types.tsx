@@ -11,12 +11,10 @@ import type {
   EmployeeSchema,
   ConditionSchema,
   StatusSchema,
+  AssetCategorySchema,
 } from "./schemas";
 
-export type Asset_Category = {
-  category_id: number;
-  category_name: string;
-};
+
 
 export interface Asset_Sub_Category extends Asset_Category {
   sub_category_id: number;
@@ -41,6 +39,7 @@ export type Unit = z.infer<typeof UnitSchema>;
 export type Employee = z.infer<typeof EmployeeSchema>;
 export type Condition = z.infer<typeof ConditionSchema>;
 export type Status = z.infer<typeof StatusSchema>;
+export type Asset_Category = z.infer<typeof AssetCategorySchema>;
 
 export type Urgency = {
   urgency_id: number,
