@@ -117,9 +117,9 @@ function PopoverForm<T extends FieldValues>({
                     variant={submitButtonVariant}
                     type="submit"
                     form={formId}
-                    // onClick={() =>
-                    //   console.log("Form errors:", form.formState.errors)
-                    // }
+                    onClick={() =>
+                      console.log("Form errors:", form.formState.errors)
+                    }
                   >
                     {submitButtonIcon}
                     {submitButtonText}

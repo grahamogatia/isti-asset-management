@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 
-import { useCategories } from "@/hooks/useCategory";
+import { useAddCategory, useCategories } from "@/hooks/useCategory";
 import { Plus } from "lucide-react";
 import SubCategoriesCollapsible from "./SubCategoriesCollapsible";
 import PopoverForm from "@/components/layout/PopoverForm";
@@ -21,11 +21,14 @@ function CategoriesPage() {
     resolver: zodResolver(AssetCategorySchema),
     defaultValues: {
       category_name: undefined,
-    }
-  })
+    },
+  });
   const { data: categories } = useCategories();
+  const { mutate } = useAddCategory();
 
-  function onAddCategory() {}
+  function onAddCategory(values: Asset_Category) {
+    mutate(values);
+  }
 
   return (
     <>
@@ -77,10 +80,10 @@ function CategoriesPage() {
             formId="category-form"
           >
             <FormFieldText
-            control={form.control}
-            name="category_name"
-            label="Name"
-            placeholder="e.g. Internal, External"
+              control={form.control}
+              name="category_name"
+              label="Name"
+              placeholder="e.g. Internal, External"
             />
           </PopoverForm>
         </AccordionItem>
