@@ -145,11 +145,11 @@ function BorrowForm() {
             className="w-full flex items-center justify-center rounded-md"
             type="submit"
             form="borrow-form"
-            onClick={() => {
-              console.log("Borrow form values:", form.getValues());
-              console.log("Form values:", form.getValues());
-              console.log("Form errors:", form.formState.errors);
-            }}
+            // onClick={() => {
+            //   console.log("Borrow form values:", form.getValues());
+            //   console.log("Form values:", form.getValues());
+            //   console.log("Form errors:", form.formState.errors);
+            // }}
           >
             <Plus />
             Borrow Request
