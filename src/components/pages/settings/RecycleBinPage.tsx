@@ -8,7 +8,7 @@ function RecycleBinPage() {
       </h1>
       <div className="flex flex-col items-center justify-center h-full min-h-[60vh]">
         <img
-          src={dino} // <-- Replace with your actual image path
+          src={dino} 
           alt="Recycle Bin Placeholder"
           className="w-64 mb-6 opacity-50"
         />

@@ -50,7 +50,7 @@ function CategoriesPage() {
               {category.category_name}
             </AccordionTrigger>
             <AccordionContent className="p-0 bg-zinc-100 ">
-              {/* Subcategories */}
+              
               <div className="pl-3 pb-3">
                 {subCategories
                   ?.filter(
