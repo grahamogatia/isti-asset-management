@@ -1,12 +1,31 @@
 import { Button } from "@/components/ui/button";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import type { Asset_Category } from "@/data/types";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import type { Asset_Category, Asset_Sub_Category } from "@/data/types";
 import { useSubCategories } from "@/hooks/useCategory";
 import { ChevronDown, Plus } from "lucide-react";
 import TypesCollapsible from "./TypesCollapsible";
+import { AssetSubCategorySchema } from "@/data/schemas";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import FormFieldText from "../../forms/fields/FormFieldText";
+import PopoverForm from "@/components/layout/PopoverForm";
 
-function SubCategoriesCollapsible({category}: {category: Asset_Category}) {
+function SubCategoriesCollapsible({ category }: { category: Asset_Category }) {
+  const form = useForm<Asset_Sub_Category>({
+    resolver: zodResolver(AssetSubCategorySchema),
+    defaultValues: {
+      sub_category_name: undefined,
+      code: undefined,
+    },
+  });
+
   const { data: subCategories } = useSubCategories();
+
+  function onAddSubCategory() {}
 
   return (
     <div className="pl-3 pb-3">
@@ -27,18 +46,42 @@ function SubCategoriesCollapsible({category}: {category: Asset_Category}) {
               {subCat.sub_category_name}
             </CollapsibleTrigger>
             <CollapsibleContent className="overflow-hidden text-muted-foreground text-sm transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down ">
-                <TypesCollapsible category={category} subCat={subCat}/>
+              <TypesCollapsible category={category} subCat={subCat} />
             </CollapsibleContent>
           </Collapsible>
         ))}
 
-      <Button
-        className="px-4 py-3 w-full  gap-3 border-t justify-start text-zinc-500 rounded-none bg-zinc-100"
-        variant="ghost"
+      <PopoverForm
+        triggerButton={
+          <Button
+            className="px-4 py-3 w-full  gap-3 border-t justify-start text-zinc-500 rounded-none bg-zinc-100"
+            variant="ghost"
+          >
+            <Plus className="ml-1" />
+            Sub Category
+          </Button>
+        }
+        title={`New ${category.category_name} Sub Category`}
+        description="Add a new sub category to organize your assets."
+        form={form}
+        onSubmit={onAddSubCategory}
+        submitButtonText="Add"
+        submitButtonIcon={<Plus className="mr-2 h-4 w-4" />}
+        formId="sub-category-form"
       >
-        <Plus className="ml-1" />
-        Sub Category
-      </Button>
+        <FormFieldText
+        control={form.control}
+        name="sub_category_name"
+        label="Name"
+        placeholder="e.g. Computers, Network Devices"
+        />
+        <FormFieldText
+        control={form.control}
+        name="code"
+        label="Code"
+        placeholder="e.g. CPT, NWD"
+        />
+      </PopoverForm>
     </div>
   );
 }

@@ -68,7 +68,7 @@ function CategoriesPage() {
                 Category
               </Button>
             }
-            title="Categories"
+            title="New Category"
             description="Add a new category to organize your assets."
             form={form}
             onSubmit={onAddCategory}
@@ -79,8 +79,8 @@ function CategoriesPage() {
             <FormFieldText
             control={form.control}
             name="category_name"
-            label="Category Name"
-            placeholder="Enter Category Name"
+            label="Name"
+            placeholder="e.g. Internal, External"
             />
           </PopoverForm>
         </AccordionItem>
