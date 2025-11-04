@@ -59,3 +59,9 @@ export type AppRoutes = {
   url: string,
   icon: React.ElementType
 }
+
+export type Settings = {
+  id: number,
+  key: string,
+  value: string,
+}

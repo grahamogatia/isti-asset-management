@@ -13,8 +13,16 @@ import {
   ItemDescription,
   ItemTitle,
 } from "@/components/ui/item";
+import { useSettings } from "@/hooks/useSettings";
 
 function AssetConfigPage() {
+
+    const { data: settings } = useSettings();
+
+    const depreciationSetting = settings?.find(s => s.key === "depreciation")?.value;
+    const maxImagesSetting = settings?.find(s => s.key === "max_images_per_item")?.value;
+
+
   return (
     <div className="flex w-full max-w flex-col gap-6 pb-4">
       <h1 className="font-semibold tracking-tight text-zinc-950">
@@ -43,9 +51,10 @@ function AssetConfigPage() {
                 <Input
                   type="number"
                   min={1}
-                  max={120}
+                  max={1000}
                   step={1}
                   className="w-24"
+                  defaultValue={depreciationSetting}
                 />
               </ItemActions>
             </Item>
@@ -62,9 +71,10 @@ function AssetConfigPage() {
                 <Input
                   type="number"
                   min={1}
-                  max={120}
+                  max={12}
                   step={1}
                   className="w-24"
+                  defaultValue={maxImagesSetting}
                 />
               </ItemActions>
             </Item>
