@@ -71,7 +71,6 @@ function BorrowForm() {
   }, [assets, borrows]);
 
   function onSubmit(values: Borrow) {
-    console.log("Yay")
     const dueDate =
       values.duration && values.date_borrowed
         ? addMonths(new Date(values.date_borrowed), values.duration)

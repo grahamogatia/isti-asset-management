@@ -31,8 +31,6 @@ export function useAssetColumns(showLocation = true): ColumnDef<Asset>[] {
       cell: ({ row }) => {
         const images: string[] = row.getValue("file");
 
-        console.log(images);
-
         if (images.length === 0) {
           return (
             <ImageOff className="h-6 text-muted-foreground flex justify-center items-center w-full" />
