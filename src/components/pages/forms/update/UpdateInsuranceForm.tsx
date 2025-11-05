@@ -43,6 +43,16 @@ function UpdateInsuranceForm({ insurance }: UpdateInsuranceFormProps) {
         id: values.insurance_id as number,
         data: changed,
       },
+      {
+        onSuccess: () => {
+          toast.success("Insurance updated");
+          form.reset(values);
+        },
+        onError: (error: any) => {
+          console.error("Update failed:", error);
+          toast.error("Failed to update insurance");
+        },
+      }
     );
     console.log("🎉 SUCCESS! Form submitted:", values);
   }
