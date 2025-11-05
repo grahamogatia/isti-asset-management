@@ -8,12 +8,26 @@ import { Button } from "@/components/ui/button";
 import { SquarePen } from "lucide-react";
 import { format } from "date-fns";
 import DeleteInsuranceForm from "@/components/pages/forms/delete/DeleteInsuranceForm";
+import ExpiredBadge from "@/components/ui/expired-badge";
 
 export function useInsuranceColumns(): ColumnDef<Insurance>[] {
   const insurance_columns: ColumnDef<Insurance>[] = [
     {
       accessorKey: "insurance_name",
       header: createHeaderWithIcon("insurance_name", "Name"),
+      cell: ({ row }) => {
+        const name = row.original.insurance_name;
+        return (
+          <div className="flex items-center gap-2">
+            <span className="truncate">{name}</span>
+            <ExpiredBadge
+              dateTo={row.original.insurance_date_to}
+              showActive={false}
+              className="ml-2"
+            />
+          </div>
+        );
+      },
     },
     {
       accessorKey: "insurance_coverage",

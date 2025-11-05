@@ -44,6 +44,13 @@ function FormFieldInsuranceCombobox({
 }: FormFieldInsuranceComboboxProps) {
   const IconComponent = getColumnIcon(name);
 
+  const nonExpiredInsurances = insurances?.filter((insurance) => {
+    const dateTo = insurance.insurance_date_to;
+    if (!dateTo) return true; // no end date = considered valid
+    const dt = dateTo instanceof Date ? dateTo : new Date(dateTo);
+    return !isNaN(dt.getTime()) && dt.getTime() >= Date.now();
+  }) ?? [];
+
   return (
     <FormField
       control={control}
@@ -77,13 +84,13 @@ function FormFieldInsuranceCombobox({
               </PopoverTrigger>
               <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
                 <Command>
-                  <CommandInput placeholder="Search type..." className="h-9" />
+                  <CommandInput placeholder="Search insurance..." className="h-9" />
                   <CommandList>
                     <CommandEmpty className="flex justify-center p-4">
                       <InsuranceForm />
                     </CommandEmpty>
                     <CommandGroup>
-                      {insurances.map((insurance) => (
+                      {nonExpiredInsurances.map((insurance) => (
                         <CommandItem
                           value={insurance.insurance_name}
                           key={insurance.insurance_id}
