@@ -6,7 +6,7 @@ import FormFieldDate from "../fields/FormFieldDate";
 import FormFieldText from "../fields/FormFieldText";
 import FormFieldTextArea from "../fields/FormFieldTextArea";
 import { Button } from "@/components/ui/button";
-import { Plus, Save } from "lucide-react";
+import { Save } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { compareObjects } from "@/lib/utils";

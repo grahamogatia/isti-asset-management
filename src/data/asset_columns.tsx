@@ -1,5 +1,3 @@
-// TODO Add Insurance
-import /* useMemo removed */ "react";
 import { type ColumnDef } from "@tanstack/react-table";
 import { differenceInMonths, format } from "date-fns";
 import type { Asset } from "./types";
@@ -22,7 +20,7 @@ import { Badge } from "@/components/ui/badge";
 import { conditionConfig, statusConfig } from "@/lib/statusStyles";
 
 export function useAssetColumns(showLocation = true): ColumnDef<Asset>[] {
-  const { getConditionName, getStatusName } = useLookupFunctions();
+  const { getConditionName, getStatusName, getInsurance } = useLookupFunctions();
 
   const columns: ColumnDef<Asset>[] = [
     {
@@ -207,6 +205,16 @@ export function useAssetColumns(showLocation = true): ColumnDef<Asset>[] {
       },
     },
     {
+      id: "insurance_id",
+      header: createHeaderWithIcon("insurance_id", "Insurance"),
+      cell: ({ row }) => {
+        const insurance = getInsurance(row.original.insurance_id as number)
+
+        return(insurance?.insurance_name)
+
+      }
+    },
+    {
       accessorKey: "notes",
       header: createHeaderWithIcon("notes", "Notes"),
     },
@@ -242,7 +250,7 @@ export function useAssetColumns(showLocation = true): ColumnDef<Asset>[] {
 
   return columns;
 }
-// ...existing code...
+
 export const def_asset_columns = [
   "asset_name",
   "serial_number",

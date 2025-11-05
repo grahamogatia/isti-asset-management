@@ -1,9 +1,9 @@
-import type { Asset_Category, Condition, Status } from "@/data/types";
+import type { Asset_Category, Condition, Insurance, Status } from "@/data/types";
 import { useLookupMaps } from "./useLookupMaps";
 import { useStatuses } from "./useStatus";
 
 export const useLookupFunctions = () => {
-  const { assetMap, categoryMap, subCategoryMap, typeMap, conditionMap, statusMap, functionITAMMap, urgencyMap, isLoading } = useLookupMaps();
+  const { assetMap, categoryMap, subCategoryMap, typeMap, conditionMap, statusMap, functionITAMMap, urgencyMap, isLoading, insuranceMap } = useLookupMaps();
   const { data: statuses } = useStatuses();
 
   const getAsset = (asset_id: number) => {
@@ -39,6 +39,10 @@ export const useLookupFunctions = () => {
 
   const getConditions = (): Condition[] => {
     return Array.from(conditionMap.values());
+  }
+
+  const getInsurance = (insurance_id: number) => {
+    return insuranceMap.get(insurance_id);
   }
 
   const getStatuses = (functionName: string): Status[] => {
@@ -152,6 +156,7 @@ export const useLookupFunctions = () => {
     getCategories,
     getConditions,
     getStatuses,
+    getInsurance,
 
     getStatusIdGivenStatusName,
     getDisplayNameForColumn,
