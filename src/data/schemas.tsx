@@ -29,11 +29,11 @@ export const AssetSchema = z.object({
 });
 
 export const InsuranceSchema = z.object({
-  insurance_id: z.number(),
-  insurance_name: z.string(),
-  insurance_coverage: z.string(),
-  insurance_date_from: z.date(),
-  insurance_date_to: z.date(),
+  insurance_id: z.number().optional(),
+  insurance_name: z.string({ message: "Name is required" }),
+  insurance_coverage: z.string({ message: "Coverage is required" }),
+  insurance_date_from: z.date({ message: "Date From is required" }),
+  insurance_date_to: z.date({ message: "Dato To is required" }),
 });
 
 export const RepairSchema = z.object({

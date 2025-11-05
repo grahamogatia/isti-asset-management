@@ -8,12 +8,14 @@ import type { Insurance } from "@/data/types";
 import FormFieldDate from "../fields/FormFieldDate";
 import FormFieldTextArea from "../fields/FormFieldTextArea";
 import PopoverForm from "@/components/layout/PopoverForm";
+import { useAddInsurance } from "@/hooks/useInsurance";
+import { format } from "date-fns";
 
 export function InsuranceForm() {
   const form = useForm<Insurance>({
     resolver: zodResolver(InsuranceSchema),
     defaultValues: {
-      insurance_id: 1,
+      insurance_id: undefined,
       insurance_name: "",
       insurance_coverage: "",
       insurance_date_from: new Date(),
@@ -22,8 +24,18 @@ export function InsuranceForm() {
     mode: "all",
   });
 
+  const { mutate } = useAddInsurance();
+
+
   function onSubmit(values: Insurance) {
-    console.log("Insurance submitted:", values);
+
+    mutate(
+      {
+        ...values,
+        insurance_date_from: format(values.insurance_date_from, "yyy-MM-dd"),
+        insurance_date_to: format(values.insurance_date_to, "yyy-MM-dd")
+      }
+    );
   }
 
   return (
@@ -38,7 +50,7 @@ export function InsuranceForm() {
       description="Enter the insurance details below to add coverage for your assets."
       form={form}
       onSubmit={onSubmit}
-      submitButtonText="Add Insurance"
+      submitButtonText="Insurance"
       submitButtonIcon={<Plus className="mr-2 h-4 w-4" />}
       formId="insurance-form"
     >
@@ -48,14 +60,14 @@ export function InsuranceForm() {
         label="Name"
         placeholder="Enter Name"
       />
-      
+
       <FormFieldTextArea
         control={form.control}
         name="insurance_coverage"
         label="Coverage"
         placeholder="Enter Description"
       />
-      
+
       <div className="flex w-full justify-between gap-2">
         <FormFieldDate
           control={form.control}
