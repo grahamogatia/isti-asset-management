@@ -12,6 +12,7 @@ import Settings from "./pages/Settings";
 import CategoriesPage from "./components/pages/settings/categories/CategoriesPage";
 import AssetConfigPage from "./components/pages/settings/AssetConfigPage";
 import RecycleBinPage from "./components/pages/settings/RecycleBinPage";
+import InsurancePage from "./components/pages/settings/InsurancePage";
 
 function App() {
   return (
@@ -49,7 +50,8 @@ function AppRoutes() {
             <Route path="settings" element={<Settings />}>
               <Route path="categories" element={<CategoriesPage />} />
               <Route path="config" element={<AssetConfigPage />} />
-              <Route path="recycle_bin" element={<RecycleBinPage/>} />
+              <Route path="insurance" element={<InsurancePage />} />
+              <Route path="recycle_bin" element={<RecycleBinPage />} />
             </Route>
           </Routes>
         </div>

@@ -1,6 +1,6 @@
 import { SettingsSidebar } from "@/components/ui/settings-sidebar";
 import type { AppRoutes } from "@/data/types";
-import { Layers, Settings2, Recycle } from "lucide-react";
+import { Layers, Settings2, Recycle, Shield } from "lucide-react";
 import { useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
@@ -14,6 +14,11 @@ const settingsMenu: AppRoutes[] = [
     title: "Configurations",
     url: "config",
     icon: Settings2,
+  },
+  {
+    title: "Insurance",
+    url: "insurance",
+    icon: Shield,
   },
   {
     title: "Recycle Bin",
@@ -34,7 +39,7 @@ function Settings() {
   return (
     <div className="flex h-screen">
       <div className="w-auto-full pr-4" id="sidebar">
-        <SettingsSidebar settingsMenu={settingsMenu}/>
+        <SettingsSidebar settingsMenu={settingsMenu} />
       </div>
       <div className="flex-1 p-5 pt-3" id="content">
         <Outlet />

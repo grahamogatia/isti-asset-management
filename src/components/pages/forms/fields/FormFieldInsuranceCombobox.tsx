@@ -24,7 +24,7 @@ import { getColumnIcon } from "@/lib/columnNameUtils";
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 import type { Control } from "react-hook-form";
-import { InsuranceForm } from "../sub-forms/InsuranceForm";
+import { InsuranceForm } from "../sub-forms/InsurancePopoverForm";
 
 interface FormFieldInsuranceComboboxProps {
   control: Control<any>;

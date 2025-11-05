@@ -42,9 +42,9 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   children?: React.ReactNode;
   defaultVisibleColumns?: string[];
-  filterableColumns: string[];
+  filterableColumns?: string[];
   type: string;
-  form: React.ReactNode;
+  form?: React.ReactNode;
   columnVisibility?: VisibilityState;
   onColumnVisibilityChange?: React.Dispatch<React.SetStateAction<VisibilityState>>;
 }
@@ -104,7 +104,7 @@ export function DataTable<TData, TValue>({
 
   const getAvailableColumns = () => {
     const usedColumns = appliedFilters.map((filter) => filter.columnName);
-    return filterableColumns.filter((column) => !usedColumns.includes(column));
+    return filterableColumns?.filter((column) => !usedColumns.includes(column));
   };
 
   // FilterBar handlers
@@ -208,7 +208,7 @@ export function DataTable<TData, TValue>({
           <FilterBar
             data={data}
             activeFilters={getActiveFiltersForDisplay()}
-            availableColumns={getAvailableColumns()}
+            availableColumns={getAvailableColumns() ?? []}
             onFiltersChange={handleFiltersChange}
             onEditFilter={handleEditFilter}
             onDeleteFilter={handleDeleteFilter}
