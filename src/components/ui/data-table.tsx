@@ -47,6 +47,7 @@ interface DataTableProps<TData, TValue> {
   form?: React.ReactNode;
   columnVisibility?: VisibilityState;
   onColumnVisibilityChange?: React.Dispatch<React.SetStateAction<VisibilityState>>;
+  placeholder?: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -58,6 +59,7 @@ export function DataTable<TData, TValue>({
   form,
   columnVisibility,
   onColumnVisibilityChange,
+  placeholder = "Search asset..."
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -154,7 +156,7 @@ export function DataTable<TData, TValue>({
           <div className="flex justify-between gap-4 w-full">
             {children}
             <Input
-              placeholder="Search asset..."
+              placeholder={placeholder}
               value={globalFilter}
               onChange={(event) => setGlobalFilter(event.target.value)}
               className="max-w-60 mr-auto"

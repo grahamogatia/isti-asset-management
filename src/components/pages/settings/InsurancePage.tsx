@@ -50,6 +50,7 @@ function InsurancePage() {
           data={displayedInsurances ?? []}
           type="Insurance"
           form={<InsuranceSheetForm/>}
+          placeholder="Search insurance..."
         />
       </DisplayTabsByStatus>
     </>

@@ -7,6 +7,7 @@ import FormSheet from "@/components/layout/FormSheet";
 import { Button } from "@/components/ui/button";
 import { SquarePen } from "lucide-react";
 import { format } from "date-fns";
+import DeleteInsuranceForm from "@/components/pages/forms/delete/DeleteInsuranceForm";
 
 export function useInsuranceColumns(): ColumnDef<Insurance>[] {
   const insurance_columns: ColumnDef<Insurance>[] = [
@@ -48,7 +49,8 @@ export function useInsuranceColumns(): ColumnDef<Insurance>[] {
               form={<UpdateInsuranceForm insurance={row.original} />}
             />
 
-            
+            <DeleteInsuranceForm insurance={row.original} />
+
           </ButtonGroup>
         );
       },

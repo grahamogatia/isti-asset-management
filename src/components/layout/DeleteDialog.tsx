@@ -18,8 +18,7 @@ function DeleteDialog({ handleConfirm }: DeleteDialogProps) {
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the{" "}
-            repair and remove the repair from our servers.
+            This action cannot be undone. This will permanently delete the and remove from our servers.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

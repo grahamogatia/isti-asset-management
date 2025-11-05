@@ -1,4 +1,4 @@
-import type { Asset_Category, Condition, Insurance, Status } from "@/data/types";
+import type { Asset_Category, Condition, Status } from "@/data/types";
 import { useLookupMaps } from "./useLookupMaps";
 import { useStatuses } from "./useStatus";
 
