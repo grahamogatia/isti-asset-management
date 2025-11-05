@@ -51,7 +51,7 @@ function UpdateAssetForm({ asset }: UpdateAssetFormProps) {
   function onSubmit(values: Asset) {
     const changed = compareObjects(asset, values);
 
-    if (Object.values(changed).length === 0) {
+    if (Object.values(changed).length - 1 === 0) { // -1 for the file property always changing
       toast.info("No changes detected. Please make edits to update.");
       return;
     }
@@ -63,7 +63,7 @@ function UpdateAssetForm({ asset }: UpdateAssetFormProps) {
       },
       {
         onSuccess: () => {
-          toast.success("Sucessfully updated Asset");
+          toast.success("Successfully updated asset.");
         },
       }
     );
