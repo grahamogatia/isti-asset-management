@@ -7,7 +7,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 import { useAddCategory, useCategories } from "@/hooks/useCategory";
-import { Plus, SquarePen } from "lucide-react";
+import { Plus } from "lucide-react";
 import SubCategoriesCollapsible from "./SubCategoriesCollapsible";
 import PopoverForm from "@/components/layout/PopoverForm";
 import type { Asset_Category } from "@/data/types";
@@ -52,7 +52,6 @@ function CategoriesPage() {
               <AccordionTrigger className="px-4 py-3 text-md hover:no-underline">
                 {category.category_name}
               </AccordionTrigger>
-              
               <UpdateCategoryForm category={category}/>
             </div>
             <AccordionContent className="p-0 bg-zinc-100 ">

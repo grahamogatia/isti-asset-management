@@ -4,8 +4,7 @@ import { AssetCategorySchema } from "@/data/schemas";
 import type { Asset_Category } from "@/data/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Save, SquarePen } from "lucide-react";
-import { Form, useForm } from "react-hook-form";
-import FormFieldTextArea from "../fields/FormFieldTextArea";
+import { useForm } from "react-hook-form";
 import FormFieldText from "../fields/FormFieldText";
 import { Badge } from "@/components/ui/badge";
 
