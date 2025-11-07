@@ -49,13 +49,16 @@ function UpdateSubCategoryForm({ subCategory }: UpdateSubCategoryFormProps) {
           <Badge className="font-semibold bg-red-100 text-red-700 border-transparent">
             {subCategory.sub_category_name}
           </Badge>
+          <Badge className="font-semibold bg-red-100 text-red-700 border-transparent">
+            {subCategory.code}
+          </Badge>
         </div>
       }
       form={form}
       onSubmit={onSubmit}
       submitButtonText="Save"
       submitButtonIcon={<Save className="mr-2 h-4 w-4" />}
-      formId="update-subcategory-name-form"
+      formId="update-subcategory-form"
     >
       <div className="space-y-4">
         <FormFieldText
@@ -72,7 +75,7 @@ function UpdateSubCategoryForm({ subCategory }: UpdateSubCategoryFormProps) {
         />
         <p className="text-xs text-muted-foreground">
           Keep names short and descriptive. This will update all linked
-          subcategories.
+          types.
         </p>
       </div>
     </PopoverForm>
