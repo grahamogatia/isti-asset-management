@@ -1,7 +1,6 @@
 import { type ColumnDef } from "@tanstack/react-table";
 import { differenceInMonths, format } from "date-fns";
 import type { Asset } from "./types";
-// removed direct lookups imports
 import {
   createHeaderWithIcon,
   createSortableHeaderWithIcon,
@@ -18,9 +17,22 @@ import { Button } from "@/components/ui/button";
 import { SquarePen, CircleX, AlertTriangle, ImageOff } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { conditionConfig, statusConfig } from "@/lib/statusStyles";
+import { useSettings } from "@/hooks/useSettings";
+import { useMemo } from "react";
 
 export function useAssetColumns(showLocation = true): ColumnDef<Asset>[] {
   const { getConditionName, getStatusName, getInsurance } = useLookupFunctions();
+  const { data: settings, isLoading: settingsLoading } = useSettings();
+
+  const getSettingValue = (key: string) => settings?.find((s) => s.key === key)?.value;
+
+  const depreciation = useMemo<number | undefined | null>(() => {
+    if (settingsLoading) return null;
+    const depRaw = getSettingValue("depreciation");
+    if (depRaw === undefined || depRaw === null || depRaw === "") return undefined;
+    const num = Number(depRaw);
+    return Number.isFinite(num) ? num : undefined;
+  }, [settings, settingsLoading])
 
   const columns: ColumnDef<Asset>[] = [
     {
@@ -186,7 +198,6 @@ export function useAssetColumns(showLocation = true): ColumnDef<Asset>[] {
       id: "asset_value",
       header: createHeaderWithIcon("asset_value", "Asset Value"),
       cell: ({ row }) => {
-        const LAPTOP_SAMPLE_DEPRECIATION = 60; // months
         const purchaseDate = row.original.purchase_date;
         const amt = row.original.asset_amount ?? 0;
 
@@ -194,10 +205,19 @@ export function useAssetColumns(showLocation = true): ColumnDef<Asset>[] {
         const purchase = new Date(purchaseDate);
         const age = differenceInMonths(new Date(), purchase);
 
-        const value =
-          age > LAPTOP_SAMPLE_DEPRECIATION
-            ? 0
-            : amt - (amt / LAPTOP_SAMPLE_DEPRECIATION) * age;
+        if (depreciation === null) {
+          return <span className="text-muted-foreground">Loading...</span>;
+        }
+
+        let value: number;
+        if (depreciation === undefined) {
+          value = amt;
+        } else if (age > depreciation) {
+          value = 0;
+        } else {
+          value = amt - (amt / depreciation) * age
+        }
+
         return new Intl.NumberFormat("en-PH", {
           style: "currency",
           currency: "PHP",
