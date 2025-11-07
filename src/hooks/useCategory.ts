@@ -127,3 +127,25 @@ export const useAddType = <TData = unknown>() => {
     onError: catchError,
   });
 };
+
+export const useUpdateCategory = <TData extends {}>() => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, data }: { id: number; data: TData }) => {
+      const response = await api.put(`index.php?resource=${CATEGORY}`, {
+        id: id,
+        values: Object.values(data).map((value) => {
+          return value;
+        }),
+        columns: Object.keys(data),
+      });
+
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: [CATEGORY] });
+    },
+    onError: catchError,
+  });
+};

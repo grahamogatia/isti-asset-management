@@ -1,7 +1,7 @@
 import PopoverForm from "@/components/layout/PopoverForm";
 import { Button } from "@/components/ui/button";
 import { AssetTypeSchema } from "@/data/schemas";
-import type { Asset_Sub_Category, Asset_Type } from "@/data/types";
+import type { Asset_Type } from "@/data/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Save, SquarePen } from "lucide-react";
 import { useForm } from "react-hook-form";
