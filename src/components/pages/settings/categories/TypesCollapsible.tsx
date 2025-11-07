@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import FormFieldText from "../../forms/fields/FormFieldText";
+import UpdateTypeForm from "../../forms/update/UpdateTypeForm";
 
 interface TypesCollapsibleProps {
   category: Asset_Category;
@@ -50,7 +51,11 @@ function TypesCollapsible({ category, subCat }: TypesCollapsibleProps) {
             subCat.sub_category_id === type.sub_category_id
         )
         .map((type) => (
-          <div className="border-t p-2">{formatTypeName(type.type_name)}</div>
+          <div className="flex justify-start items-center group">
+            <div className="border-t p-2">{formatTypeName(type.type_name)}</div>
+            <UpdateTypeForm type={type}/>
+          </div>
+
         ))}
 
       <PopoverForm
