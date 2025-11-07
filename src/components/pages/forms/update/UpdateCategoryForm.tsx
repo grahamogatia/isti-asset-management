@@ -40,7 +40,7 @@ function UpdateCategoryForm({ category }: UpdateCategoryFormProps) {
       subtitle={
         <div className="flex flex-col sm:flex-row sm:items-center gap-1">
           <span className="text-sm text-muted-foreground">Current:</span>
-          <Badge className="font-semibold bg-purple-100 text-purple-700 border-transparent">{category.category_name}</Badge>
+          <Badge className="font-semibold bg-red-100 text-red-700 border-transparent">{category.category_name}</Badge>
         </div>
       }
       
