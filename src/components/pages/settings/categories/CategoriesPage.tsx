@@ -7,7 +7,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 import { useAddCategory, useCategories } from "@/hooks/useCategory";
-import { Plus } from "lucide-react";
+import { Plus, SquarePen } from "lucide-react";
 import SubCategoriesCollapsible from "./SubCategoriesCollapsible";
 import PopoverForm from "@/components/layout/PopoverForm";
 import type { Asset_Category } from "@/data/types";
@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AssetCategorySchema } from "@/data/schemas";
 import { useForm } from "react-hook-form";
 import FormFieldText from "../../forms/fields/FormFieldText";
+import UpdateCategoryForm from "../../forms/update/UpdateCategoryForm";
 
 function CategoriesPage() {
   const form = useForm<Asset_Category>({
@@ -47,9 +48,13 @@ function CategoriesPage() {
             value={category.category_name}
             className="overflow-hidden border bg-background first:rounded-t-lg last:rounded-b-lg last:border-b"
           >
-            <AccordionTrigger className="px-4 py-3 text-md hover:no-underline">
-              {category.category_name}
-            </AccordionTrigger>
+            <div className="flex justify-between items-center group">
+              <AccordionTrigger className="px-4 py-3 text-md hover:no-underline">
+                {category.category_name}
+              </AccordionTrigger>
+              
+              <UpdateCategoryForm category={category}/>
+            </div>
             <AccordionContent className="p-0 bg-zinc-100 ">
               <SubCategoriesCollapsible category={category} />
             </AccordionContent>
