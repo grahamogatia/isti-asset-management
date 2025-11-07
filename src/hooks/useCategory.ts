@@ -149,3 +149,47 @@ export const useUpdateCategory = <TData extends {}>() => {
     onError: catchError,
   });
 };
+
+export const useUpdateSubCategory = <TData extends {}>() => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, data }: { id: number; data: TData }) => {
+      const response = await api.put(`index.php?resource=${SUB_CATEGORY}`, {
+        id: id,
+        values: Object.values(data).map((value) => {
+          return value;
+        }),
+        columns: Object.keys(data),
+      });
+
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: [SUB_CATEGORY] });
+    },
+    onError: catchError,
+  });
+};
+
+export const useUpdateType = <TData extends {}>() => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, data }: { id: number; data: TData }) => {
+      const response = await api.put(`index.php?resource=${TYPE}`, {
+        id: id,
+        values: Object.values(data).map((value) => {
+          return value;
+        }),
+        columns: Object.keys(data),
+      });
+
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: [TYPE] });
+    },
+    onError: catchError,
+  });
+};

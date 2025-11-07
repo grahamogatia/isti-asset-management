@@ -7,6 +7,9 @@ import { Save, SquarePen } from "lucide-react";
 import { useForm } from "react-hook-form";
 import FormFieldText from "../fields/FormFieldText";
 import { Badge } from "@/components/ui/badge";
+import { useUpdateSubCategory } from "@/hooks/useCategory";
+import { compareObjects } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface UpdateSubCategoryFormProps {
   subCategory: Asset_Sub_Category;
@@ -21,7 +24,36 @@ function UpdateSubCategoryForm({ subCategory }: UpdateSubCategoryFormProps) {
     mode: "all",
   });
 
-  function onSubmit(values: Asset_Sub_Category) {}
+  const { mutate } = useUpdateSubCategory();
+
+  function onSubmit(values: Asset_Sub_Category) {
+    const changed = compareObjects(subCategory, values);
+
+    if (Object.values(changed).length === 0) {
+      toast.info("No changes detected. Please make edits to uopdate.");
+      return;
+    }
+
+    console.log(changed);
+
+    mutate(
+      {
+        id: values.sub_category_id as number,
+        data: changed,
+      },
+      {
+        onSuccess: () => {
+          console.log("🎉 SUCCESS! Form submitted:", values);
+          toast.success("Sub category successfully updated");
+          form.reset(values);
+        },
+        onError: (error: any) => {
+          console.error("Update failed:", error);
+          toast.error("Failed to update sub category");
+        },
+      }
+    );
+  }
 
   return (
     <PopoverForm
@@ -74,8 +106,7 @@ function UpdateSubCategoryForm({ subCategory }: UpdateSubCategoryFormProps) {
           placeholder="Enter new code"
         />
         <p className="text-xs text-muted-foreground">
-          Keep names short and descriptive. This will update all linked
-          types.
+          Keep names short and descriptive. This will update all linked types.
         </p>
       </div>
     </PopoverForm>
