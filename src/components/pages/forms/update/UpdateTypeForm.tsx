@@ -7,6 +7,9 @@ import { Save, SquarePen } from "lucide-react";
 import { useForm } from "react-hook-form";
 import FormFieldText from "../fields/FormFieldText";
 import { Badge } from "@/components/ui/badge";
+import { compareObjects } from "@/lib/utils";
+import { toast } from "sonner";
+import { useUpdateType } from "@/hooks/useCategory";
 
 interface UpdateTypeFormProps {
   type: Asset_Type;
@@ -21,7 +24,36 @@ function UpdateTypeForm({ type }: UpdateTypeFormProps) {
     mode: "all",
   });
 
-  function onSubmit(values: Asset_Type) {}
+  const { mutate } = useUpdateType();
+
+  function onSubmit(values: Asset_Type) {
+    const changed = compareObjects(type, values);
+
+    if (Object.values(changed).length === 0) {
+      toast.info("No changes detected. Please make edits to uopdate.");
+      return;
+    }
+
+    console.log(changed);
+
+    mutate(
+      {
+        id: values.type_id as number,
+        data: changed,
+      },
+      {
+        onSuccess: () => {
+          console.log("🎉 SUCCESS! Form submitted:", values);
+          toast.success("Type successfully updated");
+          form.reset(values);
+        },
+        onError: (error: any) => {
+          console.error("Update failed:", error);
+          toast.error("Failed to update type");
+        },
+      }
+    );
+  }
 
   return (
     <PopoverForm
@@ -47,7 +79,7 @@ function UpdateTypeForm({ type }: UpdateTypeFormProps) {
         <div className="flex flex-col sm:flex-row sm:items-center gap-1">
           <span className="text-sm text-muted-foreground">Current:</span>
           <Badge className="font-semibold bg-red-100 text-red-700 border-transparent">
-            {type.type_name}
+            {type.type_name} {type.code}
           </Badge>
           <Badge className="font-semibold bg-red-100 text-red-700 border-transparent">
             {type.type_code}

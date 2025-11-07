@@ -153,7 +153,8 @@ export const AssetSubCategorySchema = AssetCategorySchema.extend({
   sub_category_name: z.string({ message: "Sub category name is required"}),
   code: z
     .string({ message: "Code is required" })
-    .length(3, "Code must be exactly 3 characters"),
+    .length(3, "Code must be exactly 3 characters")
+    .optional(),
 })
 
 export const AssetTypeSchema = AssetSubCategorySchema.extend({
@@ -161,6 +162,7 @@ export const AssetTypeSchema = AssetSubCategorySchema.extend({
   type_name: z.string({ message: "Type name is required "}),
   type_code: z
     .string({ message: "Code is required" })
-    .length(3, "Code must be exactly 3 characters"),
+    .length(3, "Code must be exactly 3 characters")
+    .optional(),
 })
 
