@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import AssetSubCategoryTab from "../components/pages/assets/AssetSubCategoryTab";
 import { Separator } from "@/components/ui/separator";
 import { useCategories } from "@/hooks/useCategory";
+import { Outlet } from "react-router-dom";
 
 function Assets() {
   const { data: categories = [], isLoading } = useCategories();
@@ -17,7 +18,7 @@ function Assets() {
 
   return (
     <div className="mx-auto w-full">
-      <Tabs value={category} className="gap-0" onValueChange={setCategory}>
+    <Tabs value={category} className="gap-0" onValueChange={setCategory}>
         <div className="w-fit p-3 pt-2 pl-5">
           <TabsList className="bg-transparent p-0 h-auto mb-2 flex items-center gap-2">
             {categories.map((cat, index) => (
@@ -46,6 +47,7 @@ function Assets() {
           );
         })}
       </Tabs>
+      <Outlet/>
     </div>
   );
 }

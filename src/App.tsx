@@ -13,6 +13,7 @@ import CategoriesPage from "./components/pages/settings/categories/CategoriesPag
 import AssetConfigPage from "./components/pages/settings/AssetConfigPage";
 import RecycleBinPage from "./components/pages/settings/RecycleBinPage";
 import InsurancePage from "./components/pages/settings/InsurancePage";
+import AssetBatchUploadPage from "./components/pages/assets/AssetBatchUploadPage";
 
 function App() {
   return (
@@ -43,7 +44,8 @@ function AppRoutes() {
         >
           <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route path="assets" element={<Assets />} />
+            <Route path="assets" element={<Assets />}/>
+            <Route path="assets_batch_upload" element={<AssetBatchUploadPage />}/>
             <Route path="borrow" element={<Borrow />} />
             <Route path="issuance" element={<Issuance />} />
             <Route path="repair" element={<Repair />} />

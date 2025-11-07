@@ -10,7 +10,16 @@ import { Button } from "@/components/ui/button";
 import { Upload, X } from "lucide-react";
 import type { Control } from "react-hook-form";
 import { getColumnIcon } from "@/lib/columnNameUtils";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useSettings } from "@/hooks/useSettings";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 interface FormFieldFileProps {
   control: Control<any>;
@@ -34,6 +43,19 @@ function FormFieldFile({
   const IconComponent = getColumnIcon(name);
 
   const [images, setImages] = useState<string[]>([]);
+  const { data: settings } = useSettings();
+  const settingsMaxImages = useMemo<number | undefined>(() => {
+    const raw = settings?.find((s) => s.key === "max_images_per_item")?.value;
+    if (raw === undefined || raw === null || raw === "") return undefined;
+    const n = Number(raw);
+    return Number.isFinite(n) ? Math.max(1, Math.floor(n)) : undefined;
+  }, [settings]);
+
+  const effectiveMax = settingsMaxImages;
+
+  const [showLimitDialog, setShowLimitDialog] = useState(false);
+  const [excessCount, setExcessCount] = useState(0);
+  const [processedCount, setProcessedCount] = useState(0);
 
   return (
     <FormField
@@ -56,13 +78,37 @@ function FormFieldFile({
                   id={`file-input-${name}`}
                   onChange={(e) => {
                     const selectedFiles = Array.from(e.target.files || []);
-                    if (selectedFiles.length > 0) {
-                      setFiles(selectedFiles);
-                      setImages(
-                        selectedFiles.map((file) => URL.createObjectURL(file))
-                      );
-                      onChange(selectedFiles.map((file) => file.name));
+                    if (selectedFiles.length === 0) return;
+
+                    const remainingSlots = effectiveMax
+                      ? Math.max(0, effectiveMax - files.length)
+                      : selectedFiles.length;
+                    const allowed = selectedFiles.slice(0, remainingSlots);
+
+                    // nothing allowed -> show dialog and do nothing
+                    if (allowed.length === 0) {
+                      setExcessCount(selectedFiles.length);
+                      setProcessedCount(0);
+                      setShowLimitDialog(true);
+                      return;
                     }
+
+                    // some trimmed -> show dialog but still process allowed
+                    if (allowed.length < selectedFiles.length) {
+                      setExcessCount(selectedFiles.length - allowed.length);
+                      setProcessedCount(allowed.length);
+                      setShowLimitDialog(true);
+                    } else {
+                      setExcessCount(0);
+                      setProcessedCount(allowed.length);
+                    }
+
+                    const newFiles = [...files, ...allowed];
+                    setFiles(newFiles);
+                    setImages(
+                      newFiles.map((file) => URL.createObjectURL(file))
+                    );
+                    onChange(newFiles.map((file) => file.name));
                   }}
                   {...field}
                 />
@@ -76,18 +122,26 @@ function FormFieldFile({
                 >
                   <Upload className="h-4 w-4" />
                   {files.length > 0
-                    ? `Change Files (${files.length})`
+                    ? `Change Files (${files.length}${
+                        effectiveMax ? ` / ${effectiveMax}` : ""
+                      })`
                     : placeholder}
                 </Button>
               </div>
+
               <div className="flex flex-wrap gap-4">
                 {images.map((image, index) => {
                   return (
                     <div
                       key={index}
-                      className="flex items-center gap-2  rounded-md"
+                      className="flex items-center gap-2 rounded-md"
                     >
-                      <img src={image} className="max-w-20" />
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={image}
+                        className="max-w-20"
+                        alt={`preview-${index}`}
+                      />
                       <Button
                         type="button"
                         variant="ghost"
@@ -97,9 +151,9 @@ function FormFieldFile({
                           const updatedFiles = files.filter(
                             (_, i) => i !== index
                           );
-                          setImages((prev) => {
-                            return prev.filter((_, i) => i !== index);
-                          });
+                          setImages((prev) =>
+                            prev.filter((_, i) => i !== index)
+                          );
                           setFiles(updatedFiles);
                           onChange(
                             updatedFiles.length > 0 ? updatedFiles : null
@@ -121,56 +175,52 @@ function FormFieldFile({
                 })}
               </div>
 
-              {/* Display all selected files */}
-              {/* {files.length > 0 && (
-                <div className="space-y-2">
-                  {files.map((file, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-md"
-                    >
-                      <File className="h-4 w-4 text-gray-500 flex-shrink-0" />
-                      <span className="text-sm text-gray-700 truncate flex-1">
-                        {file.name}
-                      </span>
-                      <span className="text-xs text-gray-500 flex-shrink-0">
-                        {(file.size / 1024 / 1024).toFixed(1)}MB
-                      </span>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        className="h-auto p-1 flex-shrink-0"
-                        onClick={() => {
-                          const updatedFiles = files.filter(
-                            (_, i) => i !== index
-                          );
-                          setFiles(updatedFiles);
-                          onChange(
-                            updatedFiles.length > 0 ? updatedFiles : null
-                          );
-
-                          // Clear input if no files left
-                          if (updatedFiles.length === 0) {
-                            const input = document.getElementById(
-                              `file-input-${name}`
-                            ) as HTMLInputElement;
-                            if (input) input.value = "";
-                          }
-                        }}
-                      >
-                        <X className="h-3 w-3" />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              )} */}
-
               <p className="text-xs text-gray-500">
                 Supported formats: JPG, PNG (Max 10MB each)
               </p>
+              {effectiveMax ? (
+                <p className="text-xs text-gray-500">
+                  {files.length} / {effectiveMax}
+                </p>
+              ) : null}
             </div>
           </FormControl>
+
+          {/* Dialog: inform user when selection exceeded limit from settings */}
+          <Dialog open={showLimitDialog} onOpenChange={setShowLimitDialog}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Upload Limit: {effectiveMax} Images
+                </DialogTitle>
+                <DialogDescription>
+                  {effectiveMax
+                    ? processedCount > 0
+                      ? `Only ${processedCount} files were accepted. ${excessCount} files were skipped to respect the upload limit (${effectiveMax}). To change this limit, update the setting.`
+                      : `Upload limit reached. You can only upload up to ${effectiveMax} file(s). To change this limit, update the setting.`
+                    : `Some files were not processed.`}
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter className="flex justify-end gap-2">
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    setShowLimitDialog(false);
+                  }}
+                >
+                  OK
+                </Button>
+                <Button
+                  onClick={() => {
+                    setShowLimitDialog(false);
+                    window.location.href = "/settings/config";
+                  }}
+                >
+                  Change setting
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
           <FormMessage />
         </FormItem>
       )}

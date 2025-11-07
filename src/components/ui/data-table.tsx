@@ -35,7 +35,9 @@ import FilterBar from "../pages/filters/FilterBar";
 import { formatColumnName, getColumnIcon } from "@/lib/columnNameUtils";
 import type { ActiveFilter } from "@/data/types";
 import FormSheet from "../layout/FormSheet";
-import { Plus } from "lucide-react";
+import { FileUp, Plus } from "lucide-react";
+import { ButtonGroup } from "./button-group";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -46,7 +48,9 @@ interface DataTableProps<TData, TValue> {
   type: string;
   form?: React.ReactNode;
   columnVisibility?: VisibilityState;
-  onColumnVisibilityChange?: React.Dispatch<React.SetStateAction<VisibilityState>>;
+  onColumnVisibilityChange?: React.Dispatch<
+    React.SetStateAction<VisibilityState>
+  >;
   placeholder?: string;
 }
 
@@ -59,7 +63,7 @@ export function DataTable<TData, TValue>({
   form,
   columnVisibility,
   onColumnVisibilityChange,
-  placeholder = "Search asset..."
+  placeholder = "Search asset...",
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -68,6 +72,9 @@ export function DataTable<TData, TValue>({
   const [appliedFilters, setAppliedFilters] = useState<
     { columnName: string; values: string[] }[]
   >([]);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleFiltersChange = (columnName: string, values: string[]) => {
     setAppliedFilters((previousFilters) => {
@@ -194,17 +201,22 @@ export function DataTable<TData, TValue>({
                   })}
               </DropdownMenuContent>
             </DropdownMenu>
-            <FormSheet
-              type={type}
-              taskName="Add a New"
-              button={
-                <Button className="bg-[#4a47c6] text-white hover:bg-[#3d3bb0] gap-0">
-                  <Plus className="mr-1" />
-                  New
-                </Button>
-              }
-              form={form}
-            />
+            <ButtonGroup>
+              <Button variant="outline" onClick={() => {navigate("/assets_batch_upload")}}>
+                <FileUp/>
+              </Button>
+              <FormSheet
+                type={type}
+                taskName="Add a New"
+                button={
+                  <Button className="gap-0" variant="outline">
+                    <Plus className="mr-1" />
+                    New
+                  </Button>
+                }
+                form={form}
+              />
+            </ButtonGroup>
           </div>
 
           <FilterBar
