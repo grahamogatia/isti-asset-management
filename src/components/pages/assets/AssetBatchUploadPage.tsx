@@ -101,6 +101,10 @@ function AssetBatchUploadPage() {
     setExcelData([]);
   };
 
+  const onSubmit = () => {
+    clear()
+  };
+
   const headers = excelData[0] ? Object.keys(excelData[0]) : [];
 
   console.log(headers);
@@ -123,13 +127,24 @@ function AssetBatchUploadPage() {
               onChange={handleFileUpload}
             />
             <div className="flex gap-2">
-              <Button
-                variant="outline"
-                onClick={clear}
-                disabled={excelData.length === 0}
-              >
-                Clear
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  onClick={clear}
+                  disabled={excelData.length === 0}
+                >
+                  Clear
+                </Button>
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  type="submit"
+                  onClick={onSubmit}
+                  disabled={excelData.length === 0}
+                >
+                  Save
+                </Button>
+              </div>
             </div>
           </div>
         </ItemActions>
