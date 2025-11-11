@@ -102,12 +102,12 @@ function AssetBatchUploadPage() {
   };
 
   const onSubmit = () => {
-    clear()
+    console.log(excelData)
+    // clear();
   };
 
   const headers = excelData[0] ? Object.keys(excelData[0]) : [];
 
-  console.log(headers);
 
   return (
     <div className="p-2 pl-5.5">
@@ -181,7 +181,20 @@ function AssetBatchUploadPage() {
                   >
                     <Input
                       type="text"
-                      defaultValue={row[h] === null || row[h]}
+                      value={
+                        excelData[ri]?.[h] === null ||
+                        excelData[ri]?.[h] === undefined
+                          ? ""
+                          : String(excelData[ri][h])
+                      }
+                      onChange={(e) => {
+                        const val = e.currentTarget.value;
+                        setExcelData((prev) =>
+                          prev.map((r, idx) =>
+                            idx === ri ? { ...r, [h]: val } : r
+                          )
+                        );
+                      }}
                       className="w-full text-xs"
                       aria-label={`${formatHeader(h)} row ${ri + 1}`}
                     />
