@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -13,15 +14,27 @@ import {
   ItemDescription,
   ItemTitle,
 } from "@/components/ui/item";
-import { useSettings } from "@/hooks/useSettings";
+import type { Settings } from "@/data/types";
+import { useSettings, useUpdateSetting } from "@/hooks/useSettings";
+import { useState } from "react";
 
 function AssetConfigPage() {
+  const { data: settings } = useSettings();
+  const { mutate } = useUpdateSetting();
 
-    const { data: settings } = useSettings();
+  const depreciationSetting = settings?.find(
+    (s) => s.key === "depreciation"
+  )?.value;
+  const maxImagesSetting = settings?.find(
+    (s) => s.key === "max_images_per_item"
+  )?.value;
 
-    const depreciationSetting = settings?.find(s => s.key === "depreciation")?.value;
-    const maxImagesSetting = settings?.find(s => s.key === "max_images_per_item")?.value;
+  const [toSaveDep, setToSaveDep] = useState<Settings>();
+  const [toSaveMaxImgs, setToSaveMaxImgs] = useState<Settings>();
 
+  const onSubmit = (settings: Settings[]) => {
+    return;
+  };
 
   return (
     <div className="flex w-full max-w flex-col gap-6 pb-4">
@@ -31,11 +44,21 @@ function AssetConfigPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Asset Configuration</CardTitle>
-          <CardDescription>
-            Manage depreciation, image limits, and allowed file types for
-            assets.
-          </CardDescription>
+          <div className="w-full flex items-start justify-between gap-4">
+            <div>
+              <CardTitle>Asset Configuration</CardTitle>
+              <CardDescription>
+                Manage depreciation, image limits, and allowed file types for
+                assets.
+              </CardDescription>
+            </div>
+
+            {toSaveDep || toSaveMaxImgs ? (
+              <div>
+                {/* <Button variant="default" type="submit" onSubmit={onSubmit}>Save</Button> */}
+              </div>
+            ) : null}
+          </div>
         </CardHeader>
         <CardContent>
           <div className="flex w-full max-w flex-col gap-6">
@@ -55,6 +78,12 @@ function AssetConfigPage() {
                   step={1}
                   className="w-24"
                   defaultValue={depreciationSetting}
+                  onChange={(e) =>
+                    setToSaveDep({
+                      key: "depreciation",
+                      value: e.currentTarget.value,
+                    } as unknown as Settings)
+                  }
                 />
               </ItemActions>
             </Item>
@@ -75,6 +104,12 @@ function AssetConfigPage() {
                   step={1}
                   className="w-24"
                   defaultValue={maxImagesSetting}
+                  onChange={(e) =>
+                    setToSaveMaxImgs({
+                      key: "depreciation",
+                      value: e.currentTarget.value,
+                    } as unknown as Settings)
+                  }
                 />
               </ItemActions>
             </Item>
