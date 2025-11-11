@@ -17,11 +17,18 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getColumnIcon } from "@/lib/columnNameUtils";
+import { format } from "date-fns";
 import { useState } from "react";
 import * as XLSX from "xlsx";
 
 function AssetBatchUploadPage() {
   const [excelData, setExcelData] = useState<any[]>([]);
+
+  const excelSerialToDate = (serial: number) => {
+    const utcDays = serial - 25569;
+    const ms = Math.round(utcDays * 86400 * 1000);
+    return new Date(ms);
+  };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -34,9 +41,47 @@ function AssetBatchUploadPage() {
       const workbook = XLSX.read(data, { type: "array" });
       const sheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[sheetName];
-      const jsonData = XLSX.utils.sheet_to_json(sheet, { defval: "" });
+      const jsonData = XLSX.utils.sheet_to_json<Record<string, any>>(sheet, {
+        defval: "",
+      });
 
-      setExcelData(jsonData); // ✅ store parsed Excel rows here
+      const nf = new Intl.NumberFormat("en-US");
+
+      const normalized = jsonData.map((row) => {
+        const out: Record<string, any> = {};
+        Object.entries(row).forEach(([k, v]) => {
+          const key = String(k).toLowerCase();
+
+          // amount -> format as number with commas
+          if (key.includes("amount")) {
+            const num = Number(v) || 0;
+            out[k] = nf.format(num);
+            return;
+          }
+
+          // date-like fields -> format yyyy-MM-dd
+          if (/(purchase|warranty|date)/i.test(k)) {
+            if (typeof v === "number") {
+              const d = excelSerialToDate(v);
+              out[k] = format(d, "yyyy-MM-dd");
+            } else if (v) {
+              const d = new Date(v);
+              out[k] = !isNaN(d.getTime())
+                ? format(d, "yyyy-MM-dd")
+                : String(v);
+            } else {
+              out[k] = "";
+            }
+            return;
+          }
+
+          // default passthrough
+          out[k] = v;
+        });
+        return out;
+      });
+
+      setExcelData(normalized); // store normalized rows
     };
 
     reader.readAsArrayBuffer(file);
@@ -98,7 +143,10 @@ function AssetBatchUploadPage() {
               {headers.map((header) => {
                 const Icon = getColumnIcon(header);
                 return (
-                  <TableHead key={header} className="w-40 max-w-[12rem] px-2 py-1 text-left truncate">
+                  <TableHead
+                    key={header}
+                    className="w-40 max-w-[12rem] px-2 py-1 text-left truncate"
+                  >
                     {Icon ? (
                       <Icon className="mr-2 h-4 w-4 inline-block" />
                     ) : null}
@@ -112,7 +160,10 @@ function AssetBatchUploadPage() {
             {excelData.map((row, ri) => (
               <TableRow key={ri}>
                 {headers.map((h) => (
-                  <TableCell key={h} className="w-40 max-w-[12rem] px-2 py-1 align-top overflow-hidden">
+                  <TableCell
+                    key={h}
+                    className="w-40 max-w-[12rem] px-2 py-1 align-top overflow-hidden"
+                  >
                     <Input
                       type="text"
                       defaultValue={row[h] === null || row[h]}
