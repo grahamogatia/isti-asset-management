@@ -16,13 +16,38 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import type {
+  Asset_Category,
+  Asset_Sub_Category,
+  Asset_Type,
+} from "@/data/types";
+import { useAddAsset } from "@/hooks/useAsset";
+import {
+  useAddCategory,
+  useAddSubCategory,
+  useAddType,
+  useCategories,
+  useSubCategories,
+  useTypes,
+} from "@/hooks/useCategory";
 import { getColumnIcon } from "@/lib/columnNameUtils";
+import { useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useState } from "react";
 import * as XLSX from "xlsx";
 
 function AssetBatchUploadPage() {
   const [excelData, setExcelData] = useState<any[]>([]);
+
+  const { data: categories } = useCategories();
+  const { data: subCategories } = useSubCategories();
+  const { data: types } = useTypes();
+
+  const queryClient = useQueryClient();
+  const { mutateAsync: addCategoryAsync } = useAddCategory();
+  const { mutateAsync: addSubCategoryAsync } = useAddSubCategory();
+  const { mutateAsync: addTypeAsync } = useAddType();
+  const { mutateAsync: addAssetAsync } = useAddAsset();
 
   const excelSerialToDate = (serial: number) => {
     const utcDays = serial - 25569;
@@ -101,13 +126,87 @@ function AssetBatchUploadPage() {
     setExcelData([]);
   };
 
-  const onSubmit = () => {
-    console.log(excelData)
+  // async function ensureCategory(name?: string) {
+  //   const n = (name ?? "").trim();
+  //   if (!n) return null;
+  //   const found = categories?.find(
+  //     (c: any) => c.category_name?.toLowerCase() === n.toLowerCase()
+  //   );
+  //   if (found) return found.category_id;
+  //   const created = await addCategoryAsync({ category_name: n });
+  //   // refresh cache (hooks useQuery will refetch on success already, but ensure)
+  //   await queryClient.invalidateQueries({ queryKey: ["category"] });
+  //   return created?.category_id ?? created?.id;
+  // }
+
+  const compareNames = (a?: string, b?: string) => {
+      return (
+        String(a ?? "")
+          .trim()
+          .toLowerCase() ===
+        String(b ?? "")
+          .trim()
+          .toLowerCase()
+      );
+    };
+
+  
+
+  function ensureSubCategory(name?: string) {}
+
+  function ensureType(name?: string) {}
+
+  function onSubmit() {
     // clear();
-  };
+
+    if (!excelData?.length) return;
+    try {
+      const assetsToCreate: any[] = [];
+
+      // Creating Categories > Sub categories > Types
+      for (const row of excelData) {
+        
+        const categoryFound = categories?.find((c: Asset_Category) =>
+          compareNames(c.category_name, row.category)
+        );
+
+        // If found use the Category ID
+        if (categoryFound) {
+          const categoryId = categoryFound.category_id ?? null;
+
+          const subCategoryFound = subCategories?.find(
+            (s: Asset_Sub_Category) => {
+              if (s.category_id !== categoryId) return false;
+              return compareNames(s.sub_category_name, row.sub_category);
+            }
+          );
+
+          // If found use the Sub Category ID
+          if (subCategoryFound) {
+            const subCategoryId = subCategoryFound.sub_category_id ?? null;
+
+            const typeFound = types?.find((t: Asset_Type) => {
+              if (t.sub_category_id !== subCategoryId) return false;
+              return compareNames(t.type_name, row.type);
+            });
+
+            // If found use the Type ID
+            if (typeFound) {
+              const typeId = typeFound.type_id;
+            }
+          }
+        }
+
+        // if (!categoryExists) {
+        //   console.log(row.category);
+        // }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   const headers = excelData[0] ? Object.keys(excelData[0]) : [];
-
 
   return (
     <div className="p-2 pl-5.5">
