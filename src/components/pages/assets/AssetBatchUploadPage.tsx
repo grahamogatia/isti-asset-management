@@ -140,21 +140,57 @@ function AssetBatchUploadPage() {
   // }
 
   const compareNames = (a?: string, b?: string) => {
-      return (
-        String(a ?? "")
-          .trim()
-          .toLowerCase() ===
-        String(b ?? "")
-          .trim()
-          .toLowerCase()
-      );
-    };
+    return (
+      String(a ?? "")
+        .trim()
+        .toLowerCase() ===
+      String(b ?? "")
+        .trim()
+        .toLowerCase()
+    );
+  };
 
-  
+  function ensureCategory(rowCategoryName: string) {
+    const categoryFound = categories?.find((c: Asset_Category) =>
+      compareNames(c.category_name, rowCategoryName)
+    );
 
-  function ensureSubCategory(name?: string) {}
+    if (!categoryFound) {
+      // Create new category
+      // Return new category ID
+    }
 
-  function ensureType(name?: string) {}
+    return categoryFound?.category_id;
+  }
+
+  function ensureSubCategory(rowSubCategoryName: string, categoryId: number) {
+    const subCategoryFound = subCategories?.find((s: Asset_Sub_Category) => {
+      if (s.category_id !== categoryId) return false;
+      return compareNames(s.sub_category_name, rowSubCategoryName);
+    });
+
+    if (!subCategoryFound) {
+
+      // Create new sub category
+      // Return new sub category ID
+    }
+
+    return subCategoryFound?.sub_category_id;
+  }
+
+  function ensureType(rowTypeName: string, categoryId: number, subCategoryId: number) {
+    const typeFound = types?.find((t: Asset_Type) => {
+      if (t.category_id !== categoryId && t.sub_category_id !== subCategoryId) return false; 
+      return compareNames(t.type_name, rowTypeName);
+    });
+
+    if (!typeFound) {
+      // Create new type
+      // Return new type ID
+    }
+
+    return typeFound?.type_id;
+  }
 
   function onSubmit() {
     // clear();
@@ -165,41 +201,13 @@ function AssetBatchUploadPage() {
 
       // Creating Categories > Sub categories > Types
       for (const row of excelData) {
-        
-        const categoryFound = categories?.find((c: Asset_Category) =>
-          compareNames(c.category_name, row.category)
-        );
+       
 
-        // If found use the Category ID
-        if (categoryFound) {
-          const categoryId = categoryFound.category_id ?? null;
+        const categoryId = ensureCategory(row.category);
+        const subCategoryId = ensureSubCategory(row.sub_category, categoryId as number);
+        const typeId = ensureType(row.type, categoryId as number, subCategoryId as number);
 
-          const subCategoryFound = subCategories?.find(
-            (s: Asset_Sub_Category) => {
-              if (s.category_id !== categoryId) return false;
-              return compareNames(s.sub_category_name, row.sub_category);
-            }
-          );
 
-          // If found use the Sub Category ID
-          if (subCategoryFound) {
-            const subCategoryId = subCategoryFound.sub_category_id ?? null;
-
-            const typeFound = types?.find((t: Asset_Type) => {
-              if (t.sub_category_id !== subCategoryId) return false;
-              return compareNames(t.type_name, row.type);
-            });
-
-            // If found use the Type ID
-            if (typeFound) {
-              const typeId = typeFound.type_id;
-            }
-          }
-        }
-
-        // if (!categoryExists) {
-        //   console.log(row.category);
-        // }
       }
     } catch (err) {
       console.error(err);
