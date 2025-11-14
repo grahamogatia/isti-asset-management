@@ -28,6 +28,7 @@ function CategoriesPage() {
   const { mutate } = useAddCategory();
 
   function onAddCategory(values: Asset_Category) {
+    console.log(values)
     mutate(values);
   }
 

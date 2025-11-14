@@ -15,7 +15,7 @@ export const useAssetFiltering = (category: Asset_Category) => {
     isLoadingCategories ||
     isLoadingSubCategories ||
     isLoadingTypes;
-
+ 
   const [subCategory, setSubCategory] = useState<string>("");
   const [selectedType, setSelectedType] = useState<string>("All");
 

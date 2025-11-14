@@ -37,7 +37,7 @@ import type { ActiveFilter } from "@/data/types";
 import FormSheet from "../layout/FormSheet";
 import { FileUp, Plus } from "lucide-react";
 import { ButtonGroup } from "./button-group";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -74,7 +74,6 @@ export function DataTable<TData, TValue>({
   >([]);
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleFiltersChange = (columnName: string, values: string[]) => {
     setAppliedFilters((previousFilters) => {
