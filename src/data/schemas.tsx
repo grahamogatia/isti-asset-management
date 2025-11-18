@@ -28,6 +28,11 @@ export const AssetSchema = z.object({
   insurance_id: z.number().nullable().optional(),
 });
 
+export const AssetFileSchema = z.object({
+  asset_id: z.number().optional(),
+  file: z.array(z.string()).optional(),
+});
+
 export const InsuranceSchema = z.object({
   insurance_id: z.number().optional(),
   insurance_name: z.string({ message: "Name is required" }),
@@ -49,9 +54,9 @@ export const RepairSchema = z.object({
   status_id: z.number().optional(),
   repair_request_id: z.number().optional(),
 
-  date_reported: z.date({ message: "Date reported is required"} ), // Default: Today
-  urgency_id: z.number({ message: "Urgency is required"} ),
-  repair_start_date: z.date({ message: "Repair start date is required"} ),
+  date_reported: z.date({ message: "Date reported is required" }), // Default: Today
+  urgency_id: z.number({ message: "Urgency is required" }),
+  repair_start_date: z.date({ message: "Repair start date is required" }),
   repair_cost: z.number({ message: "Repair cost is required" }).min(0),
   issue: z
     .string()
@@ -145,24 +150,23 @@ export const StatusSchema = z.object({
 
 export const AssetCategorySchema = z.object({
   category_id: z.number().optional(),
-  category_name: z.string({ message: "Category name is required"}),
-})
+  category_name: z.string({ message: "Category name is required" }),
+});
 
 export const AssetSubCategorySchema = AssetCategorySchema.extend({
   sub_category_id: z.number().optional(),
-  sub_category_name: z.string({ message: "Sub category name is required"}),
+  sub_category_name: z.string({ message: "Sub category name is required" }),
   code: z
     .string({ message: "Code is required" })
     .length(3, "Code must be exactly 3 characters")
     .optional(),
-})
+});
 
 export const AssetTypeSchema = AssetSubCategorySchema.extend({
   type_id: z.number().optional(),
-  type_name: z.string({ message: "Type name is required "}),
+  type_name: z.string({ message: "Type name is required " }),
   type_code: z
     .string({ message: "Code is required" })
     .length(3, "Code must be exactly 3 characters")
     .optional(),
-})
-
+});

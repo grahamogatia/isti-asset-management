@@ -116,6 +116,32 @@ export const useUpdateAsset = <TData extends {}>() => {
   });
 };
 
+export const useAddImageAsset = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, file }: { id: string; file: File[] }) => {
+      const formdata = new FormData();
+      formdata.append("data", JSON.stringify({asset_id: id}));
+      file.forEach((f) => {
+        formdata.append("file[]", f);
+      });
+      const response = await api.post(`index.php?resource=asset&type=images`, formdata);
+
+      return response.data;
+    },
+    onSuccess: (data) => {
+      if (typeof data === "object") {
+        queryClient.refetchQueries({ queryKey: [ASSET] });
+        toast.success("Successfully added new Asset");
+      } else {
+        throw new Error("Failed to add new Asset");
+      }
+    },
+    onError: catchError,
+  });
+};
+
 export const useDeleteAsset = () => {
   const queryClient = useQueryClient();
 

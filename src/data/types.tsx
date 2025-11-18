@@ -14,6 +14,7 @@ import type {
   AssetCategorySchema,
   AssetSubCategorySchema,
   AssetTypeSchema,
+  AssetFileSchema,
 } from "./schemas";
 
 export type Asset = z.infer<typeof AssetSchema>;
@@ -30,6 +31,7 @@ export type Status = z.infer<typeof StatusSchema>;
 export type Asset_Category = z.infer<typeof AssetCategorySchema>;
 export type Asset_Sub_Category = z.infer<typeof AssetSubCategorySchema>;
 export type Asset_Type = z.infer<typeof AssetTypeSchema>;
+export type AssetFile = z.infer<typeof AssetFileSchema>;
 
 
 export type Urgency = {
