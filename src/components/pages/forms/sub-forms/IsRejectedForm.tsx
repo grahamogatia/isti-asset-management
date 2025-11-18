@@ -10,6 +10,7 @@ import type { Repair } from "@/data/types";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { toast } from "sonner";
 import { useUpdateRepair } from "@/hooks/useRepair";
+import FormPopoverTrigger from "@/components/ui/form-popover-trigger";
 
 interface isRejectedFormProps {
   repair: Repair;
@@ -50,11 +51,7 @@ function IsRejectedForm({ repair }: isRejectedFormProps) {
 
   return (
     <PopoverForm
-      triggerButton={
-        <Button variant="outline">
-          <Ban />
-        </Button>
-      }
+      triggerButton={<FormPopoverTrigger icon={Ban} name="Reject Repair?" />}
       title="Reject Repair?"
       subtitle={
         <>

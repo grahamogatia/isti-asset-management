@@ -14,25 +14,41 @@ import ImageDialog from "@/components/ui/image-dialog";
 import UpdateAssetForm from "@/components/pages/forms/update/UpdateAssetForm";
 import FormSheet from "@/components/layout/FormSheet";
 import { Button } from "@/components/ui/button";
-import { SquarePen, CircleX, AlertTriangle, ImageOff } from "lucide-react";
+import {
+  SquarePen,
+  CircleX,
+  AlertTriangle,
+  ImageOff,
+  Square,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { conditionConfig, statusConfig } from "@/lib/statusStyles";
 import { useSettings } from "@/hooks/useSettings";
 import { useMemo } from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { SheetTrigger } from "@/components/ui/sheet";
+import FormSheetTrigger from "@/components/ui/form-sheet-trigger";
 
 export function useAssetColumns(showLocation = true): ColumnDef<Asset>[] {
-  const { getConditionName, getStatusName, getInsurance } = useLookupFunctions();
+  const { getConditionName, getStatusName, getInsurance } =
+    useLookupFunctions();
   const { data: settings, isLoading: settingsLoading } = useSettings();
 
-  const getSettingValue = (key: string) => settings?.find((s) => s.key === key)?.value;
+  const getSettingValue = (key: string) =>
+    settings?.find((s) => s.key === key)?.value;
 
   const depreciation = useMemo<number | undefined | null>(() => {
     if (settingsLoading) return null;
     const depRaw = getSettingValue("depreciation");
-    if (depRaw === undefined || depRaw === null || depRaw === "") return undefined;
+    if (depRaw === undefined || depRaw === null || depRaw === "")
+      return undefined;
     const num = Number(depRaw);
     return Number.isFinite(num) ? num : undefined;
-  }, [settings, settingsLoading])
+  }, [settings, settingsLoading]);
 
   const columns: ColumnDef<Asset>[] = [
     {
@@ -215,7 +231,7 @@ export function useAssetColumns(showLocation = true): ColumnDef<Asset>[] {
         } else if (age > depreciation) {
           value = 0;
         } else {
-          value = amt - (amt / depreciation) * age
+          value = amt - (amt / depreciation) * age;
         }
 
         return new Intl.NumberFormat("en-PH", {
@@ -228,11 +244,10 @@ export function useAssetColumns(showLocation = true): ColumnDef<Asset>[] {
       id: "insurance_id",
       header: createHeaderWithIcon("insurance_id", "Insurance"),
       cell: ({ row }) => {
-        const insurance = getInsurance(row.original.insurance_id as number)
+        const insurance = getInsurance(row.original.insurance_id as number);
 
-        return(insurance?.insurance_name)
-
-      }
+        return insurance?.insurance_name;
+      },
     },
     {
       accessorKey: "notes",
@@ -255,11 +270,7 @@ export function useAssetColumns(showLocation = true): ColumnDef<Asset>[] {
           <FormSheet
             type={"Asset Inventory"}
             taskName="Update"
-            button={
-              <Button variant="outline">
-                <SquarePen className="h-4 w-4" />
-              </Button>
-            }
+            button={<FormSheetTrigger icon={SquarePen} name="Update Asset" />}
             form={<UpdateAssetForm asset={row.original} />}
           />
           <DeleteAssetForm asset={row.original} />

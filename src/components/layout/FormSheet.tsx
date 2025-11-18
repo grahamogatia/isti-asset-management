@@ -34,7 +34,7 @@ function FormSheet({ type, taskName, button, form }: FormSheetProps) {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>{button}</SheetTrigger>
+      {button}
       <SheetContent className="max-w-none flex flex-col h-full lg:max-w-[40vw] transition-all duration-300 ease-in-out">
         <SheetHeader className="flex-shrink-0 pl-6 pr-6 pt-6 pb-2">
           <SheetTitle className="flex text-xl items-center gap-1">

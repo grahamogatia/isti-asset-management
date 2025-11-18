@@ -10,6 +10,7 @@ import UpdateBorrowForm from "@/components/pages/forms/update/UpdateBorrowForm";
 import { ButtonGroup } from "@/components/ui/button-group";
 import DeleteBorrowForm from "@/components/pages/forms/delete/DeleteBorrowForm";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
+import FormSheetTrigger from "@/components/ui/form-sheet-trigger";
 
 export function useBorrowColumns() {
   const commonColumns = useCommonColumns<Borrow>();
@@ -33,7 +34,7 @@ export function useBorrowColumns() {
       header: () => (
         <div className="flex items-center gap-2">
           <Clock className="h-4 w-4" />
-          Status
+          Duration
         </div>
       ),
       cell: ({ row }) => {
@@ -55,8 +56,9 @@ export function useBorrowColumns() {
         const { getAsset, getStatusIdGivenStatusName } = useLookupFunctions();
         const asset = getAsset(row.original.asset_id);
         const isReturned = row.original.return_date != null;
-        const isDeleted = asset?.status_id === getStatusIdGivenStatusName("Asset Inventory", "Deleted")
-
+        const isDeleted =
+          asset?.status_id ===
+          getStatusIdGivenStatusName("Asset Inventory", "Deleted");
 
         return (
           <ButtonGroup className="hidden sm:flex">
@@ -68,15 +70,16 @@ export function useBorrowColumns() {
                   type={"Borrow"}
                   taskName="Update"
                   button={
-                    <Button variant="outline">
-                      <SquarePen className="h-4 w-4" />
-                    </Button>
+                    <FormSheetTrigger
+                      icon={SquarePen}
+                      name="Update Borrow Request"
+                    />
                   }
                   form={<UpdateBorrowForm borrow={row.original} />}
                 />
               </>
             )}
-            <DeleteBorrowForm borrow={row.original}/>
+            <DeleteBorrowForm borrow={row.original} />
           </ButtonGroup>
         );
       },

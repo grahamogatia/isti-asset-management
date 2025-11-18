@@ -10,6 +10,7 @@ import { BorrowSchema } from "@/data/schemas";
 import type { Borrow } from "@/data/types";
 import { useUpdateBorrow } from "@/hooks/useBorrow";
 import { toast } from "sonner";
+import FormPopoverTrigger from "@/components/ui/form-popover-trigger";
 
 interface IsReturnedFormProps {
   borrow: Borrow;
@@ -36,7 +37,6 @@ function IsReturnedForm({ borrow }: IsReturnedFormProps) {
     mode: "all",
   });
 
-
   const { mutate } = useUpdateBorrow();
 
   const today = new Date();
@@ -49,23 +49,21 @@ function IsReturnedForm({ borrow }: IsReturnedFormProps) {
         id: values.borrow_transaction_id as number,
         data: {
           return_date: values.return_date,
-          remarks: values.remarks
-        }
+          remarks: values.remarks,
+        },
       },
       {
         onSuccess: () => {
-          toast.success("Successfully returned asset")
-        } 
-      },
-    )
+          toast.success("Successfully returned asset");
+        },
+      }
+    );
   }
 
   return (
     <PopoverForm
       triggerButton={
-        <Button variant="outline">
-          <RotateCcw />
-        </Button>
+        <FormPopoverTrigger icon={RotateCcw} name="Is Returned?" />
       }
       title="Is Returned?"
       description="Set the return date and add final remarks for this borrow."
@@ -83,7 +81,9 @@ function IsReturnedForm({ borrow }: IsReturnedFormProps) {
           ) : (
             <>
               📅 Due On:{" "}
-              <span className="font-semibold">{format(dueDate, "MMM dd, yyyy")}</span>
+              <span className="font-semibold">
+                {format(dueDate, "MMM dd, yyyy")}
+              </span>
             </>
           )
         ) : (

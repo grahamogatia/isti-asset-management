@@ -59,7 +59,7 @@ function PopoverForm<T extends FieldValues>({
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>{triggerButton}</PopoverTrigger>
+      {triggerButton}
       <PopoverContent className="w-80">
         <div className="grid gap-4">
           <div className="space-y-2">

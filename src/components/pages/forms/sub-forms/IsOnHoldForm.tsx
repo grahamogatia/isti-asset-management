@@ -10,6 +10,7 @@ import type { Repair } from "@/data/types";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { toast } from "sonner";
 import { useUpdateRepair } from "@/hooks/useRepair";
+import FormPopverTrigger from "@/components/ui/form-popover-trigger";
 
 // Missing interface definition
 interface IsOnHoldFormProps {
@@ -52,9 +53,7 @@ function IsOnHoldForm({ repair }: IsOnHoldFormProps) {
   return (
     <PopoverForm
       triggerButton={
-        <Button variant="outline">
-          <Pause />
-        </Button>
+        <FormPopverTrigger icon={Pause} name="Put Repair On Hold?" />
       }
       title="Put Repair On Hold?"
       subtitle={

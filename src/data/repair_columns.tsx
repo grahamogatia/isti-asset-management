@@ -18,6 +18,7 @@ import DeleteRepairForm from "@/components/pages/forms/delete/DeleteRepairForm";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { statusConfig, urgencyConfig } from "@/lib/statusStyles";
 import { Badge } from "@/components/ui/badge";
+import FormSheetTrigger from "@/components/ui/form-sheet-trigger";
 
 export function useRepairColumns() {
   const commonColumns = useCommonColumns<Repair>();
@@ -74,7 +75,8 @@ export function useRepairColumns() {
 
         return (
           <Badge
-            className={`flex items-center gap-1 px-2 py-1 ${config.color}`} variant="outline"
+            className={`flex items-center gap-1 px-2 py-1 ${config.color}`}
+            variant="outline"
           >
             <Icon className="h-3.5 w-3.5" />
             <span className="text-xs font-medium">{urgencyName}</span>
@@ -142,9 +144,7 @@ export function useRepairColumns() {
                 type={"Repair"}
                 taskName="Update"
                 button={
-                  <Button variant="outline">
-                    <SquarePen className="h-4 w-4" />
-                  </Button>
+                  <FormSheetTrigger icon={SquarePen} name="Update Repair" />
                 }
                 form={<UpdateRepairForm repair={row.original} />}
               />

@@ -11,6 +11,7 @@ import type { Issuance } from "@/data/types";
 import { isValid } from "date-fns";
 import { useUpdateIssuance } from "@/hooks/useIssuance";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
+import FormPopverTrigger from "@/components/ui/form-popover-trigger";
 
 interface isWtihdrawnFormProps {
   issuance: Issuance;
@@ -31,28 +32,28 @@ function IsWithdrawnForm({ issuance }: isWtihdrawnFormProps) {
   const { getStatuses } = useLookupFunctions();
 
   const statuses = getStatuses("Issuance");
-  const issuanceDate = issuance.issuance_date  ? new Date(issuance.issuance_date) : undefined;  
-  const validIssuanceDate = issuanceDate && isValid(issuanceDate) ? issuanceDate : undefined;
+  const issuanceDate = issuance.issuance_date
+    ? new Date(issuance.issuance_date)
+    : undefined;
+  const validIssuanceDate =
+    issuanceDate && isValid(issuanceDate) ? issuanceDate : undefined;
 
   function onIssueCompleted(values: Issuance) {
-    mutate(
-      {
-        id: values.issuance_id as number,
-        data: {
-          pullout_date: values.pullout_date,
-          remarks: values.remarks,
-          status_id: statuses.find(s => s.status_name === "Pulled Out")?.status_id,
-        }
-      }
-    )
+    mutate({
+      id: values.issuance_id as number,
+      data: {
+        pullout_date: values.pullout_date,
+        remarks: values.remarks,
+        status_id: statuses.find((s) => s.status_name === "Pulled Out")
+          ?.status_id,
+      },
+    });
   }
 
   return (
     <PopoverForm
       triggerButton={
-        <Button variant="outline">
-          <ArchiveRestore />
-        </Button>
+        <FormPopverTrigger icon={ArchiveRestore} name="Is Withdrawn?" />
       }
       title="Is Withdrawn?"
       description="Set the pullout date and add final remarks for this issuance."

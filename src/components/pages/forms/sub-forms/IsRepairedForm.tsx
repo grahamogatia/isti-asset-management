@@ -11,6 +11,7 @@ import type { Repair } from "@/data/types";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { toast } from "sonner";
 import { useUpdateRepair } from "@/hooks/useRepair";
+import FormPopoverTrigger from "@/components/ui/form-popover-trigger";
 
 interface isRepairedFormProps {
   repair: Repair;
@@ -35,10 +36,11 @@ function IsRepairedForm({ repair }: isRepairedFormProps) {
     mutate(
       {
         id: values.repair_request_id as number,
-        data: { 
-          status_id: statuses.find((s) => s.status_name === "Completed")?.status_id,
-          repair_completion_date: values.repair_completion_date, 
-          remarks: values.remarks
+        data: {
+          status_id: statuses.find((s) => s.status_name === "Completed")
+            ?.status_id,
+          repair_completion_date: values.repair_completion_date,
+          remarks: values.remarks,
         },
       },
       {
@@ -46,20 +48,19 @@ function IsRepairedForm({ repair }: isRepairedFormProps) {
           toast.success("Successfully updated repair request");
         },
       }
-    )
+    );
   }
 
   return (
     <PopoverForm
-      triggerButton={
-        <Button variant="outline">
-          <Hammer />
-        </Button>
-      }
+      triggerButton={<FormPopoverTrigger icon={Hammer} name="Is Repaired?" />}
       title="Is Repaired?"
       subtitle={
         <>
-          🛠️ Start Date: <span className="font-semibold">{format(repair.repair_start_date as Date, "MMM dd, yyyy")}</span>
+          🛠️ Start Date:{" "}
+          <span className="font-semibold">
+            {format(repair.repair_start_date as Date, "MMM dd, yyyy")}
+          </span>
         </>
       }
       form={form}
