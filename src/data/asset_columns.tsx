@@ -24,6 +24,7 @@ import { conditionConfig, statusConfig } from "@/lib/statusStyles";
 import { useSettings } from "@/hooks/useSettings";
 import { useMemo } from "react";
 import FormSheetTrigger from "@/components/ui/form-sheet-trigger";
+import AddImagePopoverForm from "@/components/pages/forms/sub-forms/AddImagePopoverForm";
 
 export function useAssetColumns(showLocation = true): ColumnDef<Asset>[] {
   const { getConditionName, getStatusName, getInsurance } =
@@ -52,7 +53,8 @@ export function useAssetColumns(showLocation = true): ColumnDef<Asset>[] {
 
         if (images.length === 0) {
           return (
-            <ImageOff className="h-6 text-muted-foreground flex justify-center items-center w-full" />
+            // TO DO Implement Form Field File Adding POPOVER
+            <AddImagePopoverForm asset={row.original}/>
           );
         }
 
