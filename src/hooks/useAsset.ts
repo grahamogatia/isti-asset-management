@@ -133,9 +133,9 @@ export const useAddImageAsset = () => {
     onSuccess: (data) => {
       if (typeof data === "object") {
         queryClient.refetchQueries({ queryKey: [ASSET] });
-        toast.success("Successfully added new Asset");
+        toast.success("Successfully uploaded Asset Image");
       } else {
-        throw new Error("Failed to add new Asset");
+        throw new Error("Failed to upload Asset Image");
       }
     },
     onError: catchError,
