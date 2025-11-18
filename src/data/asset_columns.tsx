@@ -17,7 +17,6 @@ import {
   SquarePen,
   CircleX,
   AlertTriangle,
-  ImageOff,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { conditionConfig, statusConfig } from "@/lib/statusStyles";

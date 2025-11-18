@@ -1,14 +1,13 @@
 import PopoverForm from "@/components/layout/PopoverForm";
 import FormPopoverTrigger from "@/components/ui/form-popover-trigger";
-import { AssetFileSchema, AssetSchema } from "@/data/schemas";
+import { AssetFileSchema } from "@/data/schemas";
 import type { Asset, AssetFile } from "@/data/types";
-import { useAddImageAsset, useUpdateAsset } from "@/hooks/useAsset";
+import { useAddImageAsset } from "@/hooks/useAsset";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImageOff, Save } from "lucide-react";
 import { useForm } from "react-hook-form";
 import FormFieldFile from "../fields/FormFieldFile";
 import { useState } from "react";
-import { differenceInMonths, format } from "date-fns";
 
 interface AddImagePopverFormProps {
   asset: Asset;
