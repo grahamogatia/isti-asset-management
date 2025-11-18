@@ -6,6 +6,12 @@ import { useStatuses } from "./useStatus";
 import { useFunctionsITAM } from "./useFunctionITAM";
 import { useUrgencies } from "./useUrgency";
 import { useInsurances } from "./useInsurance";
+import {
+  employees as testEmployees,
+  departments as testDepartments,
+  units as testUnits,
+  company as testCompanies,
+} from "@/testcases/foreignkeys"
 
 export const useLookupMaps = () => {
   const { data: assets } = useAssets();
@@ -17,7 +23,6 @@ export const useLookupMaps = () => {
   const { data: functions } = useFunctionsITAM();
   const { data: urgencies } = useUrgencies();
   const { data: insurances } = useInsurances(); 
-  
 
   const lookupMaps = useMemo(() => {
     return {
@@ -29,8 +34,13 @@ export const useLookupMaps = () => {
       statusMap: new Map(statuses?.map((s) => [s.status_id, s]) || []),
       functionITAMMap: new Map(functions?.map((f) => [f.function_id, f]) || []),
       urgencyMap: new Map(urgencies?.map((u) => [u.urgency_id, u]) || []),
-      insuranceMap: new Map(insurances?.map((ins) => [ins.insurance_id, ins]) || [])
-
+      insuranceMap: new Map(insurances?.map((ins) => [ins.insurance_id, ins]) || []),
+      
+      /* TODO: UPDATE when API done */
+      employeeMap: new Map((testEmployees ?? []).map((e) => [e.user_id, e]) || []),
+      departmentMap: new Map((testDepartments ?? []).map((d) => [d.department_id, d]) || []),
+      unitMap: new Map((testUnits ?? []).map((u) => [u.unit_id, u]) || []),
+      companyMap: new Map((testCompanies ?? []).map((c) => [c.company_id, c]) || []),
     };
   }, [assets, categories, subCategories, types, conditions, statuses, functions, urgencies, insurances]);
 

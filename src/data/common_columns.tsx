@@ -7,11 +7,6 @@ import {
   createStandardFilterFn,
 } from "@/lib/columnNameUtils";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
-import {
-  getCompanyName,
-  getDepartmentName,
-  getEmployeeName,
-} from "@/lib/lookups";
 import { conditionConfig } from "@/lib/statusStyles";
 import { Badge } from "@/components/ui/badge";
 
@@ -30,6 +25,9 @@ export function useCommonColumns<T extends CommonFields>() {
     getSubCategoryName,
     getTypeName,
     getConditionName,
+    getEmployeeName,
+    getDepartmentName,
+    getCompanyName
   } = useLookupFunctions();
 
   return {

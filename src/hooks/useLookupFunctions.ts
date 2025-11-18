@@ -3,7 +3,7 @@ import { useLookupMaps } from "./useLookupMaps";
 import { useStatuses } from "./useStatus";
 
 export const useLookupFunctions = () => {
-  const { assetMap, categoryMap, subCategoryMap, typeMap, conditionMap, statusMap, functionITAMMap, urgencyMap, isLoading, insuranceMap } = useLookupMaps();
+  const { assetMap, categoryMap, subCategoryMap, typeMap, conditionMap, statusMap, functionITAMMap, urgencyMap, isLoading, insuranceMap, employeeMap, departmentMap, unitMap, companyMap } = useLookupMaps();
   const { data: statuses } = useStatuses();
 
   const getAsset = (asset_id: number) => {
@@ -29,10 +29,6 @@ export const useLookupFunctions = () => {
     return statusMap.get(id)?.status_name ?? "Unknown Status";
   }
 
-  const getUrgencyName = (id: number): string => {
-    return urgencyMap.get(id)?.urgency_level ?? "Unknown Urgency";
-  }
-
   const getCategories = (): Asset_Category[] => {
     return Array.from(categoryMap.values());
   }
@@ -44,6 +40,24 @@ export const useLookupFunctions = () => {
   const getInsurance = (insurance_id: number) => {
     return insuranceMap.get(insurance_id);
   }
+
+  function getEmployeeName(employee_id: number): string {
+    return employeeMap.get(employee_id)?.name ?? "Unknown Employee";
+  }
+
+  function getDepartmentName(department_id: number): string {
+    return departmentMap.get(department_id)?.name ?? "Unknown Department";
+  }
+
+  function getCompanyName(company_id: number): string {
+    return companyMap.get(company_id)?.name ?? "Unknown Company";
+  }
+
+
+  function getUrgencyName(urgency_id: number): string {
+    return urgencyMap.get(urgency_id)?.urgency_level ?? "Unknown Urgency";
+  }
+
 
   const getStatuses = (functionName: string): Status[] => {
     if (!functionName || !functionITAMMap) return [];
@@ -157,6 +171,9 @@ export const useLookupFunctions = () => {
     getConditions,
     getStatuses,
     getInsurance,
+    getEmployeeName,
+    getDepartmentName,
+    getCompanyName,
 
     getStatusIdGivenStatusName,
     getDisplayNameForColumn,
