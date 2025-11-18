@@ -31,7 +31,7 @@ export function useAssetColumns(showLocation = true): ColumnDef<Asset>[] {
   const { data: settings, isLoading: settingsLoading } = useSettings();
 
   const getSettingValue = (key: string) =>
-    settings?.find((s) => s.key === key)?.value;
+    settings?.find((s) => s.settings_key === key)?.value;
 
   const depreciation = useMemo<number | undefined | null>(() => {
     if (settingsLoading) return null;

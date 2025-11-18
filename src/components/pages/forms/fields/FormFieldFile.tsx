@@ -45,7 +45,7 @@ function FormFieldFile({
   const [images, setImages] = useState<string[]>([]);
   const { data: settings } = useSettings();
   const settingsMaxImages = useMemo<number | undefined>(() => {
-    const raw = settings?.find((s) => s.key === "max_images_per_item")?.value;
+    const raw = settings?.find((s) => s.settings_key === "max_images_per_item")?.value;
     if (raw === undefined || raw === null || raw === "") return undefined;
     const n = Number(raw);
     return Number.isFinite(n) ? Math.max(1, Math.floor(n)) : undefined;

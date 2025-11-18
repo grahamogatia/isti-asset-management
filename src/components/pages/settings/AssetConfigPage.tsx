@@ -16,24 +16,55 @@ import {
 } from "@/components/ui/item";
 import type { Settings } from "@/data/types";
 import { useSettings, useUpdateSetting } from "@/hooks/useSettings";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { toast } from "sonner";
 
 function AssetConfigPage() {
   const { data: settings } = useSettings();
   const { mutate } = useUpdateSetting();
+  const queryClient = useQueryClient();
+
+  console.log(settings)
 
   const depreciationSetting = settings?.find(
-    (s) => s.key === "depreciation"
-  )?.value;
+    (s) => s.settings_key === "depreciation"
+  );
   const maxImagesSetting = settings?.find(
-    (s) => s.key === "max_images_per_item"
-  )?.value;
+    (s) => s.settings_key === "max_images_per_item"
+  );
 
   const [toSaveDep, setToSaveDep] = useState<Settings>();
   const [toSaveMaxImgs, setToSaveMaxImgs] = useState<Settings>();
 
   const onSubmit = (settings: Settings[]) => {
-    return;
+    settings.forEach((s) => {
+      const payload = { id: s.id as number, data: s };
+      console.log(payload)
+      const settingsKey = s.settings_key;
+      mutate(payload, {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["settings"] });
+          toast.success(`Setting ${settingsKey} updated`)
+        },
+        onError: (err) => {
+          toast.error(`Failed to update setting ${settingsKey}`)
+        }
+      })
+    })
+  };
+
+  const isDirty = Boolean(toSaveDep || toSaveMaxImgs);
+
+  const handleSaveClick = () => {
+    const payload: Settings[] = [];
+    if (toSaveDep) payload.push(toSaveDep);
+    if (toSaveMaxImgs) payload.push(toSaveMaxImgs);
+    console.log(payload)
+    onSubmit(payload);
+    // clear dirty state (UI)
+    setToSaveDep(undefined);
+    setToSaveMaxImgs(undefined);
   };
 
   return (
@@ -53,9 +84,11 @@ function AssetConfigPage() {
               </CardDescription>
             </div>
 
-            {toSaveDep || toSaveMaxImgs ? (
+            {isDirty ? (
               <div>
-                {/* <Button variant="default" type="submit" onSubmit={onSubmit}>Save</Button> */}
+                <Button variant="default" onClick={handleSaveClick}>
+                  Save
+                </Button>
               </div>
             ) : null}
           </div>
@@ -77,10 +110,11 @@ function AssetConfigPage() {
                   max={1000}
                   step={1}
                   className="w-24"
-                  defaultValue={depreciationSetting}
+                  defaultValue={depreciationSetting?.value}
                   onChange={(e) =>
                     setToSaveDep({
-                      key: "depreciation",
+                      id: depreciationSetting?.id,
+                      settings_key: "depreciation",
                       value: e.currentTarget.value,
                     } as unknown as Settings)
                   }
@@ -103,10 +137,11 @@ function AssetConfigPage() {
                   max={12}
                   step={1}
                   className="w-24"
-                  defaultValue={maxImagesSetting}
+                  defaultValue={maxImagesSetting?.value}
                   onChange={(e) =>
                     setToSaveMaxImgs({
-                      key: "depreciation",
+                      id: maxImagesSetting?.id,
+                      settings_key: "max_images_per_item",
                       value: e.currentTarget.value,
                     } as unknown as Settings)
                   }
