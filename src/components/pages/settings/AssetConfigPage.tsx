@@ -47,7 +47,7 @@ function AssetConfigPage() {
           queryClient.invalidateQueries({ queryKey: ["settings"] });
           toast.success(`Setting ${settingsKey} updated`)
         },
-        onError: (err) => {
+        onError: () => {
           toast.error(`Failed to update setting ${settingsKey}`)
         }
       })

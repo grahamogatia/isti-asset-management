@@ -3,7 +3,7 @@ import { useLookupMaps } from "./useLookupMaps";
 import { useStatuses } from "./useStatus";
 
 export const useLookupFunctions = () => {
-  const { assetMap, categoryMap, subCategoryMap, typeMap, conditionMap, statusMap, functionITAMMap, urgencyMap, isLoading, insuranceMap, employeeMap, departmentMap, unitMap, companyMap } = useLookupMaps();
+  const { assetMap, categoryMap, subCategoryMap, typeMap, conditionMap, statusMap, functionITAMMap, urgencyMap, isLoading, insuranceMap, employeeMap, departmentMap, companyMap } = useLookupMaps();
   const { data: statuses } = useStatuses();
 
   const getAsset = (asset_id: number) => {
