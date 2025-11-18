@@ -204,20 +204,22 @@ export function DataTable<TData, TValue>({
               </DropdownMenuContent>
             </DropdownMenu>
             <ButtonGroup>
-              {/* {hasAssetBatchUpload && ( */}
-              <Button
-                variant="outline"
-                onClick={() => {
-                  navigate("/assets_batch_upload");
-                }}
-              >
-                <FileUp />
-              </Button>
-              {/* )} */}
+              {hasAssetBatchUpload && (
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    navigate("/assets_batch_upload");
+                  }}
+                >
+                  <FileUp />
+                </Button>
+              )}
               <FormSheet
                 type={type}
                 taskName="Add a New"
-                button={<FormSheetTrigger icon={Plus} buttonName="New" name="Add" />}
+                button={
+                  <FormSheetTrigger icon={Plus} buttonName="New" name="Add" />
+                }
                 form={form}
               />
             </ButtonGroup>
