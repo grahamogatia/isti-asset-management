@@ -57,6 +57,7 @@ function AssetDataTable({
       form={<AssetForm />}
       columnVisibility={columnVisibility}
       onColumnVisibilityChange={setColumnVisibility}
+      hasAssetBatchUpload={true}
     >
       <AssetTypeDropdown
         assetTypes={assetTypes}

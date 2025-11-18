@@ -102,10 +102,6 @@ function AssetBatchUploadPage() {
     setExcelData([]);
   };
 
-  async function onSubmit() {
-    if (!excelData?.length) return;
-  }
-
   const headers = excelData[0] ? Object.keys(excelData[0]) : [];
 
   return (

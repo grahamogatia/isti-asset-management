@@ -52,6 +52,7 @@ interface DataTableProps<TData, TValue> {
     React.SetStateAction<VisibilityState>
   >;
   placeholder?: string;
+  hasAssetBatchUpload?: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -64,6 +65,7 @@ export function DataTable<TData, TValue>({
   columnVisibility,
   onColumnVisibilityChange,
   placeholder = "Search asset...",
+  hasAssetBatchUpload,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -201,9 +203,16 @@ export function DataTable<TData, TValue>({
               </DropdownMenuContent>
             </DropdownMenu>
             <ButtonGroup>
-              <Button variant="outline" onClick={() => {navigate("/assets_batch_upload")}}>
-                <FileUp/>
-              </Button>
+              {hasAssetBatchUpload && (
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    navigate("/assets_batch_upload");
+                  }}
+                >
+                  <FileUp />
+                </Button>
+              )}
               <FormSheet
                 type={type}
                 taskName="Add a New"
