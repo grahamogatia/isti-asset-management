@@ -62,6 +62,6 @@ export type AppRoutes = {
 
 export type Settings = {
   id: number,
-  key: string,
+  settings_key: string,
   value: string,
 }
