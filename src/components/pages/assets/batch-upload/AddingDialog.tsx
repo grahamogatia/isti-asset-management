@@ -23,6 +23,7 @@ import type {
   Asset_Sub_Category,
   Asset_Type,
 } from "@/data/types";
+import { useAddMultipleAssets } from "@/hooks/useAsset";
 
 function compareNames(a?: string, b?: string) {
   return (
@@ -52,6 +53,7 @@ function AddingDialog({ excelData }: { excelData: any[] }) {
   const { mutate: addSubCategory, mutateAsync: addSubCategoryAsync } =
     useAddSubCategory();
   const { mutate: addType, mutateAsync: addTypeAsync } = useAddType();
+  const { mutate: addMultipleAssets, mutateAsync: addMultipleAssetsAsync} = useAddMultipleAssets();
 
   const { data: categories } = useCategories();
   const { data: subCategories } = useSubCategories();
@@ -449,12 +451,11 @@ function AddingDialog({ excelData }: { excelData: any[] }) {
           category_id: categoryId,
           sub_category_id: subCategoryId,
           type_id: typeId,
-          status: row?.status ?? "",
+          status_id: 1,
           specifications: row?.specifications ?? "",
-          amount: amountNum,
+          asset_amount: amountNum,
           purchase_date: row?.purchase_date ?? null,
           warranty_due_date: row?.warranty_due_date ?? null,
-          insurance: row?.insurance ?? "",
           notes: row?.notes ?? "",
           location: row?.location ?? "",
         });
@@ -466,13 +467,11 @@ function AddingDialog({ excelData }: { excelData: any[] }) {
         a.category_id,
         a.sub_category_id,
         a.type_id,
-        a.status,
+        a.status_id,
         a.specifications,
-        a.amount,
+        a.asset_amount,
         a.purchase_date,
         a.warranty_due_date,
-        a.insurance,
-        a.file,
         a.notes,
         a.location,
       ]);
@@ -481,11 +480,39 @@ function AddingDialog({ excelData }: { excelData: any[] }) {
       console.log("Assets: ", assetsValues);
 
       {/* Mutate here */}
+     setProgressText("Sending batch to server...");
+      // data shape: single parameter 'data'
+      const data = {
+        columns: assetKeys,
+        values: assetsValues,
+        type: "batch",
+      };
+
+      let createRes: any = null;
+      try {
+        createRes = await callMutateAsyncOrWrap(
+          addMultipleAssetsAsync,
+          addMultipleAssets,
+          data
+        );
+        try {
+          await queryClient.invalidateQueries({ queryKey: ["assets"] });
+        } catch (e) {
+          // ignore invalidate errors
+        }
+      } catch (err: any) {
+        errs.push(String(err));
+      }
 
       setProgressText(null);
-      return { success: errs.length === 0, assetsValues, errors: errs };
+      return {
+        success: errs.length === 0,
+        assetsValues,
+        errors: errs,
+        createRes,
+      };
     } catch (err: any) {
-      return { success: false, assets: [], errors: [String(err)] };
+      return { success: false, assetsValues: [], errors: [String(err)] };
     } finally {
       setWorking(false);
     }
@@ -611,7 +638,6 @@ function AddingDialog({ excelData }: { excelData: any[] }) {
                       console.warn("createAssetsToPush errors:", res.errors);
                     } else {
                       // log assets array
-                      console.log("Assets to push:", res.assets);
                     }
                   } catch (err) {
                     console.error("createAssetsToPush failed:", err);

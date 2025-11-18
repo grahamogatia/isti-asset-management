@@ -66,6 +66,30 @@ export const useAddAsset = <TData = unknown>() => {
   });
 };
 
+export const useAddMultipleAssets = <TData = unknown>() => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data : TData) => {
+      const formdata = new FormData();
+      formdata.append("data", JSON.stringify(data));
+      const response = await api.post(`index.php?resource=asset&type=batch`, formdata);
+
+      return response.data;
+    },
+    onSuccess: (data) => {
+      if (typeof data === "object") {
+        queryClient.refetchQueries({ queryKey: [ASSET] });
+        toast.success("Successfully added new Asset");
+      } else {
+        throw new Error("Failed to add new Asset");
+      }
+    },
+    onError: catchError,
+  });
+};
+
+
 export const useUpdateAsset = <TData extends {}>() => {
   const queryClient = useQueryClient();
 
