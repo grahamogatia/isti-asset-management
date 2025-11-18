@@ -13,24 +13,16 @@ import DeleteAssetForm from "@/components/pages/forms/delete/DeleteAssetForm";
 import ImageDialog from "@/components/ui/image-dialog";
 import UpdateAssetForm from "@/components/pages/forms/update/UpdateAssetForm";
 import FormSheet from "@/components/layout/FormSheet";
-import { Button } from "@/components/ui/button";
 import {
   SquarePen,
   CircleX,
   AlertTriangle,
   ImageOff,
-  Square,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { conditionConfig, statusConfig } from "@/lib/statusStyles";
 import { useSettings } from "@/hooks/useSettings";
 import { useMemo } from "react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { SheetTrigger } from "@/components/ui/sheet";
 import FormSheetTrigger from "@/components/ui/form-sheet-trigger";
 
 export function useAssetColumns(showLocation = true): ColumnDef<Asset>[] {
