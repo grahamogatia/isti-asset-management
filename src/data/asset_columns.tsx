@@ -42,6 +42,7 @@ export function useAssetColumns(showLocation = true): ColumnDef<Asset>[] {
     return Number.isFinite(num) ? num : undefined;
   }, [settings, settingsLoading]);
 
+
   const columns: ColumnDef<Asset>[] = [
     {
       accessorKey: "file",
@@ -226,10 +227,22 @@ export function useAssetColumns(showLocation = true): ColumnDef<Asset>[] {
           value = amt - (amt / depreciation) * age;
         }
 
-        return new Intl.NumberFormat("en-PH", {
+        const formatted = Intl.NumberFormat("en-PH", {
           style: "currency",
           currency: "PHP",
         }).format(value);
+
+        return (
+          <div className="flex items-center gap-2">
+            <span>{formatted}</span>
+            {value === 0 && typeof depreciation === "number" && (
+              <Badge className="text-xs bg-red-700">
+                Depreciated
+              </Badge>
+            )}
+          </div>
+        );
+
       },
     },
     {
