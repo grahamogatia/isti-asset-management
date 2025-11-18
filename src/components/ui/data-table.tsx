@@ -38,6 +38,7 @@ import FormSheet from "../layout/FormSheet";
 import { FileUp, Plus } from "lucide-react";
 import { ButtonGroup } from "./button-group";
 import { useNavigate } from "react-router-dom";
+import FormSheetTrigger from "./form-sheet-trigger";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -203,25 +204,20 @@ export function DataTable<TData, TValue>({
               </DropdownMenuContent>
             </DropdownMenu>
             <ButtonGroup>
-              {hasAssetBatchUpload && (
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    navigate("/assets_batch_upload");
-                  }}
-                >
-                  <FileUp />
-                </Button>
-              )}
+              {/* {hasAssetBatchUpload && ( */}
+              <Button
+                variant="outline"
+                onClick={() => {
+                  navigate("/assets_batch_upload");
+                }}
+              >
+                <FileUp />
+              </Button>
+              {/* )} */}
               <FormSheet
                 type={type}
                 taskName="Add a New"
-                button={
-                  <Button className="gap-0" variant="outline">
-                    <Plus className="mr-1" />
-                    New
-                  </Button>
-                }
+                button={<FormSheetTrigger icon={Plus} buttonName="New" name="Add" />}
                 form={form}
               />
             </ButtonGroup>
