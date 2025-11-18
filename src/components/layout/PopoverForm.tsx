@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Popover, PopoverContent } from "../ui/popover";
 import { Form } from "@/components/ui/form";
 import { Button } from "../ui/button";
 import type { UseFormReturn, FieldValues } from "react-hook-form";

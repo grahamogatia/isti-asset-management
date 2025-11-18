@@ -132,7 +132,7 @@ function AssetBatchUploadPage() {
                 </Button>
               </div>
               <div className="flex gap-2">
-                <AddingDialog excelData={excelData}/>
+                <AddingDialog excelData={excelData} />
               </div>
             </div>
           </div>
@@ -171,10 +171,9 @@ function AssetBatchUploadPage() {
                     <Input
                       type="text"
                       value={
-                        excelData[ri]?.[h] === null ||
-                        excelData[ri]?.[h] === undefined
+                        row?.[h] === null || row?.[h] === undefined
                           ? ""
-                          : String(excelData[ri][h])
+                          : String(row[h])
                       }
                       onChange={(e) => {
                         const val = e.currentTarget.value;
