@@ -63,6 +63,9 @@ export const useLookupMaps = () => {
     functions,
     urgencies,
     insurances,
+    employees,
+    departments,
+    units
   ]);
 
   const isLoading =

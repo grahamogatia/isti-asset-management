@@ -1,5 +1,4 @@
 import PopoverForm from "@/components/layout/PopoverForm";
-import { Button } from "@/components/ui/button";
 import { Play } from "lucide-react";
 import FormFieldTextArea from "../fields/FormFieldTextArea";
 import { useForm } from "react-hook-form";
@@ -9,6 +8,7 @@ import type { Repair } from "@/data/types";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { toast } from "sonner";
 import { useUpdateRepair } from "@/hooks/useRepair";
+import FormPopoverTrigger from "@/components/ui/form-popover-trigger";
 
 // Missing interface definition
 interface IsRepairContinuedFormProps {
@@ -50,11 +50,7 @@ function IsRepairContinuedForm({ repair }: IsRepairContinuedFormProps) {
 
   return (
     <PopoverForm
-      triggerButton={
-        <Button variant="outline">
-          <Play />
-        </Button>
-      }
+      triggerButton={<FormPopoverTrigger icon={Play} name="Continue Repair"/>}
       title="Continue Repair?"
       form={form}
       onSubmit={onReparContinued}

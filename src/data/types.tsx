@@ -71,3 +71,12 @@ export type UNMGResponse<TData> = {
   success: boolean;
   data: TData;
 };
+
+export type CompanyAssetCount = {
+  company_name: string;
+  count: number;
+};
+
+export type ConditionCount = { condition: string; total: number };
+
+export type RepairPerMonth = {month: string, total: number};

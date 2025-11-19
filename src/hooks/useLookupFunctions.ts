@@ -3,7 +3,21 @@ import { useLookupMaps } from "./useLookupMaps";
 import { useStatuses } from "./useStatus";
 
 export const useLookupFunctions = () => {
-  const { assetMap, categoryMap, subCategoryMap, typeMap, conditionMap, statusMap, functionITAMMap, urgencyMap, isLoading, insuranceMap, employeeMap, departmentMap, companyMap } = useLookupMaps();
+  const {
+    assetMap,
+    categoryMap,
+    subCategoryMap,
+    typeMap,
+    conditionMap,
+    statusMap,
+    functionITAMMap,
+    urgencyMap,
+    isLoading,
+    insuranceMap,
+    employeeMap,
+    departmentMap,
+    companyMap,
+  } = useLookupMaps();
   const { data: statuses } = useStatuses();
 
   const getAsset = (asset_id: number) => {
@@ -23,23 +37,23 @@ export const useLookupFunctions = () => {
 
   const getConditionName = (id: number): string => {
     return conditionMap.get(id)?.asset_condition_name ?? "Unknown Condition";
-  }
+  };
 
   const getStatusName = (id: number): string => {
     return statusMap.get(id)?.status_name ?? "Unknown Status";
-  }
+  };
 
   const getCategories = (): Asset_Category[] => {
     return Array.from(categoryMap.values());
-  }
+  };
 
   const getConditions = (): Condition[] => {
     return Array.from(conditionMap.values());
-  }
+  };
 
   const getInsurance = (insurance_id: number) => {
     return insuranceMap.get(insurance_id);
-  }
+  };
 
   function getEmployeeName(employee_id: number): string {
     return employeeMap.get(employee_id)?.name ?? "Unknown Employee";
@@ -53,11 +67,25 @@ export const useLookupFunctions = () => {
     return companyMap.get(company_id)?.name ?? "Unknown Company";
   }
 
-
   function getUrgencyName(urgency_id: number): string {
     return urgencyMap.get(urgency_id)?.urgency_level ?? "Unknown Urgency";
   }
 
+  function getEmployee(employee_id: number) {
+    return employeeMap.get(employee_id);
+  }
+
+  function getUrgencyId(name: string): number | undefined {
+    if (!name) return undefined;
+    const target = String(name).trim();
+    for (const [id, u] of urgencyMap) {
+      const uname = String(
+        (u as any)?.urgency_level ?? (u as any)?.urgency_name ?? ""
+      ).trim();
+      if (uname === target) return Number(id);
+    }
+    return undefined;
+  }
 
   const getStatuses = (functionName: string): Status[] => {
     if (!functionName || !functionITAMMap) return [];
@@ -74,13 +102,19 @@ export const useLookupFunctions = () => {
     return statuses.filter((s) => s.function_id === functionId);
   };
 
-  const getStatusIdGivenStatusName = (functionName: string, statusName: string): number | undefined => {
+  const getStatusIdGivenStatusName = (
+    functionName: string,
+    statusName: string
+  ): number | undefined => {
     const functionStatuses = getStatuses(functionName);
-    const status = functionStatuses.find(s => s.status_name === statusName);
+    const status = functionStatuses.find((s) => s.status_name === statusName);
     return status?.status_id;
-  }
+  };
 
-  const getDisplayNameForColumn = (columnName: string, id: number | string): string => {
+  const getDisplayNameForColumn = (
+    columnName: string,
+    id: number | string
+  ): string => {
     if (isLoading) return "Loading...";
 
     const lookupFunctions: Record<string, (id: any) => string> = {
@@ -100,7 +134,10 @@ export const useLookupFunctions = () => {
   };
 
   // ✅ Reverse lookup function
-  const getIdFromDisplayName = (columnName: string, displayName: string): number | string | null => {
+  const getIdFromDisplayName = (
+    columnName: string,
+    displayName: string
+  ): number | string | null => {
     if (isLoading) return null;
 
     const mapLookups: Record<string, Map<any, any>> = {
@@ -127,25 +164,25 @@ export const useLookupFunctions = () => {
 
   const getNameField = (columnName: string): string => {
     const nameFields: Record<string, string> = {
-      condition: 'asset_condition_name',
-      status: 'status_name',
-      insurance: 'insurance_name',
-      category: 'category_name',
-      department: 'name',
-      sub_category: 'sub_category_name',
-      type: 'type_name',
-      urgency: 'urgency_name',
-      company: 'name',
-      employee: 'name',
-      user_id: 'name',
+      condition: "asset_condition_name",
+      status: "status_name",
+      insurance: "insurance_name",
+      category: "category_name",
+      department: "name",
+      sub_category: "sub_category_name",
+      type: "type_name",
+      urgency: "urgency_name",
+      company: "name",
+      employee: "name",
+      user_id: "name",
     };
-    return nameFields[columnName] || 'name';
+    return nameFields[columnName] || "name";
   };
 
   const isLookupColumn = (columnName: string): boolean => {
     const lookupColumns = [
       "category_id",
-      "sub_category_id", 
+      "sub_category_id",
       "type_id",
       "asset_condition_id",
       "insurance_id",
@@ -174,6 +211,8 @@ export const useLookupFunctions = () => {
     getEmployeeName,
     getDepartmentName,
     getCompanyName,
+    getUrgencyId,
+    getEmployee,
 
     getStatusIdGivenStatusName,
     getDisplayNameForColumn,
