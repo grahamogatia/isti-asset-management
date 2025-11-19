@@ -7,11 +7,12 @@ import {
 } from "../ui/sheet";
 import { HeroHighlightDemo } from "../ui/custom-hero-higlight";
 import { cloneElement, isValidElement, useState } from "react";
+import type FormSheetTrigger from "../ui/form-sheet-trigger";
 
 interface FormSheetProps {
   type: string;
   taskName: string;
-  button: React.ReactNode;
+  button: React.ReactElement<typeof FormSheetTrigger>;
   form: React.ReactNode;
 }
 

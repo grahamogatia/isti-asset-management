@@ -4,9 +4,10 @@ import { Form } from "@/components/ui/form";
 import { Button } from "../ui/button";
 import type { UseFormReturn, FieldValues } from "react-hook-form";
 import { X } from "lucide-react";
+import type FormPopoverTrigger from "../ui/form-popover-trigger";
 
 interface PopoverFormProps<T extends FieldValues> {
-  triggerButton: React.ReactNode;
+  triggerButton: React.ReactElement<typeof FormPopoverTrigger>;
   title: string;
   description?: string;
   subtitle?: React.ReactNode;
