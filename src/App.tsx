@@ -53,8 +53,8 @@ function AppRoutes() {
                 </Suspense>
               }
             />
-            <Route path="assets" element={<Assets />} />
-            <Route path="assets/batch" element={<AssetBatchUploadPage />} />
+            <Route path="masterlist" element={<Assets />} />
+            <Route path="masterlist/batch" element={<AssetBatchUploadPage />} />
             <Route path="borrow" element={<Borrow />} />
             <Route path="issuance" element={<Issuance />} />
             <Route path="repair" element={<Repair />} />

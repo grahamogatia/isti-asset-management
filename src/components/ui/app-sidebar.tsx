@@ -30,7 +30,7 @@ const items = [
   },
   {
     title: "Assets",
-    url: "assets",
+    url: "masterlist",
     icon: Boxes,
   },
   {

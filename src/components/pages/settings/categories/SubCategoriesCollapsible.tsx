@@ -14,6 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import FormFieldText from "../../forms/fields/FormFieldText";
 import PopoverForm from "@/components/layout/PopoverForm";
 import UpdateSubCategoryForm from "../../forms/update/UpdateSubcategoryForm";
+import FormPopoverTrigger from "@/components/ui/form-popover-trigger";
 
 function SubCategoriesCollapsible({ category }: { category: Asset_Category }) {
   const form = useForm<Asset_Sub_Category>({
@@ -64,13 +65,7 @@ function SubCategoriesCollapsible({ category }: { category: Asset_Category }) {
 
       <PopoverForm
         triggerButton={
-          <Button
-            className="px-4 py-3 w-full  gap-3 border-t justify-start text-zinc-500 rounded-none bg-zinc-100"
-            variant="ghost"
-          >
-            <Plus className="ml-1" />
-            Sub Category
-          </Button>
+          <FormPopoverTrigger icon={Plus} name="Sub Category" variant="ghost" />
         }
         title={`New ${category.category_name} Sub Category`}
         description="Add a new sub category to organize your assets."

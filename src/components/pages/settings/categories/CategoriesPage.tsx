@@ -16,6 +16,7 @@ import { AssetCategorySchema } from "@/data/schemas";
 import { useForm } from "react-hook-form";
 import FormFieldText from "../../forms/fields/FormFieldText";
 import UpdateCategoryForm from "../../forms/update/UpdateCategoryForm";
+import FormPopoverTrigger from "@/components/ui/form-popover-trigger";
 
 function CategoriesPage() {
   const form = useForm<Asset_Category>({
@@ -66,15 +67,7 @@ function CategoriesPage() {
         >
           <PopoverForm
             triggerButton={
-              <Button
-                className="px-4 py-3 w-full gap-2 text-zinc-500 justify-start"
-                type="submit"
-                variant="ghost"
-                style={{ background: "transparent" }}
-              >
-                <Plus />
-                Category
-              </Button>
+              <FormPopoverTrigger icon={Plus} name="Category" variant="ghost"/>
             }
             title="New Category"
             description="Add a new category to organize your assets."

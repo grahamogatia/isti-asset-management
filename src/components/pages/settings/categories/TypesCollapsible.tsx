@@ -1,13 +1,18 @@
 import PopoverForm from "@/components/layout/PopoverForm";
 import { Button } from "@/components/ui/button";
 import { AssetTypeSchema } from "@/data/schemas";
-import type { Asset_Category, Asset_Sub_Category, Asset_Type } from "@/data/types";
+import type {
+  Asset_Category,
+  Asset_Sub_Category,
+  Asset_Type,
+} from "@/data/types";
 import { useAddType, useTypes } from "@/hooks/useCategory";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import FormFieldText from "../../forms/fields/FormFieldText";
 import UpdateTypeForm from "../../forms/update/UpdateTypeForm";
+import FormPopoverTrigger from "@/components/ui/form-popover-trigger";
 
 interface TypesCollapsibleProps {
   category: Asset_Category;
@@ -15,7 +20,6 @@ interface TypesCollapsibleProps {
 }
 
 function TypesCollapsible({ category, subCat }: TypesCollapsibleProps) {
-
   const form = useForm<Asset_Type>({
     resolver: zodResolver(AssetTypeSchema),
     defaultValues: {
@@ -26,8 +30,8 @@ function TypesCollapsible({ category, subCat }: TypesCollapsibleProps) {
       code: subCat.code,
       type_name: undefined,
       type_code: undefined,
-    }
-  })
+    },
+  });
 
   const { data: types } = useTypes();
   const { mutate } = useAddType();
@@ -36,7 +40,7 @@ function TypesCollapsible({ category, subCat }: TypesCollapsibleProps) {
     if (!name) return "";
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   }
-  
+
   function onAddType(values: Asset_Type) {
     console.log(values);
     mutate(values);
@@ -53,20 +57,13 @@ function TypesCollapsible({ category, subCat }: TypesCollapsibleProps) {
         .map((type) => (
           <div className="flex justify-start items-center group">
             <div className="border-t p-2">{formatTypeName(type.type_name)}</div>
-            <UpdateTypeForm type={type}/>
+            <UpdateTypeForm type={type} />
           </div>
-
         ))}
 
       <PopoverForm
         triggerButton={
-          <Button
-            className=" w-full gap-2 border-t text-sm justify-start rounded-none bg-zinc-100"
-            variant="ghost"
-          >
-            <Plus />
-            Type
-          </Button>
+          <FormPopoverTrigger icon={Plus} name="Type" variant="ghost" />
         }
         title={`New ${subCat.sub_category_name} Type`}
         description="Add a new type to organize your assets."
@@ -77,16 +74,16 @@ function TypesCollapsible({ category, subCat }: TypesCollapsibleProps) {
         formId="type-form"
       >
         <FormFieldText
-        control={form.control}
-        name="type_name"
-        label="Name"
-        placeholder="e.g. Desktop, Laptop"
+          control={form.control}
+          name="type_name"
+          label="Name"
+          placeholder="e.g. Desktop, Laptop"
         />
         <FormFieldText
-        control={form.control}
-        name="type_code"
-        label="Code"
-        placeholder="e.g. DPT, LPT"
+          control={form.control}
+          name="type_code"
+          label="Code"
+          placeholder="e.g. DPT, LPT"
         />
       </PopoverForm>
     </div>
