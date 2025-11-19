@@ -41,7 +41,7 @@ function CategoriesPage() {
         type="single"
         collapsible
         className="w-full"
-        defaultValue={categories ? categories[0].category_name : ""}
+        defaultValue={categories ? categories[0]?.category_name : ""}
       >
         {categories?.map((category) => (
           <AccordionItem
