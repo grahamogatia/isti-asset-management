@@ -208,7 +208,7 @@ export function DataTable<TData, TValue>({
                 <Button
                   variant="outline"
                   onClick={() => {
-                    navigate("/assets_batch_upload");
+                    navigate("/assets/batch");
                   }}
                 >
                   <FileUp />

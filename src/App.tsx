@@ -45,7 +45,7 @@ function AppRoutes() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="assets" element={<Assets />}/>
-            <Route path="assets_batch_upload" element={<AssetBatchUploadPage />}/>
+            <Route path="assets/batch" element={<AssetBatchUploadPage />}/>
             <Route path="borrow" element={<Borrow />} />
             <Route path="issuance" element={<Issuance />} />
             <Route path="repair" element={<Repair />} />
