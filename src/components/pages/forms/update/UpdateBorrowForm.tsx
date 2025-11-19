@@ -17,7 +17,7 @@ import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { useUpdateBorrow } from "@/hooks/useBorrow";
 import { compareObjects } from "@/lib/utils";
 import { toast } from "sonner";
-import { employees } from "@/testcases/foreignkeys";
+import { useEmployees } from "@/hooks/useUNMG";
 
 interface UpdateBorrowFormProps {
   borrow: Borrow;
@@ -34,10 +34,11 @@ function UpdateBorrowForm({ borrow }: UpdateBorrowFormProps) {
   
   const { mutate } = useUpdateBorrow();
   const { getAsset, getCategoryName, getSubCategoryName, getTypeName } = useLookupFunctions();
+  const { data: employees } = useEmployees();
   const assetId = form.watch("asset_id");
   const asset = getAsset(assetId);
   const userId = form.watch("user_id") || borrow.user_id;
-  const employee = employees.find((emp) => emp.user_id === userId);
+  const employee = employees?.find((emp) => emp.user_id === userId);
 
   function onSubmit(values: Borrow) {
     const changed = compareObjects(borrow, values);

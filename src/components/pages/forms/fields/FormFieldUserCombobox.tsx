@@ -22,9 +22,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import type { Employee } from "@/data/types";
+import { useCompanies, useDepartments, useUnits } from "@/hooks/useUNMG";
 import { getColumnIcon } from "@/lib/columnNameUtils";
 import { cn } from "@/lib/utils";
-import { company, departments, units } from "@/testcases/foreignkeys";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
 import type { Control } from "react-hook-form";
@@ -48,6 +48,10 @@ function FormFieldUserCombobox({
   const IconComponent = getColumnIcon(name);
   const [displayedEmployees, setDisplayedEmployees] =
     useState<Employee[]>(employees);
+
+  const { data: companies } = useCompanies();
+  const { data: departments } = useDepartments();
+  const { data: units } = useUnits();
 
   const filteredEmployees = (
     prev: Employee[],
@@ -119,9 +123,9 @@ function FormFieldUserCombobox({
                       <CommandEmpty>No type found.</CommandEmpty>
                       <CommandGroup>
                         <OrgFilter
-                          companies={company}
-                          departments={departments}
-                          units={units}
+                          companies={companies ?? []}
+                          departments={departments ?? []}
+                          units={units ?? []}
                           onChange={(s) => {
                             setDisplayedEmployees((prev) =>
                               filteredEmployees(

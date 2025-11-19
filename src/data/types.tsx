@@ -33,16 +33,15 @@ export type Asset_Sub_Category = z.infer<typeof AssetSubCategorySchema>;
 export type Asset_Type = z.infer<typeof AssetTypeSchema>;
 export type AssetFile = z.infer<typeof AssetFileSchema>;
 
-
 export type Urgency = {
-  urgency_id: number,
-  urgency_level: string,
-}
+  urgency_id: number;
+  urgency_level: string;
+};
 
 export type FunctionITAM = {
-  function_id: number,
-  function_name: string,
-}
+  function_id: number;
+  function_name: string;
+};
 
 export type ActiveFilter = {
   id: string;
@@ -54,16 +53,21 @@ export type ActiveFilter = {
 export type Tab = {
   label: string;
   value: string;
-}
+};
 
 export type AppRoutes = {
-  title: string,
-  url: string,
-  icon: React.ElementType
-}
+  title: string;
+  url: string;
+  icon: React.ElementType;
+};
 
 export type Settings = {
-  id: number,
-  settings_key: string,
-  value: string,
-}
+  id: number;
+  settings_key: string;
+  value: string;
+};
+
+export type UNMGResponse<TData> = {
+  success: boolean;
+  data: TData;
+};

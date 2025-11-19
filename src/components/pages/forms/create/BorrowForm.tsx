@@ -17,7 +17,7 @@ import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { useMemo } from "react";
 import { useAddBorrow, useBorrows } from "@/hooks/useBorrow";
 import { addMonths, format } from "date-fns";
-import { employees } from "@/testcases/foreignkeys";
+import { useEmployees } from "@/hooks/useUNMG";
 
 function BorrowForm() {
   const form = useForm<Borrow>({
@@ -44,6 +44,7 @@ function BorrowForm() {
   const { mutate } = useAddBorrow();
   const { data: assets } = useAssets();
   const { data: borrows } = useBorrows();
+  const { data: employees } = useEmployees();
   const { getConditionName, getCategoryName, getStatuses, getAsset, getStatusIdGivenStatusName } =
     useLookupFunctions();
 
@@ -116,7 +117,7 @@ function BorrowForm() {
             control={form.control}
             name="user_id"
             label="Borrowed By"
-            employees={employees}
+            employees={employees ?? []}
             form={form}
           />
         </FormCardContent>

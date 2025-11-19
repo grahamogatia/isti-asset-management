@@ -20,7 +20,7 @@ import { useUpdateRepair } from "@/hooks/useRepair";
 import { compareObjects } from "@/lib/utils";
 import { useUrgencies } from "@/hooks/useUrgency";
 import { toast } from "sonner";
-import { employees } from "@/testcases/foreignkeys";
+import { useEmployees } from "@/hooks/useUNMG";
 
 interface UpdateRepairFormProps {
   repair: Repair;
@@ -40,11 +40,12 @@ function UpdateRepairForm({ repair }: UpdateRepairFormProps) {
   const { data: urgencies } = useUrgencies();
   const { getAsset, getCategoryName, getSubCategoryName, getTypeName } =
     useLookupFunctions();
+  const { data: employees } = useEmployees();
   const assetId = form.watch("asset_id");
   const asset = getAsset(assetId);
 
   const userId = form.watch("user_id") || repair.user_id;
-  const employee = employees.find((emp) => emp.user_id === userId);
+  const employee = employees?.find((emp) => emp.user_id === userId);
   const dateReported = form.watch("date_reported");
   const minRepairStartDate = dateReported ? new Date(dateReported) : undefined;
 
@@ -68,7 +69,6 @@ function UpdateRepairForm({ repair }: UpdateRepairFormProps) {
       }
     );
     console.log("🎉 SUCCESS! Repair updated:", repair, values, changed);
-
   }
 
   return (

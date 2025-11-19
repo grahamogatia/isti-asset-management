@@ -13,7 +13,7 @@ import { useAssets } from "@/hooks/useAsset";
 import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { format } from "date-fns";
 import { toast } from "sonner";
-import { employees } from "@/testcases/foreignkeys";
+import { useEmployees } from "@/hooks/useUNMG";
 
 function IssuanceForm() {
   const form = useForm<Issuance>({
@@ -36,6 +36,7 @@ function IssuanceForm() {
   });
   const { mutate } = useAddIssuance();
   const { data: assets } = useAssets();
+  const { data: employees } = useEmployees();
   const { getCategoryName, getStatuses, getStatusIdGivenStatusName } =
     useLookupFunctions();
 
@@ -92,7 +93,7 @@ function IssuanceForm() {
             control={form.control}
             name="user_id"
             label="Issue To"
-            employees={employees}
+            employees={employees ?? []}
             form={{ ...form }}
           />
         </FormCardContent>

@@ -21,7 +21,7 @@ import { useLookupFunctions } from "@/hooks/useLookupFunctions";
 import { useIssuances } from "@/hooks/useIssuance";
 import { useMemo } from "react";
 import { format } from "date-fns";
-import { employees } from "@/testcases/foreignkeys";
+import { useEmployees } from "@/hooks/useUNMG";
 
 interface RepairFormProps {
   onSuccess?: () => void;
@@ -57,6 +57,7 @@ function RepairForm({ onSuccess }: RepairFormProps) {
   const { data: repairs } = useRepairs();
   const { data: issuances } = useIssuances();
   const { data: urgencies } = useUrgencies();
+  const { data: employees } = useEmployees();
   const { getStatuses, getStatusIdGivenStatusName, getAsset } =
     useLookupFunctions();
 
@@ -131,7 +132,7 @@ function RepairForm({ onSuccess }: RepairFormProps) {
             control={form.control}
             name="user_id"
             label="Reported By *"
-            employees={employees}
+            employees={employees ?? []}
             form={form}
           />
           <FormFieldAssetCombobox
