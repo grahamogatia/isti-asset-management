@@ -31,7 +31,7 @@ function ImageCarousel({ images, setDisplayImage }: ImageCarouselProps) {
                   className="w-full h-full p-0 rounded-sm overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 >
                     <img
-                    src={`http://localhost/itam/${image}`}
+                    src={`${import.meta.env.VITE_SERVER}${image}`}
                     alt={`Image ${index + 1}`}
                     className="object-cover h-full rounded-sm"
                     />
