@@ -4,7 +4,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
 
 import { useAddCategory, useCategories } from "@/hooks/useCategory";
 import { Plus } from "lucide-react";

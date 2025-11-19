@@ -3,13 +3,14 @@ import { Button } from "@/components/ui/button";
 import { AssetCategorySchema } from "@/data/schemas";
 import type { Asset_Category } from "@/data/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Save, SquarePen } from "lucide-react";
+import { Save, Square, SquarePen } from "lucide-react";
 import { useForm } from "react-hook-form";
 import FormFieldText from "../fields/FormFieldText";
 import { Badge } from "@/components/ui/badge";
 import { compareObjects } from "@/lib/utils";
 import { toast } from "sonner";
 import { useUpdateCategory } from "@/hooks/useCategory";
+import FormPopoverTrigger from "@/components/ui/form-popover-trigger";
 
 interface UpdateCategoryFormProps {
   category: Asset_Category;
@@ -58,14 +59,11 @@ function UpdateCategoryForm({ category }: UpdateCategoryFormProps) {
   return (
     <PopoverForm
       triggerButton={
-        <Button
+        <FormPopoverTrigger
+          icon={SquarePen}
+          name="Update Name"
           variant="ghost"
-          className="hover:bg-transparent opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-150 p-1"
-          aria-label={`Edit ${category.category_name}`}
-          title={`Edit ${category.category_name}`}
-        >
-          <SquarePen />
-        </Button>
+        />
       }
       title="Update Category Name"
       subtitle={

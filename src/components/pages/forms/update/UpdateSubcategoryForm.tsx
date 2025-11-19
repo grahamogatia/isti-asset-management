@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { useUpdateSubCategory } from "@/hooks/useCategory";
 import { compareObjects } from "@/lib/utils";
 import { toast } from "sonner";
+import FormPopoverTrigger from "@/components/ui/form-popover-trigger";
 
 interface UpdateSubCategoryFormProps {
   subCategory: Asset_Sub_Category;
@@ -58,21 +59,11 @@ function UpdateSubCategoryForm({ subCategory }: UpdateSubCategoryFormProps) {
   return (
     <PopoverForm
       triggerButton={
-        <Button
+        <FormPopoverTrigger
+          icon={SquarePen}
+          name="Update Subcategory"
           variant="ghost"
-          className="hover:bg-transparent opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-150 p-1"
-          aria-label={`Edit ${subCategory.sub_category_name}`}
-          title={`Edit ${subCategory.sub_category_name}`}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-          onMouseDown={(e) => {
-            // prevent accordion from toggling on mousedown in some implementations
-            e.stopPropagation();
-          }}
-        >
-          <SquarePen />
-        </Button>
+        />
       }
       title="Update Sub Category Name"
       subtitle={

@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { compareObjects } from "@/lib/utils";
 import { toast } from "sonner";
 import { useUpdateType } from "@/hooks/useCategory";
+import FormPopoverTrigger from "@/components/ui/form-popover-trigger";
 
 interface UpdateTypeFormProps {
   type: Asset_Type;
@@ -58,21 +59,11 @@ function UpdateTypeForm({ type }: UpdateTypeFormProps) {
   return (
     <PopoverForm
       triggerButton={
-        <Button
+        <FormPopoverTrigger
+          icon={SquarePen}
+          name="Update Type"
           variant="ghost"
-          className="hover:bg-transparent opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-150 p-1"
-          aria-label={`Edit ${type.type_name}`}
-          title={`Edit ${type.type_name}`}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-          onMouseDown={(e) => {
-            // prevent accordion from toggling on mousedown in some implementations
-            e.stopPropagation();
-          }}
-        >
-          <SquarePen />
-        </Button>
+        />
       }
       title="Update Type Name"
       subtitle={
@@ -106,7 +97,7 @@ function UpdateTypeForm({ type }: UpdateTypeFormProps) {
           placeholder="Enter new code"
         />
         <p className="text-xs text-muted-foreground">
-          Keep names short and descriptive. 
+          Keep names short and descriptive.
         </p>
       </div>
     </PopoverForm>
