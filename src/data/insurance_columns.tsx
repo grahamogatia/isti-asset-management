@@ -9,6 +9,7 @@ import { SquarePen } from "lucide-react";
 import { format } from "date-fns";
 import DeleteInsuranceForm from "@/components/pages/forms/delete/DeleteInsuranceForm";
 import ExpiredBadge from "@/components/ui/expired-badge";
+import FormSheetTrigger from "@/components/ui/form-sheet-trigger";
 
 export function useInsuranceColumns(): ColumnDef<Insurance>[] {
   const insurance_columns: ColumnDef<Insurance>[] = [
@@ -56,15 +57,16 @@ export function useInsuranceColumns(): ColumnDef<Insurance>[] {
               type="Insurance"
               taskName="Update"
               button={
-                <Button variant="outline">
-                  <SquarePen className="h-4 w-4" />
-                </Button>
+                <FormSheetTrigger
+                  icon={SquarePen}
+                  buttonName=""
+                  name="Add Borrow"
+                />
               }
               form={<UpdateInsuranceForm insurance={row.original} />}
             />
 
             <DeleteInsuranceForm insurance={row.original} />
-
           </ButtonGroup>
         );
       },
